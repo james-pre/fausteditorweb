@@ -224,6 +224,11 @@
 							<button type="button" class="btn btn-outline-light btn-close-tab" data-toggle="tooltip" data-placement="top" title="Stop DSP">&times;</button>
 						</a>
 					</li>
+					<li id="nav-item-gui-builder" class="nav-item">
+						<a id="tab-gui-builder" class="nav-link" data-toggle="tab" href="#gui-builder" role="tab" aria-controls="gui-builder" aria-selected="true">
+							<span>GUI Builder</span>
+						</a>
+					</li>
 				</ul>
 				<div id="bottom-content" class="tab-content">
 					<div id="diagram" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-diagram">
@@ -235,6 +240,13 @@
 					<div id="faust-ui" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-faust-ui">
 						<iframe id="iframe-faust-ui" src="./faust_ui.html"></iframe>
 						<div id="faust-ui-default" class="alert alert-info" role="alert">
+							<h5>DSP not running</h5>
+							<span>Click Run to compile your faust code.</span>
+						</div>
+					</div>
+					<div id="gui-builder" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-gui-builder">
+						<iframe id="iframe-gui-builder" src=""></iframe>
+						<div id="gui-builder-default" class="alert alert-info" role="alert">
 							<h5>DSP not running</h5>
 							<span>Click Run to compile your faust code.</span>
 						</div>

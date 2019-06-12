@@ -104,7 +104,7 @@ $(async () => {
      * Use import() for webpack code splitting, needs babel-dynamic-import
      */
     const { Faust } = await import("faust2webaudio");
-    const faust = new Faust();
+    const faust = new Faust({ wasmLocation: "./libfaust-wasm.wasm", dataLocation: "./libfaust-wasm.data" });
     await faust.ready;
     /**
      * To save dsp table to localStorage
@@ -337,6 +337,14 @@ $(async () => {
         $("#output-analyser-ui").show(); // Show dsp info on right panel
         refreshDspUI(node); // update dsp info
         saveEditorDspTable(); // Save the new DSP table to localStorage
+        $("#gui-builder-default").hide(); // Hide "No DSP yet" info
+        $("#nav-item-gui-builder").show(); // Show DSP UI tab
+        $("#iframe-gui-builder").css("visibility", "visible"); // Show iframe
+        const guiBuilder = $<HTMLIFrameElement>("#iframe-gui-builder")[0];
+        guiBuilder.src = "";
+        guiBuilder.src = "../../PedalEditor/Front-End/index.html";
+        (guiBuilder.contentWindow as any).faustUI = node.dspMeta.ui;
+        (guiBuilder.contentWindow as any).faustDspMeta = node.dspMeta;
         return { success: true };
     };
     let rtCompileTimer: NodeJS.Timeout;
@@ -1201,6 +1209,8 @@ $(async () => {
         $("#iframe-faust-ui").css("visibility", "hidden");
         $("#output-analyser-ui").hide();
         refreshDspUI();
+        $("#gui-builder-default").show();
+        $("#iframe-gui-builder").css("visibility", "hidden");
     });
     let svgDragged = false;
     // svg inject
