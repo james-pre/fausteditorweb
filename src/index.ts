@@ -342,9 +342,7 @@ $(async () => {
         $("#iframe-gui-builder").css("visibility", "visible"); // Show iframe
         const guiBuilder = $<HTMLIFrameElement>("#iframe-gui-builder")[0];
         guiBuilder.src = "";
-        guiBuilder.src = `../../PedalEditor/Front-End/index.html?data=${JSON.stringify(node.dspMeta.ui)}`;
-        (guiBuilder.contentWindow as any).faustUI = node.dspMeta.ui;
-        (guiBuilder.contentWindow as any).faustDspMeta = node.dspMeta;
+        guiBuilder.src = `../../PedalEditor/Front-End/index.html?data=${JSON.stringify(node.dspMeta.ui)}&name=${node.dspMeta.filename}`;
         return { success: true };
     };
     let rtCompileTimer: NodeJS.Timeout;
@@ -353,10 +351,11 @@ $(async () => {
      * if realtime compile is on, do compile
      */
     editor.onKeyUp(() => {
-        const code = editor.getValue();
-        if (localStorage.getItem("faust_editor_code") === code) return;
-        if (compileOptions.saveCode) localStorage.setItem("faust_editor_code", code);
+        const codeIn = editor.getValue();
+        if (localStorage.getItem("faust_editor_code") === codeIn) return;
+        if (compileOptions.saveCode) localStorage.setItem("faust_editor_code", codeIn);
         clearTimeout(rtCompileTimer);
+        const code = `declare filename "${compileOptions.name}"; ${editor.getValue()}`;
         if (compileOptions.realtimeCompile) rtCompileTimer = setTimeout(audioEnv.dsp ? runDsp : getDiagram, 1000, code);
     });
 
@@ -388,13 +387,13 @@ $(async () => {
     $<HTMLSelectElement>("#select-voices").on("change", (e) => {
         compileOptions.voices = +e.currentTarget.value;
         saveEditorParams();
-        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(editor.getValue());
+        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
     });
     // BufferSize
     $<HTMLSelectElement>("#select-buffer-size").on("change", (e) => {
         compileOptions.bufferSize = +e.currentTarget.value as 128 | 256 | 512 | 1024 | 2048 | 4096;
         saveEditorParams();
-        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(editor.getValue());
+        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
     });
     // AudioWorklet
     $<HTMLInputElement>("#check-worklet").on("change", (e) => {
@@ -406,7 +405,7 @@ $(async () => {
         else $options.eq([128, 256, 512, 1024, 2048, 4096].indexOf(compileOptions.bufferSize)).prop("selected", true);
         $("#input-plot-samps").change();
         saveEditorParams();
-        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(editor.getValue());
+        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
     });
     // Save Params
     $<HTMLInputElement>("#check-save-code").on("change", (e) => {
@@ -431,7 +430,7 @@ $(async () => {
         saveEditorParams();
         if (compileOptions.realtimeCompile) {
             const code = editor.getValue();
-            if (audioEnv.dsp) runDsp(code);
+            if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${code}`);
             else getDiagram(code);
         }
     });
@@ -466,7 +465,7 @@ $(async () => {
             if (!$("#tab-plot-ui").hasClass("active")) $("#tab-plot-ui").tab("show");
         } else { // eslint-disable-next-line no-lonely-if
             if (audioEnv.dsp) uiEnv.analyser.draw();
-            else runDsp(editor.getValue());
+            else runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
         }
     });
     $("#tab-plot-ui").on("shown.bs.tab", () => uiEnv.plotScope.draw());
@@ -559,7 +558,7 @@ $(async () => {
             localStorage.setItem("faust_editor_code", code);
             saveEditorParams();
             if (urlParams.has("autorun") && urlParams.get("autorun")) {
-                const compileResult = await runDsp(code);
+                const compileResult = await runDsp(`declare filename "${compileOptions.name}"; ${code}`);
                 if (!compileResult.success) return;
                 if (!$("#tab-faust-ui").hasClass("active")) $("#tab-faust-ui").tab("show");
             }
@@ -580,7 +579,7 @@ $(async () => {
             localStorage.setItem("faust_editor_code", code);
             saveEditorParams();
             if (compileOptions.realtimeCompile) {
-                if (audioEnv.dsp) runDsp(code);
+                if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${code}`);
                 else getDiagram(code);
             }
         };
@@ -998,7 +997,7 @@ $(async () => {
             if (!$(e.currentTarget).hasClass("switch")) return;
             $<HTMLInputElement>("#check-worklet")[0].checked = !compileOptions.useWorklet;
             $("#check-worklet").change();
-            if (!compileOptions.realtimeCompile) runDsp(editor.getValue());
+            if (!compileOptions.realtimeCompile) runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
         });
     } else $("#dsp-ui-default").tooltip("disable").css("pointer-events", "none");
     // Output switch to connect / disconnect dsp form destination
@@ -1080,7 +1079,7 @@ $(async () => {
                 saveEditorParams();
                 // compile diagram or dsp if necessary
                 if (compileOptions.realtimeCompile) {
-                    if (audioEnv.dsp) runDsp(code);
+                    if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${code}`);
                     else getDiagram(code);
                 }
             };
@@ -1095,6 +1094,7 @@ $(async () => {
         compileOptions.name = ($(e.currentTarget).val() as string).replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
         $(e.currentTarget).val(compileOptions.name);
         saveEditorParams();
+        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
     });
     // Examples
     type DirectoryTree = {
@@ -1142,7 +1142,7 @@ $(async () => {
                     localStorage.setItem("faust_editor_code", code);
                     saveEditorParams();
                     if (compileOptions.realtimeCompile) {
-                        if (audioEnv.dsp) runDsp(code);
+                        if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${code}`);
                         else getDiagram(code);
                     }
                 });
@@ -1151,7 +1151,7 @@ $(async () => {
     });
     // Run Dsp Button
     $(".btn-run").prop("disabled", false).on("click", async () => {
-        const compileResult = await runDsp(editor.getValue());
+        const compileResult = await runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
         if (!compileResult.success) return;
         if ($("#tab-diagram").hasClass("active") || compileOptions.plotMode === "offline") $("#tab-faust-ui").tab("show");
         // const dspOutputHandler = FaustUI.main(node.getJSON(), $("#faust-ui"), (path: string, val: number) => node.setParamValue(path, val));
@@ -1161,9 +1161,10 @@ $(async () => {
      * Bind message event for changing dsp params on receiving msg from ui window
      */
     const dspParams: { [path: string]: number } = {};
-    $(window).on("message", (e) => {
-        if (!(e.originalEvent as MessageEvent).data) return;
-        const data = (e.originalEvent as MessageEvent).data;
+    $(window).on("message", ($e) => {
+        const e = $e.originalEvent as MessageEvent;
+        if (!e.data) return;
+        const data = e.data;
         if (!data.type) return;
         if (data.type === "param") {
             if (audioEnv.dsp) audioEnv.dsp.setParamValue(data.path, +data.value);
@@ -1171,15 +1172,47 @@ $(async () => {
                 dspParams[data.path] = +data.value;
                 localStorage.setItem("faust_editor_dsp_params", JSON.stringify(dspParams));
             }
-            const uiWindow = $<HTMLIFrameElement>("#iframe-faust-ui")[0].contentWindow;
             const msg = { path: data.path, value: +data.value, type: "param" };
-            uiWindow.postMessage(msg, "*");
+            (e.source as WindowProxy).postMessage(msg, "*");
             if (uiEnv.uiPopup) uiEnv.uiPopup.postMessage(msg, "*");
             return;
         }
         // Pass keyboard midi messages even inner window is focused
         if (data.type === "keydown") key2Midi.handleKeyDown(data.key);
         else if (data.type === "keyup") key2Midi.handleKeyUp(data.key);
+        // From GUI Builder
+        else if (data.type === "export") {
+            const form = new FormData();
+            const name = compileOptions.name;
+            const plat = data.plat || "web";
+            const arch = data.arch || "wap";
+            form.append("file", new File([`declare filename "${name}"; ${editor.getValue()}`], `${name}.dsp`));
+            $.ajax({
+                method: "POST",
+                url: `${server}/filepost`,
+                data: form,
+                contentType: false,
+                processData: false
+            }).done((shaKey) => {
+                const matched = shaKey.match(/^[0-9A-Fa-f]+$/);
+                if (matched) {
+                    const path = `${server}/${shaKey}/${plat}/${arch}`;
+                    $.ajax({
+                        method: "GET",
+                        url: `${path}/precompile`
+                    }).done((result) => {
+                        if (result === "DONE") {
+                            const href = `${path}/binary.zip`;
+                            (e.source as WindowProxy).postMessage({ type: "exported", href }, "*");
+                        }
+                    }).fail((jqXHR, textStatus) => {
+                        console.error(textStatus + ": " + jqXHR.responseText);
+                    });
+                }
+            }).fail((jqXHR, textStatus) => {
+                console.error(textStatus + ": " + jqXHR.responseText);
+            });
+        }
     });
     // Close DSP UI Popup when main window is closed
     $(window).on("beforeunload", () => (uiEnv.uiPopup ? uiEnv.uiPopup.close() : undefined));
