@@ -342,9 +342,9 @@ $(async () => {
         $("#iframe-gui-builder").css("visibility", "visible"); // Show iframe
         const guiBuilder = $<HTMLIFrameElement>("#iframe-gui-builder")[0];
         guiBuilder.src = "";
-        guiBuilder.src = `../../PedalEditor/Front-End/index.html?data=${JSON.stringify(node.dspMeta.ui)}`;
-        (guiBuilder.contentWindow as any).faustUI = node.dspMeta.ui;
-        (guiBuilder.contentWindow as any).faustDspMeta = node.dspMeta;
+        guiBuilder.src = `PedalEditor/Front-End/index.html?data=${JSON.stringify(node.dspMeta.ui)}&name=${node.dspMeta.filename}`;
+        //(guiBuilder.contentWindow as any).faustUI = node.dspMeta.ui;
+        //(guiBuilder.contentWindow as any).faustDspMeta = node.dspMeta;
         return { success: true };
     };
     let rtCompileTimer: NodeJS.Timeout;
