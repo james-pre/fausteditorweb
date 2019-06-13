@@ -342,9 +342,9 @@ $(async () => {
         $("#iframe-gui-builder").css("visibility", "visible"); // Show iframe
         const guiBuilder = $<HTMLIFrameElement>("#iframe-gui-builder")[0];
         guiBuilder.src = "";
-        guiBuilder.src = `PedalEditor/Front-End/index.html?data=${JSON.stringify(node.dspMeta.ui)}&name=${node.dspMeta.filename}`;
-        //(guiBuilder.contentWindow as any).faustUI = node.dspMeta.ui;
-        //(guiBuilder.contentWindow as any).faustDspMeta = node.dspMeta;
+        guiBuilder.src = `../../PedalEditor/Front-End/index.html?data=${JSON.stringify(node.dspMeta.ui)}&name=${node.dspMeta.filename}`;
+        // (guiBuilder.contentWindow as any).faustUI = node.dspMeta.ui;
+        // (guiBuilder.contentWindow as any).faustDspMeta = node.dspMeta;
         return { success: true };
     };
     let rtCompileTimer: NodeJS.Timeout;
@@ -357,7 +357,7 @@ $(async () => {
         if (localStorage.getItem("faust_editor_code") === codeIn) return;
         if (compileOptions.saveCode) localStorage.setItem("faust_editor_code", codeIn);
         clearTimeout(rtCompileTimer);
-        const code = `declare filename "${compileOptions.name}"; ${editor.getValue()}`;
+        const code = `declare filename "${compileOptions.name}.dsp"; ${editor.getValue()}`;
         if (compileOptions.realtimeCompile) rtCompileTimer = setTimeout(audioEnv.dsp ? runDsp : getDiagram, 1000, code);
     });
 
@@ -389,13 +389,13 @@ $(async () => {
     $<HTMLSelectElement>("#select-voices").on("change", (e) => {
         compileOptions.voices = +e.currentTarget.value;
         saveEditorParams();
-        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
+        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}.dsp"; ${editor.getValue()}`);
     });
     // BufferSize
     $<HTMLSelectElement>("#select-buffer-size").on("change", (e) => {
         compileOptions.bufferSize = +e.currentTarget.value as 128 | 256 | 512 | 1024 | 2048 | 4096;
         saveEditorParams();
-        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
+        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}.dsp"; ${editor.getValue()}`);
     });
     // AudioWorklet
     $<HTMLInputElement>("#check-worklet").on("change", (e) => {
@@ -407,7 +407,7 @@ $(async () => {
         else $options.eq([128, 256, 512, 1024, 2048, 4096].indexOf(compileOptions.bufferSize)).prop("selected", true);
         $("#input-plot-samps").change();
         saveEditorParams();
-        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
+        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}.dsp"; ${editor.getValue()}`);
     });
     // Save Params
     $<HTMLInputElement>("#check-save-code").on("change", (e) => {
@@ -432,7 +432,7 @@ $(async () => {
         saveEditorParams();
         if (compileOptions.realtimeCompile) {
             const code = editor.getValue();
-            if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${code}`);
+            if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}.dsp"; ${code}`);
             else getDiagram(code);
         }
     });
@@ -467,7 +467,7 @@ $(async () => {
             if (!$("#tab-plot-ui").hasClass("active")) $("#tab-plot-ui").tab("show");
         } else { // eslint-disable-next-line no-lonely-if
             if (audioEnv.dsp) uiEnv.analyser.draw();
-            else runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
+            else runDsp(`declare filename "${compileOptions.name}.dsp"; ${editor.getValue()}`);
         }
     });
     $("#tab-plot-ui").on("shown.bs.tab", () => uiEnv.plotScope.draw());
@@ -560,7 +560,7 @@ $(async () => {
             localStorage.setItem("faust_editor_code", code);
             saveEditorParams();
             if (urlParams.has("autorun") && urlParams.get("autorun")) {
-                const compileResult = await runDsp(`declare filename "${compileOptions.name}"; ${code}`);
+                const compileResult = await runDsp(`declare filename "${compileOptions.name}.dsp"; ${code}`);
                 if (!compileResult.success) return;
                 if (!$("#tab-faust-ui").hasClass("active")) $("#tab-faust-ui").tab("show");
             }
@@ -581,7 +581,7 @@ $(async () => {
             localStorage.setItem("faust_editor_code", code);
             saveEditorParams();
             if (compileOptions.realtimeCompile) {
-                if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${code}`);
+                if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}.dsp"; ${code}`);
                 else getDiagram(code);
             }
         };
@@ -635,7 +635,7 @@ $(async () => {
                     $("#export-error").hide();
                     const form = new FormData();
                     const name = ($("#export-name").val() as string).replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
-                    form.append("file", new File([`declare filename "${name}"; ${editor.getValue()}`], `${name}.dsp`));
+                    form.append("file", new File([`declare filename "${name}.dsp"; ${editor.getValue()}`], `${name}.dsp`));
                     $.ajax({
                         method: "POST",
                         url: `${server}/filepost`,
@@ -999,7 +999,7 @@ $(async () => {
             if (!$(e.currentTarget).hasClass("switch")) return;
             $<HTMLInputElement>("#check-worklet")[0].checked = !compileOptions.useWorklet;
             $("#check-worklet").change();
-            if (!compileOptions.realtimeCompile) runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
+            if (!compileOptions.realtimeCompile) runDsp(`declare filename "${compileOptions.name}.dsp"; ${editor.getValue()}`);
         });
     } else $("#dsp-ui-default").tooltip("disable").css("pointer-events", "none");
     // Output switch to connect / disconnect dsp form destination
@@ -1081,7 +1081,7 @@ $(async () => {
                 saveEditorParams();
                 // compile diagram or dsp if necessary
                 if (compileOptions.realtimeCompile) {
-                    if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${code}`);
+                    if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}.dsp"; ${code}`);
                     else getDiagram(code);
                 }
             };
@@ -1096,7 +1096,7 @@ $(async () => {
         compileOptions.name = ($(e.currentTarget).val() as string).replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
         $(e.currentTarget).val(compileOptions.name);
         saveEditorParams();
-        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
+        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}.dsp"; ${editor.getValue()}`);
     });
     // Examples
     type DirectoryTree = {
@@ -1144,7 +1144,7 @@ $(async () => {
                     localStorage.setItem("faust_editor_code", code);
                     saveEditorParams();
                     if (compileOptions.realtimeCompile) {
-                        if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}"; ${code}`);
+                        if (audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}.dsp"; ${code}`);
                         else getDiagram(code);
                     }
                 });
@@ -1153,7 +1153,7 @@ $(async () => {
     });
     // Run Dsp Button
     $(".btn-run").prop("disabled", false).on("click", async () => {
-        const compileResult = await runDsp(`declare filename "${compileOptions.name}"; ${editor.getValue()}`);
+        const compileResult = await runDsp(`declare filename "${compileOptions.name}.dsp"; ${editor.getValue()}`);
         if (!compileResult.success) return;
         if ($("#tab-diagram").hasClass("active") || compileOptions.plotMode === "offline") $("#tab-faust-ui").tab("show");
         // const dspOutputHandler = FaustUI.main(node.getJSON(), $("#faust-ui"), (path: string, val: number) => node.setParamValue(path, val));
@@ -1188,7 +1188,7 @@ $(async () => {
             const name = compileOptions.name;
             const plat = data.plat || "web";
             const arch = data.arch || "wap";
-            form.append("file", new File([`declare filename "${name}"; ${editor.getValue()}`], `${name}.dsp`));
+            form.append("file", new File([`declare filename "${name}.dsp"; ${editor.getValue()}`], `${name}.dsp`));
             $.ajax({
                 method: "POST",
                 url: `${server}/filepost`,
