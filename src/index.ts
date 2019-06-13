@@ -342,7 +342,7 @@ $(async () => {
         $("#iframe-gui-builder").css("visibility", "visible"); // Show iframe
         const guiBuilder = $<HTMLIFrameElement>("#iframe-gui-builder")[0];
         guiBuilder.src = "";
-        guiBuilder.src = `../../PedalEditor/Front-End/index.html?data=${JSON.stringify(node.dspMeta.ui)}&name=${node.dspMeta.filename}`;
+        guiBuilder.src = `PedalEditor/Front-End/index.html?data=${JSON.stringify(node.dspMeta.ui)}&name=${node.dspMeta.filename}`;
         // (guiBuilder.contentWindow as any).faustUI = node.dspMeta.ui;
         // (guiBuilder.contentWindow as any).faustDspMeta = node.dspMeta;
         return { success: true };
@@ -1245,9 +1245,6 @@ $(async () => {
         $("#iframe-faust-ui").css("visibility", "hidden");
         $("#output-analyser-ui").hide();
         refreshDspUI();
-        $("#gui-builder-default").show();
-        $("#nav-item-gui-builder").hide();
-        $("#iframe-gui-builder").css("visibility", "hidden");
     });
     let svgDragged = false;
     // svg inject
