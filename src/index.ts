@@ -200,7 +200,7 @@ $(async () => {
      * @returns {{ success: boolean; error?: Error }}
      */
     const runDsp = async (codeIn: string): Promise<{ success: boolean; error?: Error }> => {
-        const code = `declare filename "${compileOptions.name}.dsp"; ${codeIn}`;
+        const code = `declare filename "${compileOptions.name}.dsp"; declare name "${compileOptions.name}"; ${codeIn}`;
         const audioCtx = audioEnv.audioCtx;
         const input = audioEnv.inputs[audioEnv.currentInput];
         let splitter = audioEnv.splitterOutput;
@@ -636,7 +636,7 @@ $(async () => {
                     $("#export-error").hide();
                     const form = new FormData();
                     const name = ($("#export-name").val() as string).replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
-                    form.append("file", new File([`declare filename "${name}.dsp"; ${editor.getValue()}`], `${name}.dsp`));
+                    form.append("file", new File([`declare filename "${name}.dsp"; declare name "${name}"; ${editor.getValue()}`], `${name}.dsp`));
                     $.ajax({
                         method: "POST",
                         url: `${server}/filepost`,
@@ -1097,7 +1097,7 @@ $(async () => {
         compileOptions.name = ($(e.currentTarget).val() as string).replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
         $(e.currentTarget).val(compileOptions.name);
         saveEditorParams();
-        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(`declare filename "${compileOptions.name}.dsp"; ${editor.getValue()}`);
+        if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(editor.getValue());
     });
     // Examples
     type DirectoryTree = {
@@ -1189,7 +1189,7 @@ $(async () => {
             const name = compileOptions.name;
             const plat = data.plat || "web";
             const arch = data.arch || "wap";
-            form.append("file", new File([`declare filename "${name}.dsp"; ${editor.getValue()}`], `${name}.dsp`));
+            form.append("file", new File([`declare filename "${name}.dsp"; declare name "${name}"; ${editor.getValue()}`], `${name}.dsp`));
             $.ajax({
                 method: "POST",
                 url: `${server}/filepost`,
@@ -1209,11 +1209,11 @@ $(async () => {
                             (e.source as WindowProxy).postMessage({ type: "exported", href }, "*");
                         }
                     }).fail((jqXHR, textStatus) => {
-                        console.error(textStatus + ": " + jqXHR.responseText);
+                        throw new Error(textStatus + ": " + jqXHR.responseText);
                     });
                 }
             }).fail((jqXHR, textStatus) => {
-                console.error(textStatus + ": " + jqXHR.responseText);
+                throw new Error(textStatus + ": " + jqXHR.responseText);
             });
         }
     });
