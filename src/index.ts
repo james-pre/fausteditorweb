@@ -1204,7 +1204,8 @@ $(async () => {
             const name = compileOptions.name;
             const plat = data.plat || "web";
             const arch = data.arch || "wap";
-            form.append("file", new File([`declare filename "${name}.dsp"; declare name "${name}"; ${editor.getValue()}`], `${name}.dsp`));
+            const expandedCode = faust.expandCode(editor.getValue(), compileOptions.args);
+            form.append("file", new File([`declare filename "${name}.dsp"; declare name "${name}"; ${expandedCode}`], `${name}.dsp`));
             $.ajax({
                 method: "POST",
                 url: `${server}/filepost`,
