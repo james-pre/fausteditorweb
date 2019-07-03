@@ -8,7 +8,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta http-equiv="origin-trial" data-feature="AudioWorklet" data-expires="2018-01-27" content="ArOoNTa+dX8OXYD95xliibaCxzUTBxilqcXLAxKOXxf/qU2n09ry4XqX4ShkkqKgfzwwuSE2I7GqxGqvVi9aewwAAABUeyJvcmlnaW4iOiJodHRwczovL2ZhdXN0LmdyYW1lLmZyOjQ0MyIsImZlYXR1cmUiOiJBdWRpb1dvcmtsZXQiLCJleHBpcnkiOjE1MTcwMjQ1OTl9">
     <title>Faust Editor</title>
-	<script src="index.js"></script>
+	<script src="index.js?v=1.0.0"></script>
 </head>
 <body>
 	<div id="root">
@@ -128,13 +128,13 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text">Samples</span>
 					</div>
-					<input id="input-plot-samps" type="number" class="form-control" placeholder="Samps" value="256" />
+					<input id="input-plot-samps" type="number" class="form-control" placeholder="Samps" value="256" min="0" step="128" />
 				</div>
 				<div class="input-group input-group-sm mb-2" data-toggle="tooltip" data-placement="right" title="Sample rate to plot (Fixed in real-time plot)">
 					<div class="input-group-prepend">
 						<span class="input-group-text input-group-text-sm">Sample Rate</span>
 					</div>
-					<input id="input-plot-sr" type="number" class="form-control" placeholder="Samps" value="48000" />
+					<input id="input-plot-sr" type="number" class="form-control" placeholder="Samps" value="48000" min="100" step="100" />
 				</div>
 				<div class="input-group input-group-sm mb-2" data-toggle="tooltip" data-placement="right" title="Select analysis FFT Size">
 					<div class="input-group-prepend">
@@ -144,6 +144,17 @@
 						<option value="256">256</option>
 						<option value="1024" selected>1024</option>
 						<option value="4096">4096</option>
+					</select>
+				</div>
+				<div class="input-group input-group-sm mb-2" data-toggle="tooltip" data-placement="right" title="Select analysis FFT Overlap">
+					<div class="input-group-prepend">
+						<span class="input-group-text">FFT Overlap</span>
+					</div>
+					<select id="select-plot-fftoverlap" class="form-control">
+						<option value="1">1</option>
+						<option value="2" selected>2</option>
+						<option value="4">4</option>
+						<option value="8">8</option>
 					</select>
 				</div>
 				<div class="form form-check mb-2" data-toggle="tooltip" data-placement="right" title="Draw spectrogram (Increase CPU usage)">
@@ -323,7 +334,7 @@
 				</form>
 				<div id="source-ui" class="mt-2">
 					<div id="source-overlay"></div>
-					<div id="source-waveform"></div>
+					<div id="source-waveform" data-toggle="tooltip" data-placement="left" title="Drag and drop to replace"></div>
 					<div id="source-controller">
 						<button id="btn-source-rewind" class="btn btn-outline-light btn-sm btn-overlay btn-overlay-icon" data-toggle="tooltip" data-placement="bottom" title="From beginning">
 							<i class="fas fa-step-backward fa-sm"></i>

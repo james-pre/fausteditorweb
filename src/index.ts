@@ -90,6 +90,7 @@ type FaustEditorCompileOptions = {
     plot: number;
     plotSR: number;
     plotFFT: 256 | 1024 | 4096;
+    plotFFTOverlap: 1 | 2 | 4 | 8;
     drawSpectrogram: boolean;
     args: { [key: string]: any };
 };
@@ -97,6 +98,7 @@ type FaustExportTargets = { [platform: string]: string[] };
 
 const supportAudioWorklet = !!window.AudioWorklet;
 let supportMediaStreamDestination = !!(window.AudioContext || window.webkitAudioContext).prototype.createMediaStreamDestination && !!HTMLAudioElement.prototype.setSinkId;
+const VERSION = "1.0.0";
 
 $(async () => {
     /**
@@ -132,6 +134,8 @@ $(async () => {
      * @returns {(FaustEditorCompileOptions | {})}
      */
     const loadEditorParams = (): FaustEditorCompileOptions | {} => {
+        const clientVersion = localStorage.getItem("faust_editor_version");
+        if (clientVersion !== VERSION) return {};
         const str = localStorage.getItem("faust_editor_params");
         if (!str) return {};
         try {
@@ -167,7 +171,7 @@ $(async () => {
         let strSvg: string; // Diagram SVG as string
         editorDecoration = editor.deltaDecorations(editorDecoration, []);
         try {
-            strSvg = faust.getDiagram(code, ["-I", compileOptions.args["-I"]]);
+            strSvg = faust.getDiagram(code, compileOptions.args);
         } catch (e) {
             /**
              * Parse Faust-generated error message to locate the lines with error
@@ -365,8 +369,9 @@ $(async () => {
     const audioEnv: FaustEditorAudioEnv = { dspConnectedToInput: false, dspConnectedToOutput: false, inputEnabled: false, outputEnabled: false };
     const midiEnv: FaustEditorMIDIEnv = { input: null };
     const uiEnv: FaustEditorUIEnv = { analysersInited: false, inputScope: null, outputScope: null, plotScope: undefined, analyser: new Analyser(16, "continuous") };
-    const compileOptions: FaustEditorCompileOptions = { name: "untitled", useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, realtimeCompile: true, popup: false, voices: 0, args: { "-I": "libraries/" }, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, drawSpectrogram: false, ...loadEditorParams() };
+    const compileOptions: FaustEditorCompileOptions = { name: "untitled", useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, realtimeCompile: true, popup: false, voices: 0, args: { "-I": "libraries/" }, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, plotFFTOverlap: 2, drawSpectrogram: false, ...loadEditorParams() };
     const faustEnv: FaustEditorEnv = { audioEnv, midiEnv, uiEnv, compileOptions, jQuery, editor, faust };
+    localStorage.setItem("faust_editor_version", VERSION);
     uiEnv.plotScope = new StaticScope({ container: $<HTMLDivElement>("#plot-ui")[0] });
     uiEnv.analyser.drawHandler = uiEnv.plotScope.draw;
     uiEnv.analyser.getSampleRate = () => (compileOptions.plotMode === "offline" ? compileOptions.plotSR : audioEnv.audioCtx.sampleRate);
@@ -477,17 +482,15 @@ $(async () => {
         const bufferSize = (compileOptions.useWorklet ? 128 : compileOptions.bufferSize);
         const fftSize = compileOptions.plotFFT || 256;
         const step = Math.max(bufferSize, fftSize);
-        const v1 = Math.max((v === compileOptions.plot - 1 ? Math.floor(v / step) : Math.ceil(v / step)) * step, step); // Spinner
+        const v1 = Math.max((v === compileOptions.plot - +e.currentTarget.step ? Math.floor(v / step) : Math.ceil(v / step)) * step, step); // Spinner
         compileOptions.plot = v1;
         uiEnv.analyser.buffers = v1 / bufferSize;
+        e.currentTarget.step = step.toString();
         e.currentTarget.value = v1.toString();
         saveEditorParams();
     })[0].value = compileOptions.plot.toString();
     $<HTMLInputElement>("#input-plot-sr").on("change", (e) => {
-        const v = +e.currentTarget.value;
-        const v1 = Math.max((v === compileOptions.plotSR - 1 ? Math.floor(v / 100) : Math.ceil(v / 100)) * 100, 1); // Spinner
-        compileOptions.plotSR = v1;
-        e.currentTarget.value = v1.toString();
+        compileOptions.plotSR = +e.currentTarget.value;
         saveEditorParams();
     })[0].value = compileOptions.plotSR.toString();
     $<HTMLInputElement>("#check-draw-spectrogram").on("change", (e) => {
@@ -502,6 +505,11 @@ $(async () => {
         compileOptions.plotFFT = +e.currentTarget.value as 256 | 1024 | 4096;
         uiEnv.analyser.fftSize = compileOptions.plotFFT;
         $("#input-plot-samps").change();
+        saveEditorParams();
+    });
+    $<HTMLInputElement>("#select-plot-fftoverlap").on("change", (e) => {
+        compileOptions.plotFFTOverlap = +e.currentTarget.value as 1 | 2 | 4 | 8;
+        uiEnv.analyser.fftOverlap = compileOptions.plotFFTOverlap;
         saveEditorParams();
     });
     /**
@@ -636,7 +644,14 @@ $(async () => {
                     $("#export-error").hide();
                     const form = new FormData();
                     const name = ($("#export-name").val() as string).replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
-                    form.append("file", new File([`declare filename "${name}.dsp"; declare name "${name}"; ${editor.getValue()}`], `${name}.dsp`));
+                    try {
+                        const expandedCode = faust.expandCode(editor.getValue(), compileOptions.args);
+                        form.append("file", new File([`declare filename "${name}.dsp"; declare name "${name}"; ${expandedCode}`], `${name}.dsp`));
+                    } catch (e) {
+                        $("#export-loading").css("display", "none");
+                        $("#export-error").html(e).show();
+                        return;
+                    }
                     $.ajax({
                         method: "POST",
                         url: `${server}/filepost`,
@@ -1401,6 +1416,7 @@ $(async () => {
     if (supportAudioWorklet) $("#check-worklet").prop({ disabled: false, checked: true }).change();
     $("#select-plot-mode").children(`option[value=${compileOptions.plotMode}]`).prop("selected", true).change();
     $("#select-plot-fftsize").children(`option[value=${compileOptions.plotFFT}]`).prop("selected", true).change();
+    $("#select-plot-fftoverlap").children(`option[value=${compileOptions.plotFFTOverlap}]`).prop("selected", true).change();
     $("#input-plot-samps").change();
     $("#check-draw-spectrogram").change();
     $<HTMLInputElement>("#check-realtime-compile")[0].checked = compileOptions.realtimeCompile;
