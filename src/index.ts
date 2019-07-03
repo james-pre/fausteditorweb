@@ -348,6 +348,7 @@ $(async () => {
         const guiBuilder = $<HTMLIFrameElement>("#iframe-gui-builder")[0];
         guiBuilder.src = "";
         guiBuilder.src = `PedalEditor/Front-End/index.html?data=${JSON.stringify(node.dspMeta.ui)}&name=${compileOptions.name}.dsp`;
+        guiBuilder.onload = () => guiBuilder.contentWindow.postMessage({ type: "build", ui: node.getUI(), name: `${compileOptions.name}.dsp`, code: editor.getValue() }, "*");
         // (guiBuilder.contentWindow as any).faustUI = node.dspMeta.ui;
         // (guiBuilder.contentWindow as any).faustDspMeta = node.dspMeta;
         return { success: true };
