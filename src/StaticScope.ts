@@ -1,4 +1,4 @@
-import { wrap, fillRectWrap, indexToFreq } from "./utils";
+import { wrap, indexToFreq } from "./utils";
 import "./StaticScope.scss";
 
 enum EScopeMode {
@@ -131,16 +131,16 @@ export class StaticScope {
         }
         let $0 = 0; // Draw start
         let $1 = l - 1; // Draw End
-        if (drawMode === "continuous" && freqEstimated && sampleRate) { // Stablize
+        if (drawMode === "continuous") { // Stablize
             let $zerox = 0;
-            const thresh = 0.01;
+            const thresh = 0.001;
             const period = sampleRate / freqEstimated;
             const times = Math.floor(l / period) - 1;
-            while (t[0][wrap($zerox++, $, l)] > 0 && $zerox < l);
+            while (t[0][wrap($zerox++, $, l)] > thresh && $zerox < l);
             if ($zerox >= l - 1) {
                 $zerox = 0;
             } else {
-                while (t[0][wrap($zerox++, $, l)] < 0 + thresh && $zerox < l);
+                while (t[0][wrap($zerox++, $, l)] < thresh && $zerox < l);
                 if ($zerox >= l - 1) {
                     $zerox = 0;
                 }
@@ -200,7 +200,7 @@ export class StaticScope {
             const $j = wrap($cursor, $, l);
             for (let i = 0; i < t.length; i++) {
                 const samp = t[i][$j];
-                if (samp) statsToDraw.values.push(samp);
+                if (typeof samp === "number") statsToDraw.values.push(samp);
             }
             this.drawStats(ctx, w, h, statsToDraw);
         }
@@ -223,16 +223,16 @@ export class StaticScope {
         }
         let $0 = 0; // Draw start
         let $1 = l - 1; // Draw End
-        if (drawMode === "continuous" && freqEstimated && sampleRate) { // Stablize
+        if (drawMode === "continuous") { // Stablize
             let $zerox = 0;
-            const thresh = 0.01;
+            const thresh = 0.001;
             const period = sampleRate / freqEstimated;
             const times = Math.floor(l / period) - 1;
-            while (t[0][wrap($zerox++, $, l)] > 0 && $zerox < l); // Find first raise
+            while (t[0][wrap($zerox++, $, l)] > thresh && $zerox < l); // Find first raise
             if ($zerox >= l - 1) { // Found nothing, no stablization
                 $zerox = 0;
             } else {
-                while (t[0][wrap($zerox++, $, l)] < 0 + thresh && $zerox < l); // Find first drop
+                while (t[0][wrap($zerox++, $, l)] < thresh && $zerox < l); // Find first drop
                 if ($zerox >= l - 1) {
                     $zerox = 0;
                 }
@@ -291,7 +291,7 @@ export class StaticScope {
             const $j = wrap($cursor, $, l);
             for (let i = 0; i < t.length; i++) {
                 const samp = t[i][$j];
-                if (samp) statsToDraw.values.push(samp);
+                if (typeof samp === "number") statsToDraw.values.push(samp);
             }
             this.drawStats(ctx, w, h, statsToDraw);
         }
@@ -327,7 +327,7 @@ export class StaticScope {
                     continue;
                 }
                 const x = (j - $0) * gridX + left;
-                const y = hCh * (i + 1 - Math.min(1, Math.max(0, (maxInStep + 10) / 100 + 1)));
+                const y = hCh * (i + 1 - Math.min(1, Math.max(0, maxInStep / 100 + 1)));
                 if (j === $0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
             }
@@ -346,7 +346,7 @@ export class StaticScope {
             const $j = wrap($cursor, $f, l);
             for (let i = 0; i < f.length; i++) {
                 const samp = f[i][$j];
-                if (samp) statsToDraw.values.push(samp);
+                if (typeof samp === "number") statsToDraw.values.push(samp);
             }
             this.drawStats(ctx, w, h, statsToDraw);
         }
@@ -392,7 +392,7 @@ export class StaticScope {
             const $j = wrap($cursor, $f, f[0].length);
             const freq = ($j % fftBins) / fftBins * d.sampleRate / 2;
             const samp = f[$ch][$j];
-            if (samp) statsToDraw.values = [samp];
+            if (typeof samp === "number") statsToDraw.values = [samp];
             statsToDraw.x = ($fft - $0fft + 0.5) * gridX + left;
             statsToDraw.y = (($ch + 1) * fftBins - $bin) * gridY;
             statsToDraw.xLabel = $fft.toFixed(0);
@@ -419,11 +419,11 @@ export class StaticScope {
         const $h = hCh / fftBins;
         if (canvasWidth !== w) ctx.canvas.width = w;
         const step = Math.max(1, Math.round(fftBins / hCh));
-        ctx.fillStyle = "black";
-        fillRectWrap(ctx, $0fft, 0, $1fft - $0fft, h, w, h);
         for (let i = 0; i < f.length; i++) {
             for (let j = $0fft; j < $1fft; j++) {
                 let maxInStep;
+                ctx.fillStyle = "black";
+                ctx.fillRect(j % w, i * hCh, 1, hCh);
                 for (let k = 0; k < fftBins; k++) {
                     const samp = f[i][wrap(k, j * fftBins, l)];
                     const $step = k % step;
@@ -437,7 +437,7 @@ export class StaticScope {
                     const hue = (normalized * 180 + 240) % 360;
                     const lum = normalized * 50;
                     ctx.fillStyle = `hsl(${hue}, 100%, ${lum}%)`;
-                    fillRectWrap(ctx, j, (fftBins - k - 1) * $h + i * hCh, 1, Math.max(1, $h), w, h);
+                    ctx.fillRect(j % w, (fftBins - k - 1) * $h + i * hCh, 1, Math.max(1, $h));
                 }
             }
         }
@@ -528,16 +528,17 @@ export class StaticScope {
         for (let i = 0; i < channels; i++) {
             let y = (i + 0.5) * hCh;
             let $ = 0.5;
-            let yLabel = mode === EScopeMode.Spectrogram ? indexToFreq(fftBins * $, fftBins, sampleRate).toFixed(0) : mode === EScopeMode.Spectroscope ? (-110 + 100 * $).toFixed(0) : (-yFactor + 2 * yFactor * $).toFixed(2);
+            const getYLabel = () => (mode === EScopeMode.Spectrogram ? indexToFreq(fftBins * $, fftBins, sampleRate).toFixed(0) : mode === EScopeMode.Spectroscope ? (-100 + 100 * $).toFixed(0) : (-yFactor + 2 * yFactor * $).toFixed(2));
+            let yLabel = getYLabel();
             drawHLine(y, yLabel);
             for (let j = vStep; j < yFactor; j += vStep) {
                 $ = 0.5 - j / yFactor / 2;
                 y = (i + 0.5 + j / yFactor / 2) * hCh;
-                yLabel = mode === EScopeMode.Spectrogram ? indexToFreq(fftBins * $, fftBins, sampleRate).toFixed(0) : mode === EScopeMode.Spectroscope ? (-110 + 100 * $).toFixed(0) : (-yFactor + 2 * yFactor * $).toFixed(2);
+                yLabel = getYLabel();
                 drawHLine(y, yLabel);
                 $ = 0.5 + j / yFactor / 2;
                 y = (i + 0.5 - j / yFactor / 2) * hCh;
-                yLabel = mode === EScopeMode.Spectrogram ? indexToFreq(fftBins * $, fftBins, sampleRate).toFixed(0) : mode === EScopeMode.Spectroscope ? (-110 + 100 * $).toFixed(0) : (-yFactor + 2 * yFactor * $).toFixed(2);
+                yLabel = getYLabel();
                 drawHLine(y, yLabel);
             }
         }
@@ -699,7 +700,7 @@ export class StaticScope {
         }
         if (!this.divDefault) {
             const divDefault = document.createElement("div");
-            divDefault.classList.add("static-scope-data", "alert", "alert-info");
+            divDefault.classList.add("static-scope-default", "alert", "alert-info");
             divDefault.setAttribute("role", "alert");
             divDefault.innerHTML = "<h5>No Data</h5>";
             this.container.appendChild(divDefault);

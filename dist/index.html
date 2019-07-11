@@ -8,13 +8,12 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta http-equiv="origin-trial" data-feature="AudioWorklet" data-expires="2018-01-27" content="ArOoNTa+dX8OXYD95xliibaCxzUTBxilqcXLAxKOXxf/qU2n09ry4XqX4ShkkqKgfzwwuSE2I7GqxGqvVi9aewwAAABUeyJvcmlnaW4iOiJodHRwczovL2ZhdXN0LmdyYW1lLmZyOjQ0MyIsImZlYXR1cmUiOiJBdWRpb1dvcmtsZXQiLCJleHBpcnkiOjE1MTcwMjQ1OTl9">
     <title>Faust Editor</title>
-	<script src="index.js?v=1.0.0"></script>
+	<script src="index.js?v=1.0.1"></script>
 </head>
 <body>
 	<div id="root">
 		<div id="left">
-			<div id="file-manager" class="file-manager">
-				<div class="file-manager-title"></div>
+			<div id="filemanager" class="filemanager">
 			</div>
 			<div id="btns" class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 				<button id="btn-run" type="button" class="btn-run btn btn-outline-secondary btn-lg" data-toggle="tooltip" data-placement="right" title="(CTRL-R) Compile and run the Faust DSP" disabled>
@@ -180,16 +179,6 @@
 							<i class="fas fa-play fa-sm"></i>
 						</button>
 					</div>
-					<li class="nav-item">
-						<div id="tab-editor" class="nav-link active" data-toggle="tab" href="#" role="tab" aria-selected="true">
-							<div class="input-group" data-toggle="tooltip" data-placement="bottom" title="File Name">
-								<input id="input-filename" type="text" class="form-control" aria-label="File Name" placeholder="File Name" />
-								<div class="input-group-append">
-									<span class="input-group-text">.dsp</span>
-								</div>
-							</div>
-						</div>
-					</li>
 					<li class="nav-item dropdown" data-toggle="tooltip" data-placement="right" title="Try an example">
 						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Examples</a>
 						<div id="tab-examples" class="dropdown-menu"><!-- 
@@ -232,6 +221,7 @@
 					<li id="nav-item-faust-ui" class="nav-item">
 						<a id="tab-faust-ui" class="nav-link" data-toggle="tab" href="#faust-ui" role="tab" aria-controls="faust-ui" aria-selected="true">
 							<span>DSP</span>
+							<button type="button" class="btn btn-outline-light btn-popup" data-toggle="tooltip" data-placement="top" title="Popup"><i class="fas fa-share-square fa-xs"></i></button>
 							<button type="button" class="btn btn-outline-light btn-close-tab" data-toggle="tooltip" data-placement="top" title="Stop DSP">&times;</button>
 						</a>
 					</li>
@@ -309,7 +299,7 @@
 		</div>
 		<div id="right">
 			<div id="right-resizable" class="resizable resizable-left"></div>
-			<div id="midi-ui" class="container mt-2">
+			<div id="midi-ui">
 				<form class="input-group input-group-sm">
 					<div class="form-row">
 						<label for="midi-ui">MIDI Input</label>
@@ -322,7 +312,7 @@
 					</div>
 				</form>
 			</div>
-			<div id="input-ui" class="container mt-2">
+			<div id="input-ui" class="mt-2">
 				<form class="input-group input-group-sm">
 					<div class="form-row">
 						<label for="input-ui">Audio Input</label>
@@ -347,6 +337,7 @@
 						</button>
 					</div>
 				</div>
+				<div id="input-gain"></div>
 				<div id="input-analyser-ui" class="scope-ui mt-2">
 					<canvas class="scope-canvas" data-toggle="tooltip" data-placement="left" title="Input analyser"></canvas>
 					<div class="scope-controller">
@@ -358,7 +349,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="dsp-ui" class="container mt-2">
+			<div id="dsp-ui" class="mt-2">
 				<div class="form-row">
 					<label for="dsp-ui">DSP</label>
 					<button id="dsp-ui-default" class="btn badge badge-warning ml-2 mb-2" data-toggle="tooltip" data-placement="top" title="Switch AudioWorklet / ScriptProcessor">no DSP yet</button>
@@ -379,7 +370,23 @@
 					</div>
 				</div>
 			</div>
-			<div id="output-ui" class="container mb-2">
+			<div id="recorder-ui" class="input-group" role="group">
+				<div class="input-group-prepend">
+					<button id="recorder-aim" type="button" class="btn btn-light btn-block" data-toggle="tooltip" data-placement="left" title="Start Record">
+						<i class="fas fa-circle fa-sm"></i>
+					</button>
+				</div>
+				<span id="recorder-time" class="input-group-append input-group-prepend form-control">
+				  	0:00.000
+				</span>
+				<div class="input-group-append">
+					<button id="recorder-save" type="button" class="btn btn-light btn-block" data-toggle="tooltip" data-placement="top" title="Save">
+						<i class="fas fa-save fa-sm"></i>
+						<a id="a-recorder-save" target="_blank"></a>
+					</button>
+				</div>
+			</div>
+			<div id="output-ui">
 				<!--
 				<form class="input-group input-group-sm">
 					<div class="form-row">
