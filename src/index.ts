@@ -6,6 +6,8 @@
 // bargraph in scopes
 // init params with getNode
 // popup plot => too heavy drawing
+// bypass
+// plot vzoom
 
 import * as monaco from "monaco-editor"; // eslint-disable-line import/no-unresolved
 import webmidi, { Input, WebMidiEventConnected, WebMidiEventDisconnected } from "webmidi";
@@ -246,7 +248,7 @@ $(async () => {
     const runDsp = async (codeIn: string): Promise<{ success: boolean; error?: Error }> => {
         const code = `declare filename "${uiEnv.fileManager.mainFileName}"; declare name "${uiEnv.fileManager.mainFileNameWithoutSuffix}"; ${codeIn}`;
         const audioCtx = audioEnv.audioCtx;
-        const meter = audioEnv.meterInput;
+        const gain = audioEnv.gainInput;
         let splitter = audioEnv.splitterOutput;
         const analyser = audioEnv.analyserOutput;
         if (!audioCtx) { // If audioCtx not init yet
@@ -290,7 +292,7 @@ $(async () => {
         if (audioEnv.dsp) { // Disconnect current
             const dsp = audioEnv.dsp;
             if (audioEnv.dspConnectedToInput) {
-                meter.disconnect(dsp);
+                gain.disconnect(dsp);
                 audioEnv.dspConnectedToInput = false;
             }
             dsp.disconnect();
@@ -323,8 +325,8 @@ $(async () => {
                 uiEnv.outputScope.channel = Math.min(uiEnv.outputScope.channel, channelsCount - 1);
                 splitter.connect(analyser, uiEnv.outputScope.channel);
             }
-            if (audioEnv.meterInput && node.getNumInputs()) {
-                audioEnv.meterInput.connect(node);
+            if (audioEnv.gainInput && node.getNumInputs()) {
+                audioEnv.gainInput.connect(node);
                 audioEnv.dspConnectedToInput = true;
             }
             node.connect(splitter);
@@ -1328,10 +1330,10 @@ $(async () => {
         e.stopPropagation();
         e.preventDefault();
         if (audioEnv.dsp) { // Disconnect current
-            const meter = audioEnv.meterInput;
+            const gain = audioEnv.gainInput;
             const dsp = audioEnv.dsp;
             if (audioEnv.dspConnectedToInput) {
-                meter.disconnect(dsp);
+                gain.disconnect(dsp);
                 audioEnv.dspConnectedToInput = false;
             }
             dsp.disconnect();
