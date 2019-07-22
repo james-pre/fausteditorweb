@@ -7,7 +7,7 @@
 // init params with getNode
 // popup plot => too heavy drawing
 // bypass
-// plot vzoom
+// shared buffer
 
 import * as monaco from "monaco-editor"; // eslint-disable-line import/no-unresolved
 import webmidi, { Input, WebMidiEventConnected, WebMidiEventDisconnected } from "webmidi";
@@ -105,7 +105,7 @@ type FaustExportTargets = { [platform: string]: string[] };
 
 const supportAudioWorklet = !!window.AudioWorklet;
 let supportMediaStreamDestination = !!(window.AudioContext || window.webkitAudioContext).prototype.createMediaStreamDestination && !!HTMLAudioElement.prototype.setSinkId;
-const VERSION = "1.0.1";
+const VERSION = "1.0.4";
 
 $(async () => {
     /**
@@ -257,16 +257,27 @@ $(async () => {
         }
         const { useWorklet, bufferSize, voices, args } = compileOptions;
         let node: FaustScriptProcessorNode | FaustAudioWorkletNode;
+        let mediaLengthRaf: number;
+        let mediaLengthFrame = 0;
+        const mediaLengthSpan = $<HTMLSpanElement>("#recorder-time")[0];
+        const mediaLengthDisplay = (t: number) => {
+            mediaLengthFrame++;
+            if (mediaLengthFrame % 3 !== 0) {
+                if (mediaLengthRaf) cancelAnimationFrame(mediaLengthRaf);
+                mediaLengthRaf = requestAnimationFrame(() => mediaLengthDisplay(t));
+            }
+            const d = new Date(t * 1000);
+            const min = d.getMinutes();
+            const sec = `0${d.getSeconds()}`.slice(-2);
+            const ms = `00${d.getMilliseconds()}`.slice(-3);
+            mediaLengthSpan.innerText = `${min}:${sec}.${ms}`;
+        };
         const plotHandler = (plotted: Float32Array[], index: number, events?: { type: string; data: any }[]) => {
             uiEnv.analyser.plotHandler(plotted, index, events);
+            if (!faustEnv.recorder.enabled) return;
             const t = faustEnv.recorder.append(plotted, index);
-            requestAnimationFrame(() => {
-                const d = new Date(t * 1000);
-                const min = d.getMinutes();
-                const sec = `0${d.getSeconds()}`.slice(-2);
-                const ms = `00${d.getMilliseconds()}`.slice(-3);
-                $("#recorder-time").text(`${min}:${sec}.${ms}`);
-            });
+            if (mediaLengthRaf) cancelAnimationFrame(mediaLengthRaf);
+            mediaLengthRaf = requestAnimationFrame(() => mediaLengthDisplay(t));
         };
         try {
             // const getDiagramResult = getDiagram(code);
@@ -378,7 +389,7 @@ $(async () => {
              */
             if (!compileOptions.popup || (uiEnv.uiPopup && !uiEnv.uiPopup.closed)) callback();
             else {
-                uiEnv.uiPopup = window.open("faust_ui.html", "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
+                uiEnv.uiPopup = window.open(`faust-ui.html?v=${VERSION}`, "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
                 uiEnv.uiPopup.onload = callback;
             }
         };
@@ -875,21 +886,11 @@ $(async () => {
     $<HTMLSelectElement>("#select-audio-input").on("change", async (e) => {
         const id = e.currentTarget.value;
         if (audioEnv.currentInput === id) return;
-        if (audioEnv.audioCtx) {
+        if (audioEnv.audioCtx && audioEnv.currentInput) {
             const gain = audioEnv.gainInput;
             const input = audioEnv.inputs[audioEnv.currentInput];
             if (gain) input.disconnect(gain); // Disconnect
         }
-        // MediaElementSource, Waveform
-        if (id === "-1") {
-            $("#source-ui").show();
-            $("#input-analyser-ui").hide();
-        } else {
-            $("#source-ui").hide();
-            $("#input-analyser-ui").show();
-        }
-        await initAudioCtx(audioEnv);
-        initAnalysersUI(uiEnv, audioEnv);
         if (!wavesurfer) {
             wavesurfer = WaveSurfer.create({
                 container: $("#source-waveform")[0],
@@ -916,19 +917,29 @@ $(async () => {
                     $("#input-analyser-ui").hide();
                 }
             });
+            wavesurfer.on("waveform-ready", () => {
+                audioEnv.gainUIInput.channels = wavesurfer.backend.buffer.numberOfChannels;
+            });
             wavesurfer.load("./02-XYLO1.mp3");
-            if ($("#source-waveform audio").length) {
-                audioEnv.inputs[-1] = audioEnv.audioCtx.createMediaElementSource($<HTMLAudioElement>("#source-waveform audio")[0]);
-            }
         }
-        // init audio environment and connect to dsp if necessary
+        // MediaElementSource, Waveform
+        if (id === "-1") {
+            $("#source-ui").show();
+            $("#input-analyser-ui").hide();
+            audioEnv.gainUIInput.channels = wavesurfer.backend.buffer ? wavesurfer.backend.buffer.numberOfChannels : 2;
+        } else {
+            $("#source-ui").hide();
+            $("#input-analyser-ui").show();
+            audioEnv.gainUIInput.channels = 2;
+        }
+        // init audio environment
         await initAudioCtx(audioEnv, id);
         const gain = audioEnv.gainInput;
         const input = audioEnv.inputs[id];
         audioEnv.currentInput = id;
         audioEnv.inputEnabled = true;
         if (gain) input.connect(gain);
-    }).change();
+    });
     /**
      * Audio Outputs
      * Choose and audio stream <audio />
@@ -1242,16 +1253,18 @@ $(async () => {
      * Bind message event for changing dsp params on receiving msg from ui window
      */
     $(window).on("message", (e) => {
-        const data = (e.originalEvent as MessageEvent).data;
-        if (!data || !data.type) return;
+        const $e = (e.originalEvent as MessageEvent);
+        if (!$e.data) return;
+        const { data, source } = $e;
+        if (!data.type) return;
         if (data.type === "param") {
             if (audioEnv.dsp) audioEnv.dsp.setParamValue(data.path, +data.value);
             dspParams[data.path] = +data.value;
             if (compileOptions.saveParams) saveDspParams();
             const uiWindow = $<HTMLIFrameElement>("#iframe-faust-ui")[0].contentWindow;
             const msg = { path: data.path, value: +data.value, type: "param" };
-            uiWindow.postMessage(msg, "*");
-            if (uiEnv.uiPopup) uiEnv.uiPopup.postMessage(msg, "*");
+            if (uiWindow !== source) uiWindow.postMessage(msg, "*");
+            if (uiEnv.uiPopup && uiEnv.uiPopup !== source) uiEnv.uiPopup.postMessage(msg, "*");
             return;
         }
         // Pass keyboard midi messages even inner window is focused
@@ -1322,7 +1335,7 @@ $(async () => {
          */
         if (uiEnv.uiPopup && !uiEnv.uiPopup.closed) callback();
         else {
-            uiEnv.uiPopup = window.open("faust_ui.html", "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
+            uiEnv.uiPopup = window.open(`faust-ui.html?v=${VERSION}`, "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
             uiEnv.uiPopup.onload = callback;
         }
     });
@@ -1496,6 +1509,9 @@ $(async () => {
         }
     }).resize();
     // autorunning
+    await initAudioCtx(audioEnv);
+    initAnalysersUI(uiEnv, audioEnv);
+    $<HTMLSelectElement>("#select-audio-input").change();
     await loadURLParams(window.location.search);
     $("#select-voices").children(`option[value=${compileOptions.voices}]`).prop("selected", true);
     $("#select-buffer-size").children(`option[value=${compileOptions.bufferSize}]`).prop("selected", true);
