@@ -13,6 +13,7 @@ type TOptions = {
     channels: number;
     container: HTMLDivElement;
     type?: TScopeType;
+    paused?: boolean;
 };
 
 export class Scope {
@@ -21,6 +22,7 @@ export class Scope {
     ctx: CanvasRenderingContext2D;
     spectTempCtx: CanvasRenderingContext2D;
     spectCol$ = 0;
+    private _disabled = false;
     private _paused = false;
     frame = 0;
     readonly audioCtx: AudioContext;
@@ -50,15 +52,24 @@ export class Scope {
         ctx.strokeStyle = "#FFFFFF";
         ctx.lineWidth = 2;
         ctx.beginPath();
+        // Fastest way to get min and max to have: 1. max abs value for y scaling, 2. mean value for zero-crossing
+        let min = d[0];
+        let max = d[0];
+        let i = d.length;
+        while (i--) {
+            const s = d[i];
+            if (s < min) min = s;
+            else if (s > max) max = s;
+        }
         let $zerox = 0;
-        const thresh = 0.01;
+        const thresh = (min + max) * 0.5 + 0.001; // the zero-crossing with "offset"
         const period = sr / freq;
         const times = Math.floor(l / period) - 1;
-        while (d[$zerox++] > 0 && $zerox < l);
+        while (d[$zerox++] > thresh && $zerox < l);
         if ($zerox >= l - 1) {
             $zerox = 0;
         } else {
-            while (d[$zerox++] < 0 + thresh && $zerox < l);
+            while (d[$zerox++] < thresh && $zerox < l);
             if ($zerox >= l - 1) {
                 $zerox = 0;
             }
@@ -190,8 +201,8 @@ export class Scope {
         this.f = new Float32Array(this.analyser.frequencyBinCount);
         this.getChildren();
         this.bind();
-        this.draw();
         if (!window.AudioWorklet) this.paused = true;
+        else if (typeof options.paused === "undefined") this.paused = false;
     }
     getChildren() {
         this.spectTempCtx = document.createElement("canvas").getContext("2d");
@@ -366,13 +377,28 @@ export class Scope {
         return this._paused;
     }
     set paused(pausedIn) {
-        if (pausedIn) {
-            cancelAnimationFrame(this.raf);
-            requestAnimationFrame(this.drawPause);
-        } else {
-            requestAnimationFrame(this.draw);
-        }
+        if (pausedIn === this.paused) return;
         this._paused = pausedIn;
+        if (this.disabled) return;
+        if (this.paused) {
+            cancelAnimationFrame(this.raf);
+            this.raf = requestAnimationFrame(this.drawPause);
+        } else {
+            this.raf = requestAnimationFrame(this.draw);
+        }
+    }
+    get disabled() {
+        return this._disabled;
+    }
+    set disabled(disabledIn) {
+        if (disabledIn === this.disabled) return;
+        this._disabled = disabledIn;
+        if (this.paused) return;
+        if (this.disabled) {
+            cancelAnimationFrame(this.raf);
+        } else {
+            this.raf = requestAnimationFrame(this.draw);
+        }
     }
     get channel() {
         return this._channel;
