@@ -88,24 +88,6 @@ type FaustEditorUIEnv = {
     analyser: Analyser;
     fileManager: FileManager;
 };
-type FaustEditorCompileOptions = {
-    mainFileIndex?: number;
-    useWorklet: boolean;
-    bufferSize: 128 | 256 | 512 | 1024 | 2048 | 4096;
-    saveCode: boolean;
-    saveParams: boolean;
-    saveDsp: boolean;
-    realtimeCompile: boolean;
-    popup: boolean;
-    voices: number;
-    plotMode: "offline" | "continuous" | "onevent" | "manual";
-    plot: number;
-    plotSR: number;
-    plotFFT: 256 | 1024 | 4096;
-    plotFFTOverlap: 1 | 2 | 4 | 8;
-    drawSpectrogram: boolean;
-    args: { [key: string]: any };
-};
 type FaustExportTargets = { [platform: string]: string[] };
 
 const supportAudioWorklet = !!window.AudioWorklet;
@@ -685,9 +667,9 @@ $(async () => {
         const file = e.currentTarget.files[0];
         const reader = new FileReader();
         reader.onload = () => {
-            const name = file.name.split(".").slice(0, -1).join(".").replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
+            const fileName = file.name.replace(/[^a-zA-Z0-9_.]/g, "") || "untitled.dsp";
             const code = reader.result.toString();
-            uiEnv.fileManager.newFile(`${name}.dsp`, code);
+            uiEnv.fileManager.newFile(fileName, code);
             if (compileOptions.realtimeCompile) {
                 if (audioEnv.dsp) runDsp(uiEnv.fileManager.mainCode);
                 else updateDiagram(uiEnv.fileManager.mainCode);
@@ -1195,9 +1177,9 @@ $(async () => {
             const reader = new FileReader();
             reader.onload = () => {
                 // Update filename
-                const name = file.name.split(".").slice(0, -1).join(".").replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
+                const fileName = file.name.replace(/[^a-zA-Z0-9_.]/g, "") || "untitled.dsp";
                 const code = reader.result.toString();
-                uiEnv.fileManager.newFile(`${name}.dsp`, code);
+                uiEnv.fileManager.newFile(fileName, code);
                 // compile diagram or dsp if necessary
                 if (compileOptions.realtimeCompile) {
                     if (audioEnv.dsp) runDsp(uiEnv.fileManager.mainCode);
@@ -1249,11 +1231,11 @@ $(async () => {
         const path = $(e.currentTarget).data("path");
         const name = $(e.currentTarget).text();
         if (path) {
-            fetch("../" + path)
+            fetch(path)
                 .then(response => response.text())
                 .then((code) => {
-                    const fileName = name.split(".").slice(0, -1).join(".").replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
-                    uiEnv.fileManager.newFile(`${fileName}.dsp`, code);
+                    const fileName = name.replace(/[^a-zA-Z0-9_.]/g, "") || "untitled.dsp";
+                    uiEnv.fileManager.newFile(fileName, code);
                     if (compileOptions.realtimeCompile) {
                         if (audioEnv.dsp) runDsp(uiEnv.fileManager.mainCode);
                         else updateDiagram(uiEnv.fileManager.mainCode);

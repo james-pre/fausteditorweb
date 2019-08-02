@@ -14,8 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.cc725566ed4b6279e6c33716cd6c0bd7.js"
+  "precache-manifest.8adf16006d376f5dfdf16e61df654c88.js"
 );
+
+workbox.core.setCacheNameDetails({prefix: "1.0.6"});
 
 workbox.core.skipWaiting();
 
@@ -821,7 +823,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "6877bf96f6aa4bc2ebe640952b5cf187"
+    "revision": "408ab2f3a92f8ca77e4d3aafe11d81ba"
   },
   {
     "url": "favicon.png",
@@ -830,6 +832,10 @@ self.__precacheManifest = [
   {
     "url": "icon/icon_192.png",
     "revision": "ee7ec1719955d2f9c0bbea290b088d20"
+  },
+  {
+    "url": "icon/icon_512.png",
+    "revision": "b22ed1b5b20db59704b843dd46076aa5"
   },
   {
     "url": "02-XYLO1.mp3",
@@ -841,11 +847,11 @@ self.__precacheManifest = [
   },
   {
     "url": "examples.json",
-    "revision": "554f7989a24e9a0e1e648456e5fdccb5"
+    "revision": "2945f413ac48fea4621af7c22b88bc19"
   },
   {
     "url": "manifest.json",
-    "revision": "a05913b0ec3de887aff05ceba84f3048"
+    "revision": "1cf4759734f174f0ebe72a3e7cbd83a4"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
