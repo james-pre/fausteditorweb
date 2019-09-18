@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.f1de9231ebcb5e188be2457ba2c0fd99.js"
+  "precache-manifest.c136f750f1f61983a56a9987ddf50270.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "1.0.6"});
+workbox.core.setCacheNameDetails({prefix: "1.0.7"});
 
 workbox.core.skipWaiting();
 
@@ -815,15 +815,15 @@ self.__precacheManifest = [
   },
   {
     "url": "libfaust-wasm.data",
-    "revision": "46428c4c37c26fa96364f60e5960b3b0"
+    "revision": "d108ddc3097f9af4c9a9c2173b8e233c"
   },
   {
     "url": "libfaust-wasm.wasm",
-    "revision": "627178a82427e5046655c14478f2a3e9"
+    "revision": "0ab46f1bf79b34999457c3cea449fdcf"
   },
   {
     "url": "index.html",
-    "revision": "5b0cb2896c99afb8b9d91c0aba21cdbc"
+    "revision": "3b147fa7c8a211fe1f51c16c443240d9"
   },
   {
     "url": "favicon.png",
@@ -847,7 +847,7 @@ self.__precacheManifest = [
   },
   {
     "url": "examples.json",
-    "revision": "2945f413ac48fea4621af7c22b88bc19"
+    "revision": "0fb49dbb8781443cbdcf27845fb945f8"
   },
   {
     "url": "manifest.json",
