@@ -84,7 +84,7 @@ export class StaticScope {
         // let prevY = eDown instanceof MouseEvent ? eDown.pageY : eDown.touches[0].pageY;
         const handleMouseMove = (eMove: MouseEvent | TouchEvent) => {
             const x = eMove instanceof MouseEvent ? eMove.pageX : eMove.touches[0].pageX;
-            // const y = eMove instanceof MouseEvent ? eMove.pageY : eMove.touches[0].pageY;
+            //  const y = eMove instanceof MouseEvent ? eMove.pageY : eMove.touches[0].pageY;
             const dX = x - prevX;
             // const dY = y - prevY;
             prevX = x;

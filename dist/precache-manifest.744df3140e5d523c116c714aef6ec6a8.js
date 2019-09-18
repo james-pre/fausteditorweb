@@ -45,7 +45,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/df02c782834b113d605d8329368737b4.woff"
   },
   {
-    "revision": "1f4010f00472601a8d7b",
+    "revision": "d7c742bd8db37af1ef32",
     "url": "index.js"
   },
   {
