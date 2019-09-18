@@ -81,17 +81,17 @@ export class StaticScope {
         const origZoom = this.zoom;
         const origOffset = this.zoomOffset;
         let prevX = eDown instanceof MouseEvent ? eDown.pageX : eDown.touches[0].pageX;
-        let prevY = eDown instanceof MouseEvent ? eDown.pageY : eDown.touches[0].pageY;
+        // let prevY = eDown instanceof MouseEvent ? eDown.pageY : eDown.touches[0].pageY;
         const handleMouseMove = (eMove: MouseEvent | TouchEvent) => {
             const x = eMove instanceof MouseEvent ? eMove.pageX : eMove.touches[0].pageX;
-            const y = eMove instanceof MouseEvent ? eMove.pageY : eMove.touches[0].pageY;
+            // const y = eMove instanceof MouseEvent ? eMove.pageY : eMove.touches[0].pageY;
             const dX = x - prevX;
-            const dY = y - prevY;
+            // const dY = y - prevY;
             prevX = x;
-            prevY = y;
-            const multiplier = 1 / 1.015 ** dY;
+            // prevY = y;
+            // const multiplier = 1 / 1.015 ** dY;
             const offset = -dX / this.zoom / this.canvas.width;
-            if (multiplier !== 1) this.zoom *= multiplier;
+            // if (multiplier !== 1) this.zoom *= multiplier;
             if (offset !== 0) this.zoomOffset += offset;
             if (this.zoom !== origZoom || this.zoomOffset !== origOffset) this.draw();
         };
@@ -120,22 +120,24 @@ export class StaticScope {
         const { $, t, freqEstimated, sampleRate, drawMode } = d;
         if (!t || !t.length || !t[0].length) return;
         const l = t[0].length;
-        // Fastest way to get highest abs value in buffer
-        let yFactor = 1;
+        // Fastest way to get min and max to have: 1. max abs value for y scaling, 2. mean value for zero-crossing
+        let min = t[0][0];
+        let max = t[0][0];
         let i = t.length;
         while (i--) {
             let j = l;
             while (j--) {
-                const abs = Math.abs(t[i][j]);
-                if (abs > yFactor) yFactor = abs;
+                const s = t[i][j];
+                if (s < min) min = s;
+                else if (s > max) max = s;
             }
         }
-        yFactor *= vzoom;
+        const yFactor = Math.max(1, Math.abs(min), Math.abs(max)) * vzoom;
         let $0 = 0; // Draw start
         let $1 = l - 1; // Draw End
         let $zerox = 0;
         if (drawMode === "continuous") { // Stablize
-            const thresh = 0.001;
+            const thresh = (min + max) * 0.5 + 0.001; // the zero-crossing with "offset"
             const period = sampleRate / freqEstimated;
             const times = Math.floor(l / period) - 1;
             while (t[0][wrap($zerox++, $, l)] > thresh && $zerox < l);
@@ -157,7 +159,7 @@ export class StaticScope {
         const left = 50;
         const bottom = 20;
         const hCh = (h - bottom) / t.length; // Height per channel
-        const eventsToDraw = this.drawGrid(ctx, w, h, $0 - $zerox, $1 - $zerox, yFactor, d, EScopeMode.Interleaved);
+        const eventsToDraw = this.drawGrid(ctx, w, h, $0 - $zerox, $1 - $zerox, $zerox, yFactor, d, EScopeMode.Interleaved);
         const gridX = (w - left) / ($1 - $0 - 1);
         const step = Math.max(1, Math.round(1 / gridX)); // horizontal draw step for optimization
         ctx.lineWidth = 2;
@@ -192,7 +194,7 @@ export class StaticScope {
             }
             ctx.stroke();
         }
-        eventsToDraw.forEach(params => this.drawEvent(...params));
+        eventsToDraw.forEach(params => this.drawEvent(ctx, w, h, ...params));
         if (cursor && cursor.x > left && cursor.y < h - bottom) {
             const statsToDraw: TStatsToDraw = { values: [] };
             const $cursor = Math.round($0 + (cursor.x - left) / gridX);
@@ -213,22 +215,24 @@ export class StaticScope {
         const { $, t, freqEstimated, sampleRate, drawMode } = d;
         if (!t || !t.length || !t[0].length) return;
         const l = t[0].length;
-        // Fastest way to get highest abs value in buffer
-        let yFactor = 1;
+        // Fastest way to get min and max to have: 1. max abs value for y scaling, 2. mean value for zero-crossing
+        let min = t[0][0];
+        let max = t[0][0];
         let i = t.length;
         while (i--) {
             let j = l;
             while (j--) {
-                const abs = Math.abs(t[i][j]);
-                if (abs > yFactor) yFactor = abs;
+                const s = t[i][j];
+                if (s < min) min = s;
+                else if (s > max) max = s;
             }
         }
-        yFactor *= vzoom;
+        const yFactor = Math.max(1, Math.abs(min), Math.abs(max)) * vzoom;
         let $0 = 0; // Draw start
         let $1 = l - 1; // Draw End
         let $zerox = 0;
         if (drawMode === "continuous") { // Stablize
-            const thresh = 0.001;
+            const thresh = (min + max) * 0.5 + 0.001; // the zero-crossing with "offset"
             const period = sampleRate / freqEstimated;
             const times = Math.floor(l / period) - 1;
             while (t[0][wrap($zerox++, $, l)] > thresh && $zerox < l); // Find first raise
@@ -249,7 +253,7 @@ export class StaticScope {
         }
         const left = 50;
         const bottom = 20;
-        const eventsToDraw = this.drawGrid(ctx, w, h, $0 - $zerox, $1 - $zerox, yFactor, d, EScopeMode.Oscilloscope);
+        const eventsToDraw = this.drawGrid(ctx, w, h, $0 - $zerox, $1 - $zerox, $zerox, yFactor, d, EScopeMode.Oscilloscope);
         const gridX = (w - left) / ($1 - $0 - 1);
         const step = Math.max(1, Math.round(1 / gridX));
         ctx.lineWidth = 2;
@@ -284,7 +288,7 @@ export class StaticScope {
             }
             ctx.stroke();
         }
-        eventsToDraw.forEach(params => this.drawEvent(...params));
+        eventsToDraw.forEach(params => this.drawEvent(ctx, w, h, ...params));
         if (cursor && cursor.x > left && cursor.y < h - bottom) {
             const statsToDraw: TStatsToDraw = { values: [] };
             const $cursor = Math.round($0 + (cursor.x - left) / gridX);
@@ -313,7 +317,7 @@ export class StaticScope {
         const left = 50;
         const bottom = 20;
         const hCh = (h - bottom) / f.length;
-        const eventsToDraw = this.drawGrid(ctx, w, h, $0, $1, 1, d, EScopeMode.Spectroscope);
+        const eventsToDraw = this.drawGrid(ctx, w, h, $0, $1, 0, 1, d, EScopeMode.Spectroscope);
         const gridX = (w - left) / ($1 - $0 - 1);
         const step = Math.max(1, Math.round(1 / gridX));
         for (let i = 0; i < f.length; i++) {
@@ -339,7 +343,7 @@ export class StaticScope {
             ctx.closePath();
             ctx.fill();
         }
-        eventsToDraw.forEach(params => this.drawEvent(...params));
+        eventsToDraw.forEach(params => this.drawEvent(ctx, w, h, ...params));
         if (cursor && cursor.x > left && cursor.y < h - bottom) {
             const statsToDraw: TStatsToDraw = { values: [] };
             const $cursor = $0 + Math.round((cursor.x - left) / gridX);
@@ -367,7 +371,7 @@ export class StaticScope {
         const $1fft = Math.ceil(l / zoom + l * zoomOffset);
         const $0 = $0fft * fftBins;
         const $1 = $1fft * fftBins;
-        const eventsToDraw = this.drawGrid(ctx, w, h, $0, $1, 1, d, EScopeMode.Spectrogram);
+        const eventsToDraw = this.drawGrid(ctx, w, h, $0, $1, 0, 1, d, EScopeMode.Spectrogram);
         ctx.save();
         ctx.globalCompositeOperation = "lighter";
         ctx.imageSmoothingEnabled = false;
@@ -383,7 +387,7 @@ export class StaticScope {
             ctx.drawImage(tempCtx.canvas, $0src, 0, $1src - $0src, tempCtx.canvas.height, left, 0, w - left, h - bottom);
         }
         ctx.restore();
-        eventsToDraw.forEach(params => this.drawEvent(...params));
+        eventsToDraw.forEach(params => this.drawEvent(ctx, w, h, ...params));
         if (cursor && cursor.x > left && cursor.y < h - bottom) {
             const statsToDraw: TStatsToDraw = { values: [] };
             const gridX = (w - left) / ($1fft - $0fft);
@@ -452,7 +456,7 @@ export class StaticScope {
         ctx.fillRect(0, 0, w, h);
         ctx.restore();
     }
-    static drawGrid(ctx: CanvasRenderingContext2D, w: number, h: number, $0: number, $1: number, yFactor: number, d: TDrawOptions, mode: EScopeMode) {
+    static drawGrid(ctx: CanvasRenderingContext2D, w: number, h: number, $0: number, $1: number, $zerox: number, yFactor: number, d: TDrawOptions, mode: EScopeMode) {
         ctx.save();
         ctx.setLineDash([]);
         ctx.lineWidth = 1;
@@ -461,13 +465,13 @@ export class StaticScope {
         const fftBins = fftSize / 2;
         const channels = mode === EScopeMode.Oscilloscope ? 1 : t.length;
         const unit = mode === EScopeMode.Spectrogram ? "Hz/frame" : mode === EScopeMode.Spectroscope ? "dB/Hz" : "lvl/samp";
-        const eventsToDraw: [CanvasRenderingContext2D, number, number, number, { type: string; data: any }[]][] = [];
+        const eventsToDraw: [number, { type: string; data: any }[]][] = [];
         let $0buffer = $0 / bufferSize / (inFreqDomain ? fftOverlap / 2 : 1);
         let $1buffer = $1 / bufferSize / (inFreqDomain ? fftOverlap / 2 : 1);
         const hStep = 2 ** Math.ceil(Math.log2($1buffer - $0buffer)) / 8;
         $0buffer -= $0buffer % hStep;
         $1buffer -= $0buffer % hStep;
-        let $buffer = d.$buffer || 0;
+        let $buffer = (d.$buffer || 0) + Math.round($zerox / bufferSize / (inFreqDomain ? fftOverlap / 2 : 1));
         if (inFreqDomain) $buffer -= $buffer % (fftBins / bufferSize / fftOverlap / 2);
         const left = 50;
         const bottom = 20;
@@ -505,11 +509,12 @@ export class StaticScope {
             }
         }
         if (e) {
+            ctx.strokeStyle = eventStrokeStyle;
             for (let j = Math.ceil($0buffer); j < $1buffer; j++) {
                 if (e[$buffer + j] && e[$buffer + j].length) {
                     const x = (j * bufferSize * (inFreqDomain ? fftOverlap / 2 : 1) - $0) / ($1 - $0 - 1) * (w - left) + left;
-                    ctx.strokeStyle = eventStrokeStyle;
-                    eventsToDraw.push([ctx, w, h, x, e[$buffer + j]]);
+                    if (x < left) continue;
+                    eventsToDraw.push([x, e[$buffer + j]]);
                     ctx.beginPath();
                     ctx.moveTo(x, 0);
                     ctx.lineTo(x, h - bottom);
@@ -828,28 +833,30 @@ export class StaticScope {
         this.canvas.addEventListener("mouseleave", this.handleMouseLeave);
         this.canvas.addEventListener("touchend", this.handleMouseLeave);
     }
+    drawCallback = () => {
+        this.raf = undefined;
+        if (!this.data || !this.data.t || !this.data.t.length || !this.data.t[0].length) {
+            if (this.divDefault.style.display === "none") {
+                this.divDefault.style.display = "block";
+                return;
+            }
+        } else if (this.divDefault.style.display !== "none") this.divDefault.style.display = "none";
+        if (this.data && this.drawSpectrogram) this.lastSpect$ = StaticScope.drawOfflineSpectrogram(this.spectTempCtx, this.data, this.lastSpect$);
+        if (this.data.drawMode === "continuous" && this.canvas.offsetParent === null) return; // not visible
+        const w = this.container.clientWidth;
+        const h = this.container.clientHeight;
+        if (this.canvas.width !== w) this.canvas.width = w;
+        if (this.canvas.height !== h) this.canvas.height = h;
+        if (this.mode === EScopeMode.Data) StaticScope.fillDivData(this.divData, this.data);
+        else if (this.mode === EScopeMode.Interleaved) StaticScope.drawInterleaved(this.ctx, w, h, this.data, this.zoom, this.zoomOffset, this.vzoom, this.cursor);
+        else if (this.mode === EScopeMode.Oscilloscope) StaticScope.drawOscilloscope(this.ctx, w, h, this.data, this.zoom, this.zoomOffset, this.vzoom, this.cursor);
+        else if (this.mode === EScopeMode.Spectroscope) StaticScope.drawSpectroscope(this.ctx, w, h, this.data, this.zoom, this.zoomOffset, this.cursor);
+        else if (this.mode === EScopeMode.Spectrogram) StaticScope.drawSpectrogram(this.ctx, this.spectTempCtx, w, h, this.data, this.zoom, this.zoomOffset, this.cursor);
+    };
     draw = (data?: TDrawOptions) => {
         if (data) this.data = data;
-        if (this.raf) cancelAnimationFrame(this.raf);
-        this.raf = requestAnimationFrame(() => {
-            if (!this.data || !this.data.t || !this.data.t.length || !this.data.t[0].length) {
-                if (this.divDefault.style.display === "none") {
-                    this.divDefault.style.display = "block";
-                    return;
-                }
-            } else if (this.divDefault.style.display !== "none") this.divDefault.style.display = "none";
-            if (data && this.drawSpectrogram) this.lastSpect$ = StaticScope.drawOfflineSpectrogram(this.spectTempCtx, this.data, this.lastSpect$);
-            if (this.data.drawMode === "continuous" && this.canvas.offsetParent === null) return; // not visible
-            const w = this.container.clientWidth;
-            const h = this.container.clientHeight;
-            if (this.canvas.width !== w) this.canvas.width = w;
-            if (this.canvas.height !== h) this.canvas.height = h;
-            if (this.mode === EScopeMode.Data) StaticScope.fillDivData(this.divData, this.data);
-            else if (this.mode === EScopeMode.Interleaved) StaticScope.drawInterleaved(this.ctx, w, h, this.data, this.zoom, this.zoomOffset, this.vzoom, this.cursor);
-            else if (this.mode === EScopeMode.Oscilloscope) StaticScope.drawOscilloscope(this.ctx, w, h, this.data, this.zoom, this.zoomOffset, this.vzoom, this.cursor);
-            else if (this.mode === EScopeMode.Spectroscope) StaticScope.drawSpectroscope(this.ctx, w, h, this.data, this.zoom, this.zoomOffset, this.cursor);
-            else if (this.mode === EScopeMode.Spectrogram) StaticScope.drawSpectrogram(this.ctx, this.spectTempCtx, w, h, this.data, this.zoom, this.zoomOffset, this.cursor);
-        });
+        if (this.raf) return;
+        this.raf = requestAnimationFrame(this.drawCallback);
     }
     get zoomType() {
         return this.mode === EScopeMode.Spectroscope
