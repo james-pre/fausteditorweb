@@ -39,6 +39,12 @@ Install dev dependencies:
 npm install
 ```
 
+Possibly:
+
+```bash
+npm update
+```
+
 To build everything (using Webpack 4, Babel 7, TypeScript), this will produce `dist/index.js`
 ```bash
 npm run build
@@ -51,3 +57,8 @@ If you need to update the editor's version using `git pull`, as the repository h
 ### Useful links
 
 - [Faust Editor](https://fr0stbyter.github.io/fausteditorweb/dist)
+
+## Versioning 
+
+You'll have to raise the package version number in `package.json`, `webpack.config.js` and `src/index.ts` for `npm run update` to properly work.
+
