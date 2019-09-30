@@ -8,6 +8,10 @@
 // popup plot => too heavy drawing
 // bypass
 // shared buffer
+// PWA
+// link params with export
+// snippets
+// indexDB
 
 import * as monaco from "monaco-editor"; // eslint-disable-line import/no-unresolved
 import webmidi, { Input, WebMidiEventConnected, WebMidiEventDisconnected } from "webmidi";
@@ -37,6 +41,7 @@ declare global {
         webkitAudioContext: typeof AudioContext;
         AudioWorklet?: typeof AudioWorklet; // eslint-disable-line no-undef
         faustEnv: FaustEditorEnv;
+        faust: Faust;
     }
     interface HTMLMediaElement extends HTMLElement {
         setSinkId?(sinkId: string): Promise<undefined>;
@@ -83,29 +88,11 @@ type FaustEditorUIEnv = {
     analyser: Analyser;
     fileManager: FileManager;
 };
-type FaustEditorCompileOptions = {
-    mainFileIndex?: number;
-    useWorklet: boolean;
-    bufferSize: 128 | 256 | 512 | 1024 | 2048 | 4096;
-    saveCode: boolean;
-    saveParams: boolean;
-    saveDsp: boolean;
-    realtimeCompile: boolean;
-    popup: boolean;
-    voices: number;
-    plotMode: "offline" | "continuous" | "onevent" | "manual";
-    plot: number;
-    plotSR: number;
-    plotFFT: 256 | 1024 | 4096;
-    plotFFTOverlap: 1 | 2 | 4 | 8;
-    drawSpectrogram: boolean;
-    args: { [key: string]: any };
-};
 type FaustExportTargets = { [platform: string]: string[] };
 
 const supportAudioWorklet = !!window.AudioWorklet;
 let supportMediaStreamDestination = !!(window.AudioContext || window.webkitAudioContext).prototype.createMediaStreamDestination && !!HTMLAudioElement.prototype.setSinkId;
-const VERSION = "1.0.4";
+const VERSION = "1.0.8";
 
 $(async () => {
     /**
@@ -115,6 +102,7 @@ $(async () => {
     const { Faust } = await import("faust2webaudio");
     const faust = new Faust({ wasmLocation: "./libfaust-wasm.wasm", dataLocation: "./libfaust-wasm.data" });
     await faust.ready;
+    window.faust = faust;
     /**
      * To save dsp table to localStorage
      */
@@ -151,6 +139,11 @@ $(async () => {
             return {};
         }
     };
+    /**
+     * To load dsp params from localStorage
+     *
+     * @returns {{ [path: string]: number }}
+     */
     const loadDspParams = (): { [path: string]: number } => {
         const str = localStorage.getItem("faust_editor_dsp_params");
         if (!str) return {};
@@ -160,6 +153,9 @@ $(async () => {
             return {};
         }
     };
+    /**
+     * To save dsp params to localStorage
+     */
     const saveDspParams = () => {
         const str = JSON.stringify(dspParams);
         localStorage.setItem("faust_editor_dsp_params", str);
@@ -200,16 +196,16 @@ $(async () => {
      * Use import() for webpack code splitting, needs babel-dynamic-import
      */
     const editor = await initEditor();
-    editor.layout(); // Each time force editor to fill div
+    editor.layout(); // Force editor to fill div
     // Editor and Diagram
     let editorDecoration: string[] = []; // lines with error
     /**
-     * Generate diagram only
+     * Generate diagram and insert the svg into diagram container
      *
      * @param {string} code
      * @returns {{ success: boolean; error?: Error }}
      */
-    const getDiagram = (code: string): { success: boolean; error?: Error } => {
+    const updateDiagram = (code: string): { success: boolean; error?: Error } => {
         let strSvg: string; // Diagram SVG as string
         editorDecoration = editor.deltaDecorations(editorDecoration, []);
         try {
@@ -257,6 +253,7 @@ $(async () => {
         }
         const { useWorklet, bufferSize, voices, args } = compileOptions;
         let node: FaustScriptProcessorNode | FaustAudioWorkletNode;
+        // Recorder, show current recorded length without too many refreshes
         let mediaLengthRaf: number;
         let mediaLengthFrame = 0;
         const mediaLengthSpan = $<HTMLSpanElement>("#recorder-time")[0];
@@ -272,6 +269,7 @@ $(async () => {
             const ms = `00${d.getMilliseconds()}`.slice(-3);
             mediaLengthSpan.innerText = `${min}:${sec}.${ms}`;
         };
+        // Receives buffer from DSP, send it to analyzer for scopes, and recorder
         const plotHandler = (plotted: Float32Array[], index: number, events?: { type: string; data: any }[]) => {
             uiEnv.analyser.plotHandler(plotted, index, events);
             if (!faustEnv.recorder.enabled) return;
@@ -298,8 +296,8 @@ $(async () => {
          * Push get diagram to end of scheduler
          * generate diagram only when the tab is active
          */
-        if ($("#tab-diagram").hasClass("active")) setTimeout(getDiagram, 0, code);
-        $("#tab-diagram").off("show.bs.tab").one("show.bs.tab", () => getDiagram(code));
+        if ($("#tab-diagram").hasClass("active")) setTimeout(updateDiagram, 0, code);
+        $("#tab-diagram").off("show.bs.tab").one("show.bs.tab", () => updateDiagram(code));
         if (audioEnv.dsp) { // Disconnect current
             const dsp = audioEnv.dsp;
             if (audioEnv.dspConnectedToInput) {
@@ -389,7 +387,7 @@ $(async () => {
              */
             if (!compileOptions.popup || (uiEnv.uiPopup && !uiEnv.uiPopup.closed)) callback();
             else {
-                uiEnv.uiPopup = window.open(`faust-ui.html?v=${VERSION}`, "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
+                uiEnv.uiPopup = window.open("faust-ui.html", "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
                 uiEnv.uiPopup.onload = callback;
             }
         };
@@ -399,6 +397,7 @@ $(async () => {
         $("#nav-item-faust-ui").show(); // Show DSP UI tab
         $("#iframe-faust-ui").css("visibility", "visible"); // Show iframe
         $("#output-analyser-ui").show(); // Show dsp info on right panel
+        if (uiEnv.outputScope) uiEnv.outputScope.disabled = false;
         refreshDspUI(node); // update dsp info
         saveEditorDspTable(); // Save the new DSP table to localStorage
         $("#gui-builder-default").hide(); // Hide "No DSP yet" info
@@ -447,7 +446,7 @@ $(async () => {
                 showError(e);
             }
             clearTimeout(rtCompileTimer);
-            if (compileOptions.realtimeCompile) rtCompileTimer = setTimeout(audioEnv.dsp ? runDsp : getDiagram, 1000, mainCode);
+            if (compileOptions.realtimeCompile) rtCompileTimer = setTimeout(audioEnv.dsp ? runDsp : updateDiagram, 1000, mainCode);
         },
         deleteHandler: (fileName) => {
             let project: { [name: string]: string };
@@ -463,7 +462,7 @@ $(async () => {
             compileOptions.mainFileIndex = index;
             saveEditorParams();
             clearTimeout(rtCompileTimer);
-            if (compileOptions.realtimeCompile) rtCompileTimer = setTimeout(audioEnv.dsp ? runDsp : getDiagram, 100, mainCode);
+            if (compileOptions.realtimeCompile) rtCompileTimer = setTimeout(audioEnv.dsp ? runDsp : updateDiagram, 100, mainCode);
         }
     });
     if (compileOptions.saveDsp) loadEditorDspTable();
@@ -529,7 +528,7 @@ $(async () => {
         if (compileOptions.realtimeCompile) {
             const code = uiEnv.fileManager.mainCode;
             if (audioEnv.dsp) runDsp(code);
-            else getDiagram(code);
+            else updateDiagram(code);
         }
     });
     // Save Params
@@ -638,8 +637,10 @@ $(async () => {
             const codeURL = urlParams.get("code");
             const name = codeURL.split("/").slice(-1)[0].split(".").slice(0, -1).join(".").replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
             uiEnv.fileManager.renameSelected(`${name}.dsp`);
-            const response = await fetch(codeURL);
-            code = await response.text();
+            try {
+                const response = await fetch(codeURL);
+                code = await response.text();
+            } catch (e) {} // eslint-disable-line no-empty
         }
         if (urlParams.has("code_string")) {
             code = urlParams.get("code_string");
@@ -670,12 +671,12 @@ $(async () => {
         const file = e.currentTarget.files[0];
         const reader = new FileReader();
         reader.onload = () => {
-            const name = file.name.split(".").slice(0, -1).join(".").replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
+            const fileName = file.name.replace(/[^a-zA-Z0-9_.]/g, "") || "untitled.dsp";
             const code = reader.result.toString();
-            uiEnv.fileManager.newFile(`${name}.dsp`, code);
+            uiEnv.fileManager.newFile(fileName, code);
             if (compileOptions.realtimeCompile) {
                 if (audioEnv.dsp) runDsp(uiEnv.fileManager.mainCode);
-                else getDiagram(uiEnv.fileManager.mainCode);
+                else updateDiagram(uiEnv.fileManager.mainCode);
             }
         };
         reader.onerror = () => undefined;
@@ -779,7 +780,8 @@ $(async () => {
                         $("#export-error").html(textStatus + ": " + jqXHR.responseText).show();
                     });
                 });
-            });
+            })
+            .catch(() => undefined);
     };
     $<HTMLInputElement>("#export-server").val(server).on("change", e => getTargets(e.currentTarget.value)).change();
     // Share
@@ -909,16 +911,19 @@ $(async () => {
             wavesurfer.on("play", () => {
                 $("#btn-source-play .fa-play").removeClass("fa-play").addClass("fa-pause");
                 $("#input-analyser-ui").show();
+                if (uiEnv.inputScope) uiEnv.inputScope.disabled = false;
             });
             wavesurfer.on("pause", () => {
                 $("#btn-source-play .fa-pause").removeClass("fa-pause").addClass("fa-play");
                 $("#input-analyser-ui").hide();
+                if (uiEnv.inputScope) uiEnv.inputScope.disabled = true;
             });
             wavesurfer.on("finish", () => {
                 if ($("#btn-source-loop").hasClass("active")) wavesurfer.play();
                 else {
                     $("#btn-source-play .fa-pause").removeClass("fa-pause").addClass("fa-play");
                     $("#input-analyser-ui").hide();
+                    if (uiEnv.inputScope) uiEnv.inputScope.disabled = true;
                 }
             });
             wavesurfer.on("waveform-ready", () => {
@@ -930,10 +935,12 @@ $(async () => {
         if (id === "-1") {
             $("#source-ui").show();
             $("#input-analyser-ui").hide();
+            if (uiEnv.inputScope) uiEnv.inputScope.disabled = true;
             audioEnv.gainUIInput.channels = wavesurfer.backend.buffer ? wavesurfer.backend.buffer.numberOfChannels : 2;
         } else {
             $("#source-ui").hide();
             $("#input-analyser-ui").show();
+            if (uiEnv.inputScope) uiEnv.inputScope.disabled = false;
             audioEnv.gainUIInput.channels = 2;
         }
         // init audio environment
@@ -1174,13 +1181,13 @@ $(async () => {
             const reader = new FileReader();
             reader.onload = () => {
                 // Update filename
-                const name = file.name.split(".").slice(0, -1).join(".").replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
+                const fileName = file.name.replace(/[^a-zA-Z0-9_.]/g, "") || "untitled.dsp";
                 const code = reader.result.toString();
-                uiEnv.fileManager.newFile(`${name}.dsp`, code);
+                uiEnv.fileManager.newFile(fileName, code);
                 // compile diagram or dsp if necessary
                 if (compileOptions.realtimeCompile) {
                     if (audioEnv.dsp) runDsp(uiEnv.fileManager.mainCode);
-                    else getDiagram(uiEnv.fileManager.mainCode);
+                    else updateDiagram(uiEnv.fileManager.mainCode);
                 }
             };
             reader.onerror = () => undefined;
@@ -1208,6 +1215,10 @@ $(async () => {
                 } else {
                     const $item = $("<div>").addClass(["dropright", "submenu"]);
                     const $a = $("<a>").addClass(["dropdown-item", "dropdown-toggle", "submenu-toggle"]).attr("href", "#").text(treeIn.name);
+                    $a.on("click", (e) => {
+                        e.stopImmediatePropagation();
+                        e.preventDefault();
+                    });
                     const $submenu = $("<div>").addClass("dropdown-menu");
                     $item.append($a, $submenu);
                     treeIn.children.forEach(v => parseTree(v, $submenu));
@@ -1216,7 +1227,7 @@ $(async () => {
                 }
             };
             if (tree.children) tree.children.forEach(v => parseTree(v, $menu));
-        });
+        }).catch(() => undefined);
     // Load an example
     $("#tab-examples").on("click", ".faust-example", (e) => {
         e.preventDefault();
@@ -1224,14 +1235,14 @@ $(async () => {
         const path = $(e.currentTarget).data("path");
         const name = $(e.currentTarget).text();
         if (path) {
-            fetch("../" + path)
+            fetch(path)
                 .then(response => response.text())
                 .then((code) => {
-                    const fileName = name.split(".").slice(0, -1).join(".").replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
-                    uiEnv.fileManager.newFile(`${fileName}.dsp`, code);
+                    const fileName = name.replace(/[^a-zA-Z0-9_.]/g, "") || "untitled.dsp";
+                    uiEnv.fileManager.newFile(fileName, code);
                     if (compileOptions.realtimeCompile) {
                         if (audioEnv.dsp) runDsp(uiEnv.fileManager.mainCode);
-                        else getDiagram(uiEnv.fileManager.mainCode);
+                        else updateDiagram(uiEnv.fileManager.mainCode);
                     }
                 });
         }
@@ -1339,7 +1350,7 @@ $(async () => {
          */
         if (uiEnv.uiPopup && !uiEnv.uiPopup.closed) callback();
         else {
-            uiEnv.uiPopup = window.open(`faust-ui.html?v=${VERSION}`, "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
+            uiEnv.uiPopup = window.open("faust-ui.html", "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
             uiEnv.uiPopup.onload = callback;
         }
     });
@@ -1363,6 +1374,7 @@ $(async () => {
         $("#faust-ui-default").show();
         $("#iframe-faust-ui").css("visibility", "hidden");
         $("#output-analyser-ui").hide();
+        if (uiEnv.outputScope) uiEnv.outputScope.disabled = true;
         refreshDspUI();
     });
     let svgDragged = false;
@@ -1418,8 +1430,6 @@ $(async () => {
         const w = $svg.width();
         $svg.width(w * (1 - d * 0.25));
     });
-    // Analysers
-    $("#output-analyser-ui").hide();
     // Keys
     $(document).on("keydown", (e) => {
         if (e.ctrlKey) {
@@ -1514,7 +1524,10 @@ $(async () => {
     }).resize();
     // autorunning
     await initAudioCtx(audioEnv);
+    // Analysers
     initAnalysersUI(uiEnv, audioEnv);
+    $("#output-analyser-ui").hide();
+    uiEnv.outputScope.disabled = true;
     $<HTMLSelectElement>("#select-audio-input").change();
     await loadURLParams(window.location.search);
     $("#select-voices").children(`option[value=${compileOptions.voices}]`).prop("selected", true);
@@ -1526,7 +1539,7 @@ $(async () => {
     $("#input-plot-samps").change();
     $("#check-draw-spectrogram").change();
     $<HTMLInputElement>("#check-realtime-compile")[0].checked = compileOptions.realtimeCompile;
-    if (compileOptions.realtimeCompile && !audioEnv.dsp) setTimeout(getDiagram, 0, uiEnv.fileManager.mainCode);
+    if (compileOptions.realtimeCompile && !audioEnv.dsp) setTimeout(updateDiagram, 0, uiEnv.fileManager.mainCode);
     window.faustEnv = faustEnv;
 });
 /**

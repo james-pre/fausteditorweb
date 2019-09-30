@@ -96,80 +96,80 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Base.scss":
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Base.scss":
+/*!***************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Base.scss ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, ".faust-ui-component {\n  display: flex;\n  position: absolute;\n  flex-direction: column;\n  overflow: hidden; }\n  .faust-ui-component:focus {\n    outline: none; }\n  .faust-ui-component > .faust-ui-component-label {\n    position: relative;\n    margin-top: 4px;\n    width: 100%;\n    user-select: none; }\n    .faust-ui-component > .faust-ui-component-label > canvas {\n      position: relative;\n      display: block;\n      max-width: 100%;\n      max-height: 100%; }\n  .faust-ui-component input {\n    box-shadow: none; }\n", ""]);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Button.scss":
 /*!*****************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Base.scss ***!
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Button.scss ***!
   \*****************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".faust-ui-component {\n  display: flex;\n  position: absolute;\n  flex-direction: column;\n  overflow: hidden; }\n  .faust-ui-component:focus {\n    outline: none; }\n  .faust-ui-component > .faust-ui-component-label {\n    position: relative;\n    margin-top: 4px;\n    max-width: 100%;\n    user-select: none; }\n    .faust-ui-component > .faust-ui-component-label > canvas {\n      position: relative;\n      display: block;\n      width: 100%;\n      height: 100%; }\n  .faust-ui-component input {\n    box-shadow: none; }\n", ""]);
+exports.push([module.i, ".faust-ui-component.faust-ui-component-button > div {\n  display: flex;\n  position: relative;\n  cursor: pointer;\n  border-width: 1px;\n  text-align: center;\n  border-radius: 4px;\n  flex: 1 0 auto;\n  border-style: solid; }\n  .faust-ui-component.faust-ui-component-button > div > span {\n    user-select: none;\n    margin: auto; }\n", ""]);
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Button.scss":
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Checkbox.scss":
 /*!*******************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Button.scss ***!
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Checkbox.scss ***!
   \*******************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".faust-ui-component.faust-ui-component-button > div {\n  display: flex;\n  position: relative;\n  cursor: pointer;\n  border-width: 1px;\n  text-align: center;\n  border-radius: 4px;\n  flex: 1 0 auto;\n  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);\n  border-style: solid; }\n  .faust-ui-component.faust-ui-component-button > div > span {\n    user-select: none;\n    margin: auto; }\n", ""]);
+exports.push([module.i, ".faust-ui-component.faust-ui-component-checkbox > div {\n  display: flex;\n  position: relative;\n  cursor: pointer;\n  border-width: 1px;\n  text-align: center;\n  border-radius: 1px;\n  flex: 1 0 auto;\n  border-style: solid; }\n  .faust-ui-component.faust-ui-component-checkbox > div > span {\n    margin: auto;\n    user-select: none; }\n", ""]);
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Checkbox.scss":
-/*!*********************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Checkbox.scss ***!
-  \*********************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Group.scss":
+/*!****************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Group.scss ***!
+  \****************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".faust-ui-component.faust-ui-component-checkbox > div {\n  display: flex;\n  position: relative;\n  cursor: pointer;\n  border-width: 1px;\n  text-align: center;\n  border-radius: 1px;\n  flex: 1 0 auto;\n  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);\n  border-style: solid; }\n  .faust-ui-component.faust-ui-component-checkbox > div > span {\n    margin: auto;\n    user-select: none; }\n", ""]);
+exports.push([module.i, ".faust-ui-group {\n  position: absolute;\n  display: block;\n  background-color: rgba(80, 80, 80, 0.75);\n  border-radius: 4px;\n  border: 1px rgba(255, 255, 255, 0.25) solid; }\n  .faust-ui-group > .faust-ui-group-label {\n    position: relative;\n    margin: 4px;\n    width: calc(100% - 8px);\n    user-select: none; }\n    .faust-ui-group > .faust-ui-group-label > canvas {\n      position: relative;\n      display: block;\n      max-width: 100%;\n      max-height: 100%; }\n  .faust-ui-group .faust-ui-tgroup-tabs {\n    position: absolute;\n    display: inline-block; }\n    .faust-ui-group .faust-ui-tgroup-tabs .faust-ui-tgroup-tab {\n      position: relative;\n      display: inline-block;\n      border-radius: 5px;\n      cursor: pointer;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n      user-select: none;\n      margin: 10px;\n      text-align: center;\n      background-color: rgba(255, 255, 255, 0.5); }\n      .faust-ui-group .faust-ui-tgroup-tabs .faust-ui-tgroup-tab:hover {\n        background-color: white; }\n      .faust-ui-group .faust-ui-tgroup-tabs .faust-ui-tgroup-tab.active {\n        background-color: #282828;\n        color: white; }\n", ""]);
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Group.scss":
-/*!******************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Group.scss ***!
-  \******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
-// Module
-exports.push([module.i, ".faust-ui-group {\n  position: absolute;\n  display: block;\n  background-color: rgba(80, 80, 80, 0.75);\n  border-radius: 4px;\n  border: 1px rgba(255, 255, 255, 0.25) solid; }\n  .faust-ui-group .faust-ui-group-label {\n    position: relative;\n    font-weight: bold;\n    margin: 4px;\n    font-size: 12px;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    max-width: 100%;\n    overflow: hidden;\n    user-select: none;\n    color: rgba(255, 255, 255, 0.7); }\n  .faust-ui-group .faust-ui-tgroup-tabs {\n    position: absolute;\n    display: inline-block; }\n    .faust-ui-group .faust-ui-tgroup-tabs .faust-ui-tgroup-tab {\n      position: relative;\n      display: inline-block;\n      border-radius: 5px;\n      cursor: pointer;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n      user-select: none;\n      margin: 10px;\n      text-align: center;\n      background-color: rgba(255, 255, 255, 0.5); }\n      .faust-ui-group .faust-ui-tgroup-tabs .faust-ui-tgroup-tab:hover {\n        background-color: white; }\n      .faust-ui-group .faust-ui-tgroup-tabs .faust-ui-tgroup-tab.active {\n        background-color: #282828;\n        color: white; }\n", ""]);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/HBargraph.scss":
-/*!**********************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/HBargraph.scss ***!
-  \**********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
-// Module
-exports.push([module.i, ".faust-ui-component.faust-ui-component-hbargraph > .faust-ui-component-label {\n  flex: 0 0 auto; }\n\n.faust-ui-component.faust-ui-component-hbargraph > .faust-ui-component-hbargraph-flexdiv {\n  position: relative;\n  display: flex;\n  flex-direction: row-reverse;\n  flex: 1 1 auto;\n  width: 100%;\n  height: inherit; }\n  .faust-ui-component.faust-ui-component-hbargraph > .faust-ui-component-hbargraph-flexdiv > .faust-ui-component-hbargraph-canvasdiv {\n    position: relative;\n    display: block;\n    flex: 1 1 auto;\n    height: 100%;\n    margin: auto; }\n    .faust-ui-component.faust-ui-component-hbargraph > .faust-ui-component-hbargraph-flexdiv > .faust-ui-component-hbargraph-canvasdiv > canvas {\n      position: absolute;\n      display: block;\n      height: 100%;\n      width: 100%; }\n  .faust-ui-component.faust-ui-component-hbargraph > .faust-ui-component-hbargraph-flexdiv > input {\n    position: relative;\n    display: block;\n    flex: 0 1 auto;\n    text-align: center;\n    background-color: rgba(255, 255, 255, 0.25);\n    margin: auto 5px auto auto;\n    border-width: 0px;\n    border-radius: 4px;\n    width: calc(20% - 13px);\n    padding: 2px 4px; }\n", ""]);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/HSlider.scss":
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/HBargraph.scss":
 /*!********************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/HSlider.scss ***!
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/HBargraph.scss ***!
   \********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, ".faust-ui-component.faust-ui-component-hbargraph > .faust-ui-component-label {\n  flex: 0 0 auto; }\n\n.faust-ui-component.faust-ui-component-hbargraph > .faust-ui-component-hbargraph-flexdiv {\n  position: relative;\n  display: flex;\n  flex-direction: row-reverse;\n  flex: 1 1 auto;\n  width: 100%;\n  height: auto; }\n  .faust-ui-component.faust-ui-component-hbargraph > .faust-ui-component-hbargraph-flexdiv > .faust-ui-component-hbargraph-canvasdiv {\n    position: relative;\n    display: block;\n    flex: 1 1 auto;\n    height: 100%;\n    margin: auto; }\n    .faust-ui-component.faust-ui-component-hbargraph > .faust-ui-component-hbargraph-flexdiv > .faust-ui-component-hbargraph-canvasdiv > canvas {\n      position: absolute;\n      display: block;\n      height: 100%;\n      width: 100%; }\n  .faust-ui-component.faust-ui-component-hbargraph > .faust-ui-component-hbargraph-flexdiv > input {\n    position: relative;\n    display: block;\n    flex: 0 1 auto;\n    text-align: center;\n    background-color: rgba(255, 255, 255, 0.25);\n    margin: auto 5px auto auto;\n    border-width: 0px;\n    border-radius: 4px;\n    width: calc(20% - 13px);\n    padding: 2px 4px; }\n", ""]);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/HSlider.scss":
+/*!******************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/HSlider.scss ***!
+  \******************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -180,24 +180,24 @@ exports.push([module.i, ".faust-ui-component.faust-ui-component-hslider > .faust
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Knob.scss":
-/*!*****************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Knob.scss ***!
-  \*****************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Knob.scss":
+/*!***************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Knob.scss ***!
+  \***************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".faust-ui-component.faust-ui-component-knob {\n  align-items: center; }\n  .faust-ui-component.faust-ui-component-knob canvas {\n    position: relative;\n    display: block;\n    flex: 1 1 auto;\n    min-height: 50%;\n    width: 100%; }\n  .faust-ui-component.faust-ui-component-knob input {\n    position: relative;\n    display: block;\n    flex: 0 1 auto;\n    text-align: center;\n    background-color: rgba(255, 255, 255, 0.25);\n    margin: 0px;\n    border-width: 0px;\n    border-radius: 4px;\n    max-width: calc(100% - 8px);\n    padding: 2px 4px;\n    -moz-appearance: textfield; }\n    .faust-ui-component.faust-ui-component-knob input::-webkit-inner-spin-button, .faust-ui-component.faust-ui-component-knob input::-webkit-outer-spin-button {\n      -webkit-appearance: none;\n      margin: 0; }\n", ""]);
+exports.push([module.i, ".faust-ui-component.faust-ui-component-knob {\n  align-items: center; }\n  .faust-ui-component.faust-ui-component-knob > canvas {\n    position: relative;\n    display: block;\n    flex: 1 1 auto;\n    min-height: 50%;\n    width: 100%; }\n  .faust-ui-component.faust-ui-component-knob > input {\n    position: relative;\n    display: block;\n    flex: 0 1 auto;\n    text-align: center;\n    background-color: rgba(255, 255, 255, 0.25);\n    margin: 0px;\n    border-width: 0px;\n    border-radius: 4px;\n    max-width: calc(100% - 8px);\n    padding: 2px 4px;\n    -moz-appearance: textfield; }\n    .faust-ui-component.faust-ui-component-knob > input::-webkit-inner-spin-button, .faust-ui-component.faust-ui-component-knob > input::-webkit-outer-spin-button {\n      -webkit-appearance: none;\n      margin: 0; }\n", ""]);
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Led.scss":
-/*!****************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Led.scss ***!
-  \****************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Led.scss":
+/*!**************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Led.scss ***!
+  \**************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -208,38 +208,38 @@ exports.push([module.i, ".faust-ui-component.faust-ui-component-led {\n  align-i
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Menu.scss":
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Menu.scss":
+/*!***************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Menu.scss ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, ".faust-ui-component.faust-ui-component-menu {\n  align-items: center; }\n  .faust-ui-component.faust-ui-component-menu > select {\n    margin: 0px;\n    text-align: center;\n    border-width: 1px;\n    border-radius: 4px;\n    padding: 2px 4px;\n    width: calc(100% - 8px); }\n", ""]);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Nentry.scss":
 /*!*****************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Menu.scss ***!
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Nentry.scss ***!
   \*****************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".faust-ui-component.faust-ui-component-menu {\n  align-items: center; }\n  .faust-ui-component.faust-ui-component-menu > select {\n    margin: 0px;\n    text-align: center;\n    border-width: 1px;\n    border-radius: 4px;\n    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);\n    padding: 2px 4px;\n    width: calc(100% - 8px); }\n", ""]);
+exports.push([module.i, ".faust-ui-component.faust-ui-component-nentry {\n  align-items: center; }\n  .faust-ui-component.faust-ui-component-nentry input {\n    margin: 0px;\n    text-align: center;\n    border-width: 1px;\n    border-radius: 4px;\n    padding: 2px 4px;\n    width: calc(100% - 8px); }\n    .faust-ui-component.faust-ui-component-nentry input::-webkit-inner-spin-button, .faust-ui-component.faust-ui-component-nentry input::-webkit-outer-spin-button {\n      opacity: 1; }\n", ""]);
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Nentry.scss":
-/*!*******************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Nentry.scss ***!
-  \*******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
-// Module
-exports.push([module.i, ".faust-ui-component.faust-ui-component-nentry {\n  align-items: center; }\n  .faust-ui-component.faust-ui-component-nentry input {\n    margin: 0px;\n    text-align: center;\n    border-width: 1px;\n    border-radius: 4px;\n    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);\n    padding: 2px 4px;\n    width: calc(100% - 8px); }\n    .faust-ui-component.faust-ui-component-nentry input::-webkit-inner-spin-button, .faust-ui-component.faust-ui-component-nentry input::-webkit-outer-spin-button {\n      opacity: 1; }\n", ""]);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Numerical.scss":
-/*!**********************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Numerical.scss ***!
-  \**********************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Numerical.scss":
+/*!********************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Numerical.scss ***!
+  \********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -250,24 +250,24 @@ exports.push([module.i, ".faust-ui-component.faust-ui-component-numerical {\n  a
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Radio.scss":
-/*!******************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Radio.scss ***!
-  \******************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Radio.scss":
+/*!****************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Radio.scss ***!
+  \****************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".faust-ui-component.faust-ui-component-radio {\n  align-items: center; }\n  .faust-ui-component.faust-ui-component-radio > .faust-ui-component-label {\n    flex: 0 0 auto;\n    margin-top: auto; }\n  .faust-ui-component.faust-ui-component-radio > .faust-ui-component-radio-group {\n    flex: 0 0 auto;\n    margin-bottom: auto;\n    border-width: 1px;\n    border-radius: 4px;\n    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);\n    padding: 2px 4px;\n    width: calc(100% - 8px); }\n    .faust-ui-component.faust-ui-component-radio > .faust-ui-component-radio-group > div {\n      text-overflow: ellipsis;\n      white-space: nowrap;\n      overflow: hidden; }\n", ""]);
+exports.push([module.i, ".faust-ui-component.faust-ui-component-radio {\n  align-items: center; }\n  .faust-ui-component.faust-ui-component-radio > .faust-ui-component-label {\n    flex: 0 0 auto;\n    margin-top: auto; }\n  .faust-ui-component.faust-ui-component-radio > .faust-ui-component-radio-group {\n    flex: 0 0 auto;\n    margin-bottom: auto;\n    border-width: 1px;\n    border-radius: 4px;\n    padding: 2px 4px;\n    width: calc(100% - 8px); }\n    .faust-ui-component.faust-ui-component-radio > .faust-ui-component-radio-group > div {\n      text-overflow: ellipsis;\n      white-space: nowrap;\n      overflow: hidden; }\n", ""]);
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/VBargraph.scss":
-/*!**********************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/VBargraph.scss ***!
-  \**********************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/VBargraph.scss":
+/*!********************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/VBargraph.scss ***!
+  \********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -278,10 +278,10 @@ exports.push([module.i, ".faust-ui-component.faust-ui-component-vbargraph {\n  a
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/VSlider.scss":
-/*!********************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/VSlider.scss ***!
-  \********************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/VSlider.scss":
+/*!******************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/VSlider.scss ***!
+  \******************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -292,10 +292,10 @@ exports.push([module.i, ".faust-ui-component.faust-ui-component-vslider {\n  ali
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/index.scss":
-/*!*******************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/index.scss ***!
-  \*******************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/index.scss":
+/*!*****************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/index.scss ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1669,11 +1669,11 @@ class AbstractComponent extends events__WEBPACK_IMPORTED_MODULE_0__["EventEmitte
       this.$frame++;
 
       if (this.$frame % this.frameReduce !== 0) {
-        if (this.$raf) window.cancelAnimationFrame(this.$raf);
         this.$raf = window.requestAnimationFrame(this.raf);
         return;
       }
 
+      this.$raf = undefined;
       this.tasks.forEach(f => f());
       this.tasks = [];
     });
@@ -1718,7 +1718,7 @@ class AbstractComponent extends events__WEBPACK_IMPORTED_MODULE_0__["EventEmitte
 
   schedule(func) {
     if (this.tasks.indexOf(func) === -1) this.tasks.push(func);
-    if (this.$raf) window.cancelAnimationFrame(this.$raf);
+    if (this.$raf) return;
     this.$raf = window.requestAnimationFrame(this.raf);
   }
 
@@ -1777,6 +1777,13 @@ class AbstractItem extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_1__["Abst
    *
    * @static
    * @type {FaustUIItemProps<FaustUIItemStyle>}
+   * @memberof AbstractItem
+   */
+
+  /**
+   * DOM Div container of the component
+   *
+   * @type {HTMLDivElement}
    * @memberof AbstractItem
    */
 
@@ -1978,7 +1985,7 @@ class AbstractItem extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_1__["Abst
     if (typeof min !== "number" || typeof max !== "number") return value;
     var v = Math.min(max, Math.max(min, value));
     if (!step) return v;
-    return min + Math.round((v - min) / step) * step;
+    return min + Math.floor((v - min) / step) * step;
   }
   /**
    * Use this method if you want the emitter to send value to DSP
@@ -2076,7 +2083,7 @@ class AbstractItem extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_1__["Abst
     return this;
   }
 
-  paintLabel() {
+  paintLabel(align) {
     var label = this.state.label;
     var color = this.state.style.labelcolor;
     var ctx = this.labelCtx;
@@ -2094,8 +2101,9 @@ class AbstractItem extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_1__["Abst
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = color;
     ctx.textBaseline = "middle";
+    ctx.textAlign = align || "center";
     ctx.font = "bold ".concat(height * 0.9, "px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"");
-    ctx.fillText(label, 0, height / 2, width);
+    ctx.fillText(label, align === "left" ? 0 : align === "right" ? width : width / 2, height / 2, width);
     return this;
   }
   /**
@@ -2184,7 +2192,7 @@ class AbstractItem extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_1__["Abst
         value = state.value,
         enums = state.enums,
         scale = state.scale;
-    var normalized = type === "enum" ? value / enums.length : (value - min) / (max - min);
+    var normalized = type === "enum" ? value / (enums.length - 1) : (value - min) / (max - min);
     return scale === "exp" ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["normLog"])(normalized) : scale === "log" ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["normExp"])(normalized) : normalized;
   }
   /**
@@ -2223,13 +2231,6 @@ _defineProperty(AbstractItem, "defaultProps", {
     top: 0,
     labelcolor: "rgba(226, 222, 255, 0.5)"
   }
-  /**
-   * DOM Div container of the component
-   *
-   * @type {HTMLDivElement}
-   * @memberof AbstractItem
-   */
-
 });
 
 /***/ }),
@@ -2242,7 +2243,7 @@ _defineProperty(AbstractItem, "defaultProps", {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./Base.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Base.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Base.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Base.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -2272,7 +2273,7 @@ if(false) {}
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./Button.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Button.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Button.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Button.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -2414,7 +2415,7 @@ class Button extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] 
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./Checkbox.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Checkbox.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Checkbox.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Checkbox.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -2478,7 +2479,7 @@ class Checkbox extends _Button__WEBPACK_IMPORTED_MODULE_0__["Button"] {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./Group.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Group.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Group.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Group.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -2551,6 +2552,10 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
 
     _defineProperty(this, "label", void 0);
 
+    _defineProperty(this, "labelCanvas", void 0);
+
+    _defineProperty(this, "labelCtx", void 0);
+
     _defineProperty(this, "tabs", void 0);
 
     _defineProperty(this, "children", void 0);
@@ -2560,7 +2565,6 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
     _defineProperty(this, "updateUI", () => {
       this.children = [];
       var _this$state = this.state,
-          label = _this$state.label,
           style = _this$state.style,
           type = _this$state.type,
           items = _this$state.items,
@@ -2571,9 +2575,7 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
           top = style.top,
           width = style.width,
           height = style.height;
-      this.label.innerText = label;
-      this.label.title = label;
-      this.label.style.fontSize = "".concat(0.25 * grid, "px");
+      this.label.style.height = "".concat(grid * 0.3, "px");
       this.container.style.left = "".concat(left * grid, "px");
       this.container.style.top = "".concat(top * grid, "px");
       this.container.style.width = "".concat(width * grid, "px");
@@ -2642,10 +2644,12 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
       var matched = metaObject.style.match(enumsRegex);
 
       if (matched) {
+        var itemsRegex = /(?:(?:'|_)(.+?)(?:'|_):([-+]?[0-9]*\.?[0-9]+?))/g;
         var enums = {};
+        var item;
 
-        for (var i = 1; i < matched.length; i += 2) {
-          enums[matched[i]] = +matched[i + 1];
+        while (item = itemsRegex.exec(matched[0])) {
+          enums[item[1]] = +item[2];
         }
 
         return {
@@ -2678,7 +2682,8 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
           width: _layout.width,
           height: _layout.height,
           left: _layout.offsetLeft,
-          top: _layout.offsetTop
+          top: _layout.offsetTop,
+          labelcolor: "rgba(255, 255, 255, 0.7)"
         },
         emitter
       };
@@ -2715,8 +2720,8 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
         top: layout.offsetTop
       },
       type: "float",
-      min: isFinite(+min) ? +min : Number.MIN_VALUE,
-      max: isFinite(+max) ? +max : Number.MAX_VALUE,
+      min: isFinite(min) ? min : 0,
+      max: isFinite(max) ? max : 1,
       step: "step" in item ? +item.step : 1,
       value: "init" in item ? +item.init || 0 : 0
     };
@@ -2773,12 +2778,39 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
     this.tabs.className = "faust-ui-tgroup-tabs";
     this.label = document.createElement("div");
     this.label.className = "faust-ui-group-label";
+    this.labelCanvas = document.createElement("canvas");
+    this.labelCtx = this.labelCanvas.getContext("2d");
     this.updateUI();
     this.children.forEach(item => item.componentWillMount());
     return this;
   }
 
+  paintLabel() {
+    var label = this.state.label;
+    var color = this.state.style.labelcolor;
+    var ctx = this.labelCtx;
+    var canvas = this.labelCanvas;
+
+    var _this$label$getBoundi = this.label.getBoundingClientRect(),
+        width = _this$label$getBoundi.width,
+        height = _this$label$getBoundi.height;
+
+    if (!width || !height) return this;
+    width = Math.floor(width);
+    height = Math.floor(height);
+    canvas.height = height;
+    canvas.width = width;
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = color;
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "left";
+    ctx.font = "bold ".concat(height * 0.9, "px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"");
+    ctx.fillText(label, 0, height / 2, width);
+    return this;
+  }
+
   mount() {
+    this.label.appendChild(this.labelCanvas);
     this.container.appendChild(this.label);
     if (this.tabs.children.length) this.container.appendChild(this.tabs);
     this.children.forEach(item => {
@@ -2796,7 +2828,7 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
           top = _this$state$style.top,
           width = _this$state$style.width,
           height = _this$state$style.height;
-      this.label.style.fontSize = "".concat(0.25 * grid, "px");
+      this.label.style.height = "".concat(grid * 0.3, "px");
       this.container.style.width = "".concat(width * grid, "px");
       this.container.style.height = "".concat(height * grid, "px");
       this.container.style.left = "".concat(left * grid, "px");
@@ -2815,6 +2847,7 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
         }
       }
 
+      this.paintLabel();
       this.children.forEach(item => item.setState({
         style: {
           grid
@@ -2832,11 +2865,12 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
     this.on("items", () => this.schedule(itemsChange));
 
     var labelChange = () => {
-      this.label.innerText = this.state.label;
+      this.paintLabel();
       this.label.title = this.state.label;
     };
 
     this.on("label", () => this.schedule(labelChange));
+    this.paintLabel();
     if (this.tabs && this.tabs.children.length) this.tabs.children[0].click();
     this.children.forEach(item => item.componentDidMount());
     return this;
@@ -2854,7 +2888,7 @@ class Group extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["AbstractCom
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./HBargraph.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/HBargraph.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./HBargraph.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/HBargraph.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3001,6 +3035,10 @@ class HBargraph extends _VBargraph__WEBPACK_IMPORTED_MODULE_1__["VBargraph"] {
     });
   }
 
+  paintLabel() {
+    return super.paintLabel("left");
+  }
+
 }
 
 /***/ }),
@@ -3013,7 +3051,7 @@ class HBargraph extends _VBargraph__WEBPACK_IMPORTED_MODULE_1__["VBargraph"] {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./HSlider.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/HSlider.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./HSlider.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/HSlider.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3109,6 +3147,10 @@ class HSlider extends _VSlider__WEBPACK_IMPORTED_MODULE_2__["VSlider"] {
     });
   }
 
+  paintLabel() {
+    return super.paintLabel("left");
+  }
+
 }
 
 /***/ }),
@@ -3121,7 +3163,7 @@ class HSlider extends _VSlider__WEBPACK_IMPORTED_MODULE_2__["VSlider"] {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./Knob.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Knob.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Knob.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Knob.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3215,10 +3257,12 @@ class Knob extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
       var canvas = this.canvas;
       var distance = this.distance;
 
-      var _canvas$getBoundingCl = canvas.getBoundingClientRect(),
-          width = _canvas$getBoundingCl.width,
-          height = _canvas$getBoundingCl.height;
+      var _this$canvas$getBound = this.canvas.getBoundingClientRect(),
+          width = _this$canvas$getBound.width,
+          height = _this$canvas$getBound.height;
 
+      width = Math.floor(width);
+      height = Math.floor(height);
       canvas.width = width;
       canvas.height = height;
       var start = 5 / 8 * Math.PI;
@@ -3363,9 +3407,9 @@ class Knob extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
         max = _this$state.max,
         enums = _this$state.enums,
         scale = _this$state.scale;
+    var step = type === "enum" ? 1 : this.state.step || 1;
     var stepRange = this.stepRange;
     var stepsCount = this.stepsCount;
-    var step = type === "enum" ? 1 : (max - min) / stepsCount;
     var range = 100;
     var prevDistance = _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"].getDistance({
       value: e.prevValue,
@@ -3395,7 +3439,7 @@ class Knob extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./Led.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Led.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Led.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Led.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3579,7 +3623,7 @@ class Led extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./Menu.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Menu.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Menu.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Menu.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3705,6 +3749,7 @@ class Menu extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
     };
 
     this.on("value", () => this.schedule(valueChange));
+    valueChange();
     return this;
   }
 
@@ -3726,7 +3771,7 @@ class Menu extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./Nentry.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Nentry.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Nentry.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Nentry.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3865,7 +3910,7 @@ class Nentry extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] 
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./Numerical.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Numerical.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Numerical.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Numerical.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3984,7 +4029,7 @@ class Numerical extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./Radio.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/Radio.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Radio.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/Radio.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -4054,7 +4099,9 @@ class Radio extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
           input.name = address;
           input.type = "radio";
           if (i === 0) input.checked = true;
-          input.addEventListener("change", () => _this.setValue(enums[key]));
+          input.addEventListener("change", () => {
+            if (input.checked) _this.setValue(enums[key]);
+          });
           div.appendChild(input);
           div.append(key);
 
@@ -4067,10 +4114,6 @@ class Radio extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
           _loop(key);
         }
       }
-    });
-
-    _defineProperty(this, "handleChange", e => {
-      this.setValue(+e.currentTarget.value);
     });
 
     _defineProperty(this, "setStyle", () => {
@@ -4128,6 +4171,7 @@ class Radio extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
     };
 
     this.on("value", () => this.schedule(valueChange));
+    valueChange();
     return this;
   }
 
@@ -4149,7 +4193,7 @@ class Radio extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./VBargraph.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/VBargraph.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./VBargraph.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/VBargraph.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -4404,7 +4448,7 @@ class VBargraph extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/lib/loader.js!./VSlider.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/components/VSlider.scss");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./VSlider.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/VSlider.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -4669,11 +4713,10 @@ class VSlider extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"]
     var _this$state2 = this.state,
         type = _this$state2.type,
         min = _this$state2.min,
-        max = _this$state2.max,
         scale = _this$state2.scale;
+    var step = type === "enum" ? 1 : this.state.step || 1;
     var stepRange = this.stepRange;
     var stepsCount = this.stepsCount;
-    var step = type === "enum" ? 1 : (max - min) / stepsCount;
     var distance = this.className === "vslider" ? this.interactionRect[3] - (e.y - this.interactionRect[1]) : e.x - this.interactionRect[0];
     var range = this.className === "vslider" ? this.interactionRect[3] : this.interactionRect[2];
     var steps = Math.round((scale === "exp" ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["normExp"])(distance / range) : scale === "log" ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["normLog"])(distance / range) : distance / range) * range / stepRange);
@@ -4753,7 +4796,7 @@ var fillRoundedRect = (ctx, x, y, width, height, radius) => {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/lib/loader.js!./index.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./src/index.scss");
+var content = __webpack_require__(/*! !../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./index.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/index.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -4848,41 +4891,6 @@ class AbstractGroup {
     };
   }
   /**
-   * Adjust group width and height by its items' dimensions
-   *
-   * @returns {this}
-   * @memberof AbstractGroup
-   */
-
-
-  adjust() {
-    return this;
-  }
-  /**
-   * Expand flexible items within a group
-   *
-   * @param {number} dX - Extra horizontal spaces that this group could take
-   * @param {number} dY - Extra vertical spaces that this group could take
-   * @returns {this}
-   * @memberof AbstractGroup
-   */
-
-
-  expand(dX, dY) {
-    return this;
-  }
-  /**
-   * calculate all the items' absolute coordination (in grids)
-   *
-   * @returns {this}
-   * @memberof AbstractGroup
-   */
-
-
-  offset() {
-    return this;
-  }
-  /**
    * find recursively if the group has horizontal-sizable item
    *
    * @readonly
@@ -4927,17 +4935,26 @@ _defineProperty(AbstractGroup, "spaceBetween", 0.1);
 /*!*****************************************!*\
   !*** ./src/layout/AbstractInputItem.ts ***!
   \*****************************************/
-/*! exports provided: AbstractOutputItem */
+/*! exports provided: AbstractInputItem */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AbstractOutputItem", function() { return AbstractOutputItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AbstractInputItem", function() { return AbstractInputItem; });
 /* harmony import */ var _AbstractItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractItem */ "./src/layout/AbstractItem.ts");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class AbstractOutputItem extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
+
+class AbstractInputItem extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
   constructor(item) {
     super(item);
+
+    _defineProperty(this, "init", void 0);
+
+    _defineProperty(this, "step", void 0);
+
+    this.init = +item.init || 0;
+    this.step = +item.step || 1;
   }
 
 }
@@ -4981,6 +4998,18 @@ class AbstractItem {
     this.max = isFinite(+this.max) ? +this.max : 1;
   }
 
+  adjust() {
+    return this;
+  }
+
+  expand(dX, dY) {
+    return this;
+  }
+
+  offset() {
+    return this;
+  }
+
 }
 
 /***/ }),
@@ -4989,26 +5018,17 @@ class AbstractItem {
 /*!******************************************!*\
   !*** ./src/layout/AbstractOutputItem.ts ***!
   \******************************************/
-/*! exports provided: AbstractInputItem */
+/*! exports provided: AbstractOutputItem */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AbstractInputItem", function() { return AbstractInputItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AbstractOutputItem", function() { return AbstractOutputItem; });
 /* harmony import */ var _AbstractItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractItem */ "./src/layout/AbstractItem.ts");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-
-class AbstractInputItem extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
+class AbstractOutputItem extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["AbstractItem"] {
   constructor(item) {
     super(item);
-
-    _defineProperty(this, "init", void 0);
-
-    _defineProperty(this, "step", void 0);
-
-    this.init = +item.init || 0;
-    this.step = +item.step || 1;
   }
 
 }
@@ -5025,11 +5045,11 @@ class AbstractInputItem extends _AbstractItem__WEBPACK_IMPORTED_MODULE_0__["Abst
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Button", function() { return Button; });
-/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
+/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class Button extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
+class Button extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5055,11 +5075,11 @@ class Button extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractI
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Checkbox", function() { return Checkbox; });
-/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
+/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class Checkbox extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
+class Checkbox extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5085,11 +5105,11 @@ class Checkbox extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["Abstrac
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HBargraph", function() { return HBargraph; });
-/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
+/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class HBargraph extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractOutputItem"] {
+class HBargraph extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractOutputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5120,7 +5140,7 @@ __webpack_require__.r(__webpack_exports__);
 class HGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"] {
   adjust() {
     this.items.forEach(item => {
-      if (item instanceof _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"]) item.adjust();
+      item.adjust();
       this.layout.width += item.layout.width;
       this.layout.height = Math.max(this.layout.height, item.layout.height + 2 * _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].padding + _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].labelHeight);
     });
@@ -5149,7 +5169,7 @@ class HGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"
         item.layout.height += dY$;
       }
 
-      if (item instanceof _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"]) item.expand(dX$, dY$);
+      item.expand(dX$, dY$);
     });
     return this;
   }
@@ -5168,7 +5188,7 @@ class HGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"
       item.layout.offsetTop += (height - labelHeight - item.layout.height) / 2 - padding;
       item.layout.left = (this.layout.left || 0) + item.layout.offsetLeft;
       item.layout.top = (this.layout.top || 0) + item.layout.offsetTop;
-      if (item instanceof _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"]) item.offset();
+      item.offset();
       $left += item.layout.width + spaceBetween;
     });
     return this;
@@ -5188,11 +5208,11 @@ class HGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HSlider", function() { return HSlider; });
-/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
+/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class HSlider extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
+class HSlider extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5218,11 +5238,11 @@ class HSlider extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["Abstract
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Knob", function() { return Knob; });
-/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
+/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class Knob extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
+class Knob extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5369,11 +5389,11 @@ class Layout {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Led", function() { return Led; });
-/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
+/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class Led extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractOutputItem"] {
+class Led extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractOutputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5399,11 +5419,11 @@ class Led extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractOutpu
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Menu", function() { return Menu; });
-/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
+/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class Menu extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
+class Menu extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5429,11 +5449,11 @@ class Menu extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInp
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Nentry", function() { return Nentry; });
-/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
+/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class Nentry extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
+class Nentry extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5459,11 +5479,11 @@ class Nentry extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractI
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Numerical", function() { return Numerical; });
-/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
+/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class Numerical extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractOutputItem"] {
+class Numerical extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractOutputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5489,11 +5509,11 @@ class Numerical extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["Abstrac
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Radio", function() { return Radio; });
-/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
+/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class Radio extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
+class Radio extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5527,7 +5547,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 class TGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"] {
   adjust() {
     this.items.forEach(item => {
-      if (item instanceof _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"]) item.adjust();
+      item.adjust();
       this.layout.width = Math.max(this.layout.width, item.layout.width + 2 * _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].padding);
       this.layout.height = Math.max(this.layout.height, item.layout.height + 2 * _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].padding + TGroup.labelHeight);
     });
@@ -5541,14 +5561,12 @@ class TGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"
   expand() {
     var tabsCount = this.items.length;
     this.items.forEach(item => {
-      if (item instanceof _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"]) {
-        var dY$ = 0; // Space available to expand for current item
+      var dY$ = 0; // Space available to expand for current item
 
-        var dX$ = 0;
-        if (item.layout.sizing === "both" || item.layout.sizing === "horizontal") dX$ = this.layout.width - 2 * _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].padding - item.layout.width;
-        if (item.layout.sizing === "both" || item.layout.sizing === "vertical") dY$ = this.layout.height - 2 * _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].padding - _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].labelHeight - (tabsCount ? TGroup.tabLayout.height : 0) - item.layout.height;
-        item.expand(dX$, dY$);
-      }
+      var dX$ = 0;
+      if (item.layout.sizing === "both" || item.layout.sizing === "horizontal") dX$ = this.layout.width - 2 * _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].padding - item.layout.width;
+      if (item.layout.sizing === "both" || item.layout.sizing === "vertical") dY$ = this.layout.height - 2 * _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].padding - _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].labelHeight - (tabsCount ? TGroup.tabLayout.height : 0) - item.layout.height;
+      item.expand(dX$, dY$);
     });
     return this;
   }
@@ -5563,7 +5581,7 @@ class TGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"
       item.layout.offsetTop = $top;
       item.layout.left = (this.layout.left || 0) + item.layout.offsetLeft;
       item.layout.top = (this.layout.top || 0) + item.layout.offsetTop;
-      if (item instanceof _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"]) item.offset();
+      item.offset();
     });
     return this;
   }
@@ -5587,11 +5605,11 @@ _defineProperty(TGroup, "tabLayout", {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VBargraph", function() { return VBargraph; });
-/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
+/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class VBargraph extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractOutputItem"] {
+class VBargraph extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractOutputItem"] {
   constructor() {
     super(...arguments);
 
@@ -5622,7 +5640,7 @@ __webpack_require__.r(__webpack_exports__);
 class VGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"] {
   adjust() {
     this.items.forEach(item => {
-      if (item instanceof _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"]) item.adjust();
+      item.adjust();
       this.layout.width = Math.max(this.layout.width, item.layout.width + 2 * _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"].padding);
       this.layout.height += item.layout.height;
     });
@@ -5650,7 +5668,7 @@ class VGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"
         item.layout.height += dY$;
       }
 
-      if (item instanceof _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"]) item.expand(dX$, dY$);
+      item.expand(dX$, dY$);
     });
     return this;
   }
@@ -5669,7 +5687,7 @@ class VGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"
       item.layout.offsetLeft += (width - item.layout.width) / 2 - padding;
       item.layout.left = (this.layout.left || 0) + item.layout.offsetLeft;
       item.layout.top = (this.layout.top || 0) + item.layout.offsetTop;
-      if (item instanceof _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"]) item.offset();
+      item.offset();
       $top += item.layout.height + spaceBetween;
     });
     return this;
@@ -5689,11 +5707,11 @@ class VGroup extends _AbstractGroup__WEBPACK_IMPORTED_MODULE_0__["AbstractGroup"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VSlider", function() { return VSlider; });
-/* harmony import */ var _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractOutputItem */ "./src/layout/AbstractOutputItem.ts");
+/* harmony import */ var _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractInputItem */ "./src/layout/AbstractInputItem.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-class VSlider extends _AbstractOutputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
+class VSlider extends _AbstractInputItem__WEBPACK_IMPORTED_MODULE_0__["AbstractInputItem"] {
   constructor() {
     super(...arguments);
 
