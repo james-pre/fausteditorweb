@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.bd13b4f5fbf54273ae3b7416c2dd49f4.js"
+  "precache-manifest.817f1c6071bae563ed074153a1200a3f.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "1.0.8"});
@@ -59,55 +59,55 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/bela/AdditiveSynth_Analog.dsp",
-    "revision": "84964e080c0fc4fe0a0f171d97f32abd"
+    "revision": "5e7938d264c274d8e7f99233e998502c"
   },
   {
     "url": "examples/bela/AdditiveSynth.dsp",
-    "revision": "6f6f44d46a2c71aa0bb8615793527975"
+    "revision": "3684a5047e34ae51e8de425a14fcb215"
   },
   {
     "url": "examples/bela/crossDelay2.dsp",
-    "revision": "e98e28a899eb69dfcf11c3d8a74d6b7b"
+    "revision": "846ebd21681312771dba0b301c345dce"
   },
   {
     "url": "examples/bela/Faust-complement.lib",
-    "revision": "176974235ecb98204f97eeb7775e6bda"
+    "revision": "1cce7f46cea6d60aee3a02ea5e65ba5a"
   },
   {
     "url": "examples/bela/FMSynth2_Analog.dsp",
-    "revision": "87d6a3b7d1586c43ffa3ad34e7e1ce65"
+    "revision": "fa357019e74f690094c8e4e40335734b"
   },
   {
     "url": "examples/bela/FMSynth2_FX_Analog.dsp",
-    "revision": "c5463839af3cfe3bfe60a32299e6497d"
+    "revision": "a08876f9bc8557721c880f2fb0dd2d1c"
   },
   {
     "url": "examples/bela/FMSynth2_FX.dsp",
-    "revision": "9d7b91e13cc11a656484d6cbfe3f2875"
+    "revision": "4f7d9e79e45b2d85f54470d4d7acc412"
   },
   {
     "url": "examples/bela/FMSynth2.dsp",
-    "revision": "3f0f43e98627269198f116717898cc70"
+    "revision": "b8f831feeb090cf7e41e75dc6d11daf5"
   },
   {
     "url": "examples/bela/FXChaine2.dsp",
-    "revision": "f2787a3e07b0ee7d9b2b27ecf4075f60"
+    "revision": "aa96863646b6d03aaa991d17c7e03fc5"
   },
   {
     "url": "examples/bela/GrainGenerator.dsp",
-    "revision": "070ba42357a63a44aea8fe5f936fd7b7"
+    "revision": "3c59036855ca69ccf5e6bdb71abaaf06"
   },
   {
     "url": "examples/bela/granulator.dsp",
-    "revision": "48a61f94576d77966b146b76804101d1"
+    "revision": "a98b1d817ba305a916ec82ce4bd2b4c8"
   },
   {
     "url": "examples/bela/repeater.dsp",
-    "revision": "5bcf8a0852f3bbaf06189ba8c7224bb8"
+    "revision": "e9443be37f5df97d1e6942bf06611931"
   },
   {
     "url": "examples/bela/simpleFX_Analog.dsp",
-    "revision": "7aaaab7eeb33ebcf008fb833f12d3491"
+    "revision": "46aec578a8f735f40af7cfb97cd66902"
   },
   {
     "url": "examples/bela/simpleFX.dsp",
@@ -115,35 +115,35 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/bela/simpleSynth_Analog.dsp",
-    "revision": "4a87647e2b328e8a8f956014080babcd"
+    "revision": "615ea7025782044310e77d14e3a3172f"
   },
   {
     "url": "examples/bela/simpleSynth_FX_Analog.dsp",
-    "revision": "3c7fa36f8451a737d0b84321acf46fb0"
+    "revision": "dc8ac3c27c32ffffd4490629738a38e5"
   },
   {
     "url": "examples/bela/simpleSynth_FX.dsp",
-    "revision": "5f7a1d7c0ed565a2bc8e9a8d08f09b2a"
+    "revision": "2cdcd6577104fd515ac96c8abc688d1d"
   },
   {
     "url": "examples/bela/simpleSynth.dsp",
-    "revision": "1126ba1d0729af05c5cfdad80fc0c989"
+    "revision": "3ffa9c4d4b274708e3333bafaa66b924"
   },
   {
     "url": "examples/bela/WaveSynth_Analog.dsp",
-    "revision": "bcebe8722741af15b471173851897a06"
+    "revision": "c6f075b6f03af7b04996586d1e8a4e67"
   },
   {
     "url": "examples/bela/WaveSynth_FX_Analog.dsp",
-    "revision": "8545eadc7b618a25a9c85ede1cdf0438"
+    "revision": "452060418f39ee5fbd3fbf7b560190a4"
   },
   {
     "url": "examples/bela/WaveSynth_FX.dsp",
-    "revision": "2ce139c945818a33f3ac61c54137091d"
+    "revision": "6da063c108b4f098bdad383e8d694c14"
   },
   {
     "url": "examples/bela/WaveSynth.dsp",
-    "revision": "074c50ce1f12b9cb723a3f2dace0be08"
+    "revision": "4ee091bfb2f0ee9f6f1e368e36e4ca9c"
   },
   {
     "url": "examples/delayEcho/echo.dsp",
@@ -163,7 +163,7 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/delayEcho/tapiir.dsp",
-    "revision": "9bb1333749bb77a705722f95b0bd43fc"
+    "revision": "5005016ecf00e7ffc9022ca95a7835e8"
   },
   {
     "url": "examples/dynamic/compressor.dsp",
@@ -247,7 +247,7 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/filtering/multibandFilter.dsp",
-    "revision": "e66a350bd2a51501ff84fbbf2d770aaf"
+    "revision": "6c9134ccae9632f20695f5e8c9a594c2"
   },
   {
     "url": "examples/filtering/notch.dsp",
@@ -311,11 +311,11 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/generator/osc.dsp",
-    "revision": "b50f738cf5e789298dc4011157b3c094"
+    "revision": "c45be4e432d219c71af5622f7efaa4c9"
   },
   {
     "url": "examples/generator/osci.dsp",
-    "revision": "74fbc457b01c3230e48abac8aa3c3fc0"
+    "revision": "4ce510671a7bfee73cf81c9b432621df"
   },
   {
     "url": "examples/generator/sawtoothLab.dsp",
@@ -331,11 +331,11 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/misc/capture.dsp",
-    "revision": "4fa1f1c6ef91b2aaf09c995b8c2697c7"
+    "revision": "e7acfb2d353f6efe806b8e136229aafb"
   },
   {
     "url": "examples/misc/guitarix.dsp",
-    "revision": "3ab16a4515f32595d12a94a587a2e3e6"
+    "revision": "52e7301657a20a3d2434d37d8e978acf"
   },
   {
     "url": "examples/misc/matrix.dsp",
@@ -343,7 +343,7 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/misc/midiTester.dsp",
-    "revision": "3d4694924bf8b97e30d1cb6993b059e9"
+    "revision": "153567b14c82e0fb929993af1526c949"
   },
   {
     "url": "examples/misc/mixer.dsp",
@@ -675,7 +675,7 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/SAM/sine_synth/sine_synth.dsp",
-    "revision": "106939549c8e66c41be3c438b1cc7cd2"
+    "revision": "6134db55a32f030f50a284d08ba8de8f"
   },
   {
     "url": "examples/SAM/virtualAnalog/layout2.dsp",
@@ -683,7 +683,7 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/SAM/virtualAnalog/virtualAnalog.dsp",
-    "revision": "e81aebf319bec39714b12eed421ebbae"
+    "revision": "74cda607108ed914c9ffba7ce34319f7"
   },
   {
     "url": "examples/SAM/virtualAnalog/virtualAnalog.touchosc",
@@ -691,11 +691,11 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/SAM/virtualAnalog/virtualAnalogForBrowser.dsp",
-    "revision": "1e99a343f48b2d5d4077b5e0225802c5"
+    "revision": "5a37f7bdaf1a6d0f0da75ff9554716c4"
   },
   {
     "url": "examples/SAM/virtualAnalog/virtualAnalogWithEffectsForBrowser.dsp",
-    "revision": "1c1e99fa75d401f2f10cb7e2a0ffbb09"
+    "revision": "cf6e91f80e6e835a9f41afbd06df869b"
   },
   {
     "url": "examples/SAM/volume/volume.dsp",
@@ -763,11 +763,11 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/smartKeyboard/midiOnly.dsp",
-    "revision": "e2f03382937f57177df4a06299a3f60c"
+    "revision": "09e1d9967d7daa792de2fea3e6981f20"
   },
   {
     "url": "examples/smartKeyboard/multiSynth.dsp",
-    "revision": "cc9c66161d53dec81afe7756c3a8f231"
+    "revision": "e61eb4d284ef24d3cdfd192e82da8289"
   },
   {
     "url": "examples/smartKeyboard/toy.dsp",
@@ -775,7 +775,7 @@ self.__precacheManifest = [
   },
   {
     "url": "examples/smartKeyboard/trumpet.dsp",
-    "revision": "f5a49c93646060b84352054a5c93f7f7"
+    "revision": "5811096cf3c60a5eb0a211f286fd99df"
   },
   {
     "url": "examples/smartKeyboard/turenas.dsp",
@@ -847,7 +847,7 @@ self.__precacheManifest = [
   },
   {
     "url": "examples.json",
-    "revision": "0fb49dbb8781443cbdcf27845fb945f8"
+    "revision": "5c7aba97723c226a791bdf0df1c59211"
   },
   {
     "url": "manifest.json",
