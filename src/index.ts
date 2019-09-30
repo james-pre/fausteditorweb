@@ -406,7 +406,11 @@ $(async () => {
         $("#iframe-gui-builder").css("visibility", "visible"); // Show iframe
         const guiBuilder = $<HTMLIFrameElement>("#iframe-gui-builder")[0];
         guiBuilder.src = "";
-        guiBuilder.src = `PedalEditor/Front-End/index.html?data=${JSON.stringify(node.dspMeta.ui)}&name=${uiEnv.fileManager.mainFileName}`;
+        /*guiBuilder.src = `PedalEditor/Front-End/index.html?data=${JSON.stringify(
+          node.dspMeta.ui
+        )}&name=${uiEnv.fileManager.mainFileName}`;
+        */
+        guiBuilder.src = `PedalEditor/Front-End/index.html?name=${uiEnv.fileManager.mainFileName}`;
         guiBuilder.onload = () => guiBuilder.contentWindow.postMessage({ type: "build", ui: node.getUI(), name: `${uiEnv.fileManager.mainFileName}`, code: uiEnv.fileManager.mainCode }, "*");
         // (guiBuilder.contentWindow as any).faustUI = node.dspMeta.ui;
         // (guiBuilder.contentWindow as any).faustDspMeta = node.dspMeta;
