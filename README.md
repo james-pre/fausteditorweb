@@ -1,8 +1,8 @@
 # fausteditorweb [![Badge](https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg?style=flat-square)](https://996.icu/#/en_US)
 
-The online [Faust Editor](https://fr0stbyter.github.io/fausteditorweb/dist) can be used to _edit_, _compile_ and _run_ Faust code from any recent Web Browser with [webassembly](http://webassembly.org) support. It works completely on the client side and it is therefore very convenient for situations with many simultaneous users (workshops, classrooms, etc.). It embeds the latest version of the Faust compiler with an efficient webassembly backend and offers polyphonic MIDI support.
+The online [Faust Editor](https://faust.grame.fr/ide/) can be used to _edit_, _compile_ and _run_ Faust code from any recent Web Browser with [webassembly](http://webassembly.org) support. It works completely on the client side and it is therefore very convenient for situations with many simultaneous users (workshops, classrooms, etc.). It embeds the latest version of the Faust compiler with an efficient webassembly backend and offers polyphonic MIDI support.
 
-### Features
+## Features
 
 #### Code Editing
 The editor engine is based on [Monaco Editor](https://microsoft.github.io/monaco-editor/). It provides _syntax highlighting_, _auto completion_, _code hinting_ and direct access to the _online documentation_. The documentation command (Ctrl-D) uses the function name at the cursor position to locate to the relevant information.
@@ -19,7 +19,7 @@ You can choose your audio device or use an audio file to simulate the audio inpu
 #### Analyzer
 Both input and output have an audio analyzer. You can switch the visualization between oscilloscope and spectroscope, or change buffer size and channel. Three numbers showing at right side are current value, estimated frequency and RMS.
 
-### Recommended Browsers
+## Recommended Browsers
 
 The recommended browsers are the latest versions of Chrome for AudioWorklet, MIDI, but it requires an https connection to use the audio inputs.
 
@@ -30,9 +30,16 @@ Firstly ensure that you have [Git](https://git-scm.com/downloads) and [Node.js](
 Clone a copy of the repo then change to the directory:
 
 ```bash
-git clone https://github.com/Fr0stbyteR/fausteditorweb.git
+git clone https://github.com:grame-cncm/fausteditorweb.git
 cd fausteditorweb
 ```
+Beware: on Windows, before cloning the repository, and for the libfaust-wasm.data file line ending to be correctly handled, you'll have to do: 
+
+```bash
+git config --global core.autocrlf false
+```
+
+
 Install dev dependencies:
 
 ```bash
@@ -54,9 +61,14 @@ To test, put the directory in a local server, then open page: `./dist/index.html
 
 If you need to update the editor's version using `git pull`, as the repository has other dependencies hosted on Github, you may run `npm update` to make sure everything is up to date.
 
-### Useful links
+## Launching the local editor
 
-- [Faust Editor](https://fr0stbyter.github.io/fausteditorweb/dist)
+A local HTTP server has to be started with `python2 -m SimpleHTTPServer` (or something similar), then use `http://127.0.0.1:8000/dist/` to launch the local editor.
+
+
+## Deploying the editor
+
+The compiled files are not on Git anymore. You'll have to generate them using `npm run build` on the deployement machine. 
 
 ## Versioning 
 

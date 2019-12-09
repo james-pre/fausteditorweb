@@ -13,7 +13,7 @@
 // snippets
 // indexDB
 
-import * as monaco from "monaco-editor"; // eslint-disable-line import/no-unresolved
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import webmidi, { Input, WebMidiEventConnected, WebMidiEventDisconnected } from "webmidi";
 import * as QRCode from "qrcode";
 import * as WaveSurfer from "wavesurfer.js";
@@ -21,7 +21,6 @@ import * as JSZip from "jszip";
 import { FaustScriptProcessorNode, FaustAudioWorkletNode, Faust } from "faust2webaudio";
 import { Key2Midi } from "./Key2Midi";
 import { Scope } from "./Scope";
-import * as faustlang from "./monaco-faust";
 import "bootstrap/js/dist/dropdown";
 import "bootstrap/js/dist/tab";
 import "bootstrap/js/dist/tooltip";
@@ -34,6 +33,7 @@ import { Analyser } from "./Analyser";
 import { FileManager } from "./FileManager";
 import { GainUI, createMeterNode, MeterNode } from "./MeterNode";
 import { Recorder } from "./Recorder";
+import { faustLangRegister } from "./monaco-faust/register";
 
 declare global {
     interface Window {
@@ -92,7 +92,7 @@ type FaustExportTargets = { [platform: string]: string[] };
 
 const supportAudioWorklet = !!window.AudioWorklet;
 let supportMediaStreamDestination = !!(window.AudioContext || window.webkitAudioContext).prototype.createMediaStreamDestination && !!HTMLAudioElement.prototype.setSinkId;
-const VERSION = "1.0.8";
+const VERSION = "1.0.14";
 
 $(async () => {
     /**
@@ -102,6 +102,9 @@ $(async () => {
     const { Faust } = await import("faust2webaudio");
     const faust = new Faust({ wasmLocation: "./libfaust-wasm.wasm", dataLocation: "./libfaust-wasm.data" });
     await faust.ready;
+    const faustPrimitiveLibFile = await fetch("./primitives.lib");
+    const faustPrimitiveLib = await faustPrimitiveLibFile.text();
+    faust.fs.writeFile("./libraries/primitives.lib", faustPrimitiveLib);
     window.faust = faust;
     /**
      * To save dsp table to localStorage
@@ -195,7 +198,7 @@ $(async () => {
      * Async Load Monaco Editor Core
      * Use import() for webpack code splitting, needs babel-dynamic-import
      */
-    const editor = await initEditor();
+    const { editor, monaco } = await initEditor(faust);
     editor.layout(); // Force editor to fill div
     // Editor and Diagram
     let editorDecoration: string[] = []; // lines with error
@@ -400,13 +403,22 @@ $(async () => {
         if (uiEnv.outputScope) uiEnv.outputScope.disabled = false;
         refreshDspUI(node); // update dsp info
         saveEditorDspTable(); // Save the new DSP table to localStorage
+        if (compileOptions.enableGuiBuilder) {
+            $("#gui-builder-default").hide(); // Hide "No DSP yet" info
+            $("#nav-item-gui-builder").show(); // Show GUI Builder tab
+            $("#iframe-gui-builder").css("visibility", "visible"); // Show iframe
+            const guiBuilder = $<HTMLIFrameElement>("#iframe-gui-builder")[0];
+            guiBuilder.src = "";
+            guiBuilder.src = `${compileOptions.guiBuilderUrl}?name=${uiEnv.fileManager.mainFileName}`;
+            guiBuilder.onload = () => guiBuilder.contentWindow.postMessage({ type: "build", ui: node.getUI(), name: `${uiEnv.fileManager.mainFileName}`, code: uiEnv.fileManager.mainCode }, "*");
+        }
         return { success: true };
     };
     let rtCompileTimer: NodeJS.Timeout;
     const audioEnv: FaustEditorAudioEnv = { dspConnectedToInput: false, dspConnectedToOutput: false, inputEnabled: false, outputEnabled: false };
     const midiEnv: FaustEditorMIDIEnv = { input: null };
     const uiEnv: FaustEditorUIEnv = { analysersInited: false, inputScope: null, outputScope: null, plotScope: undefined, analyser: new Analyser(16, "continuous"), fileManager: undefined };
-    const compileOptions: FaustEditorCompileOptions = { useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, realtimeCompile: true, popup: false, voices: 0, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, plotFFTOverlap: 2, drawSpectrogram: false, ...loadEditorParams(), args: { "-I": ["libraries/", "project/"] } };
+    const compileOptions: FaustEditorCompileOptions = { useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, realtimeCompile: true, popup: false, voices: 0, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, plotFFTOverlap: 2, drawSpectrogram: false, enableGuiBuilder: false, guiBuilderUrl: "https://mainline.i3s.unice.fr/FaustWapGuiBuilder", ...loadEditorParams(), args: { "-I": ["libraries/", "project/"] } };
     const faustEnv: FaustEditorEnv = { audioEnv, midiEnv, uiEnv, compileOptions, jQuery, editor, faust, recorder: new Recorder() };
     localStorage.setItem("faust_editor_version", VERSION);
     uiEnv.plotScope = new StaticScope({ container: $<HTMLDivElement>("#plot-ui")[0] });
@@ -464,6 +476,16 @@ $(async () => {
     $('[data-toggle="tooltip"]').tooltip({ trigger: "hover", boundary: "viewport" });
     $("#btn-export").tooltip({ trigger: "hover", boundary: "viewport" });
     $("#btn-share").tooltip({ trigger: "hover", boundary: "viewport" });
+    $("#btn-tab-setting").tooltip({ trigger: "hover", boundary: "viewport" });
+    $<HTMLInputElement>("#enable-gui-editor").on("change", (e) => {
+        const { checked } = e.currentTarget;
+        if (!checked) {
+            $("#nav-item-gui-builder").hide(); // Hide GUI Builder tab
+            $("#iframe-gui-builder").css("visibility", "hidden"); // Show iframe
+        }
+        compileOptions.enableGuiBuilder = checked;
+    });
+    $<HTMLInputElement>("#gui-builder-url").val(compileOptions.guiBuilderUrl).on("change", e => compileOptions.guiBuilderUrl = e.currentTarget.value || "https://mainline.i3s.unice.fr/FaustWapGuiBuilder");
     /**
      * Left panel options
      */
@@ -679,7 +701,6 @@ $(async () => {
     });
     $("#a-save").on("click", e => e.stopPropagation());
     // Docs
-    $("#btn-docs").on("click", () => $("#a-docs")[0].click());
     $("#a-docs").on("click", e => e.stopPropagation());
     /**
      * Export
@@ -1116,14 +1137,16 @@ $(async () => {
         }
         */
         if (audioEnv.outputEnabled) {
-            $(".btn-dac").removeClass("btn-primary").addClass("btn-light")
-                .children("span").html("Output is Off");
+            // disable audio output
             audioEnv.outputEnabled = false;
             if (audioEnv.dspConnectedToOutput) {
                 audioEnv.dsp.disconnect(audioEnv.destination);
                 audioEnv.dspConnectedToOutput = false;
             }
+            $(".btn-dac").removeClass("btn-primary").addClass("btn-light").children("span").html("Output is Off");
+            $(".fa-volume-up").removeClass("fa-volume-up").addClass("fa-volume-mute");
         } else {
+            // enable audio output
             audioEnv.outputEnabled = true;
             if (!audioEnv.audioCtx) {
                 await initAudioCtx(audioEnv);
@@ -1132,8 +1155,8 @@ $(async () => {
                 audioEnv.dsp.connect(audioEnv.destination);
                 audioEnv.dspConnectedToOutput = true;
             }
-            $(".btn-dac").removeClass("btn-light").addClass("btn-primary")
-                .children("span").html("Output is On");
+            $(".btn-dac").removeClass("btn-light").addClass("btn-primary").children("span").html("Output is On");
+            $(".fa-volume-mute").removeClass("fa-volume-mute").addClass("fa-volume-up");
         }
     });
     /**
@@ -1272,6 +1295,41 @@ $(async () => {
         // Pass keyboard midi messages even inner window is focused
         if (data.type === "keydown") key2Midi.handleKeyDown(data.key);
         else if (data.type === "keyup") key2Midi.handleKeyUp(data.key);
+        // From GUI Builder
+        else if (data.type === "export") {
+            const form = new FormData();
+            const fileName = uiEnv.fileManager.mainFileName;
+            const name = uiEnv.fileManager.mainFileNameWithoutSuffix;
+            const plat = data.plat || "web";
+            const arch = data.arch || "wap";
+            const expandedCode = faust.expandCode(uiEnv.fileManager.mainCode, compileOptions.args);
+            form.append("file", new File([`declare filename "${fileName}"; declare name "${name}"; ${expandedCode}`], `${fileName}`));
+            $.ajax({
+                method: "POST",
+                url: `${server}/filepost`,
+                data: form,
+                contentType: false,
+                processData: false
+            }).done((shaKey) => {
+                const matched = shaKey.match(/^[0-9A-Fa-f]+$/);
+                if (matched) {
+                    const path = `${server}/${shaKey}/${plat}/${arch}`;
+                    $.ajax({
+                        method: "GET",
+                        url: `${path}/precompile`
+                    }).done((result) => {
+                        if (result === "DONE") {
+                            const href = `${path}/binary.zip`;
+                            ((e.originalEvent as MessageEvent).source as WindowProxy).postMessage({ type: "exported", href }, "*");
+                        }
+                    }).fail((jqXHR, textStatus) => {
+                        throw new Error(textStatus + ": " + jqXHR.responseText);
+                    });
+                }
+            }).fail((jqXHR, textStatus) => {
+                throw new Error(textStatus + ": " + jqXHR.responseText);
+            });
+        }
     });
     // Close DSP UI Popup when main window is closed
     $(window).on("beforeunload", () => (uiEnv.uiPopup ? uiEnv.uiPopup.close() : undefined));
@@ -1612,7 +1670,7 @@ const refreshDspUI = (node?: FaustAudioWorkletNode | FaustScriptProcessorNode) =
  *
  * @returns
  */
-const initEditor = async () => {
+const initEditor = async (faust: Faust) => {
     const code = `import("stdfaust.lib");
 process = ba.pulsen(1, 10000) : pm.djembe(60, 0.3, 0.4, 1) <: dm.freeverb_demo;`;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -1623,10 +1681,8 @@ process = ba.pulsen(1, ba.hz2midikey(freq) * 1000) : pm.marimba(freq, 0, 7000, 0
     gate = button("gate");
 };
 effect = dm.freeverb_demo;`;
-    const monaco = await import("monaco-editor"); // eslint-disable-line import/no-unresolved
-    monaco.languages.register(faustlang.language);
-    monaco.languages.setLanguageConfiguration("faust", faustlang.config);
-    monaco.editor.defineTheme("vs-dark", faustlang.theme);
+    const monaco = await import("monaco-editor/esm/vs/editor/editor.api");
+    const { faustLang, providers } = await faustLangRegister(monaco, faust);
     let saveCode = false;
     try {
         saveCode = JSON.parse(localStorage.getItem("faust_editor_params")).saveCode;
@@ -1639,24 +1695,26 @@ effect = dm.freeverb_demo;`;
         mouseWheelZoom: true,
         wordWrap: "on"
     });
-    faustlang.getProviders().then((providers) => {
-        monaco.languages.registerHoverProvider("faust", providers.hoverProvider);
-        monaco.languages.setMonarchTokensProvider("faust", providers.tokensProvider);
-        monaco.languages.registerCompletionItemProvider("faust", providers.completionItemProvider);
-        const faustDocURL = "https://faust.grame.fr/doc/libraries/";
-        const showDoc = () => {
-            const matched = faustlang.matchDocKey(providers.docs, editor.getModel(), editor.getPosition());
-            if (matched) {
-                const prefix = matched.nameArray.slice();
-                prefix.pop();
-                const doc = matched.doc;
-                $("#a-docs").attr("href", `${faustDocURL}#${prefix.length ? prefix.join(".") + "." : ""}${doc.name.replace(/[[\]|]/g, "").toLowerCase()}`)[0].click();
-                return;
-            }
-            $("#a-docs").attr("href", faustDocURL)[0].click();
-        };
-        $("#btn-docs").off("click").on("click", showDoc);
+    editor.onKeyDown((e) => {
+        if (e.ctrlKey && e.browserEvent.key === "d") {
+            e.stopPropagation();
+            e.preventDefault();
+            showDoc();
+        }
     });
+    const faustDocURL = "https://faust.grame.fr/doc/libraries/";
+    const showDoc = () => {
+        const matched = faustLang.matchDocKey(providers.docs, editor.getModel(), editor.getPosition());
+        if (matched) {
+            const prefix = matched.nameArray.slice();
+            prefix.pop();
+            const doc = matched.doc;
+            $("#a-docs").attr("href", `${faustDocURL}#${prefix.length ? prefix.join(".") + "." : ""}${doc.name.replace(/[[\]|]/g, "").toLowerCase()}`)[0].click();
+            return;
+        }
+        $("#a-docs").attr("href", faustDocURL)[0].click();
+    };
+    $("#btn-docs").off("click").on("click", showDoc);
     $(window).on("resize", () => editor.layout());
-    return editor;
+    return { editor, monaco };
 };
