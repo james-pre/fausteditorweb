@@ -92,7 +92,7 @@ type FaustExportTargets = { [platform: string]: string[] };
 
 const supportAudioWorklet = !!window.AudioWorklet;
 let supportMediaStreamDestination = !!(window.AudioContext || window.webkitAudioContext).prototype.createMediaStreamDestination && !!HTMLAudioElement.prototype.setSinkId;
-const VERSION = "1.0.14";
+const VERSION = "1.0.15";
 
 $(async () => {
     /**
@@ -775,7 +775,7 @@ $(async () => {
                                     $("#qr-code").show();
                                     QRCode.toCanvas(
                                         $<HTMLCanvasElement>("#qr-code")[0],
-                                        `${path}/${plat === "android" ? "binary.apk" : "binary.zip"}`,
+                                        `${path}/${plat === "android" ? "binary.apk" : "binary.zip"}`
                                     );
                                     return;
                                 }
