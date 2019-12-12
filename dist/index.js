@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + {"0":"2df2cd7363aa4e3f71bc","1":"8ca7e891505541d7781a","2":"955f7f0d46efe5b4ab32"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "js/" + {"0":"2df2cd7363aa4e3f71bc","1":"ad2d0c323f01ad843778","2":"22b16dea07294f190dba"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -42028,13 +42028,13 @@ Key2Midi.KEY_MAP_FR = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMeterNode", function() { return createMeterNode; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GainUI", function() { return GainUI; });
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty.js */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty_js__WEBPACK_IMPORTED_MODULE_0__);
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty_js__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * Returns a ScriptProcessor that measures the RMSs of each channel in a buffer.
@@ -42465,10 +42465,10 @@ class GainUI {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Recorder", function() { return Recorder; });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator/index.js */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator.js */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var wav_encoder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! wav-encoder */ "./node_modules/wav-encoder/index.js");
 /* harmony import */ var wav_encoder__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(wav_encoder__WEBPACK_IMPORTED_MODULE_2__);
 
@@ -42509,11 +42509,11 @@ class Recorder {
   encode() {
     var _this = this;
 
-    return _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
+    return _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_1___default()(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
       var sampleRate, buffers, channels, bufferSize, l, channelData, j, channel, i, bufferData;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -44397,12 +44397,12 @@ if(false) {}
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($, jQuery) {/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* WEBPACK VAR INJECTION */(function($, jQuery) {/* harmony import */ var _babel_runtime_helpers_defineProperty_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty.js */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator/index.js */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator.js */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var webmidi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! webmidi */ "./node_modules/webmidi/webmidi.min.js");
 /* harmony import */ var webmidi__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(webmidi__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var qrcode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! qrcode */ "./node_modules/qrcode/lib/browser.js");
@@ -44439,7 +44439,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty_js__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /* eslint-disable newline-per-chained-call */
 
@@ -44481,17 +44481,17 @@ var supportMediaStreamDestination = !!(window.AudioContext || window.webkitAudio
 var VERSION = "1.0.14";
 $(
 /*#__PURE__*/
-_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+_babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
 /*#__PURE__*/
-_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee9() {
-  var _ref2, Faust, faust, faustPrimitiveLibFile, faustPrimitiveLib, saveEditorDspTable, loadEditorDspTable, saveEditorParams, loadEditorParams, loadDspParams, saveDspParams, dspParams, loadProject, showError, clearError, _ref3, editor, monaco, editorDecoration, updateDiagram, runDsp, rtCompileTimer, audioEnv, midiEnv, uiEnv, compileOptions, faustEnv, loadURLParams, server, getTargets, makeURL, key2Midi, handleMIDIConnect, handleMIDIDisconnect, wavesurfer, handleMediaDeviceChange, svgDragged;
+_babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee9() {
+  var _ref2, Faust, faust, faustPrimitiveLibFile, faustPrimitiveLib, saveEditorDspTable, loadEditorDspTable, saveEditorParams, loadEditorParams, loadDspParams, saveDspParams, dspParams, loadProject, showError, clearError, _ref3, editor, monaco, editorDecoration, updateDiagram, isCompilingDsp, runDsp, rtCompileTimer, audioEnv, midiEnv, uiEnv, compileOptions, faustEnv, loadURLParams, server, getTargets, makeURL, key2Midi, handleMIDIConnect, handleMIDIDisconnect, wavesurfer, handleMediaDeviceChange, svgDragged;
 
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee9$(_context9) {
+  return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee9$(_context9) {
     while (1) {
       switch (_context9.prev = _context9.next) {
         case 0:
           _context9.next = 2;
-          return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.t.bind(null, /*! faust2webaudio */ "./node_modules/faust2webaudio/dist/index.min.js", 7));
+          return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.t.bind(null, /*! faust2webaudio */ "../faust2webaudio/dist/index.min.js", 7));
 
         case 2:
           _ref2 = _context9.sent;
@@ -44697,6 +44697,8 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
               success: true
             };
           };
+
+          isCompilingDsp = false;
           /**
            * Generate both diagram and dsp
            *
@@ -44704,19 +44706,30 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
            * @returns {{ success: boolean; error?: Error }}
            */
 
-
           runDsp =
           /*#__PURE__*/
           function () {
-            var _ref4 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+            var _ref4 = _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
             /*#__PURE__*/
-            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(codeIn) {
-              var code, audioCtx, gain, splitter, analyser, useWorklet, bufferSize, voices, args, node, mediaLengthRaf, mediaLengthFrame, mediaLengthSpan, mediaLengthDisplay, plotHandler, dsp, _path, uiWindow, bindUI, guiBuilder;
+            _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(codeIn) {
+              var code, audioCtx, gain, splitter, analyser, useWorklet, bufferSize, voices, args, node, mediaLengthRaf, mediaLengthFrame, mediaLengthSpan, mediaLengthDisplay, plotHandler, dsp, _path, channelsCount, uiWindow, bindUI, guiBuilder;
 
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
+              return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
+                      if (!isCompilingDsp) {
+                        _context.next = 2;
+                        break;
+                      }
+
+                      return _context.abrupt("return", {
+                        success: false,
+                        error: new Error("Another DSP is compiling")
+                      });
+
+                    case 2:
+                      isCompilingDsp = true;
                       code = "declare filename \"".concat(uiEnv.fileManager.mainFileName, "\"; declare name \"").concat(uiEnv.fileManager.mainFileNameWithoutSuffix, "\"; ").concat(codeIn);
                       audioCtx = audioEnv.audioCtx;
                       gain = audioEnv.gainInput;
@@ -44724,17 +44737,17 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
                       analyser = audioEnv.analyserOutput;
 
                       if (audioCtx) {
-                        _context.next = 9;
+                        _context.next = 12;
                         break;
                       }
 
-                      _context.next = 8;
+                      _context.next = 11;
                       return initAudioCtx(audioEnv);
 
-                    case 8:
+                    case 11:
                       initAnalysersUI(uiEnv, audioEnv);
 
-                    case 9:
+                    case 12:
                       useWorklet = compileOptions.useWorklet, bufferSize = compileOptions.bufferSize, voices = compileOptions.voices, args = compileOptions.args;
                       mediaLengthFrame = 0;
                       mediaLengthSpan = $("#recorder-time")[0];
@@ -44763,8 +44776,8 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
                         mediaLengthRaf = requestAnimationFrame(() => mediaLengthDisplay(t));
                       };
 
-                      _context.prev = 14;
-                      _context.next = 17;
+                      _context.prev = 17;
+                      _context.next = 20;
                       return faust.getNode(code, {
                         audioCtx,
                         useWorklet,
@@ -44774,23 +44787,23 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
                         plotHandler
                       });
 
-                    case 17:
+                    case 20:
                       node = _context.sent;
 
                       if (node) {
-                        _context.next = 20;
+                        _context.next = 23;
                         break;
                       }
 
                       throw new Error("Unknown Error in WebAudio Node.");
 
-                    case 20:
-                      _context.next = 26;
+                    case 23:
+                      _context.next = 30;
                       break;
 
-                    case 22:
-                      _context.prev = 22;
-                      _context.t0 = _context["catch"](14);
+                    case 25:
+                      _context.prev = 25;
+                      _context.t0 = _context["catch"](17);
 
                       /*
                       const uiWindow = ($("#iframe-faust-ui")[0] as HTMLIFrameElement).contentWindow;
@@ -44800,12 +44813,13 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
                       $("#output-analyser-ui").hide();
                       refreshDspUI(); */
                       showError(_context.t0);
+                      isCompilingDsp = false;
                       return _context.abrupt("return", {
                         success: false,
                         error: _context.t0
                       });
 
-                    case 26:
+                    case 30:
                       /**
                        * Push get diagram to end of scheduler
                        * generate diagram only when the tab is active
@@ -44824,6 +44838,7 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
 
                         dsp.disconnect();
                         audioEnv.dspConnectedToOutput = false;
+                        dsp.destroy();
                         delete audioEnv.dsp;
                       }
                       /**
@@ -44839,38 +44854,41 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
                         }
                       }
 
-                      audioEnv.audioCtx.resume().then(() => {
-                        // Resume audioContext for firefox
+                      _context.next = 36;
+                      return audioEnv.audioCtx.resume();
 
-                        /**
-                         * Connect the dsp to graph (use a new splitter)
-                         */
-                        audioEnv.dsp = node;
-                        var channelsCount = node.getNumOutputs();
+                    case 36:
+                      // Resume audioContext for firefox
 
-                        if (!splitter || splitter.numberOfOutputs !== channelsCount) {
-                          if (splitter) splitter.disconnect();
-                          splitter = audioCtx.createChannelSplitter(channelsCount);
-                          delete audioEnv.splitterOutput;
-                          audioEnv.splitterOutput = splitter;
-                          uiEnv.outputScope.splitter = splitter;
-                          uiEnv.outputScope.channels = channelsCount;
-                          uiEnv.outputScope.channel = Math.min(uiEnv.outputScope.channel, channelsCount - 1);
-                          splitter.connect(analyser, uiEnv.outputScope.channel);
-                        }
+                      /**
+                       * Connect the dsp to graph (use a new splitter)
+                       */
+                      audioEnv.dsp = node;
+                      channelsCount = node.getNumOutputs();
 
-                        if (audioEnv.gainInput && node.getNumInputs()) {
-                          audioEnv.gainInput.connect(node);
-                          audioEnv.dspConnectedToInput = true;
-                        }
+                      if (!splitter || splitter.numberOfOutputs !== channelsCount) {
+                        if (splitter) splitter.disconnect();
+                        splitter = audioCtx.createChannelSplitter(channelsCount);
+                        delete audioEnv.splitterOutput;
+                        audioEnv.splitterOutput = splitter;
+                        uiEnv.outputScope.splitter = splitter;
+                        uiEnv.outputScope.channels = channelsCount;
+                        uiEnv.outputScope.channel = Math.min(uiEnv.outputScope.channel, channelsCount - 1);
+                        splitter.connect(analyser, uiEnv.outputScope.channel);
+                      }
 
-                        node.connect(splitter);
+                      if (audioEnv.gainInput && node.getNumInputs()) {
+                        audioEnv.gainInput.connect(node);
+                        audioEnv.dspConnectedToInput = true;
+                      }
 
-                        if (audioEnv.outputEnabled) {
-                          node.connect(audioEnv.destination);
-                          audioEnv.dspConnectedToOutput = true;
-                        }
-                      });
+                      node.connect(splitter);
+
+                      if (audioEnv.outputEnabled) {
+                        node.connect(audioEnv.destination);
+                        audioEnv.dspConnectedToOutput = true;
+                      }
+
                       uiWindow = $("#iframe-faust-ui")[0].contentWindow;
                       /**
                        * set handler for param changed of dsp
@@ -44971,16 +44989,17 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
                         }, "*");
                       }
 
+                      isCompilingDsp = false;
                       return _context.abrupt("return", {
                         success: true
                       });
 
-                    case 45:
+                    case 57:
                     case "end":
                       return _context.stop();
                   }
                 }
-              }, _callee, null, [[14, 22]]);
+              }, _callee, null, [[17, 25]]);
             }));
 
             return function runDsp(_x) {
@@ -45280,12 +45299,12 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
           loadURLParams =
           /*#__PURE__*/
           function () {
-            var _ref5 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+            var _ref5 = _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
             /*#__PURE__*/
-            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2(url) {
+            _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2(url) {
               var urlParams, voices, bufferSize, code, codeURL, _name, response, b64Code, _name2, compileResult;
 
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
+              return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
@@ -45416,11 +45435,11 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
 
           $("#btn-save").on("click",
           /*#__PURE__*/
-          _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+          _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
           /*#__PURE__*/
-          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee3() {
+          _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee3() {
             var zip, b, uri;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee3$(_context3) {
+            return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee3$(_context3) {
               while (1) {
                 switch (_context3.prev = _context3.next) {
                   case 0:
@@ -45670,12 +45689,12 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
           $("#select-audio-input").on("change",
           /*#__PURE__*/
           function () {
-            var _ref7 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+            var _ref7 = _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
             /*#__PURE__*/
-            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee4(e) {
+            _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee4(e) {
               var id, _gain, _input, gain, input;
 
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee4$(_context4) {
+              return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee4$(_context4) {
                 while (1) {
                   switch (_context4.prev = _context4.next) {
                     case 0:
@@ -45773,11 +45792,11 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
           $("#select-audio-output").on("change",
           /*#__PURE__*/
           function () {
-            var _ref8 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+            var _ref8 = _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
             /*#__PURE__*/
-            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee5(e) {
+            _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee5(e) {
               var id, audio;
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee5$(_context5) {
+              return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee5$(_context5) {
                 while (1) {
                   switch (_context5.prev = _context5.next) {
                     case 0:
@@ -45972,11 +45991,11 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
           });
           $("#recorder-save").on("click",
           /*#__PURE__*/
-          _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+          _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
           /*#__PURE__*/
-          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee6() {
+          _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee6() {
             var recorder, b, url;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee6$(_context6) {
+            return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee6$(_context6) {
               while (1) {
                 switch (_context6.prev = _context6.next) {
                   case 0:
@@ -46018,10 +46037,10 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
 
           $(".btn-dac").on("click",
           /*#__PURE__*/
-          _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+          _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
           /*#__PURE__*/
-          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee7() {
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee7$(_context7) {
+          _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee7() {
+            return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee7$(_context7) {
               while (1) {
                 switch (_context7.prev = _context7.next) {
                   case 0:
@@ -46188,11 +46207,11 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
 
           $(".btn-run").prop("disabled", false).on("click",
           /*#__PURE__*/
-          _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+          _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
           /*#__PURE__*/
-          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee8() {
+          _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee8() {
             var compileResult;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee8$(_context8) {
+            return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee8$(_context8) {
               while (1) {
                 switch (_context8.prev = _context8.next) {
                   case 0:
@@ -46349,6 +46368,7 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
 
               dsp.disconnect();
               audioEnv.dspConnectedToOutput = false;
+              dsp.destroy();
               delete audioEnv.dsp;
             }
 
@@ -46522,19 +46542,19 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
             }
           }).resize(); // autorunning
 
-          _context9.next = 132;
+          _context9.next = 133;
           return initAudioCtx(audioEnv);
 
-        case 132:
+        case 133:
           // Analysers
           initAnalysersUI(uiEnv, audioEnv);
           $("#output-analyser-ui").hide();
           uiEnv.outputScope.disabled = true;
           $("#select-audio-input").change();
-          _context9.next = 138;
+          _context9.next = 139;
           return loadURLParams(window.location.search);
 
-        case 138:
+        case 139:
           $("#select-voices").children("option[value=".concat(compileOptions.voices, "]")).prop("selected", true);
           $("#select-buffer-size").children("option[value=".concat(compileOptions.bufferSize, "]")).prop("selected", true);
           if (supportAudioWorklet) $("#check-worklet").prop({
@@ -46550,7 +46570,7 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
           if (compileOptions.realtimeCompile && !audioEnv.dsp) setTimeout(updateDiagram, 0, uiEnv.fileManager.mainCode);
           window.faustEnv = faustEnv;
 
-        case 149:
+        case 150:
         case "end":
           return _context9.stop();
       }
@@ -46568,11 +46588,11 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
 var initAudioCtx =
 /*#__PURE__*/
 function () {
-  var _ref12 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+  var _ref12 = _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
   /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee10(audioEnv, deviceId) {
+  _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee10(audioEnv, deviceId) {
     var audioCtx, unlockAudioContext, stream;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee10$(_context10) {
+    return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
@@ -46742,12 +46762,12 @@ var refreshDspUI = node => {
 var initEditor =
 /*#__PURE__*/
 function () {
-  var _ref13 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+  var _ref13 = _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_2___default()(
   /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee11(faust) {
+  _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee11(faust) {
     var code, polycode, monaco, _ref14, faustLang, providers, saveCode, editor, faustDocURL, showDoc;
 
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee11$(_context11) {
+    return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
@@ -46837,20 +46857,20 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "faustLangRegister", function() { return faustLangRegister; });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator/index.js */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator.js */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_1__);
 
 
 var faustLangRegister =
 /*#__PURE__*/
 function () {
-  var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
+  var _ref = _babel_runtime_helpers_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_1___default()(
   /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(monacoEditor, faust) {
+  _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(monacoEditor, faust) {
     var faustLang, providers;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+    return _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
