@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + {"0":"0f888a6788eeecaaaaa3","1":"ad2d0c323f01ad843778","2":"efdc0c4b95a7fee49bb1"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "js/" + {"0":"0336a0f8777f231a4d93","1":"ad2d0c323f01ad843778","2":"22b16dea07294f190dba"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -44548,7 +44548,7 @@ _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(
       switch (_context9.prev = _context9.next) {
         case 0:
           _context9.next = 2;
-          return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.t.bind(null, /*! faust2webaudio */ "./node_modules/faust2webaudio/dist/index.min.js", 7));
+          return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.t.bind(null, /*! faust2webaudio */ "../faust2webaudio/dist/index.min.js", 7));
 
         case 2:
           _ref2 = _context9.sent;
@@ -45202,8 +45202,12 @@ _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(
             }
 
             compileOptions.enableGuiBuilder = checked;
+            saveEditorParams();
           });
-          $("#gui-builder-url").val(compileOptions.guiBuilderUrl).on("change", e => compileOptions.guiBuilderUrl = e.currentTarget.value || "https://mainline.i3s.unice.fr/FaustWapGuiBuilder");
+          $("#gui-builder-url").val(compileOptions.guiBuilderUrl).on("change", e => {
+            compileOptions.guiBuilderUrl = e.currentTarget.value || "https://mainline.i3s.unice.fr/FaustWapGuiBuilder";
+            saveEditorParams();
+          });
           /**
            * Left panel options
            */

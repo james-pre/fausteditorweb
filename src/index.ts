@@ -489,8 +489,12 @@ $(async () => {
             $("#iframe-gui-builder").css("visibility", "hidden"); // Show iframe
         }
         compileOptions.enableGuiBuilder = checked;
+        saveEditorParams();
     });
-    $<HTMLInputElement>("#gui-builder-url").val(compileOptions.guiBuilderUrl).on("change", e => compileOptions.guiBuilderUrl = e.currentTarget.value || "https://mainline.i3s.unice.fr/FaustWapGuiBuilder");
+    $<HTMLInputElement>("#gui-builder-url").val(compileOptions.guiBuilderUrl).on("change", (e) => {
+        compileOptions.guiBuilderUrl = e.currentTarget.value || "https://mainline.i3s.unice.fr/FaustWapGuiBuilder";
+        saveEditorParams();
+    });
     /**
      * Left panel options
      */
