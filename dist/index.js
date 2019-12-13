@@ -45203,7 +45203,7 @@ _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(
 
             compileOptions.enableGuiBuilder = checked;
             saveEditorParams();
-          });
+          })[0].checked = compileOptions.enableGuiBuilder;
           $("#gui-builder-url").val(compileOptions.guiBuilderUrl).on("change", e => {
             compileOptions.guiBuilderUrl = e.currentTarget.value || "https://mainline.i3s.unice.fr/FaustWapGuiBuilder";
             saveEditorParams();
