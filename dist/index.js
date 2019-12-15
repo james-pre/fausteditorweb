@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + {"0":"0336a0f8777f231a4d93","1":"ad2d0c323f01ad843778","2":"22b16dea07294f190dba"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "js/" + {"0":"0336a0f8777f231a4d93","1":"ad2d0c323f01ad843778","2":"3829852ba857fea6ee8e"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -44548,7 +44548,7 @@ _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(
       switch (_context9.prev = _context9.next) {
         case 0:
           _context9.next = 2;
-          return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.t.bind(null, /*! faust2webaudio */ "../faust2webaudio/dist/index.min.js", 7));
+          return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.t.bind(null, /*! faust2webaudio */ "./node_modules/faust2webaudio/dist/index.min.js", 7));
 
         case 2:
           _ref2 = _context9.sent;
@@ -44667,12 +44667,12 @@ _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(
           /**
            * To show Error at bottom of center
            *
-           * @param {string} str
+           * @param {string} e
            */
 
 
-          showError = str => {
-            $(".alert-faust-code>span").text(str);
+          showError = e => {
+            $(".alert-faust-code>span").text(e instanceof Error ? e.message : e);
             $("#alert-faust-code").css("visibility", "visible");
           };
           /**
@@ -44718,7 +44718,7 @@ _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(
               /**
                * Parse Faust-generated error message to locate the lines with error
                */
-              var matchLine = e.toString().match(/FaustDSP : (\d+)/);
+              var matchLine = e.message.match(/FaustDSP : (\d+)/);
 
               if (matchLine) {
                 var line = matchLine[1];
@@ -45947,7 +45947,7 @@ _babel_runtime_regenerator_index_js__WEBPACK_IMPORTED_MODULE_1___default.a.mark(
               } catch (e) {
                 console.error(e); // eslint-disable-line no-console
 
-                showError("Cannot load sound file: " + e);
+                showError("Cannot load sound file: " + e.message);
                 return;
               }
 

@@ -183,10 +183,10 @@ $(async () => {
     /**
      * To show Error at bottom of center
      *
-     * @param {string} str
+     * @param {string} e
      */
-    const showError = (str: string) => {
-        $(".alert-faust-code>span").text(str);
+    const showError = (e: Error | string) => {
+        $(".alert-faust-code>span").text(e instanceof Error ? e.message : e);
         $("#alert-faust-code").css("visibility", "visible");
     };
     /**
@@ -217,7 +217,7 @@ $(async () => {
             /**
              * Parse Faust-generated error message to locate the lines with error
              */
-            const matchLine = e.toString().match(/FaustDSP : (\d+)/);
+            const matchLine = e.message.match(/FaustDSP : (\d+)/);
             if (matchLine) {
                 const line = matchLine[1];
                 editorDecoration = editor.deltaDecorations(editorDecoration, [{
@@ -1032,7 +1032,7 @@ $(async () => {
                 wavesurfer.load(URL.createObjectURL(file));
             } catch (e) {
                 console.error(e); // eslint-disable-line no-console
-                showError("Cannot load sound file: " + e);
+                showError("Cannot load sound file: " + e.message);
                 return;
             }
             if ($("#source-waveform audio").length) {
