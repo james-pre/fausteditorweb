@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + {"0":"e85e88e33f79de503b01","1":"8ca7e891505541d7781a","2":"e07fe493556ad5a0ecf1"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "js/" + {"0":"e85e88e33f79de503b01","1":"8ca7e891505541d7781a","2":"1422a62e329a75d6f24e"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -51716,15 +51716,13 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function 
             var listener = data => {
               if (audioEnv.dsp) audioEnv.dsp.midiMessage(data); // Send midi message to dsp node
 
-              if (data[0] === 144) {
+              if (data[0] === 144 && data[2]) {
                 // Show as pill midi note
-                if (data[2]) {
-                  if (keys.indexOf(data[1]) === -1) keys.push(data[1]);
-                  $("#midi-ui-note").text(data[1]).show();
-                } else {
-                  keys.splice(keys.indexOf(data[1]), 1);
-                  if (keys.length === 0) $("#midi-ui-note").hide();else $("#midi-ui-note").text(keys[keys.length - 1]);
-                }
+                if (keys.indexOf(data[1]) === -1) keys.push(data[1]);
+                $("#midi-ui-note").text(data[1]).show();
+              } else if (data[0] === 128 || data[0] === 144 && !data[2]) {
+                keys.splice(keys.indexOf(data[1]), 1);
+                if (keys.length === 0) $("#midi-ui-note").hide();else $("#midi-ui-note").text(keys[keys.length - 1]);
               }
             };
 
