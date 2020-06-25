@@ -34,6 +34,7 @@ import { FileManager } from "./FileManager";
 import { GainUI, createMeterNode, MeterNode } from "./MeterNode";
 import { Recorder } from "./Recorder";
 import { faustLangRegister } from "./monaco-faust/register";
+import VERSION from "./version";
 
 declare global {
     interface Window {
@@ -89,10 +90,12 @@ type FaustEditorUIEnv = {
     fileManager: FileManager;
 };
 type FaustExportTargets = { [platform: string]: string[] };
+interface LegacyWaveSurferBackend extends WaveSurfer.WaveSurferBackend {
+    buffer: AudioBuffer;
+}
 
 const supportAudioWorklet = !!window.AudioWorklet;
 let supportMediaStreamDestination = !!(window.AudioContext || window.webkitAudioContext).prototype.createMediaStreamDestination && !!HTMLAudioElement.prototype.setSinkId;
-const VERSION = "1.0.18";
 
 $(async () => {
     /**
@@ -423,7 +426,7 @@ $(async () => {
     const audioEnv: FaustEditorAudioEnv = { dspConnectedToInput: false, dspConnectedToOutput: false, inputEnabled: false, outputEnabled: false };
     const midiEnv: FaustEditorMIDIEnv = { input: null };
     const uiEnv: FaustEditorUIEnv = { analysersInited: false, inputScope: null, outputScope: null, plotScope: undefined, analyser: new Analyser(16, "continuous"), fileManager: undefined };
-    const compileOptions: FaustEditorCompileOptions = { useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, realtimeCompile: true, popup: false, voices: 0, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, plotFFTOverlap: 2, drawSpectrogram: false, enableGuiBuilder: false, guiBuilderUrl: "https://mainline.i3s.unice.fr/fausteditorweb/dist/PedalEditor/Front-End/", ...loadEditorParams(), args: { "-I": ["libraries/", "project/"] } };
+    const compileOptions: FaustEditorCompileOptions = { useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, realtimeCompile: true, popup: false, voices: 0, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, plotFFTOverlap: 2, drawSpectrogram: false, enableGuiBuilder: false, guiBuilderUrl: "https://mainline.i3s.unice.fr/fausteditorweb/dist/PedalEditor/Front-End/", exportPlatform: "owl", exportArch: "owl", ...loadEditorParams(), args: { "-I": ["libraries/", "project/"] } };
     const faustEnv: FaustEditorEnv = { audioEnv, midiEnv, uiEnv, compileOptions, jQuery, editor, faust, recorder: new Recorder() };
     localStorage.setItem("faust_editor_version", VERSION);
     uiEnv.plotScope = new StaticScope({ container: $<HTMLDivElement>("#plot-ui")[0] });
@@ -650,6 +653,17 @@ $(async () => {
             compileOptions.bufferSize = [128, 256, 512, 1024, 2048, 4096].indexOf(bufferSize) === -1 ? 1024 : (bufferSize as 128 | 256 | 512 | 1024 | 2048 | 4096);
             saveEditorParams();
         }
+        if (urlParams.has("mode")) {
+            if (urlParams.get("mode") === "amstram") {
+                compileOptions.exportPlatform = "esp32";
+                compileOptions.exportArch = "gramophoneFlash";
+                $("#btn-def-exp-content").html("Gramo");
+                saveEditorParams();
+                $("#export-platform").val(compileOptions.exportPlatform);
+                $("#export-arch").val(compileOptions.exportArch);
+                // getTargets(server);
+            }
+        }
         let code;
         if (urlParams.has("code")) {
             const codeURL = urlParams.get("code");
@@ -716,6 +730,82 @@ $(async () => {
      * Append options to export model
      */
     const server = "https://faustservicecloud.grame.fr";
+    // If true, the download argument will force the download of the generated target
+    const exportProgram = (download: boolean) => {
+        $("#export-download").hide();
+        $("#export-loading").css("display", "inline-block");
+        $("#def-exp-icon").hide();
+        $("#def-exp-loading").css("display", "inline-block");
+        $("#qr-code").hide();
+        $("#export-error").hide();
+        const form = new FormData();
+        const name = ($("#export-name").val() as string).replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
+        try {
+            // 03/12/2020: The code is not expanded anymore, since with esp32 the remote compilation service uses the "platform.lib" library
+            // const expandedCode = faust.expandCode(uiEnv.fileManager.mainCode, compileOptions.args);
+            const expandedCode = uiEnv.fileManager.mainCode;
+            form.append("file", new File([`declare filename "${name}.dsp"; declare name "${name}"; ${expandedCode}`], `${name}.dsp`));
+        } catch (e) {
+            $("#export-loading").css("display", "none");
+            $("#def-exp-loading").css("display", "none");
+            $("#def-exp-icon").show();
+            $("#export-error").html(e).show();
+            return;
+        }
+        $.ajax({
+            method: "POST",
+            url: `${server}/filepost`,
+            data: form,
+            contentType: false,
+            processData: false
+        }).done((shaKey) => {
+            const matched = shaKey.match(/^[0-9A-Fa-f]+$/);
+            if (matched) {
+                const plat = $("#export-platform").val();
+                const arch = $("#export-arch").val();
+                const path = `${server}/${shaKey}/${plat}/${arch}`;
+                $.ajax({
+                    method: "GET",
+                    url: `${path}/precompile`
+                }).done((result) => {
+                    if (result === "DONE") {
+                        const href = `${path}/${plat === "android" ? "binary.apk" : "binary.zip"}`;
+                        $("#a-export-download").attr({ href });
+                        $("#export-download").show();
+                        if (download === true) {
+                            $("#export-download").click();
+                        }
+                        $("#qr-code").show();
+                        QRCode.toCanvas(
+                            $<HTMLCanvasElement>("#qr-code")[0],
+                            `${path}/${plat === "android" ? "binary.apk" : "binary.zip"}`
+                        );
+                        return;
+                    }
+                    $("#export-loading").css("display", "none");
+                    $("#def-exp-loading").css("display", "none");
+                    $("#def-exp-icon").show();
+                    $("#export-error").html(result).show();
+                }).fail((jqXHR, textStatus) => {
+                    $("#export-error").html(textStatus + ": " + jqXHR.responseText).show();
+                }).always(() => {
+                    $("#export-loading").css("display", "none");
+                    $("#def-exp-loading").css("display", "none");
+                    $("#def-exp-icon").show();
+                });
+                return;
+            }
+            $("#export-loading").css("display", "none");
+            $("#def-exp-loading").css("display", "none");
+            $("#def-exp-icon").show();
+            $("#export-error").html(shaKey).show();
+        }).fail((jqXHR, textStatus) => {
+            $("#export-loading").css("display", "none");
+            $("#def-exp-loading").css("display", "none");
+            $("#def-exp-icon").show();
+            $("#export-error").html(textStatus + ": " + jqXHR.responseText).show();
+        });
+    };
     const getTargets = (server: string) => {
         $("#export-platform").add("#export-arch").empty();
         $("#export-platform").off("change");
@@ -728,74 +818,30 @@ $(async () => {
                 const plats = Object.keys(targets);
                 if (plats.length) {
                     plats.forEach((plat, i) => $("#export-platform").append(new Option(plat, plat, i === 0)));
-                    targets[plats[0]].forEach((arch, i) => $("#export-arch").append(new Option(arch, arch, i === 0)));
+                    $("#export-platform").val(compileOptions.exportPlatform);
+                    targets[compileOptions.exportPlatform].forEach((arch, i) => $("#export-arch").append(new Option(arch, arch, i === 0)));
+                    $("#export-arch").val(compileOptions.exportArch);
                 }
                 $("#modal-export").on("shown.bs.modal", () => $("#export-name").val(uiEnv.fileManager.mainFileNameWithoutSuffix));
                 $("#export-name").on("keydown", (e) => {
                     if (e.key.match(/[^a-zA-Z0-9_]/)) e.preventDefault();
                 });
                 $<HTMLSelectElement>("#export-platform").on("change", (e) => {
-                    const plat = e.currentTarget.value;
+                    compileOptions.exportPlatform = e.currentTarget.value;
+                    saveEditorParams();
                     $("#export-arch").empty();
-                    targets[plat].forEach((arch, i) => $("#export-arch").append(new Option(arch, arch, i === 0)));
+                    targets[compileOptions.exportPlatform].forEach((arch, i) => $("#export-arch").append(new Option(arch, arch, i === 0)));
+                });
+                $<HTMLSelectElement>("#export-arch").on("change", (e) => {
+                    compileOptions.exportArch = e.currentTarget.value;
+                    saveEditorParams();
+                    // eslint-disable-next-line no-console
+                    console.log(compileOptions);
                 });
                 $("#export-download").on("click", () => $("#a-export-download")[0].click());
                 $("#a-export-download").on("click", e => e.stopPropagation());
                 $("#export-submit").prop("disabled", false).on("click", () => {
-                    $("#export-download").hide();
-                    $("#export-loading").css("display", "inline-block");
-                    $("#qr-code").hide();
-                    $("#export-error").hide();
-                    const form = new FormData();
-                    const name = ($("#export-name").val() as string).replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
-                    try {
-                        const expandedCode = faust.expandCode(uiEnv.fileManager.mainCode, compileOptions.args);
-                        form.append("file", new File([`declare filename "${name}.dsp"; declare name "${name}"; ${expandedCode}`], `${name}.dsp`));
-                    } catch (e) {
-                        $("#export-loading").css("display", "none");
-                        $("#export-error").html(e).show();
-                        return;
-                    }
-                    $.ajax({
-                        method: "POST",
-                        url: `${server}/filepost`,
-                        data: form,
-                        contentType: false,
-                        processData: false
-                    }).done((shaKey) => {
-                        const matched = shaKey.match(/^[0-9A-Fa-f]+$/);
-                        if (matched) {
-                            const plat = $("#export-platform").val();
-                            const arch = $("#export-arch").val();
-                            const path = `${server}/${shaKey}/${plat}/${arch}`;
-                            $.ajax({
-                                method: "GET",
-                                url: `${path}/precompile`
-                            }).done((result) => {
-                                if (result === "DONE") {
-                                    const href = `${path}/${plat === "android" ? "binary.apk" : "binary.zip"}`;
-                                    $("#a-export-download").attr({ href });
-                                    $("#export-download").show();
-                                    $("#qr-code").show();
-                                    QRCode.toCanvas(
-                                        $<HTMLCanvasElement>("#qr-code")[0],
-                                        `${path}/${plat === "android" ? "binary.apk" : "binary.zip"}`
-                                    );
-                                    return;
-                                }
-                                $("#export-loading").css("display", "none");
-                                $("#export-error").html(result).show();
-                            }).fail((jqXHR, textStatus) => {
-                                $("#export-error").html(textStatus + ": " + jqXHR.responseText).show();
-                            }).always(() => $("#export-loading").css("display", "none"));
-                            return;
-                        }
-                        $("#export-loading").css("display", "none");
-                        $("#export-error").html(shaKey).show();
-                    }).fail((jqXHR, textStatus) => {
-                        $("#export-loading").css("display", "none");
-                        $("#export-error").html(textStatus + ": " + jqXHR.responseText).show();
-                    });
+                    exportProgram(false);
                 });
             })
             .catch(() => undefined);
@@ -942,7 +988,7 @@ $(async () => {
                 }
             });
             wavesurfer.on("waveform-ready", () => {
-                audioEnv.gainUIInput.channels = wavesurfer.backend.buffer.numberOfChannels;
+                audioEnv.gainUIInput.channels = (wavesurfer.backend as LegacyWaveSurferBackend).buffer.numberOfChannels;
             });
             wavesurfer.load("./02-XYLO1.mp3");
         }
@@ -951,7 +997,7 @@ $(async () => {
             $("#source-ui").show();
             $("#input-analyser-ui").hide();
             if (uiEnv.inputScope) uiEnv.inputScope.disabled = true;
-            audioEnv.gainUIInput.channels = wavesurfer.backend.buffer ? wavesurfer.backend.buffer.numberOfChannels : 2;
+            audioEnv.gainUIInput.channels = (wavesurfer.backend as LegacyWaveSurferBackend).buffer ? (wavesurfer.backend as LegacyWaveSurferBackend).buffer.numberOfChannels : 2;
         } else {
             $("#source-ui").hide();
             $("#input-analyser-ui").show();
@@ -1042,59 +1088,65 @@ $(async () => {
         }
     });
     // Append connected audio devices
-    const handleMediaDeviceChange = () => {
-        navigator.mediaDevices.enumerateDevices().then((devices) => {
-            const $selectInput = $("#select-audio-input");
-            const $selectOutput = $("#select-audio-output");
-            $selectInput.children("option").each((i, e: HTMLOptionElement) => {
-                if (e.value === "-1") return;
-                if (!devices.find(device => device.deviceId === e.value && device.kind === "audioinput")) {
-                    e.remove();
-                    if (e.selected) $selectInput.find("option").eq(0).prop("selected", true).change();
-                }
-            });
-            $selectOutput.children("option").each((i, e: HTMLOptionElement) => {
-                if (e.value === "-1") return;
-                if (!devices.find(device => device.deviceId === e.value && device.kind === "audiooutput")) {
-                    e.remove();
-                    if (e.selected) $selectOutput.find("option").eq(0).prop("selected", true).change();
-                }
-            });
-            devices.forEach((device) => {
-                if (device.kind === "audioinput") {
-                    if ($selectInput.find(`option[value=${device.deviceId}]`).length) return;
-                    $selectInput.append(new Option(device.label || device.deviceId, device.deviceId));
-                }
-                if (supportMediaStreamDestination && device.kind === "audiooutput") {
-                    if ($selectOutput.find(`option[value=${device.deviceId}]`).length) return;
-                    $selectOutput.append(new Option(device.label || device.deviceId, device.deviceId));
-                }
-            });
+    const handleMediaDeviceChange = async () => {
+        try {
+            await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch (e) {} // eslint-disable-line no-empty
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const $selectInput = $("#select-audio-input");
+        const $selectOutput = $("#select-audio-output");
+        $selectInput.children("option").each((i, e: HTMLOptionElement) => {
+            if (e.value === "-1") return;
+            if (!devices.find(device => device.deviceId === e.value && device.kind === "audioinput")) {
+                e.remove();
+                if (e.selected) $selectInput.find("option").eq(0).prop("selected", true).change();
+            }
+        });
+        $selectOutput.children("option").each((i, e: HTMLOptionElement) => {
+            if (e.value === "-1") return;
+            if (!devices.find(device => device.deviceId === e.value && device.kind === "audiooutput")) {
+                e.remove();
+                if (e.selected) $selectOutput.find("option").eq(0).prop("selected", true).change();
+            }
+        });
+        devices.forEach((device) => {
+            if (!device.deviceId) return;
+            if (device.kind === "audioinput") {
+                if ($selectInput.find(`option[value=${device.deviceId}]`).length) return;
+                $selectInput.append(new Option(device.label || device.deviceId, device.deviceId));
+            }
+            if (supportMediaStreamDestination && device.kind === "audiooutput") {
+                if ($selectOutput.find(`option[value=${device.deviceId}]`).length) return;
+                $selectOutput.append(new Option(device.label || device.deviceId, device.deviceId));
+            }
         });
     };
     if (navigator.mediaDevices) {
-        navigator.mediaDevices.enumerateDevices().then((devices) => {
-            $("#input-ui-default").hide();
-            const $selectInput = $("#select-audio-input").prop("disabled", false);
-            let $selectOutput: JQuery<HTMLElement>;
-            if (supportMediaStreamDestination) {
-                if (devices.find(device => device.kind === "audiooutput")) {
-                    $("#output-ui-default").hide();
-                    $selectOutput = $("#select-audio-output").prop("disabled", false);
-                } else { // No audio outputs, fallback to audioCtx.destination
-                    if (audioEnv.audioCtx && audioEnv.destination) audioEnv.destination = audioEnv.audioCtx.destination;
-                    supportMediaStreamDestination = false;
-                }
+        try {
+            await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch (e) {} // eslint-disable-line no-empty
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        $("#input-ui-default").hide();
+        const $selectInput = $("#select-audio-input").prop("disabled", false);
+        let $selectOutput: JQuery<HTMLElement>;
+        if (supportMediaStreamDestination) {
+            if (devices.find(device => device.kind === "audiooutput")) {
+                $("#output-ui-default").hide();
+                $selectOutput = $("#select-audio-output").prop("disabled", false);
+            } else { // No audio outputs, fallback to audioCtx.destination
+                if (audioEnv.audioCtx && audioEnv.destination) audioEnv.destination = audioEnv.audioCtx.destination;
+                supportMediaStreamDestination = false;
             }
-            navigator.mediaDevices.ondevicechange = handleMediaDeviceChange;
-            devices.forEach((device) => {
-                if (device.kind === "audioinput") {
-                    $selectInput.append(new Option(device.label || device.deviceId, device.deviceId));
-                }
-                if (supportMediaStreamDestination && device.kind === "audiooutput") {
-                    $selectOutput.append(new Option(device.label || device.deviceId, device.deviceId));
-                }
-            });
+        }
+        navigator.mediaDevices.ondevicechange = handleMediaDeviceChange;
+        devices.forEach((device) => {
+            if (!device.deviceId) return;
+            if (device.kind === "audioinput") {
+                $selectInput.append(new Option(device.label || device.deviceId, device.deviceId));
+            }
+            if (supportMediaStreamDestination && device.kind === "audiooutput") {
+                $selectOutput.append(new Option(device.label || device.deviceId, device.deviceId));
+            }
         });
     }
     // DSP info
@@ -1126,7 +1178,7 @@ $(async () => {
         $("#a-recorder-save").attr({ href: url, download: `${uiEnv.fileManager.mainFileNameWithoutSuffix}.wav` })[0].click();
     });
     $("#a-recorder-save").on("click", e => e.stopPropagation());
-    // Output switch to connect / disconnect dsp form destination
+    // Output switch to connect / disconnect dsp from destination
     $(".btn-dac").on("click", async () => {
         /*
         if (!audioEnv.audioCtx) {
@@ -1280,6 +1332,10 @@ $(async () => {
         if ($("#tab-diagram").hasClass("active") || compileOptions.plotMode === "offline") $("#tab-faust-ui").tab("show");
         // const dspOutputHandler = FaustUI.main(node.getJSON(), $("#faust-ui"), (path: string, val: number) => node.setParamValue(path, val));
         // node.setOutputParamHandler(dspOutputHandler);
+    });
+    // Default export button
+    $(".btn-def-exp").prop("disabled", false).on("click", async () => {
+        exportProgram(true);
     });
     /**
      * Bind message event for changing dsp params on receiving msg from ui window

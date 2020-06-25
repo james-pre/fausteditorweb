@@ -1,6 +1,6 @@
-# fausteditorweb [![Badge](https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg?style=flat-square)](https://996.icu/#/en_US)
+# Faust IDE [![Badge](https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg?style=flat-square)](https://996.icu/#/en_US)
 
-The online [Faust Editor](https://faust.grame.fr/ide/) can be used to _edit_, _compile_ and _run_ Faust code from any recent Web Browser with [webassembly](http://webassembly.org) support. It works completely on the client side and it is therefore very convenient for situations with many simultaneous users (workshops, classrooms, etc.). It embeds the latest version of the Faust compiler with an efficient webassembly backend and offers polyphonic MIDI support.
+The online [Faust IDE](https://faustide.grame.fr) can be used to _edit_, _compile_ and _run_ Faust code from any recent Web Browser with [webassembly](http://webassembly.org) support. It works completely on the client side and it is therefore very convenient for situations with many simultaneous users (workshops, classrooms, etc.). It embeds the latest version of the Faust compiler with an efficient webassembly backend and offers polyphonic MIDI support.
 
 ## Features
 
@@ -30,8 +30,8 @@ Firstly ensure that you have [Git](https://git-scm.com/downloads) and [Node.js](
 Clone a copy of the repo then change to the directory:
 
 ```bash
-git clone https://github.com:grame-cncm/fausteditorweb.git
-cd fausteditorweb
+git clone https://github.com:grame-cncm/faustide.git
+cd faustide
 ```
 Beware: on Windows, before cloning the repository, and for the libfaust-wasm.data file line ending to be correctly handled, you'll have to do: 
 
@@ -65,11 +65,42 @@ If you need to update the editor's version using `git pull`, as the repository h
 A local HTTP server has to be started with `python2 -m SimpleHTTPServer` (or something similar), then use `http://127.0.0.1:8000/dist/` to launch the local editor.
 
 
-## Deploying the editor
-
-The compiled files are not on Git anymore. You'll have to generate them using `npm run build` on the deployement machine. 
-
 ## Versioning 
 
-You'll have to raise the package version number in `package.json` and `src/index.ts` for `npm run update` to properly work.
+You'll have to raise the package version number in `package.json` before `npm run build` to properly work.
 
+------
+
+## Deployment
+
+Deployment remains an operation that must take place under the user control. It must be made from the master branch. The procedure consists of:
+
+1) generating the site
+2) copying the contents of the `dist` directory into the `docs` directory
+3) checking the proper functioning of the site from the `docs` directory
+
+For 1), see **Building** section above
+For 2), you can run:
+
+```bash
+npm run publish
+```
+If you run the copy manually, BE CAREFUL not to delete the files `CNAME` and `.nojekyll`.
+
+For 3), you can launch a local web server from the `docs` directory:
+
+```bash
+python -m http.server 8000        # python 3
+```
+or
+```bash
+python -m SimpleHTTPServer 8000   # python 2
+```
+
+Then, once the site is validated add (git add) and commit the entire contents of the `docs` directory then push to git.
+ 
+
+### Useful links
+
+- [https://faustide.grame.fr](https://fausttide.grame.fr): the official link on the Faust IDE website. 
+- [https://github.com/grame-cncm/faustide](https://github.com/grame-cncm/faustide): the github repository
