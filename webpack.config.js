@@ -6,6 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const VERSION = require("./src/version");
 
+/** @type {import('webpack').Configuration} */
 const config = {
   entry: './src/index.ts',
   resolve: {
@@ -54,12 +55,6 @@ const config = {
             }
           }
         ]
-      },
-      {
-        test: /\.js$/,
-        use: ["source-map-loader"],
-        include: /faust2webaudio/,
-        enforce: "pre"
       }
     ]
   },
@@ -68,7 +63,7 @@ const config = {
     new CopyWebpackPlugin([
       { context: './src/static', from: './', to: './', globOptions: { ignore: ['**/.DS_Store'] } },
       { from: './src/monaco-faust/primitives.lib', to: './' },
-      { from: './node_modules/faust2webaudio/dist/libfaust-wasm.*', to: './', flatten: true },
+      { from: './node_modules/@shren/faustwasm/libfaust-wasm/libfaust-wasm.*', to: './', flatten: true },
       { from: './node_modules/faust-ui/dist/faust-ui.*', to: './', flatten: true },
       { from: './node_modules/faust-ui/dist/index.html', to: './faust-ui.html', flatten: true }
     ]),
