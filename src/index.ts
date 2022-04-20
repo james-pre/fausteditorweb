@@ -177,7 +177,7 @@ $(async () => {
      *
      */
     const loadProject = () => {
-        libFaust.fs().mkdir("usr/share/faust/project");
+        libFaust.fs().mkdir("/usr/share/project");
         let project: { [name: string]: string };
         try {
             project = JSON.parse(localStorage.getItem("faust_editor_project")) || {};
@@ -185,7 +185,7 @@ $(async () => {
             project = {};
         }
         for (const fileName in project) {
-            libFaust.fs().writeFile("usr/share/faust/project/" + fileName, project[fileName]);
+            libFaust.fs().writeFile("/usr/share/project/" + fileName, project[fileName]);
         }
     };
     /**
@@ -421,7 +421,7 @@ $(async () => {
              */
             if (!compileOptions.popup || (uiEnv.uiPopup && !uiEnv.uiPopup.closed)) callback();
             else {
-                uiEnv.uiPopup = window.open("faust-ui.html", "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
+                uiEnv.uiPopup = window.open("faust-ui/index.html", "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
                 uiEnv.uiPopup.onload = callback;
             }
         };
@@ -450,17 +450,17 @@ $(async () => {
     const audioEnv: FaustEditorAudioEnv = { dspConnectedToInput: false, dspConnectedToOutput: false, inputEnabled: false, outputEnabled: false };
     const midiEnv: FaustEditorMIDIEnv = { input: null };
     const uiEnv: FaustEditorUIEnv = { analysersInited: false, inputScope: null, outputScope: null, plotScope: undefined, analyser: new Analyser(16, "continuous"), fileManager: undefined };
-    const compileOptions: FaustEditorCompileOptions = { useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, realtimeCompile: true, popup: false, voices: 0, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, plotFFTOverlap: 2, drawSpectrogram: false, enableGuiBuilder: false, guiBuilderUrl: "https://mainline.i3s.unice.fr/fausteditorweb/dist/PedalEditor/Front-End/", exportPlatform: "owl", exportArch: "owl", ...loadEditorParams(), args: [""] };
+    const compileOptions: FaustEditorCompileOptions = { useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, realtimeCompile: true, popup: false, voices: 0, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, plotFFTOverlap: 2, drawSpectrogram: false, enableGuiBuilder: false, guiBuilderUrl: "https://mainline.i3s.unice.fr/fausteditorweb/dist/PedalEditor/Front-End/", exportPlatform: "owl", exportArch: "owl", ...loadEditorParams(), args: ["-I", "/usr/share/project"] };
     const faustEnv: FaustEditorEnv = { audioEnv, midiEnv, uiEnv, compileOptions, jQuery, editor, libFaust, recorder: new Recorder() };
     localStorage.setItem("faust_editor_version", VERSION);
     uiEnv.plotScope = new StaticScope({ container: $<HTMLDivElement>("#plot-ui")[0] });
     uiEnv.analyser.drawHandler = uiEnv.plotScope.draw;
     uiEnv.analyser.getSampleRate = () => (compileOptions.plotMode === "offline" ? compileOptions.plotSR : audioEnv.audioCtx.sampleRate);
-    if (compileOptions.saveCode) loadProject(); else libFaust.fs().mkdir("usr/share/faust/project");
+    if (compileOptions.saveCode) loadProject(); else libFaust.fs().mkdir("/usr/share/project");
     uiEnv.fileManager = new FileManager({
         container: $<HTMLDivElement>("#filemanager")[0],
         fs: libFaust.fs(),
-        path: "usr/share/faust/project/",
+        path: "/usr/share/project/",
         $mainFile: compileOptions.mainFileIndex || 0,
         selectHandler: (fileName, content) => editor.setValue(content),
         saveHandler: (fileName: string, content: string, mainCode: string) => {
@@ -1465,7 +1465,7 @@ $(async () => {
          */
         if (uiEnv.uiPopup && !uiEnv.uiPopup.closed) callback();
         else {
-            uiEnv.uiPopup = window.open("faust-ui.html", "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
+            uiEnv.uiPopup = window.open("faust-ui/index.html", "Faust DSP", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600");
             uiEnv.uiPopup.onload = callback;
         }
     });

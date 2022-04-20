@@ -64,8 +64,7 @@ const config = {
       { context: './src/static', from: './', to: './', globOptions: { ignore: ['**/.DS_Store'] } },
       { from: './src/monaco-faust/primitives.lib', to: './' },
       { from: './node_modules/@shren/faustwasm/libfaust-wasm/libfaust-wasm.*', to: './', flatten: true },
-      { from: './node_modules/faust-ui/dist/faust-ui.*', to: './', flatten: true },
-      { from: './node_modules/faust-ui/dist/index.html', to: './faust-ui.html', flatten: true }
+      { from: './node_modules/@shren/faust-ui/dist/index.*', to: './faust-ui/', flatten: true }
     ]),
     new MonacoWebpackPlugin({
       output: 'js',
