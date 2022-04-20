@@ -562,7 +562,7 @@ $(async () => {
     // Save DSP
     $<HTMLInputElement>("#check-save-dsp").on("change", async (e) => {
         compileOptions.saveDsp = e.currentTarget.checked;
-        await loadEditorDspTable();
+        saveEditorDspTable();
         saveEditorParams();
     })[0].checked = compileOptions.saveDsp;
     if (compileOptions.saveDsp) await loadEditorDspTable();
