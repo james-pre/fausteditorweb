@@ -1505,11 +1505,11 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
       const params = [];
       const callback = (item) => {
         if (item.type === "vslider" || item.type === "hslider" || item.type === "nentry") {
-          if (!poly || !item.address.endsWith("/gate") && !item.address.endsWith("/freq") && !item.address.endsWith("/gain")) {
+          if (!poly || !item.address.endsWith("/gate") && !item.address.endsWith("/freq") && !item.address.endsWith("/gain") && !item.address.endsWith("/key") && !item.address.endsWith("/vel") && !item.address.endsWith("/velocity")) {
             params.push({ name: item.address, defaultValue: item.init || 0, minValue: item.min || 0, maxValue: item.max || 0 });
           }
         } else if (item.type === "button" || item.type === "checkbox") {
-          if (!poly || !item.address.endsWith("/gate") && !item.address.endsWith("/freq") && !item.address.endsWith("/gain")) {
+          if (!poly || !item.address.endsWith("/gate") && !item.address.endsWith("/freq") && !item.address.endsWith("/gain") && !item.address.endsWith("/key") && !item.address.endsWith("/vel") && !item.address.endsWith("/velocity")) {
             params.push({ name: item.address, defaultValue: item.init || 0, minValue: 0, maxValue: 1 });
           }
         }
@@ -2816,8 +2816,6 @@ var FaustWebAudioDspVoice = class {
     FaustWebAudioDspVoice.kLegatoVoice = -3;
     FaustWebAudioDspVoice.kNoVoice = -4;
     FaustWebAudioDspVoice.VOICE_STOP_LEVEL = 5e-4;
-    this.fKeyFun = (pitch) => FaustWebAudioDspVoice.midiToFreq(pitch);
-    this.fVelFun = (velocity) => velocity / 127;
     this.fCurNote = FaustWebAudioDspVoice.kFreeVoice;
     this.fNextNote = this.fNextVel = -1;
     this.fLevel = 0;
@@ -2827,28 +2825,29 @@ var FaustWebAudioDspVoice = class {
     this.fGateLabel = [];
     this.fGainLabel = [];
     this.fFreqLabel = [];
+    this.fKeyLabel = [];
+    this.fVelLabel = [];
     this.fAPI.init(this.fDSP, sampleRate);
     this.extractPaths(inputItems, pathTable);
   }
   static midiToFreq(note) {
     return 440 * 2 ** ((note - 69) / 12);
   }
+  static normalizeVelocity(velocity) {
+    return velocity / 127;
+  }
   extractPaths(inputItems, pathTable) {
     inputItems.forEach((item) => {
       if (item.endsWith("/gate")) {
         this.fGateLabel.push(pathTable[item]);
       } else if (item.endsWith("/freq")) {
-        this.fKeyFun = (pitch) => FaustWebAudioDspVoice.midiToFreq(pitch);
         this.fFreqLabel.push(pathTable[item]);
       } else if (item.endsWith("/key")) {
-        this.fKeyFun = (pitch) => pitch;
-        this.fFreqLabel.push(pathTable[item]);
+        this.fKeyLabel.push(pathTable[item]);
       } else if (item.endsWith("/gain")) {
-        this.fVelFun = (velocity) => velocity / 127;
         this.fGainLabel.push(pathTable[item]);
       } else if (item.endsWith("/vel") && item.endsWith("/velocity")) {
-        this.fVelFun = (velocity) => velocity;
-        this.fGainLabel.push(pathTable[item]);
+        this.fVelLabel.push(pathTable[item]);
       }
     });
   }
@@ -2857,9 +2856,11 @@ var FaustWebAudioDspVoice = class {
       this.fNextNote = pitch;
       this.fNextVel = velocity;
     } else {
-      this.fFreqLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, this.fKeyFun(pitch)));
+      this.fFreqLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, FaustWebAudioDspVoice.midiToFreq(pitch)));
       this.fGateLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, 1));
-      this.fGainLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, this.fVelFun(velocity)));
+      this.fGainLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, FaustWebAudioDspVoice.normalizeVelocity(velocity)));
+      this.fKeyLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, pitch));
+      this.fVelLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, velocity));
       this.fCurNote = pitch;
     }
   }
@@ -3465,7 +3466,7 @@ var _FaustMonoDspGenerator = class {
     this.name = name;
     return this;
   }
-  async createNode(context, name = this.name, factory = this.factory, sp = false, bufferSize = 1024, processorName = factory.shaKey || name) {
+  async createNode(context, name = this.name, factory = this.factory, sp = false, bufferSize = 1024, processorName = (factory == null ? void 0 : factory.shaKey) || name) {
     var _a, _b;
     if (!factory)
       throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
@@ -3518,7 +3519,7 @@ const dependencies = {
       return node;
     }
   }
-  async createAudioWorkletProcessor(name = this.name, factory = this.factory, processorName = factory.shaKey || name) {
+  async createAudioWorkletProcessor(name = this.name, factory = this.factory, processorName = (factory == null ? void 0 : factory.shaKey) || name) {
     if (!factory)
       throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
     const meta = JSON.parse(factory.json);
@@ -3578,7 +3579,7 @@ process = adaptor(dsp_code.process, dsp_code.effect) : dsp_code.effect;`) {
     this.mixerModule = mixerModule;
     return this;
   }
-  async createNode(context, voices, name = this.name, voiceFactory = this.voiceFactory, mixerModule = this.mixerModule, effectFactory = this.effectFactory, sp = false, bufferSize = 1024, processorName = (voiceFactory.shaKey || "") + ((effectFactory == null ? void 0 : effectFactory.shaKey) || "") || `${name}_poly`) {
+  async createNode(context, voices, name = this.name, voiceFactory = this.voiceFactory, mixerModule = this.mixerModule, effectFactory = this.effectFactory, sp = false, bufferSize = 1024, processorName = ((voiceFactory == null ? void 0 : voiceFactory.shaKey) || "") + ((effectFactory == null ? void 0 : effectFactory.shaKey) || "") || `${name}_poly`) {
     var _a, _b;
     if (!voiceFactory)
       throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
@@ -3634,7 +3635,7 @@ const dependencies = {
       return node;
     }
   }
-  async createAudioWorkletProcessor(name = this.name, voiceFactory = this.voiceFactory, effectFactory = this.effectFactory, processorName = (voiceFactory.shaKey || "") + ((effectFactory == null ? void 0 : effectFactory.shaKey) || "") || `${name}_poly`) {
+  async createAudioWorkletProcessor(name = this.name, voiceFactory = this.voiceFactory, effectFactory = this.effectFactory, processorName = ((voiceFactory == null ? void 0 : voiceFactory.shaKey) || "") + ((effectFactory == null ? void 0 : effectFactory.shaKey) || "") || `${name}_poly`) {
     if (!voiceFactory)
       throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
     const voiceMeta = JSON.parse(voiceFactory.json);
@@ -34450,7 +34451,7 @@ module.exports = welch
 /*! exports provided: name, version, description, main, scripts, repository, keywords, author, license, bugs, homepage, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"name\":\"fausteditorweb\",\"version\":\"1.0.76\",\"description\":\"Faust Editor\",\"main\":\"src/index.ts\",\"scripts\":{\"prebuild\":\"node ./src/listEx.js\",\"build\":\"webpack --mode development\",\"build-watch\":\"webpack --mode development --watch\",\"dist\":\"npm run prebuild && webpack --mode production\",\"publish\":\"rm -rf docs/* && git checkout docs/CNAME && cp -r dist/* docs\",\"version\":\"npm run build\"},\"repository\":{\"type\":\"git\",\"url\":\"git+https://github.com/grame-cncm/faustide.git\"},\"keywords\":[\"Faust\",\"WebAudio\",\"WebAssembly\"],\"author\":\"Grame-CNCM\",\"license\":\"GPL-3.0-or-later\",\"bugs\":{\"url\":\"https://github.com/grame-cncm/faustide/issues\"},\"homepage\":\"https://github.com/grame-cncm/faustide#readme\",\"devDependencies\":{\"@babel/core\":\"^7.13.10\",\"@babel/plugin-proposal-class-properties\":\"^7.13.0\",\"@babel/plugin-transform-runtime\":\"^7.13.10\",\"@babel/preset-env\":\"^7.13.12\",\"@babel/preset-typescript\":\"^7.13.0\",\"@babel/runtime\":\"^7.13.10\",\"@fortawesome/fontawesome-free\":\"^5.15.3\",\"@shren/faust-ui\":\"^1.1.1\",\"@shren/faustwasm\":\"^0.0.16\",\"@types/bootstrap\":\"^4.6.0\",\"@types/jquery\":\"^3.5.5\",\"@types/jszip\":\"^3.4.1\",\"@types/qrcode\":\"^1.4.0\",\"@types/wavesurfer.js\":\"^3.3.2\",\"@typescript-eslint/eslint-plugin\":\"^2.34.0\",\"@typescript-eslint/parser\":\"^2.34.0\",\"babel-loader\":\"^8.2.2\",\"bootstrap\":\"^4.6.0\",\"clean-webpack-plugin\":\"^3.0.0\",\"copy-webpack-plugin\":\"^5.1.2\",\"css-loader\":\"^5.2.5\",\"directory-tree\":\"^2.2.7\",\"eslint\":\"^6.8.0\",\"eslint-config-airbnb-base\":\"^14.2.1\",\"eslint-plugin-import\":\"^2.22.1\",\"file-loader\":\"^5.1.0\",\"jquery\":\"^3.6.0\",\"jszip\":\"^3.6.0\",\"kissfft-js\":\"^0.1.8\",\"monaco-editor\":\"^0.20.0\",\"monaco-editor-webpack-plugin\":\"^1.9.1\",\"popper.js\":\"^1.16.1\",\"qrcode\":\"^1.4.4\",\"sass\":\"^1.50.0\",\"sass-loader\":\"^8.0.2\",\"source-map-loader\":\"^0.2.4\",\"style-loader\":\"^1.3.0\",\"stylelint\":\"^13.13.1\",\"stylelint-config-recommended\":\"^5.0.0\",\"typescript\":\"^3.9.9\",\"wav-encoder\":\"^1.3.0\",\"wavesurfer.js\":\"^3.3.3\",\"webmidi\":\"^2.5.2\",\"webpack\":\"^4.46.0\",\"webpack-cli\":\"^3.3.12\",\"window-function\":\"^2.1.0\",\"workbox-webpack-plugin\":\"^5.1.4\"}}");
+module.exports = JSON.parse("{\"name\":\"fausteditorweb\",\"version\":\"1.0.76\",\"description\":\"Faust Editor\",\"main\":\"src/index.ts\",\"scripts\":{\"prebuild\":\"node ./src/listEx.js\",\"build\":\"webpack --mode development\",\"build-watch\":\"webpack --mode development --watch\",\"dist\":\"npm run prebuild && webpack --mode production\",\"publish\":\"rm -rf docs/* && git checkout docs/CNAME && cp -r dist/* docs\",\"version\":\"npm run build\"},\"repository\":{\"type\":\"git\",\"url\":\"git+https://github.com/grame-cncm/faustide.git\"},\"keywords\":[\"Faust\",\"WebAudio\",\"WebAssembly\"],\"author\":\"Grame-CNCM\",\"license\":\"GPL-3.0-or-later\",\"bugs\":{\"url\":\"https://github.com/grame-cncm/faustide/issues\"},\"homepage\":\"https://github.com/grame-cncm/faustide#readme\",\"devDependencies\":{\"@babel/core\":\"^7.13.10\",\"@babel/plugin-proposal-class-properties\":\"^7.13.0\",\"@babel/plugin-transform-runtime\":\"^7.13.10\",\"@babel/preset-env\":\"^7.13.12\",\"@babel/preset-typescript\":\"^7.13.0\",\"@babel/runtime\":\"^7.13.10\",\"@fortawesome/fontawesome-free\":\"^5.15.3\",\"@shren/faust-ui\":\"^1.1.1\",\"@shren/faustwasm\":\"^0.0.17\",\"@types/bootstrap\":\"^4.6.0\",\"@types/jquery\":\"^3.5.5\",\"@types/jszip\":\"^3.4.1\",\"@types/qrcode\":\"^1.4.0\",\"@types/wavesurfer.js\":\"^3.3.2\",\"@typescript-eslint/eslint-plugin\":\"^2.34.0\",\"@typescript-eslint/parser\":\"^2.34.0\",\"babel-loader\":\"^8.2.2\",\"bootstrap\":\"^4.6.0\",\"clean-webpack-plugin\":\"^3.0.0\",\"copy-webpack-plugin\":\"^5.1.2\",\"css-loader\":\"^5.2.5\",\"directory-tree\":\"^2.2.7\",\"eslint\":\"^6.8.0\",\"eslint-config-airbnb-base\":\"^14.2.1\",\"eslint-plugin-import\":\"^2.22.1\",\"file-loader\":\"^5.1.0\",\"jquery\":\"^3.6.0\",\"jszip\":\"^3.6.0\",\"kissfft-js\":\"^0.1.8\",\"monaco-editor\":\"^0.20.0\",\"monaco-editor-webpack-plugin\":\"^1.9.1\",\"popper.js\":\"^1.16.1\",\"qrcode\":\"^1.4.4\",\"sass\":\"^1.50.0\",\"sass-loader\":\"^8.0.2\",\"source-map-loader\":\"^0.2.4\",\"style-loader\":\"^1.3.0\",\"stylelint\":\"^13.13.1\",\"stylelint-config-recommended\":\"^5.0.0\",\"typescript\":\"^3.9.9\",\"wav-encoder\":\"^1.3.0\",\"wavesurfer.js\":\"^3.3.3\",\"webmidi\":\"^2.5.2\",\"webpack\":\"^4.46.0\",\"webpack-cli\":\"^3.3.12\",\"window-function\":\"^2.1.0\",\"workbox-webpack-plugin\":\"^5.1.4\"}}");
 
 /***/ }),
 
