@@ -77,7 +77,7 @@ const config = {
       'window.jQuery': 'jquery'
     }),
     new WorkboxWebpackPlugin.GenerateSW({
-      cacheId: VERSION + new Date().getTime(),
+      cacheId: "FaustIDE",
       cleanupOutdatedCaches: true,
       clientsClaim: true,
       skipWaiting: true,

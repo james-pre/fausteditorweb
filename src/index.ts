@@ -1379,6 +1379,17 @@ $(async () => {
     $(".btn-def-exp").prop("disabled", false).on("click", async () => {
         exportProgram(true);
     });
+    // Force Reload
+    $<HTMLButtonElement>("#extra-reload").on("click", async () => {
+        if ("serviceWorker" in navigator) {
+            const registration = await navigator.serviceWorker.getRegistration();
+            if (registration) registration.unregister();
+        }
+        const cacheNames = await caches.keys();
+        const cacheName = cacheNames.find(n => n.includes("FaustIDE"));
+        if (cacheName) await caches.delete(cacheName);
+        window.location.reload();
+    });
     /**
      * Bind message event for changing dsp params on receiving msg from ui window
      */
