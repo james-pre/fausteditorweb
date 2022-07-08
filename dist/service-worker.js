@@ -96,7 +96,7 @@ define("./service-worker.js",['./workbox-11808712'], function (workbox) { 'use s
   */
 
   workbox.setCacheNameDetails({
-    prefix: "1.0.761656611361464"
+    prefix: "FaustIDE"
   });
   workbox.skipWaiting();
   workbox.clientsClaim();
@@ -960,10 +960,10 @@ define("./service-worker.js",['./workbox-11808712'], function (workbox) { 'use s
     "revision": "b22ed1b5b20db59704b843dd46076aa5"
   }, {
     "url": "index.html",
-    "revision": "6ad6ddc594204f7e2667d93119503030"
+    "revision": "0a12e84ed32a5ba83e0a9cd63ed1848b"
   }, {
     "url": "index.js",
-    "revision": "dbc9523ef9c51d25cecd7d94b5c8eeb2"
+    "revision": "60676499a55c3153714d5758cdce8e63"
   }, {
     "url": "js/1bb2de333acac7f4e574.js",
     "revision": "d5fba5a07ab9f363917963f17d16b4ad"
