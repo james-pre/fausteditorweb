@@ -948,7 +948,7 @@ define("./service-worker.js",['./workbox-11808712'], function (workbox) { 'use s
     "revision": "ed0bb4ef2ded005f6f0cf7351ea21406"
   }, {
     "url": "faust-ui/index.js",
-    "revision": "ab2ddfd41213cf174731f94eb45bd3de"
+    "revision": "0096b2fd9a02ca6f873bb705e40235ad"
   }, {
     "url": "favicon.png",
     "revision": "8c793ef1d04148eb48e9595e54950310"
