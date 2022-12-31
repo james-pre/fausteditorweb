@@ -36798,13 +36798,14 @@ class StaticScope {
     var min = t[0][0];
     var max = t[0][0];
     var i = t.length;
+    var samp;
 
     while (i--) {
       var j = l;
 
       while (j--) {
-        var s = t[i][j];
-        if (s < min) min = s;else if (s > max) max = s;
+        samp = t[i][j];
+        if (samp < min) min = samp;else if (samp > max) max = samp;
       }
     }
 
@@ -36815,8 +36816,8 @@ class StaticScope {
 
     var $zerox = 0;
 
-    if (drawMode === "continuous") {
-      // Stablize
+    if (drawMode === "continuous" && l < sampleRate) {
+      // Stablize when window size < 1 sec
       var thresh = (min + max) * 0.5 + 0.001; // the zero-crossing with "offset"
 
       var period = sampleRate / freqEstimated;
@@ -36860,34 +36861,33 @@ class StaticScope {
       ctx.beginPath();
       ctx.strokeStyle = "hsl(".concat(_i * 60, ", 100%, 85%)");
       var maxInStep = void 0;
-      var minInstep = void 0;
+      var minInStep = void 0;
+      var $j = void 0;
+      var $step = void 0;
+      var x = void 0;
+      var y = void 0;
 
       for (var _j = $0; _j < $1; _j++) {
-        var $j = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["wrap"])(_j, $, l); // True index
+        $j = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["wrap"])(_j, $, l); // True index
 
-        var samp = t[_i][$j];
-        var $step = (_j - $0) % step;
+        samp = t[_i][$j];
+        $step = (_j - $0) % step;
 
         if ($step === 0) {
           maxInStep = samp;
-          minInstep = samp;
+          minInStep = samp;
+        } else {
+          if (samp > maxInStep) maxInStep = samp;
+          if (samp < minInStep) minInStep = samp;
         }
 
-        if ($step !== step - 1) {
-          if ($step !== 0) {
-            if (samp > maxInStep) maxInStep = samp;
-            if (samp < minInstep) minInstep = samp;
-          }
-
-          continue;
-        }
-
-        var x = (_j - $0) * gridX + left;
-        var y = hCh * (_i + 0.5 - maxInStep / yFactor * 0.5);
+        if ($step !== step - 1) continue;
+        x = (_j - $0) * gridX + left;
+        y = hCh * (_i + 0.5 - maxInStep / yFactor * 0.5);
         if (_j === $0) ctx.moveTo(x, y);else ctx.lineTo(x, y);
 
-        if (minInstep !== maxInStep) {
-          y = hCh * (_i + 0.5 - minInstep / yFactor * 0.5);
+        if (minInStep !== maxInStep) {
+          y = hCh * (_i + 0.5 - minInStep / yFactor * 0.5);
           ctx.lineTo(x, y);
         }
       }
@@ -36931,13 +36931,14 @@ class StaticScope {
     var min = t[0][0];
     var max = t[0][0];
     var i = t.length;
+    var samp;
 
     while (i--) {
       var j = l;
 
       while (j--) {
-        var s = t[i][j];
-        if (s < min) min = s;else if (s > max) max = s;
+        samp = t[i][j];
+        if (samp < min) min = samp;else if (samp > max) max = samp;
       }
     }
 
@@ -36948,8 +36949,8 @@ class StaticScope {
 
     var $zerox = 0;
 
-    if (drawMode === "continuous") {
-      // Stablize
+    if (drawMode === "continuous" && l < sampleRate) {
+      // Stablize when window size < 1 sec
       var thresh = (min + max) * 0.5 + 0.001; // the zero-crossing with "offset"
 
       var period = sampleRate / freqEstimated;
@@ -36995,28 +36996,27 @@ class StaticScope {
       ctx.strokeStyle = t.length === 1 ? "white" : "hsl(".concat(_i3 * 60, ", 100%, 85%)");
       var maxInStep = void 0;
       var minInStep = void 0;
+      var $j = void 0;
+      var $step = void 0;
+      var x = void 0;
+      var y = void 0;
 
       for (var _j2 = $0; _j2 < $1; _j2++) {
-        var $j = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["wrap"])(_j2, $, l);
-        var samp = t[_i3][$j];
-        var $step = (_j2 - $0) % step;
+        $j = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["wrap"])(_j2, $, l);
+        samp = t[_i3][$j];
+        $step = (_j2 - $0) % step;
 
         if ($step === 0) {
           maxInStep = samp;
           minInStep = samp;
+        } else {
+          if (samp > maxInStep) maxInStep = samp;
+          if (samp < minInStep) minInStep = samp;
         }
 
-        if ($step !== step - 1) {
-          if ($step !== 0) {
-            if (samp > maxInStep) maxInStep = samp;
-            if (samp < minInStep) minInStep = samp;
-          }
-
-          continue;
-        }
-
-        var x = (_j2 - $0) * gridX + left;
-        var y = (h - bottom) * (0.5 - maxInStep / yFactor * 0.5);
+        if ($step !== step - 1) continue;
+        x = (_j2 - $0) * gridX + left;
+        y = (h - bottom) * (0.5 - maxInStep / yFactor * 0.5);
         if (_j2 === $0) ctx.moveTo(x, y);else ctx.lineTo(x, y);
 
         if (minInStep !== maxInStep) {
