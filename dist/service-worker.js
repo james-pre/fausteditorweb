@@ -13,153 +13,127 @@
 
 // If the loader is already loaded, just stop.
 if (!self.define) {
-  const singleRequire = name => {
-    if (name !== 'require') {
-      name = name + '.js';
-    }
-    let promise = Promise.resolve();
-    if (!registry[name]) {
+  let registry = {};
+
+  // Used for `eval` and `importScripts` where we can't get script URL by other means.
+  // In both cases, it's safe to use a global var because those functions are synchronous.
+  let nextDefineUri;
+
+  const singleRequire = (uri, parentUri) => {
+    uri = new URL(uri + ".js", parentUri).href;
+    return registry[uri] || (
       
-        promise = new Promise(async resolve => {
+        new Promise(resolve => {
           if ("document" in self) {
             const script = document.createElement("script");
-            script.src = name;
-            document.head.appendChild(script);
+            script.src = uri;
             script.onload = resolve;
+            document.head.appendChild(script);
           } else {
-            importScripts(name);
+            nextDefineUri = uri;
+            importScripts(uri);
             resolve();
           }
-        });
+        })
       
-    }
-    return promise.then(() => {
-      if (!registry[name]) {
-        throw new Error(`Module ${name} didn’t register its module`);
-      }
-      return registry[name];
-    });
+      .then(() => {
+        let promise = registry[uri];
+        if (!promise) {
+          throw new Error(`Module ${uri} didn’t register its module`);
+        }
+        return promise;
+      })
+    );
   };
 
-  const require = (names, resolve) => {
-    Promise.all(names.map(singleRequire))
-      .then(modules => resolve(modules.length === 1 ? modules[0] : modules));
-  };
-  
-  const registry = {
-    require: Promise.resolve(require)
-  };
-
-  self.define = (moduleName, depsNames, factory) => {
-    if (registry[moduleName]) {
+  self.define = (depsNames, factory) => {
+    const uri = nextDefineUri || ("document" in self ? document.currentScript.src : "") || location.href;
+    if (registry[uri]) {
       // Module is already loading or loaded.
       return;
     }
-    registry[moduleName] = Promise.resolve().then(() => {
-      let exports = {};
-      const module = {
-        uri: location.origin + moduleName.slice(1)
-      };
-      return Promise.all(
-        depsNames.map(depName => {
-          switch(depName) {
-            case "exports":
-              return exports;
-            case "module":
-              return module;
-            default:
-              return singleRequire(depName);
-          }
-        })
-      ).then(deps => {
-        const facValue = factory(...deps);
-        if(!exports.default) {
-          exports.default = facValue;
-        }
-        return exports;
-      });
+    let exports = {};
+    const require = depUri => singleRequire(depUri, uri);
+    const specialDeps = {
+      module: { uri },
+      exports,
+      require
+    };
+    registry[uri] = Promise.all(depsNames.map(
+      depName => specialDeps[depName] || require(depName)
+    )).then(deps => {
+      factory(...deps);
+      return exports;
     });
   };
 }
-define("./service-worker.js",['./workbox-11808712'], function (workbox) { 'use strict';
-
-  /**
-  * Welcome to your Workbox-powered service worker!
-  *
-  * You'll need to register this file in your web app.
-  * See https://goo.gl/nhQhGp
-  *
-  * The rest of the code is auto-generated. Please don't update this file
-  * directly; instead, make changes to your Workbox build configuration
-  * and re-run your build process.
-  * See https://goo.gl/2aRDsh
-  */
+define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
 
   workbox.setCacheNameDetails({
     prefix: "FaustIDE"
   });
-  workbox.skipWaiting();
+  self.skipWaiting();
   workbox.clientsClaim();
+
   /**
    * The precacheAndRoute() method efficiently caches and responds to
    * requests for URLs in the manifest.
    * See https://goo.gl/S9QRab
    */
-
   workbox.precacheAndRoute([{
     "url": "02-XYLO1.mp3",
     "revision": "362ebc964769a515510a0a67f59232e7"
   }, {
-    "url": "assets/0c6bfc668a72935760178f91327aed3a.eot",
-    "revision": "0c6bfc668a72935760178f91327aed3a"
+    "url": "assets/1551f4f60c37af51121f.woff2",
+    "revision": null
   }, {
-    "url": "assets/1a575a4138e5f366474f0e7c5bd614a5.woff",
-    "revision": "1a575a4138e5f366474f0e7c5bd614a5"
+    "url": "assets/2285773e6b4b172f07d9.woff",
+    "revision": null
   }, {
-    "url": "assets/1d5619cd804367cefe6da2d79289218a.svg",
-    "revision": "1d5619cd804367cefe6da2d79289218a"
+    "url": "assets/23f19bb08961f37aaf69.eot",
+    "revision": null
   }, {
-    "url": "assets/37bc7099f6f1ba80236164f22e905837.svg",
-    "revision": "37bc7099f6f1ba80236164f22e905837"
+    "url": "assets/2f517e09eb2ca6650ff5.svg",
+    "revision": null
   }, {
-    "url": "assets/513aa607d398efaccc559916c3431403.ttf",
-    "revision": "513aa607d398efaccc559916c3431403"
+    "url": "assets/4689f52cc96215721344.svg",
+    "revision": null
   }, {
-    "url": "assets/592643a83b8541edc52063d84c468700.eot",
-    "revision": "592643a83b8541edc52063d84c468700"
+    "url": "assets/491974d108fe4002b2aa.ttf",
+    "revision": null
   }, {
-    "url": "assets/766913e6c0088ab8c9f73e18b4127bc4.ttf",
-    "revision": "766913e6c0088ab8c9f73e18b4127bc4"
+    "url": "assets/527940b104eb2ea366c8.ttf",
+    "revision": null
   }, {
-    "url": "assets/a609dc0f334a7d4e64205247c4e8b97c.ttf",
-    "revision": "a609dc0f334a7d4e64205247c4e8b97c"
+    "url": "assets/77206a6bb316fa0aded5.eot",
+    "revision": null
   }, {
-    "url": "assets/b0e2db3b634d1bc3928e127458d993d8.eot",
-    "revision": "b0e2db3b634d1bc3928e127458d993d8"
+    "url": "assets/7a3337626410ca2f4071.woff2",
+    "revision": null
   }, {
-    "url": "assets/b91d376b8d7646d671cd820950d5f7f1.woff2",
-    "revision": "b91d376b8d7646d671cd820950d5f7f1"
+    "url": "assets/7a8b4f130182d19a2d7c.svg",
+    "revision": null
   }, {
-    "url": "assets/b9625119ce4300f0ef890a8f3234c773.ttf",
-    "revision": "b9625119ce4300f0ef890a8f3234c773"
+    "url": "assets/9bbb245e67a133f6e486.eot",
+    "revision": null
   }, {
-    "url": "assets/c5d109be8edd3de0f60eb472bd9ef691.svg",
-    "revision": "c5d109be8edd3de0f60eb472bd9ef691"
+    "url": "assets/b797181c93b3755f4fa1.ttf",
+    "revision": null
   }, {
-    "url": "assets/d1d7e3b4c219fde0f7376c6facfd7149.woff",
-    "revision": "d1d7e3b4c219fde0f7376c6facfd7149"
+    "url": "assets/bb58e57c48a3e911f15f.woff",
+    "revision": null
   }, {
-    "url": "assets/d745348d289b149026921f197929a893.woff",
-    "revision": "d745348d289b149026921f197929a893"
+    "url": "assets/be9ee23c0c6390141475.ttf",
+    "revision": null
   }, {
-    "url": "assets/d824df7eb2e268626a2dd9a6a741ac4e.woff2",
-    "revision": "d824df7eb2e268626a2dd9a6a741ac4e"
+    "url": "assets/d878b0a6a1144760244f.woff2",
+    "revision": null
   }, {
-    "url": "assets/ed311c7a0ade9a75bb3ebf5a7670f31d.woff2",
-    "revision": "ed311c7a0ade9a75bb3ebf5a7670f31d"
+    "url": "assets/eeccf4f66002c6f2ba24.woff",
+    "revision": null
   }, {
     "url": "editor.worker.js",
-    "revision": "297989b7c93044ced25f888fa4e979e1"
+    "revision": "a15620f01cc62e5eb29df78d8b2b1bfe"
   }, {
     "url": "examples.json",
     "revision": "09fbc2bfd0a6ca6d540ac2f651f732b1"
@@ -963,34 +937,286 @@ define("./service-worker.js",['./workbox-11808712'], function (workbox) { 'use s
     "revision": "0a12e84ed32a5ba83e0a9cd63ed1848b"
   }, {
     "url": "index.js",
-    "revision": "b8c559e174e13fc7180ec09c77c1c3f7"
+    "revision": "e4340528406af9d368607c14a761b255"
   }, {
-    "url": "js/1bb2de333acac7f4e574.js",
-    "revision": "d5fba5a07ab9f363917963f17d16b4ad"
+    "url": "js/02ba839479faf071c7bd.js",
+    "revision": null
   }, {
-    "url": "js/9700d37222060e5ddc78.js",
-    "revision": "b5c63c5dff670df2860b55c1b7e7f43b"
+    "url": "js/03e0c4db343947f3949e.js",
+    "revision": null
   }, {
-    "url": "js/e813f7ad975cae6b2a51.js",
-    "revision": "33f7e6ad3d46a232e4c8634e53aaf9db"
+    "url": "js/0447c04a2a879545304e.js",
+    "revision": null
+  }, {
+    "url": "js/0574c771f6b2276906b3.js",
+    "revision": null
+  }, {
+    "url": "js/09f9aebd27a285656188.js",
+    "revision": null
+  }, {
+    "url": "js/0a243956b6403557db8c.js",
+    "revision": null
+  }, {
+    "url": "js/0d755dc460249badcc85.js",
+    "revision": null
+  }, {
+    "url": "js/109d06f6e7817ce46ced.js",
+    "revision": null
+  }, {
+    "url": "js/11cb856f83cdbefcdcc7.js",
+    "revision": null
+  }, {
+    "url": "js/178a52c986e95473c3b2.js",
+    "revision": null
+  }, {
+    "url": "js/179e546e346713dff4ac.js",
+    "revision": null
+  }, {
+    "url": "js/1a3f8415f753792ccabf.js",
+    "revision": null
+  }, {
+    "url": "js/1d43e23ea625167c03ed.js",
+    "revision": null
+  }, {
+    "url": "js/1f11664695410dc3bace.js",
+    "revision": null
+  }, {
+    "url": "js/258ae672857550e9c4c5.js",
+    "revision": null
+  }, {
+    "url": "js/29029c6edbb390e58ded.js",
+    "revision": null
+  }, {
+    "url": "js/2973f5a2a77a9e2bc451.js",
+    "revision": null
+  }, {
+    "url": "js/2e3aa1eaa307e04216b3.js",
+    "revision": null
+  }, {
+    "url": "js/2e7588c460485acce4c5.js",
+    "revision": null
+  }, {
+    "url": "js/2eaf5b27729cddd6d571.js",
+    "revision": null
+  }, {
+    "url": "js/2fd6e1eefb2c93dec258.js",
+    "revision": null
+  }, {
+    "url": "js/31961b7517dfe8eebe45.js",
+    "revision": null
+  }, {
+    "url": "js/32e8917a54e878a1c8a2.js",
+    "revision": null
+  }, {
+    "url": "js/38c74530ec2e1493c1aa.js",
+    "revision": null
+  }, {
+    "url": "js/39ac9e5c65f1d0cbc1d2.js",
+    "revision": null
+  }, {
+    "url": "js/3c7289714441e09eb1e0.js",
+    "revision": null
+  }, {
+    "url": "js/414ea5601a6953631dc2.js",
+    "revision": null
+  }, {
+    "url": "js/4238c2c890d73e5ffd54.js",
+    "revision": null
+  }, {
+    "url": "js/42eead714a7d871c60f0.js",
+    "revision": null
+  }, {
+    "url": "js/44144b6599302e1abdd4.js",
+    "revision": null
+  }, {
+    "url": "js/47323f340e3fefd03d29.js",
+    "revision": null
+  }, {
+    "url": "js/4c659ad26fa60489e3c5.js",
+    "revision": null
+  }, {
+    "url": "js/549d76012363d578343d.js",
+    "revision": null
+  }, {
+    "url": "js/56c2ad3d43b61670e7f9.js",
+    "revision": null
+  }, {
+    "url": "js/58598ce42c576d618d9f.js",
+    "revision": null
+  }, {
+    "url": "js/5d1469f6125b98d52b19.js",
+    "revision": null
+  }, {
+    "url": "js/62129917b8b000c9993f.js",
+    "revision": null
+  }, {
+    "url": "js/62bfcfb6d28b5a4d32c1.js",
+    "revision": null
+  }, {
+    "url": "js/6d6932de73c132e6f9b3.js",
+    "revision": null
+  }, {
+    "url": "js/76ad40a8284c399987d0.js",
+    "revision": null
+  }, {
+    "url": "js/7f9c27e7d59a4e443c23.js",
+    "revision": null
+  }, {
+    "url": "js/828d901e114cc41377b7.js",
+    "revision": null
+  }, {
+    "url": "js/8428c65fd96f8b53d382.js",
+    "revision": null
+  }, {
+    "url": "js/866fd27138e3d18db6cb.js",
+    "revision": null
+  }, {
+    "url": "js/868b29cdeefaafd5cfb7.js",
+    "revision": null
+  }, {
+    "url": "js/8a08edc78efbcd0e14f3.js",
+    "revision": null
+  }, {
+    "url": "js/9475deb54982556eb44b.js",
+    "revision": null
+  }, {
+    "url": "js/948b16577e780e652668.js",
+    "revision": null
+  }, {
+    "url": "js/9e291f8d5fdabc8e06f6.js",
+    "revision": null
+  }, {
+    "url": "js/9f7ea056cb967b0c8987.js",
+    "revision": null
+  }, {
+    "url": "js/a43a329d9a0f2ba28e79.js",
+    "revision": null
+  }, {
+    "url": "js/a83ac5529b7d207b8b87.js",
+    "revision": null
+  }, {
+    "url": "js/aa38625b9bdedaf00f57.js",
+    "revision": null
+  }, {
+    "url": "js/acd711ea8c6a7661e7c2.js",
+    "revision": null
+  }, {
+    "url": "js/b3a6345e59c81bd3e172.js",
+    "revision": null
+  }, {
+    "url": "js/b99b437695d4ade3ef2f.js",
+    "revision": null
+  }, {
+    "url": "js/baa516013d08e9e7d17a.js",
+    "revision": null
+  }, {
+    "url": "js/bd50069295e6a126395c.js",
+    "revision": null
+  }, {
+    "url": "js/c2dca5715c8d79acfbc4.js",
+    "revision": null
+  }, {
+    "url": "js/c32f9074cb5c23c4f288.js",
+    "revision": null
+  }, {
+    "url": "js/c3b6c20c58eaa1fbf8ae.js",
+    "revision": null
+  }, {
+    "url": "js/c8689573ae36511c2947.js",
+    "revision": null
+  }, {
+    "url": "js/c9739bc384cbfa7f747a.js",
+    "revision": null
+  }, {
+    "url": "js/cb74851d935568da8659.js",
+    "revision": null
+  }, {
+    "url": "js/ce850f79523f5eed6dd2.js",
+    "revision": null
+  }, {
+    "url": "js/cf39dc8df1c22730e2fb.js",
+    "revision": null
+  }, {
+    "url": "js/cf7510aac667db950e67.js",
+    "revision": null
+  }, {
+    "url": "js/d13a2c721ef2c716bd86.js",
+    "revision": null
+  }, {
+    "url": "js/d369d1842b93e47b80a9.js",
+    "revision": null
+  }, {
+    "url": "js/d7ce16f5038f6ba51e51.js",
+    "revision": null
+  }, {
+    "url": "js/d99df7fd3adb49d6246f.js",
+    "revision": null
+  }, {
+    "url": "js/dd179878988c9b3080fb.js",
+    "revision": null
+  }, {
+    "url": "js/df09d3235c2bc37f0f69.js",
+    "revision": null
+  }, {
+    "url": "js/e0fdbf8635487c19fa8b.js",
+    "revision": null
+  }, {
+    "url": "js/e9dbc0dc494c50b3f7a1.js",
+    "revision": null
+  }, {
+    "url": "js/ea5d5de5c34840f3b2d9.js",
+    "revision": null
+  }, {
+    "url": "js/eac39fa6313d29aa8377.js",
+    "revision": null
+  }, {
+    "url": "js/ec9ac55b81ff161e2cac.js",
+    "revision": null
+  }, {
+    "url": "js/f0d8975c9c8d80df2421.js",
+    "revision": null
+  }, {
+    "url": "js/f14bcbc0d619f3cf4fef.js",
+    "revision": null
+  }, {
+    "url": "js/f28370dcccb368d4950d.js",
+    "revision": null
+  }, {
+    "url": "js/f2d5f5c76d8aaf825bda.js",
+    "revision": null
+  }, {
+    "url": "js/f37fbc52e150546c80bc.js",
+    "revision": null
+  }, {
+    "url": "js/f5beab8ab7123dac4bb5.js",
+    "revision": null
+  }, {
+    "url": "js/faf57641c4bf2f103f25.js",
+    "revision": null
+  }, {
+    "url": "js/fee315ae8c34f1663fbc.js",
+    "revision": null
+  }, {
+    "url": "js/ffe4a1371b6d8a9550ab.js",
+    "revision": null
   }, {
     "url": "libfaust-wasm.d.cts",
-    "revision": "03618e323bfe4f59d21bbeb9ed0a7070"
+    "revision": "cef35c37b0dcdb9408f85f29aeb40d49"
   }, {
     "url": "libfaust-wasm.d.ts",
-    "revision": "03618e323bfe4f59d21bbeb9ed0a7070"
+    "revision": "cef35c37b0dcdb9408f85f29aeb40d49"
   }, {
     "url": "libfaust-wasm.data",
-    "revision": "31cc63b38067985d6f724b7fe3f1664b"
+    "revision": "f1126e184dcb3ae9883fabe9706cf23d"
   }, {
     "url": "libfaust-wasm.data.d.ts",
     "revision": "efb8590a96d416771ef946b323008668"
   }, {
     "url": "libfaust-wasm.js",
-    "revision": "2e12de73fd5b29de368d13d4832b9eb1"
+    "revision": "263d4f7f04cad7f94352997bd4f7ae6d"
   }, {
     "url": "libfaust-wasm.wasm",
-    "revision": "14fcca6642d30dd07726f784e39503e9"
+    "revision": "8a8701619074e0513fa1489a0ee4b8f6"
   }, {
     "url": "libfaust-wasm.wasm.d.ts",
     "revision": "efb8590a96d416771ef946b323008668"
@@ -1003,5 +1229,5 @@ define("./service-worker.js",['./workbox-11808712'], function (workbox) { 'use s
   }], {});
   workbox.cleanupOutdatedCaches();
 
-});
+}));
 //# sourceMappingURL=service-worker.js.map
