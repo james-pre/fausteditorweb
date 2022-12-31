@@ -1,4 +1,4 @@
-import { languages, editor, Position, Range } from "monaco-editor/esm/vs/editor/editor.api";
+import { languages, editor, Position, Range } from "monaco-editor";
 import { LibFaust } from "@shren/faustwasm";
 import { Faust2Doc, TFaustDocs, TFaustDoc } from "./Faust2Doc";
 import { docSections, faustDocURL } from "../documentation";
@@ -42,7 +42,7 @@ export const theme: editor.IStandaloneThemeData = {
         { token: "faustCompOperators", foreground: "FFDDFF" },
         { token: "identifier", foreground: "77CCFF" }
     ],
-    colors: null
+    colors: {}
 };
 const faustKeywords = [
     "import", "component", "declare", "library", "environment", "int", "float",

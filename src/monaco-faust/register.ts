@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import * as monaco from "monaco-editor";
 import { LibFaust } from "@shren/faustwasm";
 
 export const faustLangRegister = async (monacoEditor: typeof monaco, faust: LibFaust) => {
