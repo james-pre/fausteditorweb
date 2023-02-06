@@ -1583,8 +1583,8 @@ $(async () => {
         }
         $("#iframe-faust-ui").css("pointer-events", "none");
         const $div = $(e.currentTarget).parent();
-        const x = typeof e.pageX === "number" ? e.pageX : e.touches[0].pageX;
-        const y = typeof e.pageY === "number" ? e.pageY : e.touches[0].pageY;
+        const x = e.pageX || e.touches[0].pageX;
+        const y = e.pageY || e.touches[0].pageY;
         const w = $div.width();
         const h = $div.height();
         const modes: string[] = [];
@@ -1597,8 +1597,8 @@ $(async () => {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            const dX = (typeof e.pageX === "number" ? e.pageX : e.touches[0].pageX) - x;
-            const dY = (typeof e.pageY === "number" ? e.pageY : e.touches[0].pageY) - y;
+            const dX = (e.pageX || e.touches[0].pageX) - x;
+            const dY = (e.pageY || e.touches[0].pageY) - y;
             if (modes.indexOf("left") !== -1) $div.width(w - dX);
             if (modes.indexOf("right") !== -1) $div.width(w + dX);
             if (modes.indexOf("top") !== -1) $div.height(h - dY);
