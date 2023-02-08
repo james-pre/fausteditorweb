@@ -220,6 +220,71 @@
 					<span>Plot</span>
 				</button>
 			</div>
+			<div id="form-plot" class="form form-row">
+				<label>FFT DSP</label>
+				<div class="form form-check mb-2" data-toggle="tooltip" data-placement="right"
+					title="Enable FFT DSP">
+					<input id="check-fftdsp" class="form-check-input" type="checkbox" value="" />
+					<label class="form-check-label" for="check-fftdsp">
+						Enable FFT DSP
+					</label>
+				</div>
+				<div class="form form-check mb-2" data-toggle="tooltip" data-placement="right"
+					title="No Inverse FFT">
+					<input id="check-noifft" class="form-check-input" type="checkbox" value="" />
+					<label class="form-check-label" for="check-noifft">
+						No Inverse FFT
+					</label>
+				</div>
+				<div class="input-group input-group-sm mb-2" data-toggle="tooltip" data-placement="right"
+					title="Select FFT Size">
+					<div class="input-group-prepend">
+						<span class="input-group-text">FFT Size</span>
+					</div>
+					<select id="select-fftsize" class="form-control">
+						<option value="4">4</option>
+						<option value="8">8</option>
+						<option value="16">16</option>
+						<option value="32">32</option>
+						<option value="64">64</option>
+						<option value="128">128</option>
+						<option value="256">256</option>
+						<option value="512">512</option>
+						<option value="1024" selected>1024</option>
+						<option value="2048">2048</option>
+						<option value="4096">4096</option>
+						<option value="8192">8192</option>
+						<option value="16384">16384</option>
+						<option value="32768">32768</option>
+						<option value="65536">65536</option>
+					</select>
+				</div>
+				<div class="input-group input-group-sm mb-2" data-toggle="tooltip" data-placement="right"
+					title="Select FFT Overlap">
+					<div class="input-group-prepend">
+						<span class="input-group-text">FFT Overlap</span>
+					</div>
+					<select id="select-fftoverlap" class="form-control">
+						<option value="1">1</option>
+						<option value="2" selected>2</option>
+						<option value="4">4</option>
+						<option value="8">8</option>
+					</select>
+				</div>
+				<div class="input-group input-group-sm mb-2" data-toggle="tooltip" data-placement="right"
+					title="Select Window Function">
+					<div class="input-group-prepend">
+						<span class="input-group-text">WinFunc</span>
+					</div>
+					<select id="select-window-function" class="form-control">
+						<option value="0">Rectangular</option>
+						<option value="1" selected>Hamming</option>
+						<option value="2">Hann</option>
+						<option value="3">Blackman</option>
+						<option value="4">Triangular</option>
+					</select>
+				</div>
+			</div>
 		</div>
 		<div id="center">
 			<div id="top">

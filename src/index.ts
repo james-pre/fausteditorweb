@@ -19,6 +19,7 @@ import * as QRCode from "qrcode";
 import * as WaveSurfer from "wavesurfer.js";
 import * as JSZip from "jszip";
 import { LibFaust, FaustScriptProcessorNode, FaustAudioWorkletNode, FaustCompiler, instantiateFaustModuleFromFile, FaustMonoDspGenerator, FaustPolyDspGenerator, FaustSvgDiagrams } from "@shren/faustwasm";
+import { instantiateKissFFTModuleFromFile, KissFFT } from "@shren/kissfft-js";
 import { Key2Midi } from "./Key2Midi";
 import { Scope } from "./Scope";
 import "bootstrap/js/dist/dropdown";
@@ -36,6 +37,7 @@ import { Recorder } from "./Recorder";
 import { faustLangRegister } from "./monaco-faust/register";
 import * as VERSION from "./version";
 import { docSections, faustDocURL } from "./documentation";
+import { FFTUtils } from "./FFTUtils";
 
 declare global {
     interface Window {
@@ -43,7 +45,6 @@ declare global {
         webkitAudioContext: typeof AudioContext;
         AudioWorklet?: typeof AudioWorklet; // eslint-disable-line no-undef
         faustEnv: FaustEditorEnv;
-        faustCompiler: FaustCompiler;
     }
     interface HTMLMediaElement extends HTMLElement {
         setSinkId?(sinkId: string): Promise<undefined>;
@@ -58,6 +59,7 @@ type FaustEditorEnv = {
     editor: monaco.editor.IStandaloneCodeEditor;
     jQuery: JQueryStatic;
     libFaust: LibFaust;
+    faustCompiler: FaustCompiler;
     recorder: Recorder;
 };
 type FaustEditorAudioEnv = {
@@ -77,6 +79,7 @@ type FaustEditorAudioEnv = {
     dspConnectedToInput: boolean;
     inputEnabled: boolean;
     outputEnabled: boolean;
+    kissFFTInjected: boolean;
 };
 type FaustEditorMIDIEnv = {
     input: Input;
@@ -106,14 +109,17 @@ $(async () => {
      * Use import() for webpack code splitting, needs babel-dynamic-import
      */
     // const { FaustCompiler, instantiateFaustModuleFromFile, FaustMonoDspGenerator, FaustPolyDspGenerator, LibFaust, FaustSvgDiagrams } = await import("@shren/faustwasm");
-    const faustModule = await instantiateFaustModuleFromFile("./libfaust-wasm.js");
+    const faustModule = await instantiateFaustModuleFromFile("./faustwasm/libfaust-wasm.js");
     const libFaust = new LibFaust(faustModule);
     const faustCompiler = new FaustCompiler(libFaust);
     const faustSvgDiagrams = new FaustSvgDiagrams(faustCompiler);
     const faustPrimitiveLibFile = await fetch("./primitives.lib");
     const faustPrimitiveLib = await faustPrimitiveLibFile.text();
     libFaust.fs().writeFile("/usr/share/faust/primitives.lib", faustPrimitiveLib);
-    window.faustCompiler = faustCompiler;
+
+    const kissFFTModule = await instantiateKissFFTModuleFromFile("./kissfftwasm/libkissfft.js");
+    const kissFFT = new KissFFT(kissFFTModule);
+    const { FFTR } = kissFFT;
     /**
      * To save dsp table to localStorage
      */
@@ -257,9 +263,6 @@ $(async () => {
     let isCompilingDsp = false;
     /**
      * Generate both diagram and dsp
-     *
-     * @param {string} code
-     * @returns {{ success: boolean; error?: Error }}
      */
     const runDsp = async (codeIn: string): Promise<{ success: boolean; error?: Error }> => {
         if (isCompilingDsp) return { success: false, error: new Error("Another DSP is compiling") };
@@ -275,7 +278,7 @@ $(async () => {
             await initAudioCtx(audioEnv);
             initAnalysersUI(uiEnv, audioEnv);
         }
-        const { useWorklet, bufferSize, voices, args } = compileOptions;
+        const { useWorklet, bufferSize, voices, args, fftDsp } = compileOptions;
         let node: FaustScriptProcessorNode<any> | FaustAudioWorkletNode<any>;
         // Recorder, show current recorded length without too many refreshes
         let mediaLengthRaf: number;
@@ -304,7 +307,12 @@ $(async () => {
         try {
             // const getDiagramResult = getDiagram(code);
             // if (!getDiagramResult.success) throw getDiagramResult.error;
-            if (voices) {
+            if (fftDsp) {
+                const generator = new FaustMonoDspGenerator();
+                await generator.compile(faustCompiler, dspName, code, args.join(" "));
+                const { fftSize, fftOverlap, windowFunction, noIFFT } = compileOptions;
+                node = await generator.createFFTNode(audioCtx, FFTUtils, undefined, undefined, { fftSize, fftOverlap, defaultWindowFunction: windowFunction - 1, noIFFT });
+            } else if (voices) {
                 const generator = new FaustPolyDspGenerator();
                 await generator.compile(faustCompiler, dspName, code, args.join(" "));
                 node = await generator.createNode(audioCtx, voices, undefined, undefined, undefined, undefined, !useWorklet, bufferSize);
@@ -447,11 +455,11 @@ $(async () => {
         return { success: true };
     };
     let rtCompileTimer: NodeJS.Timeout;
-    const audioEnv: FaustEditorAudioEnv = { dspConnectedToInput: false, dspConnectedToOutput: false, inputEnabled: false, outputEnabled: false };
+    const audioEnv: FaustEditorAudioEnv = { dspConnectedToInput: false, dspConnectedToOutput: false, inputEnabled: false, outputEnabled: false, kissFFTInjected: false };
     const midiEnv: FaustEditorMIDIEnv = { input: null };
-    const uiEnv: FaustEditorUIEnv = { analysersInited: false, inputScope: null, outputScope: null, plotScope: undefined, analyser: new Analyser(16, "continuous"), fileManager: undefined };
-    const compileOptions: FaustEditorCompileOptions = { useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, popup: false, voices: 0, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, plotFFTOverlap: 2, drawSpectrogram: false, enableGuiBuilder: false, guiBuilderUrl: "https://mainline.i3s.unice.fr/fausteditorweb/dist/PedalEditor/Front-End/", exportPlatform: "owl", exportArch: "owl", ...loadEditorParams(), realtimeCompile: false, args: ["-I", "/usr/share/project"] };
-    const faustEnv: FaustEditorEnv = { audioEnv, midiEnv, uiEnv, compileOptions, jQuery, editor, libFaust, recorder: new Recorder() };
+    const uiEnv: FaustEditorUIEnv = { analysersInited: false, inputScope: null, outputScope: null, plotScope: undefined, analyser: new Analyser(FFTR, 16, "continuous"), fileManager: undefined };
+    const compileOptions: FaustEditorCompileOptions = { useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, popup: false, voices: 0, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, plotFFTOverlap: 2, drawSpectrogram: false, enableGuiBuilder: false, guiBuilderUrl: "https://mainline.i3s.unice.fr/fausteditorweb/dist/PedalEditor/Front-End/", exportPlatform: "owl", exportArch: "owl", fftDsp: false, fftSize: 1024, fftOverlap: 2, noIFFT: false, windowFunction: 1, ...loadEditorParams(), realtimeCompile: false, args: ["-I", "/usr/share/project"] };
+    const faustEnv: FaustEditorEnv = { audioEnv, midiEnv, uiEnv, compileOptions, jQuery, editor, libFaust, faustCompiler, recorder: new Recorder() };
     localStorage.setItem("faust_editor_version", VERSION);
     uiEnv.plotScope = new StaticScope({ container: $<HTMLDivElement>("#plot-ui")[0] });
     uiEnv.analyser.drawHandler = uiEnv.plotScope.draw;
@@ -649,6 +657,55 @@ $(async () => {
         compileOptions.plotFFTOverlap = +e.currentTarget.value as 1 | 2 | 4 | 8;
         uiEnv.analyser.fftOverlap = compileOptions.plotFFTOverlap;
         saveEditorParams();
+    });
+    // FFT
+    $<HTMLInputElement>("#check-fftdsp").on("change", (e) => {
+        compileOptions.fftDsp = e.currentTarget.checked;
+        saveEditorParams();
+        if (compileOptions.realtimeCompile) {
+            const code = uiEnv.fileManager.mainCode;
+            if (audioEnv.dsp) runDsp(code);
+        }
+    });
+    $<HTMLInputElement>("#check-noifft").on("change", (e) => {
+        compileOptions.noIFFT = e.currentTarget.checked;
+        saveEditorParams();
+        if (compileOptions.realtimeCompile && compileOptions.fftDsp) {
+            if (audioEnv.dsp && audioEnv.dsp instanceof AudioWorkletNode) {
+                const param = audioEnv.dsp.parameters.get("noIFFT");
+                if (param) param.value = ~~+compileOptions.noIFFT;
+            }
+        }
+    });
+    $<HTMLInputElement>("#select-fftsize").on("change", (e) => {
+        compileOptions.fftSize = +e.currentTarget.value as 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096 | 8192 | 16384 | 32768 | 65536;
+        saveEditorParams();
+        if (compileOptions.realtimeCompile && compileOptions.fftDsp) {
+            if (audioEnv.dsp && audioEnv.dsp instanceof AudioWorkletNode) {
+                const param = audioEnv.dsp.parameters.get("fftSize");
+                if (param) param.value = ~~+compileOptions.fftSize;
+            }
+        }
+    });
+    $<HTMLInputElement>("#select-fftoverlap").on("change", (e) => {
+        compileOptions.fftOverlap = +e.currentTarget.value as 1 | 2 | 4 | 8;
+        saveEditorParams();
+        if (compileOptions.realtimeCompile && compileOptions.fftDsp) {
+            if (audioEnv.dsp && audioEnv.dsp instanceof AudioWorkletNode) {
+                const param = audioEnv.dsp.parameters.get("fftOverlap");
+                if (param) param.value = ~~+compileOptions.fftOverlap;
+            }
+        }
+    });
+    $<HTMLInputElement>("#select-window-function").on("change", (e) => {
+        compileOptions.windowFunction = +e.currentTarget.value;
+        saveEditorParams();
+        if (compileOptions.realtimeCompile && compileOptions.fftDsp) {
+            if (audioEnv.dsp && audioEnv.dsp instanceof AudioWorkletNode) {
+                const param = audioEnv.dsp.parameters.get("windowFunction");
+                if (param) param.value = ~~+compileOptions.windowFunction;
+            }
+        }
     });
     /**
      * Load options from URL, override current
@@ -1668,6 +1725,11 @@ $(async () => {
     $("#select-plot-fftoverlap").children(`option[value=${compileOptions.plotFFTOverlap}]`).prop("selected", true).change();
     $("#input-plot-samps").change();
     $("#check-draw-spectrogram").change();
+    $<HTMLInputElement>("#check-fftdsp")[0].checked = compileOptions.fftDsp;
+    $<HTMLInputElement>("#check-noifft")[0].checked = compileOptions.noIFFT;
+    $("#select-fftsize").children(`option[value=${compileOptions.plotFFT}]`).prop("selected", true).change();
+    $("#select-fftoverlap").children(`option[value=${compileOptions.plotFFTOverlap}]`).prop("selected", true).change();
+    $("#select-window-function").children(`option[value=${compileOptions.windowFunction}]`).prop("selected", true).change();
     $<HTMLInputElement>("#check-realtime-compile")[0].checked = compileOptions.realtimeCompile;
     if (compileOptions.realtimeCompile && !audioEnv.dsp) setTimeout(updateDiagram, 0, uiEnv.fileManager.mainCode);
     window.faustEnv = faustEnv;
@@ -1736,6 +1798,10 @@ const initAudioCtx = async (audioEnv: FaustEditorAudioEnv, deviceId?: string) =>
         */
         audioEnv.destination.channelCount = audioEnv.destination.maxChannelCount;
         audioEnv.destination.channelInterpretation = "discrete";
+    }
+    if (!audioEnv.kissFFTInjected) {
+        await audioEnv.audioCtx.audioWorklet?.addModule("./kissfftwasm/cjs-bundle/index.js");
+        audioEnv.kissFFTInjected = true;
     }
     return audioEnv;
 };

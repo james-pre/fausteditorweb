@@ -1,4 +1,4 @@
-import { FFTR } from "kissfft-js";
+import { InterfaceFFT, KissFFT } from "@shren/kissfft-js";
 import { TDrawOptions } from "./StaticScope";
 import { sliceWrap, getFrequencyDomainData, setWrap, estimateFreq } from "./utils";
 
@@ -6,79 +6,54 @@ import { sliceWrap, getFrequencyDomainData, setWrap, estimateFreq } from "./util
  * This class provides a default handler for a buffer given by Faust2WebAudio.
  * The handler analyses the buffer with FFT, then saves both time-domain and frequency-domain data.
  * After each buffer is analysed, a drawHandler is called to display data.
- *
- * @export
- * @class Analyser
  */
 export class Analyser {
     /**
+     * KissFFT FFTR Constructor
+     */
+    FFTR: KissFFT["FFTR"];
+    /**
      * Time Domain Data
-     *
-     * @type {Float32Array[]}
-     * @memberof Analyser
      */
     t: Float32Array[];
     /**
      * Frequency Domain Data, overlap x2 gives same length as t
-     *
-     * @type {Float32Array[]}
-     * @memberof Analyser
      */
     f: Float32Array[];
     /**
      * Events stored
-     *
-     * @type {{ type: string; data: any }[][]}
-     * @memberof Analyser
      */
     e: { type: string; data: any }[][];
     /**
      * Buffer count in t & f
-     *
-     * @type {number}
-     * @memberof Analyser
      */
     buffers: number;
     /**
      * current buffer index of dsp, used for events
-     *
-     * @type {number}
-     * @memberof Analyser
      */
     $buffer: number;
     /**
      * current sample as index in t & f to draw
-     *
-     * @type {number}
-     * @memberof Analyser
      */
     $: number;
     private _drawMode: "offline" | "continuous" | "onevent" | "manual";
     /**
      * In on event mode, buffers count remaining to draw
-     *
-     * @type {number}
-     * @memberof Analyser
      */
     capturing: number;
     /**
      * KissFFT instance
-     *
-     * @private
-     * @type {FFTR}
-     * @memberof Analyser
      */
-    private _fft: FFTR;
+    private _fft: InterfaceFFT;
     private _fftSize: 256 | 512 | 1024 | 2048 | 4096 | 8192 | 16384 | 32768 | 65536;
     private _fftOverlap: 1 | 2 | 4 | 8;
     /**
      * This function property can be overwritten, will be called after each buffer received.
-     *
-     * @memberof Analyser
      */
     drawHandler: (options: TDrawOptions) => any;
     freqEstimated: number;
-    constructor(buffers?: number, drawMode?: "offline" | "continuous" | "onevent" | "manual", drawHandler?: (options: TDrawOptions) => any) {
+    constructor(FFTR: KissFFT["FFTR"], buffers?: number, drawMode?: "offline" | "continuous" | "onevent" | "manual", drawHandler?: (options: TDrawOptions) => any) {
+        this.FFTR = FFTR;
         this.buffers = buffers || 0;
         this.drawMode = drawMode || "manual";
         this.drawHandler = drawHandler;
@@ -167,7 +142,7 @@ export class Analyser {
     set fftSize(fftSizeIn) {
         this._fftSize = fftSizeIn;
         if (this.fft) this.fft.dispose();
-        this._fft = new FFTR(fftSizeIn);
+        this._fft = new this.FFTR(fftSizeIn);
     }
     get fftOverlap() {
         return this._fftOverlap;

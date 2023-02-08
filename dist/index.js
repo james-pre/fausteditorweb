@@ -13,10 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Analyser": () => (/* binding */ Analyser)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-/* harmony import */ var kissfft_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! kissfft-js */ "./node_modules/kissfft-js/src/main.js");
-/* harmony import */ var kissfft_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(kissfft_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
-
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 
 
 
@@ -24,75 +21,50 @@ __webpack_require__.r(__webpack_exports__);
  * This class provides a default handler for a buffer given by Faust2WebAudio.
  * The handler analyses the buffer with FFT, then saves both time-domain and frequency-domain data.
  * After each buffer is analysed, a drawHandler is called to display data.
- *
- * @export
- * @class Analyser
  */
 class Analyser {
   /**
+   * KissFFT FFTR Constructor
+   */
+
+  /**
    * Time Domain Data
-   *
-   * @type {Float32Array[]}
-   * @memberof Analyser
    */
 
   /**
    * Frequency Domain Data, overlap x2 gives same length as t
-   *
-   * @type {Float32Array[]}
-   * @memberof Analyser
    */
 
   /**
    * Events stored
-   *
-   * @type {{ type: string; data: any }[][]}
-   * @memberof Analyser
    */
 
   /**
    * Buffer count in t & f
-   *
-   * @type {number}
-   * @memberof Analyser
    */
 
   /**
    * current buffer index of dsp, used for events
-   *
-   * @type {number}
-   * @memberof Analyser
    */
 
   /**
    * current sample as index in t & f to draw
-   *
-   * @type {number}
-   * @memberof Analyser
    */
 
   /**
    * In on event mode, buffers count remaining to draw
-   *
-   * @type {number}
-   * @memberof Analyser
    */
 
   /**
    * KissFFT instance
-   *
-   * @private
-   * @type {FFTR}
-   * @memberof Analyser
    */
 
   /**
    * This function property can be overwritten, will be called after each buffer received.
-   *
-   * @memberof Analyser
    */
 
-  constructor(buffers, drawMode, drawHandler) {
+  constructor(FFTR, buffers, drawMode, drawHandler) {
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "FFTR", void 0);
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "t", void 0);
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "f", void 0);
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "e", void 0);
@@ -129,11 +101,11 @@ class Analyser {
         var fData;
         for (var $fftEnd = $ + bufferSize - ($ + bufferSize) % fftHopSize; $fftEnd > $; $fftEnd -= fftHopSize) {
           var $fft = $fftEnd - fftSize;
-          var t4fft = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.sliceWrap)(this.t[i], $fft, fftSize);
-          fData = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.getFrequencyDomainData)(t4fft, fft);
-          (0,_utils__WEBPACK_IMPORTED_MODULE_2__.setWrap)(this.f[i], fData, $fftEnd * fftOverlap / 2 - fftBins);
+          var t4fft = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.sliceWrap)(this.t[i], $fft, fftSize);
+          fData = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getFrequencyDomainData)(t4fft, fft);
+          (0,_utils__WEBPACK_IMPORTED_MODULE_1__.setWrap)(this.f[i], fData, $fftEnd * fftOverlap / 2 - fftBins);
         }
-        if (fData) this.freqEstimated = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.estimateFreq)(fData, this.sampleRate);
+        if (fData) this.freqEstimated = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.estimateFreq)(fData, this.sampleRate);
       });
       this.e[index] = events || [];
       delete this.e[index - this.buffers - 1];
@@ -146,6 +118,7 @@ class Analyser {
       } else this.draw();
     });
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "getSampleRate", () => 48000);
+    this.FFTR = FFTR;
     this.buffers = buffers || 0;
     this.drawMode = drawMode || "manual";
     this.drawHandler = drawHandler;
@@ -243,7 +216,7 @@ class Analyser {
   set fftSize(fftSizeIn) {
     this._fftSize = fftSizeIn;
     if (this.fft) this.fft.dispose();
-    this._fft = new kissfft_js__WEBPACK_IMPORTED_MODULE_1__.FFTR(fftSizeIn);
+    this._fft = new this.FFTR(fftSizeIn);
   }
   get fftOverlap() {
     return this._fftOverlap;
@@ -261,6 +234,66 @@ class Analyser {
     return this.fftSize / 2;
   }
 }
+
+/***/ }),
+
+/***/ "./src/FFTUtils.ts":
+/*!*************************!*\
+  !*** ./src/FFTUtils.ts ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "FFTUtils": () => (/* binding */ FFTUtils)
+/* harmony export */ });
+var FFTUtils = class {
+  static get windowFunctions() {
+    return [
+    // hamming
+    (i, N) => 0.54 - 0.46 * Math.cos(6.283185307179586 * i / (N - 1)),
+    // hann
+    (i, N) => 0.5 * (1 - Math.cos(6.283185307179586 * i / (N - 1))),
+    // blackman
+    (i, N) => {
+      var a0 = 0.42;
+      var a1 = 0.5;
+      var a2 = 0.08;
+      var f = 6.283185307179586 * i / (N - 1);
+      return a0 - a1 * Math.cos(f) + a2 * Math.cos(2 * f);
+    },
+    // triangular
+    (i, N) => 1 - Math.abs(2 * (i - 0.5 * (N - 1)) / N)];
+  }
+  static getFFT() {
+    // eslint-disable-next-line
+    var _kissfftwasm = globalThis.kissfftwasm,
+      instantiateKissFFTModule = _kissfftwasm.instantiateKissFFTModule,
+      KissFFT = _kissfftwasm.KissFFT;
+    return instantiateKissFFTModule().then(Module => new KissFFT(Module).FFTR);
+  }
+  static fftToSignal(f, r, i, b) {
+    var fftSize = f.length - 2;
+    var len = fftSize / 2 + 1;
+    var invFFTSize = 1 / fftSize;
+    for (var j = 0; j < len; j++) {
+      r[j] = f[2 * j] * invFFTSize;
+      if (i) i[j] = f[2 * j + 1] * invFFTSize;
+      if (b) b[j] = j;
+    }
+  }
+  static signalToFFT(r, i, f) {
+    for (var j = 0; j < r.length; j++) {
+      f[2 * j] = r[j];
+      f[2 * j + 1] = i[j];
+    }
+  }
+  static signalToNoFFT(r, i, f) {
+    f.set(r.subarray(1, r.length));
+    f.set(i.subarray(0, i.length - 1), r.length - 1);
+  }
+};
 
 /***/ }),
 
@@ -17477,158 +17510,6 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 
 /***/ }),
 
-/***/ "./node_modules/kissfft-js/src/KissFFT.js":
-/*!************************************************!*\
-  !*** ./node_modules/kissfft-js/src/KissFFT.js ***!
-  \************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var KissFFTModule = function(KissFFTModule) {
-  KissFFTModule = KissFFTModule || {};
-  var Module = KissFFTModule;
-
-var Module;if(!Module)Module=(typeof KissFFTModule!=="undefined"?KissFFTModule:null)||{};var moduleOverrides={};for(var key in Module){if(Module.hasOwnProperty(key)){moduleOverrides[key]=Module[key]}}var ENVIRONMENT_IS_WEB=false;var ENVIRONMENT_IS_WORKER=false;var ENVIRONMENT_IS_NODE=false;var ENVIRONMENT_IS_SHELL=false;if(Module["ENVIRONMENT"]){if(Module["ENVIRONMENT"]==="WEB"){ENVIRONMENT_IS_WEB=true}else if(Module["ENVIRONMENT"]==="WORKER"){ENVIRONMENT_IS_WORKER=true}else if(Module["ENVIRONMENT"]==="NODE"){ENVIRONMENT_IS_NODE=true}else if(Module["ENVIRONMENT"]==="SHELL"){ENVIRONMENT_IS_SHELL=true}else{throw new Error("The provided Module['ENVIRONMENT'] value is not valid. It must be one of: WEB|WORKER|NODE|SHELL.")}}else{ENVIRONMENT_IS_WEB=typeof window==="object";ENVIRONMENT_IS_WORKER=typeof importScripts==="function";ENVIRONMENT_IS_NODE=typeof process==="object"&&"function"==="function"&&!ENVIRONMENT_IS_WEB&&!ENVIRONMENT_IS_WORKER;ENVIRONMENT_IS_SHELL=!ENVIRONMENT_IS_WEB&&!ENVIRONMENT_IS_NODE&&!ENVIRONMENT_IS_WORKER}if(ENVIRONMENT_IS_NODE){if(!Module["print"])Module["print"]=console.log;if(!Module["printErr"])Module["printErr"]=console.warn;var nodeFS;var nodePath;Module["read"]=function shell_read(filename,binary){if(!nodeFS)nodeFS=__webpack_require__(/*! fs */ "?d548");if(!nodePath)nodePath=__webpack_require__(/*! path */ "?1151");filename=nodePath["normalize"](filename);var ret=nodeFS["readFileSync"](filename);return binary?ret:ret.toString()};Module["readBinary"]=function readBinary(filename){var ret=Module["read"](filename,true);if(!ret.buffer){ret=new Uint8Array(ret)}assert(ret.buffer);return ret};Module["load"]=function load(f){globalEval(read(f))};if(!Module["thisProgram"]){if(process["argv"].length>1){Module["thisProgram"]=process["argv"][1].replace(/\\/g,"/")}else{Module["thisProgram"]="unknown-program"}}Module["arguments"]=process["argv"].slice(2);process["on"]("uncaughtException",(function(ex){if(!(ex instanceof ExitStatus)){throw ex}}));Module["inspect"]=(function(){return"[Emscripten Module object]"})}else if(ENVIRONMENT_IS_SHELL){if(!Module["print"])Module["print"]=print;if(typeof printErr!="undefined")Module["printErr"]=printErr;if(typeof read!="undefined"){Module["read"]=read}else{Module["read"]=function shell_read(){throw"no read() available"}}Module["readBinary"]=function readBinary(f){if(typeof readbuffer==="function"){return new Uint8Array(readbuffer(f))}var data=read(f,"binary");assert(typeof data==="object");return data};if(typeof scriptArgs!="undefined"){Module["arguments"]=scriptArgs}else if(typeof arguments!="undefined"){Module["arguments"]=arguments}if(typeof quit==="function"){Module["quit"]=(function(status,toThrow){quit(status)})}}else if(ENVIRONMENT_IS_WEB||ENVIRONMENT_IS_WORKER){Module["read"]=function shell_read(url){var xhr=new XMLHttpRequest;xhr.open("GET",url,false);xhr.send(null);return xhr.responseText};if(ENVIRONMENT_IS_WORKER){Module["readBinary"]=function readBinary(url){var xhr=new XMLHttpRequest;xhr.open("GET",url,false);xhr.responseType="arraybuffer";xhr.send(null);return new Uint8Array(xhr.response)}}Module["readAsync"]=function readAsync(url,onload,onerror){var xhr=new XMLHttpRequest;xhr.open("GET",url,true);xhr.responseType="arraybuffer";xhr.onload=function xhr_onload(){if(xhr.status==200||xhr.status==0&&xhr.response){onload(xhr.response)}else{onerror()}};xhr.onerror=onerror;xhr.send(null)};if(typeof arguments!="undefined"){Module["arguments"]=arguments}if(typeof console!=="undefined"){if(!Module["print"])Module["print"]=function shell_print(x){console.log(x)};if(!Module["printErr"])Module["printErr"]=function shell_printErr(x){console.warn(x)}}else{var TRY_USE_DUMP=false;if(!Module["print"])Module["print"]=TRY_USE_DUMP&&typeof dump!=="undefined"?(function(x){dump(x)}):(function(x){})}if(ENVIRONMENT_IS_WORKER){Module["load"]=importScripts}if(typeof Module["setWindowTitle"]==="undefined"){Module["setWindowTitle"]=(function(title){document.title=title})}}else{throw"Unknown runtime environment. Where are we?"}function globalEval(x){eval.call(null,x)}if(!Module["load"]&&Module["read"]){Module["load"]=function load(f){globalEval(Module["read"](f))}}if(!Module["print"]){Module["print"]=(function(){})}if(!Module["printErr"]){Module["printErr"]=Module["print"]}if(!Module["arguments"]){Module["arguments"]=[]}if(!Module["thisProgram"]){Module["thisProgram"]="./this.program"}if(!Module["quit"]){Module["quit"]=(function(status,toThrow){throw toThrow})}Module.print=Module["print"];Module.printErr=Module["printErr"];Module["preRun"]=[];Module["postRun"]=[];for(var key in moduleOverrides){if(moduleOverrides.hasOwnProperty(key)){Module[key]=moduleOverrides[key]}}moduleOverrides=undefined;var Runtime={setTempRet0:(function(value){tempRet0=value;return value}),getTempRet0:(function(){return tempRet0}),stackSave:(function(){return STACKTOP}),stackRestore:(function(stackTop){STACKTOP=stackTop}),getNativeTypeSize:(function(type){switch(type){case"i1":case"i8":return 1;case"i16":return 2;case"i32":return 4;case"i64":return 8;case"float":return 4;case"double":return 8;default:{if(type[type.length-1]==="*"){return Runtime.QUANTUM_SIZE}else if(type[0]==="i"){var bits=parseInt(type.substr(1));assert(bits%8===0);return bits/8}else{return 0}}}}),getNativeFieldSize:(function(type){return Math.max(Runtime.getNativeTypeSize(type),Runtime.QUANTUM_SIZE)}),STACK_ALIGN:16,prepVararg:(function(ptr,type){if(type==="double"||type==="i64"){if(ptr&7){assert((ptr&7)===4);ptr+=4}}else{assert((ptr&3)===0)}return ptr}),getAlignSize:(function(type,size,vararg){if(!vararg&&(type=="i64"||type=="double"))return 8;if(!type)return Math.min(size,8);return Math.min(size||(type?Runtime.getNativeFieldSize(type):0),Runtime.QUANTUM_SIZE)}),dynCall:(function(sig,ptr,args){if(args&&args.length){return Module["dynCall_"+sig].apply(null,[ptr].concat(args))}else{return Module["dynCall_"+sig].call(null,ptr)}}),functionPointers:[],addFunction:(function(func){for(var i=0;i<Runtime.functionPointers.length;i++){if(!Runtime.functionPointers[i]){Runtime.functionPointers[i]=func;return 2*(1+i)}}throw"Finished up all reserved function pointers. Use a higher value for RESERVED_FUNCTION_POINTERS."}),removeFunction:(function(index){Runtime.functionPointers[(index-2)/2]=null}),warnOnce:(function(text){if(!Runtime.warnOnce.shown)Runtime.warnOnce.shown={};if(!Runtime.warnOnce.shown[text]){Runtime.warnOnce.shown[text]=1;Module.printErr(text)}}),funcWrappers:{},getFuncWrapper:(function(func,sig){if(!func)return;assert(sig);if(!Runtime.funcWrappers[sig]){Runtime.funcWrappers[sig]={}}var sigCache=Runtime.funcWrappers[sig];if(!sigCache[func]){if(sig.length===1){sigCache[func]=function dynCall_wrapper(){return Runtime.dynCall(sig,func)}}else if(sig.length===2){sigCache[func]=function dynCall_wrapper(arg){return Runtime.dynCall(sig,func,[arg])}}else{sigCache[func]=function dynCall_wrapper(){return Runtime.dynCall(sig,func,Array.prototype.slice.call(arguments))}}}return sigCache[func]}),getCompilerSetting:(function(name){throw"You must build with -s RETAIN_COMPILER_SETTINGS=1 for Runtime.getCompilerSetting or emscripten_get_compiler_setting to work"}),stackAlloc:(function(size){var ret=STACKTOP;STACKTOP=STACKTOP+size|0;STACKTOP=STACKTOP+15&-16;return ret}),staticAlloc:(function(size){var ret=STATICTOP;STATICTOP=STATICTOP+size|0;STATICTOP=STATICTOP+15&-16;return ret}),dynamicAlloc:(function(size){var ret=HEAP32[DYNAMICTOP_PTR>>2];var end=(ret+size+15|0)&-16;HEAP32[DYNAMICTOP_PTR>>2]=end;if(end>=TOTAL_MEMORY){var success=enlargeMemory();if(!success){HEAP32[DYNAMICTOP_PTR>>2]=ret;return 0}}return ret}),alignMemory:(function(size,quantum){var ret=size=Math.ceil(size/(quantum?quantum:16))*(quantum?quantum:16);return ret}),makeBigInt:(function(low,high,unsigned){var ret=unsigned?+(low>>>0)+ +(high>>>0)*+4294967296:+(low>>>0)+ +(high|0)*+4294967296;return ret}),GLOBAL_BASE:8,QUANTUM_SIZE:4,__dummy__:0};Module["Runtime"]=Runtime;var ABORT=0;var EXITSTATUS=0;function assert(condition,text){if(!condition){abort("Assertion failed: "+text)}}function getCFunc(ident){var func=Module["_"+ident];if(!func){try{func=eval("_"+ident)}catch(e){}}assert(func,"Cannot call unknown function "+ident+" (perhaps LLVM optimizations or closure removed it?)");return func}var cwrap,ccall;((function(){var JSfuncs={"stackSave":(function(){Runtime.stackSave()}),"stackRestore":(function(){Runtime.stackRestore()}),"arrayToC":(function(arr){var ret=Runtime.stackAlloc(arr.length);writeArrayToMemory(arr,ret);return ret}),"stringToC":(function(str){var ret=0;if(str!==null&&str!==undefined&&str!==0){var len=(str.length<<2)+1;ret=Runtime.stackAlloc(len);stringToUTF8(str,ret,len)}return ret})};var toC={"string":JSfuncs["stringToC"],"array":JSfuncs["arrayToC"]};ccall=function ccallFunc(ident,returnType,argTypes,args,opts){var func=getCFunc(ident);var cArgs=[];var stack=0;if(args){for(var i=0;i<args.length;i++){var converter=toC[argTypes[i]];if(converter){if(stack===0)stack=Runtime.stackSave();cArgs[i]=converter(args[i])}else{cArgs[i]=args[i]}}}var ret=func.apply(null,cArgs);if(returnType==="string")ret=Pointer_stringify(ret);if(stack!==0){if(opts&&opts.async){EmterpreterAsync.asyncFinalizers.push((function(){Runtime.stackRestore(stack)}));return}Runtime.stackRestore(stack)}return ret};var sourceRegex=/^function\s*[a-zA-Z$_0-9]*\s*\(([^)]*)\)\s*{\s*([^*]*?)[\s;]*(?:return\s*(.*?)[;\s]*)?}$/;function parseJSFunc(jsfunc){var parsed=jsfunc.toString().match(sourceRegex).slice(1);return{arguments:parsed[0],body:parsed[1],returnValue:parsed[2]}}var JSsource=null;function ensureJSsource(){if(!JSsource){JSsource={};for(var fun in JSfuncs){if(JSfuncs.hasOwnProperty(fun)){JSsource[fun]=parseJSFunc(JSfuncs[fun])}}}}cwrap=function cwrap(ident,returnType,argTypes){argTypes=argTypes||[];var cfunc=getCFunc(ident);var numericArgs=argTypes.every((function(type){return type==="number"}));var numericRet=returnType!=="string";if(numericRet&&numericArgs){return cfunc}var argNames=argTypes.map((function(x,i){return"$"+i}));var funcstr="(function("+argNames.join(",")+") {";var nargs=argTypes.length;if(!numericArgs){ensureJSsource();funcstr+="var stack = "+JSsource["stackSave"].body+";";for(var i=0;i<nargs;i++){var arg=argNames[i],type=argTypes[i];if(type==="number")continue;var convertCode=JSsource[type+"ToC"];funcstr+="var "+convertCode.arguments+" = "+arg+";";funcstr+=convertCode.body+";";funcstr+=arg+"=("+convertCode.returnValue+");"}}var cfuncname=parseJSFunc((function(){return cfunc})).returnValue;funcstr+="var ret = "+cfuncname+"("+argNames.join(",")+");";if(!numericRet){var strgfy=parseJSFunc((function(){return Pointer_stringify})).returnValue;funcstr+="ret = "+strgfy+"(ret);"}if(!numericArgs){ensureJSsource();funcstr+=JSsource["stackRestore"].body.replace("()","(stack)")+";"}funcstr+="return ret})";return eval(funcstr)}}))();Module["ccall"]=ccall;Module["cwrap"]=cwrap;function setValue(ptr,value,type,noSafe){type=type||"i8";if(type.charAt(type.length-1)==="*")type="i32";switch(type){case"i1":HEAP8[ptr>>0]=value;break;case"i8":HEAP8[ptr>>0]=value;break;case"i16":HEAP16[ptr>>1]=value;break;case"i32":HEAP32[ptr>>2]=value;break;case"i64":tempI64=[value>>>0,(tempDouble=value,+Math_abs(tempDouble)>=+1?tempDouble>+0?(Math_min(+Math_floor(tempDouble/+4294967296),+4294967295)|0)>>>0:~~+Math_ceil((tempDouble- +(~~tempDouble>>>0))/+4294967296)>>>0:0)],HEAP32[ptr>>2]=tempI64[0],HEAP32[ptr+4>>2]=tempI64[1];break;case"float":HEAPF32[ptr>>2]=value;break;case"double":HEAPF64[ptr>>3]=value;break;default:abort("invalid type for setValue: "+type)}}Module["setValue"]=setValue;function getValue(ptr,type,noSafe){type=type||"i8";if(type.charAt(type.length-1)==="*")type="i32";switch(type){case"i1":return HEAP8[ptr>>0];case"i8":return HEAP8[ptr>>0];case"i16":return HEAP16[ptr>>1];case"i32":return HEAP32[ptr>>2];case"i64":return HEAP32[ptr>>2];case"float":return HEAPF32[ptr>>2];case"double":return HEAPF64[ptr>>3];default:abort("invalid type for setValue: "+type)}return null}Module["getValue"]=getValue;var ALLOC_NORMAL=0;var ALLOC_STACK=1;var ALLOC_STATIC=2;var ALLOC_DYNAMIC=3;var ALLOC_NONE=4;Module["ALLOC_NORMAL"]=ALLOC_NORMAL;Module["ALLOC_STACK"]=ALLOC_STACK;Module["ALLOC_STATIC"]=ALLOC_STATIC;Module["ALLOC_DYNAMIC"]=ALLOC_DYNAMIC;Module["ALLOC_NONE"]=ALLOC_NONE;function allocate(slab,types,allocator,ptr){var zeroinit,size;if(typeof slab==="number"){zeroinit=true;size=slab}else{zeroinit=false;size=slab.length}var singleType=typeof types==="string"?types:null;var ret;if(allocator==ALLOC_NONE){ret=ptr}else{ret=[typeof _malloc==="function"?_malloc:Runtime.staticAlloc,Runtime.stackAlloc,Runtime.staticAlloc,Runtime.dynamicAlloc][allocator===undefined?ALLOC_STATIC:allocator](Math.max(size,singleType?1:types.length))}if(zeroinit){var ptr=ret,stop;assert((ret&3)==0);stop=ret+(size&~3);for(;ptr<stop;ptr+=4){HEAP32[ptr>>2]=0}stop=ret+size;while(ptr<stop){HEAP8[ptr++>>0]=0}return ret}if(singleType==="i8"){if(slab.subarray||slab.slice){HEAPU8.set(slab,ret)}else{HEAPU8.set(new Uint8Array(slab),ret)}return ret}var i=0,type,typeSize,previousType;while(i<size){var curr=slab[i];if(typeof curr==="function"){curr=Runtime.getFunctionIndex(curr)}type=singleType||types[i];if(type===0){i++;continue}if(type=="i64")type="i32";setValue(ret+i,curr,type);if(previousType!==type){typeSize=Runtime.getNativeTypeSize(type);previousType=type}i+=typeSize}return ret}Module["allocate"]=allocate;function getMemory(size){if(!staticSealed)return Runtime.staticAlloc(size);if(!runtimeInitialized)return Runtime.dynamicAlloc(size);return _malloc(size)}Module["getMemory"]=getMemory;function Pointer_stringify(ptr,length){if(length===0||!ptr)return"";var hasUtf=0;var t;var i=0;while(1){t=HEAPU8[ptr+i>>0];hasUtf|=t;if(t==0&&!length)break;i++;if(length&&i==length)break}if(!length)length=i;var ret="";if(hasUtf<128){var MAX_CHUNK=1024;var curr;while(length>0){curr=String.fromCharCode.apply(String,HEAPU8.subarray(ptr,ptr+Math.min(length,MAX_CHUNK)));ret=ret?ret+curr:curr;ptr+=MAX_CHUNK;length-=MAX_CHUNK}return ret}return Module["UTF8ToString"](ptr)}Module["Pointer_stringify"]=Pointer_stringify;function AsciiToString(ptr){var str="";while(1){var ch=HEAP8[ptr++>>0];if(!ch)return str;str+=String.fromCharCode(ch)}}Module["AsciiToString"]=AsciiToString;function stringToAscii(str,outPtr){return writeAsciiToMemory(str,outPtr,false)}Module["stringToAscii"]=stringToAscii;var UTF8Decoder=typeof TextDecoder!=="undefined"?new TextDecoder("utf8"):undefined;function UTF8ArrayToString(u8Array,idx){var endPtr=idx;while(u8Array[endPtr])++endPtr;if(endPtr-idx>16&&u8Array.subarray&&UTF8Decoder){return UTF8Decoder.decode(u8Array.subarray(idx,endPtr))}else{var u0,u1,u2,u3,u4,u5;var str="";while(1){u0=u8Array[idx++];if(!u0)return str;if(!(u0&128)){str+=String.fromCharCode(u0);continue}u1=u8Array[idx++]&63;if((u0&224)==192){str+=String.fromCharCode((u0&31)<<6|u1);continue}u2=u8Array[idx++]&63;if((u0&240)==224){u0=(u0&15)<<12|u1<<6|u2}else{u3=u8Array[idx++]&63;if((u0&248)==240){u0=(u0&7)<<18|u1<<12|u2<<6|u3}else{u4=u8Array[idx++]&63;if((u0&252)==248){u0=(u0&3)<<24|u1<<18|u2<<12|u3<<6|u4}else{u5=u8Array[idx++]&63;u0=(u0&1)<<30|u1<<24|u2<<18|u3<<12|u4<<6|u5}}}if(u0<65536){str+=String.fromCharCode(u0)}else{var ch=u0-65536;str+=String.fromCharCode(55296|ch>>10,56320|ch&1023)}}}}Module["UTF8ArrayToString"]=UTF8ArrayToString;function UTF8ToString(ptr){return UTF8ArrayToString(HEAPU8,ptr)}Module["UTF8ToString"]=UTF8ToString;function stringToUTF8Array(str,outU8Array,outIdx,maxBytesToWrite){if(!(maxBytesToWrite>0))return 0;var startIdx=outIdx;var endIdx=outIdx+maxBytesToWrite-1;for(var i=0;i<str.length;++i){var u=str.charCodeAt(i);if(u>=55296&&u<=57343)u=65536+((u&1023)<<10)|str.charCodeAt(++i)&1023;if(u<=127){if(outIdx>=endIdx)break;outU8Array[outIdx++]=u}else if(u<=2047){if(outIdx+1>=endIdx)break;outU8Array[outIdx++]=192|u>>6;outU8Array[outIdx++]=128|u&63}else if(u<=65535){if(outIdx+2>=endIdx)break;outU8Array[outIdx++]=224|u>>12;outU8Array[outIdx++]=128|u>>6&63;outU8Array[outIdx++]=128|u&63}else if(u<=2097151){if(outIdx+3>=endIdx)break;outU8Array[outIdx++]=240|u>>18;outU8Array[outIdx++]=128|u>>12&63;outU8Array[outIdx++]=128|u>>6&63;outU8Array[outIdx++]=128|u&63}else if(u<=67108863){if(outIdx+4>=endIdx)break;outU8Array[outIdx++]=248|u>>24;outU8Array[outIdx++]=128|u>>18&63;outU8Array[outIdx++]=128|u>>12&63;outU8Array[outIdx++]=128|u>>6&63;outU8Array[outIdx++]=128|u&63}else{if(outIdx+5>=endIdx)break;outU8Array[outIdx++]=252|u>>30;outU8Array[outIdx++]=128|u>>24&63;outU8Array[outIdx++]=128|u>>18&63;outU8Array[outIdx++]=128|u>>12&63;outU8Array[outIdx++]=128|u>>6&63;outU8Array[outIdx++]=128|u&63}}outU8Array[outIdx]=0;return outIdx-startIdx}Module["stringToUTF8Array"]=stringToUTF8Array;function stringToUTF8(str,outPtr,maxBytesToWrite){return stringToUTF8Array(str,HEAPU8,outPtr,maxBytesToWrite)}Module["stringToUTF8"]=stringToUTF8;function lengthBytesUTF8(str){var len=0;for(var i=0;i<str.length;++i){var u=str.charCodeAt(i);if(u>=55296&&u<=57343)u=65536+((u&1023)<<10)|str.charCodeAt(++i)&1023;if(u<=127){++len}else if(u<=2047){len+=2}else if(u<=65535){len+=3}else if(u<=2097151){len+=4}else if(u<=67108863){len+=5}else{len+=6}}return len}Module["lengthBytesUTF8"]=lengthBytesUTF8;var UTF16Decoder=typeof TextDecoder!=="undefined"?new TextDecoder("utf-16le"):undefined;function demangle(func){var __cxa_demangle_func=Module["___cxa_demangle"]||Module["__cxa_demangle"];if(__cxa_demangle_func){try{var s=func.substr(1);var len=lengthBytesUTF8(s)+1;var buf=_malloc(len);stringToUTF8(s,buf,len);var status=_malloc(4);var ret=__cxa_demangle_func(buf,0,0,status);if(getValue(status,"i32")===0&&ret){return Pointer_stringify(ret)}}catch(e){}finally{if(buf)_free(buf);if(status)_free(status);if(ret)_free(ret)}return func}Runtime.warnOnce("warning: build with  -s DEMANGLE_SUPPORT=1  to link in libcxxabi demangling");return func}function demangleAll(text){var regex=/__Z[\w\d_]+/g;return text.replace(regex,(function(x){var y=demangle(x);return x===y?x:x+" ["+y+"]"}))}function jsStackTrace(){var err=new Error;if(!err.stack){try{throw new Error(0)}catch(e){err=e}if(!err.stack){return"(no stack trace available)"}}return err.stack.toString()}function stackTrace(){var js=jsStackTrace();if(Module["extraStackTrace"])js+="\n"+Module["extraStackTrace"]();return demangleAll(js)}Module["stackTrace"]=stackTrace;var HEAP,buffer,HEAP8,HEAPU8,HEAP16,HEAPU16,HEAP32,HEAPU32,HEAPF32,HEAPF64;function updateGlobalBufferViews(){Module["HEAP8"]=HEAP8=new Int8Array(buffer);Module["HEAP16"]=HEAP16=new Int16Array(buffer);Module["HEAP32"]=HEAP32=new Int32Array(buffer);Module["HEAPU8"]=HEAPU8=new Uint8Array(buffer);Module["HEAPU16"]=HEAPU16=new Uint16Array(buffer);Module["HEAPU32"]=HEAPU32=new Uint32Array(buffer);Module["HEAPF32"]=HEAPF32=new Float32Array(buffer);Module["HEAPF64"]=HEAPF64=new Float64Array(buffer)}var STATIC_BASE,STATICTOP,staticSealed;var STACK_BASE,STACKTOP,STACK_MAX;var DYNAMIC_BASE,DYNAMICTOP_PTR;STATIC_BASE=STATICTOP=STACK_BASE=STACKTOP=STACK_MAX=DYNAMIC_BASE=DYNAMICTOP_PTR=0;staticSealed=false;function abortOnCannotGrowMemory(){abort("Cannot enlarge memory arrays. Either (1) compile with  -s TOTAL_MEMORY=X  with X higher than the current value "+TOTAL_MEMORY+", (2) compile with  -s ALLOW_MEMORY_GROWTH=1  which allows increasing the size at runtime but prevents some optimizations, (3) set Module.TOTAL_MEMORY to a higher value before the program runs, or (4) if you want malloc to return NULL (0) instead of this abort, compile with  -s ABORTING_MALLOC=0 ")}function enlargeMemory(){abortOnCannotGrowMemory()}var TOTAL_STACK=Module["TOTAL_STACK"]||5242880;var TOTAL_MEMORY=Module["TOTAL_MEMORY"]||16777216;if(TOTAL_MEMORY<TOTAL_STACK)Module.printErr("TOTAL_MEMORY should be larger than TOTAL_STACK, was "+TOTAL_MEMORY+"! (TOTAL_STACK="+TOTAL_STACK+")");if(Module["buffer"]){buffer=Module["buffer"]}else{{buffer=new ArrayBuffer(TOTAL_MEMORY)}}updateGlobalBufferViews();function getTotalMemory(){return TOTAL_MEMORY}HEAP32[0]=1668509029;HEAP16[1]=25459;if(HEAPU8[2]!==115||HEAPU8[3]!==99)throw"Runtime error: expected the system to be little-endian!";Module["HEAP"]=HEAP;Module["buffer"]=buffer;Module["HEAP8"]=HEAP8;Module["HEAP16"]=HEAP16;Module["HEAP32"]=HEAP32;Module["HEAPU8"]=HEAPU8;Module["HEAPU16"]=HEAPU16;Module["HEAPU32"]=HEAPU32;Module["HEAPF32"]=HEAPF32;Module["HEAPF64"]=HEAPF64;function callRuntimeCallbacks(callbacks){while(callbacks.length>0){var callback=callbacks.shift();if(typeof callback=="function"){callback();continue}var func=callback.func;if(typeof func==="number"){if(callback.arg===undefined){Module["dynCall_v"](func)}else{Module["dynCall_vi"](func,callback.arg)}}else{func(callback.arg===undefined?null:callback.arg)}}}var __ATPRERUN__=[];var __ATINIT__=[];var __ATMAIN__=[];var __ATEXIT__=[];var __ATPOSTRUN__=[];var runtimeInitialized=false;var runtimeExited=false;function preRun(){if(Module["preRun"]){if(typeof Module["preRun"]=="function")Module["preRun"]=[Module["preRun"]];while(Module["preRun"].length){addOnPreRun(Module["preRun"].shift())}}callRuntimeCallbacks(__ATPRERUN__)}function ensureInitRuntime(){if(runtimeInitialized)return;runtimeInitialized=true;callRuntimeCallbacks(__ATINIT__)}function preMain(){callRuntimeCallbacks(__ATMAIN__)}function exitRuntime(){callRuntimeCallbacks(__ATEXIT__);runtimeExited=true}function postRun(){if(Module["postRun"]){if(typeof Module["postRun"]=="function")Module["postRun"]=[Module["postRun"]];while(Module["postRun"].length){addOnPostRun(Module["postRun"].shift())}}callRuntimeCallbacks(__ATPOSTRUN__)}function addOnPreRun(cb){__ATPRERUN__.unshift(cb)}Module["addOnPreRun"]=addOnPreRun;function addOnInit(cb){__ATINIT__.unshift(cb)}Module["addOnInit"]=addOnInit;function addOnPreMain(cb){__ATMAIN__.unshift(cb)}Module["addOnPreMain"]=addOnPreMain;function addOnExit(cb){__ATEXIT__.unshift(cb)}Module["addOnExit"]=addOnExit;function addOnPostRun(cb){__ATPOSTRUN__.unshift(cb)}Module["addOnPostRun"]=addOnPostRun;function intArrayFromString(stringy,dontAddNull,length){var len=length>0?length:lengthBytesUTF8(stringy)+1;var u8array=new Array(len);var numBytesWritten=stringToUTF8Array(stringy,u8array,0,u8array.length);if(dontAddNull)u8array.length=numBytesWritten;return u8array}Module["intArrayFromString"]=intArrayFromString;function intArrayToString(array){var ret=[];for(var i=0;i<array.length;i++){var chr=array[i];if(chr>255){chr&=255}ret.push(String.fromCharCode(chr))}return ret.join("")}Module["intArrayToString"]=intArrayToString;function writeStringToMemory(string,buffer,dontAddNull){Runtime.warnOnce("writeStringToMemory is deprecated and should not be called! Use stringToUTF8() instead!");var lastChar,end;if(dontAddNull){end=buffer+lengthBytesUTF8(string);lastChar=HEAP8[end]}stringToUTF8(string,buffer,Infinity);if(dontAddNull)HEAP8[end]=lastChar}Module["writeStringToMemory"]=writeStringToMemory;function writeArrayToMemory(array,buffer){HEAP8.set(array,buffer)}Module["writeArrayToMemory"]=writeArrayToMemory;function writeAsciiToMemory(str,buffer,dontAddNull){for(var i=0;i<str.length;++i){HEAP8[buffer++>>0]=str.charCodeAt(i)}if(!dontAddNull)HEAP8[buffer>>0]=0}Module["writeAsciiToMemory"]=writeAsciiToMemory;if(!Math["imul"]||Math["imul"](4294967295,5)!==-5)Math["imul"]=function imul(a,b){var ah=a>>>16;var al=a&65535;var bh=b>>>16;var bl=b&65535;return al*bl+(ah*bl+al*bh<<16)|0};Math.imul=Math["imul"];if(!Math["fround"]){var froundBuffer=new Float32Array(1);Math["fround"]=(function(x){froundBuffer[0]=x;return froundBuffer[0]})}Math.fround=Math["fround"];if(!Math["clz32"])Math["clz32"]=(function(x){x=x>>>0;for(var i=0;i<32;i++){if(x&1<<31-i)return i}return 32});Math.clz32=Math["clz32"];if(!Math["trunc"])Math["trunc"]=(function(x){return x<0?Math.ceil(x):Math.floor(x)});Math.trunc=Math["trunc"];var Math_abs=Math.abs;var Math_cos=Math.cos;var Math_sin=Math.sin;var Math_tan=Math.tan;var Math_acos=Math.acos;var Math_asin=Math.asin;var Math_atan=Math.atan;var Math_atan2=Math.atan2;var Math_exp=Math.exp;var Math_log=Math.log;var Math_sqrt=Math.sqrt;var Math_ceil=Math.ceil;var Math_floor=Math.floor;var Math_pow=Math.pow;var Math_imul=Math.imul;var Math_fround=Math.fround;var Math_round=Math.round;var Math_min=Math.min;var Math_clz32=Math.clz32;var Math_trunc=Math.trunc;var runDependencies=0;var runDependencyWatcher=null;var dependenciesFulfilled=null;function addRunDependency(id){runDependencies++;if(Module["monitorRunDependencies"]){Module["monitorRunDependencies"](runDependencies)}}Module["addRunDependency"]=addRunDependency;function removeRunDependency(id){runDependencies--;if(Module["monitorRunDependencies"]){Module["monitorRunDependencies"](runDependencies)}if(runDependencies==0){if(runDependencyWatcher!==null){clearInterval(runDependencyWatcher);runDependencyWatcher=null}if(dependenciesFulfilled){var callback=dependenciesFulfilled;dependenciesFulfilled=null;callback()}}}Module["removeRunDependency"]=removeRunDependency;Module["preloadedImages"]={};Module["preloadedAudios"]={};var ASM_CONSTS=[];STATIC_BASE=Runtime.GLOBAL_BASE;STATICTOP=STATIC_BASE+1024;__ATINIT__.push();allocate([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,224,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,5,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,2,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,255,255,255,255,255,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,82,101,97,108,32,70,70,84,32,111,112,116,105,109,105,122,97,116,105,111,110,32,109,117,115,116,32,98,101,32,101,118,101,110,46,10,0,107,105,115,115,32,102,102,116,32,117,115,97,103,101,32,101,114,114,111,114,58,32,105,109,112,114,111,112,101,114,32,97,108,108,111,99,10,0],"i8",ALLOC_NONE,Runtime.GLOBAL_BASE);var tempDoublePtr=STATICTOP;STATICTOP+=16;function ___setErrNo(value){if(Module["___errno_location"])HEAP32[Module["___errno_location"]()>>2]=value;return value}function __exit(status){Module["exit"](status)}function _exit(status){__exit(status)}var SYSCALLS={varargs:0,get:(function(varargs){SYSCALLS.varargs+=4;var ret=HEAP32[SYSCALLS.varargs-4>>2];return ret}),getStr:(function(){var ret=Pointer_stringify(SYSCALLS.get());return ret}),get64:(function(){var low=SYSCALLS.get(),high=SYSCALLS.get();if(low>=0)assert(high===0);else assert(high===-1);return low}),getZero:(function(){assert(SYSCALLS.get()===0)})};function ___syscall140(which,varargs){SYSCALLS.varargs=varargs;try{var stream=SYSCALLS.getStreamFromFD(),offset_high=SYSCALLS.get(),offset_low=SYSCALLS.get(),result=SYSCALLS.get(),whence=SYSCALLS.get();var offset=offset_low;FS.llseek(stream,offset,whence);HEAP32[result>>2]=stream.position;if(stream.getdents&&offset===0&&whence===0)stream.getdents=null;return 0}catch(e){if(typeof FS==="undefined"||!(e instanceof FS.ErrnoError))abort(e);return-e.errno}}function ___syscall146(which,varargs){SYSCALLS.varargs=varargs;try{var stream=SYSCALLS.get(),iov=SYSCALLS.get(),iovcnt=SYSCALLS.get();var ret=0;if(!___syscall146.buffer){___syscall146.buffers=[null,[],[]];___syscall146.printChar=(function(stream,curr){var buffer=___syscall146.buffers[stream];assert(buffer);if(curr===0||curr===10){(stream===1?Module["print"]:Module["printErr"])(UTF8ArrayToString(buffer,0));buffer.length=0}else{buffer.push(curr)}})}for(var i=0;i<iovcnt;i++){var ptr=HEAP32[iov+i*8>>2];var len=HEAP32[iov+(i*8+4)>>2];for(var j=0;j<len;j++){___syscall146.printChar(stream,HEAPU8[ptr+j])}ret+=len}return ret}catch(e){if(typeof FS==="undefined"||!(e instanceof FS.ErrnoError))abort(e);return-e.errno}}function _emscripten_memcpy_big(dest,src,num){HEAPU8.set(HEAPU8.subarray(src,src+num),dest);return dest}function ___syscall6(which,varargs){SYSCALLS.varargs=varargs;try{var stream=SYSCALLS.getStreamFromFD();FS.close(stream);return 0}catch(e){if(typeof FS==="undefined"||!(e instanceof FS.ErrnoError))abort(e);return-e.errno}}__ATEXIT__.push((function(){var fflush=Module["_fflush"];if(fflush)fflush(0);var printChar=___syscall146.printChar;if(!printChar)return;var buffers=___syscall146.buffers;if(buffers[1].length)printChar(1,10);if(buffers[2].length)printChar(2,10)}));DYNAMICTOP_PTR=allocate(1,"i32",ALLOC_STATIC);STACK_BASE=STACKTOP=Runtime.alignMemory(STATICTOP);STACK_MAX=STACK_BASE+TOTAL_STACK;DYNAMIC_BASE=Runtime.alignMemory(STACK_MAX);HEAP32[DYNAMICTOP_PTR>>2]=DYNAMIC_BASE;staticSealed=true;function invoke_ii(index,a1){try{return Module["dynCall_ii"](index,a1)}catch(e){if(typeof e!=="number"&&e!=="longjmp")throw e;Module["setThrew"](1,0)}}function invoke_iiii(index,a1,a2,a3){try{return Module["dynCall_iiii"](index,a1,a2,a3)}catch(e){if(typeof e!=="number"&&e!=="longjmp")throw e;Module["setThrew"](1,0)}}Module.asmGlobalArg={"Math":Math,"Int8Array":Int8Array,"Int16Array":Int16Array,"Int32Array":Int32Array,"Uint8Array":Uint8Array,"Uint16Array":Uint16Array,"Uint32Array":Uint32Array,"Float32Array":Float32Array,"Float64Array":Float64Array,"NaN":NaN,"Infinity":Infinity};Module.asmLibraryArg={"abort":abort,"assert":assert,"enlargeMemory":enlargeMemory,"getTotalMemory":getTotalMemory,"abortOnCannotGrowMemory":abortOnCannotGrowMemory,"invoke_ii":invoke_ii,"invoke_iiii":invoke_iiii,"___syscall6":___syscall6,"___setErrNo":___setErrNo,"_emscripten_memcpy_big":_emscripten_memcpy_big,"___syscall140":___syscall140,"_exit":_exit,"__exit":__exit,"___syscall146":___syscall146,"DYNAMICTOP_PTR":DYNAMICTOP_PTR,"tempDoublePtr":tempDoublePtr,"ABORT":ABORT,"STACKTOP":STACKTOP,"STACK_MAX":STACK_MAX};// EMSCRIPTEN_START_ASM
-var asm=(function(global,env,buffer) {
-"use asm";var a=new global.Int8Array(buffer);var b=new global.Int16Array(buffer);var c=new global.Int32Array(buffer);var d=new global.Uint8Array(buffer);var e=new global.Uint16Array(buffer);var f=new global.Uint32Array(buffer);var g=new global.Float32Array(buffer);var h=new global.Float64Array(buffer);var i=env.DYNAMICTOP_PTR|0;var j=env.tempDoublePtr|0;var k=env.ABORT|0;var l=env.STACKTOP|0;var m=env.STACK_MAX|0;var n=0;var o=0;var p=0;var q=0;var r=global.NaN,s=global.Infinity;var t=0,u=0,v=0,w=0,x=0.0;var y=0;var z=global.Math.floor;var A=global.Math.abs;var B=global.Math.sqrt;var C=global.Math.pow;var D=global.Math.cos;var E=global.Math.sin;var F=global.Math.tan;var G=global.Math.acos;var H=global.Math.asin;var I=global.Math.atan;var J=global.Math.atan2;var K=global.Math.exp;var L=global.Math.log;var M=global.Math.ceil;var N=global.Math.imul;var O=global.Math.min;var P=global.Math.max;var Q=global.Math.clz32;var R=global.Math.fround;var S=env.abort;var T=env.assert;var U=env.enlargeMemory;var V=env.getTotalMemory;var W=env.abortOnCannotGrowMemory;var X=env.invoke_ii;var Y=env.invoke_iiii;var Z=env.___syscall6;var _=env.___setErrNo;var $=env._emscripten_memcpy_big;var aa=env.___syscall140;var ba=env._exit;var ca=env.__exit;var da=env.___syscall146;var ea=R(0);const fa=R(0);
-// EMSCRIPTEN_START_FUNCS
-function ia(a){a=a|0;var b=0;b=l;l=l+a|0;l=l+15&-16;return b|0}function ja(){return l|0}function ka(a){a=a|0;l=a}function la(a,b){a=a|0;b=b|0;l=a;m=b}function ma(a,b){a=a|0;b=b|0;if(!n){n=a;o=b}}function na(a){a=a|0;y=a}function oa(){return y|0}function pa(a){a=a|0;ya(a);return}function qa(a,b,d,e){a=a|0;b=b|0;d=d|0;e=e|0;var f=0,h=0.0,i=0.0;f=(a<<3)+264|0;if(!e)f=xa(f)|0;else{if(!d)d=0;else d=(c[e>>2]|0)>>>0<f>>>0?0:d;c[e>>2]=f;f=d}if(!f)return f|0;c[f>>2]=a;e=f+4|0;c[e>>2]=b;h=+(a|0);a:do if((a|0)>0){d=0;while(1){i=+(d|0)*-6.283185307179586/h;i=(b|0)==0?i:-i;g[f+264+(d<<3)>>2]=R(+D(+i));g[f+264+(d<<3)+4>>2]=R(+E(+i));d=d+1|0;if((d|0)==(a|0))break a;b=c[e>>2]|0}}while(0);h=+z(+(+B(+h)));b=a;d=4;e=f+8|0;while(1){b:do if((b|0)%(d|0)|0)while(1){switch(d|0){case 4:{d=2;break}case 2:{d=3;break}default:d=d+2|0}d=+(d|0)>h?b:d;if(!((b|0)%(d|0)|0))break b}while(0);b=(b|0)/(d|0)|0;c[e>>2]=d;c[e+4>>2]=b;if((b|0)<=1)break;else e=e+8|0}return f|0}function ra(a,b,d,e,f,h){a=a|0;b=b|0;d=d|0;e=e|0;f=f|0;h=h|0;var i=0,k=0,l=0,m=fa,n=0,o=fa,p=fa,q=fa,r=0,s=0,t=0,u=0,v=0,w=0,x=0,y=fa,z=fa,A=fa,B=fa,C=0,D=fa,E=fa,F=fa,G=fa,H=fa,I=fa,J=fa,K=fa,L=fa,M=fa;w=c[f>>2]|0;n=f+8|0;x=c[f+4>>2]|0;r=a+((N(x,w)|0)<<3)|0;if((x|0)==1){k=N(e,d)|0;i=a;f=b;while(1){t=f;u=c[t+4>>2]|0;v=i;c[v>>2]=c[t>>2];c[v+4>>2]=u;i=i+8|0;if((i|0)==(r|0))break;else f=f+(k<<3)|0}}else{k=N(w,d)|0;l=N(e,d)|0;i=a;f=b;while(1){ra(i,f,k,e,n,h);i=i+(x<<3)|0;if((i|0)==(r|0))break;else f=f+(l<<3)|0}}switch(w|0){case 2:{k=a;l=x;i=h+264|0;f=a+(x<<3)|0;while(1){o=R(g[f>>2]);y=R(g[i>>2]);p=R(o*y);a=f+4|0;m=R(g[a>>2]);q=R(g[i+4>>2]);p=R(p-R(m*q));q=R(R(y*m)+R(o*q));g[f>>2]=R(R(g[k>>2])-p);x=k+4|0;g[a>>2]=R(R(g[x>>2])-q);g[k>>2]=R(p+R(g[k>>2]));g[x>>2]=R(q+R(g[x>>2]));l=l+-1|0;if(!l)break;else{k=k+8|0;i=i+(d<<3)|0;f=f+8|0}}return}case 3:{n=x<<1;m=R(g[h+264+((N(x,d)|0)<<3)+4>>2]);l=h+264|0;e=d<<1;f=a;i=x;k=l;while(1){h=f+(x<<3)|0;o=R(g[h>>2]);y=R(g[k>>2]);A=R(o*y);a=f+(x<<3)+4|0;B=R(g[a>>2]);z=R(g[k+4>>2]);A=R(A-R(B*z));z=R(R(y*B)+R(o*z));v=f+(n<<3)|0;o=R(g[v>>2]);B=R(g[l>>2]);y=R(o*B);w=f+(n<<3)+4|0;p=R(g[w>>2]);q=R(g[l+4>>2]);y=R(y-R(p*q));q=R(R(B*p)+R(o*q));o=R(A+y);p=R(z+q);y=R(A-y);q=R(z-q);g[h>>2]=R(+R(g[f>>2])-+o*.5);u=f+4|0;g[a>>2]=R(+R(g[u>>2])-+p*.5);y=R(m*y);q=R(m*q);g[f>>2]=R(o+R(g[f>>2]));g[u>>2]=R(p+R(g[u>>2]));g[v>>2]=R(q+R(g[h>>2]));g[w>>2]=R(R(g[a>>2])-y);g[h>>2]=R(R(g[h>>2])-q);g[a>>2]=R(y+R(g[a>>2]));i=i+-1|0;if(!i)break;else{f=f+8|0;k=k+(d<<3)|0;l=l+(e<<3)|0}}return}case 4:{n=x<<1;b=x*3|0;f=h+264|0;r=d<<1;s=d*3|0;if(!(c[h+4>>2]|0)){i=a;k=f;l=x;e=f;while(1){v=i+(x<<3)|0;m=R(g[v>>2]);B=R(g[k>>2]);E=R(m*B);w=i+(x<<3)+4|0;z=R(g[w>>2]);D=R(g[k+4>>2]);E=R(E-R(z*D));D=R(R(B*z)+R(m*D));C=i+(n<<3)|0;m=R(g[C>>2]);z=R(g[e>>2]);B=R(m*z);t=i+(n<<3)+4|0;o=R(g[t>>2]);p=R(g[e+4>>2]);B=R(B-R(o*p));p=R(R(z*o)+R(m*p));h=i+(b<<3)|0;m=R(g[h>>2]);o=R(g[f>>2]);z=R(m*o);a=i+(b<<3)+4|0;q=R(g[a>>2]);y=R(g[f+4>>2]);z=R(z-R(q*y));y=R(R(o*q)+R(m*y));m=R(g[i>>2]);q=R(m-B);u=i+4|0;o=R(g[u>>2]);A=R(o-p);m=R(B+m);g[i>>2]=m;o=R(p+o);g[u>>2]=o;p=R(E+z);B=R(D+y);z=R(E-z);y=R(D-y);g[C>>2]=R(m-p);g[t>>2]=R(o-B);g[i>>2]=R(p+R(g[i>>2]));g[u>>2]=R(B+R(g[u>>2]));B=R(A+z);z=R(A-z);A=R(q-y);g[v>>2]=R(q+y);g[w>>2]=z;g[h>>2]=A;g[a>>2]=B;l=l+-1|0;if(!l)break;else{i=i+8|0;k=k+(d<<3)|0;e=e+(r<<3)|0;f=f+(s<<3)|0}}return}else{i=a;k=f;l=x;e=f;while(1){w=i+(x<<3)|0;p=R(g[w>>2]);B=R(g[k>>2]);m=R(p*B);h=i+(x<<3)+4|0;E=R(g[h>>2]);o=R(g[k+4>>2]);m=R(m-R(E*o));o=R(R(B*E)+R(p*o));t=i+(n<<3)|0;p=R(g[t>>2]);E=R(g[e>>2]);B=R(p*E);u=i+(n<<3)+4|0;q=R(g[u>>2]);y=R(g[e+4>>2]);B=R(B-R(q*y));y=R(R(E*q)+R(p*y));a=i+(b<<3)|0;p=R(g[a>>2]);q=R(g[f>>2]);E=R(p*q);C=i+(b<<3)+4|0;z=R(g[C>>2]);A=R(g[f+4>>2]);E=R(E-R(z*A));A=R(R(q*z)+R(p*A));p=R(g[i>>2]);z=R(p-B);v=i+4|0;q=R(g[v>>2]);D=R(q-y);p=R(B+p);g[i>>2]=p;q=R(y+q);g[v>>2]=q;y=R(m+E);B=R(o+A);E=R(m-E);A=R(o-A);g[t>>2]=R(p-y);g[u>>2]=R(q-B);g[i>>2]=R(y+R(g[i>>2]));g[v>>2]=R(B+R(g[v>>2]));B=R(D+E);E=R(D-E);D=R(z+A);g[w>>2]=R(z-A);g[h>>2]=B;g[a>>2]=D;g[C>>2]=E;l=l+-1|0;if(!l)break;else{i=i+8|0;k=k+(d<<3)|0;e=e+(r<<3)|0;f=f+(s<<3)|0}}return}}case 5:{C=N(x,d)|0;o=R(g[h+264+(C<<3)>>2]);q=R(g[h+264+(C<<3)+4>>2]);C=N(x,d<<1)|0;m=R(g[h+264+(C<<3)>>2]);p=R(g[h+264+(C<<3)+4>>2]);if((x|0)<=0)return;b=d*3|0;i=a+(x<<3)|0;k=a+(x<<1<<3)|0;l=a+(x*3<<3)|0;e=a+(x<<2<<3)|0;n=0;f=a;while(1){H=R(g[f>>2]);u=f+4|0;F=R(g[u>>2]);A=R(g[i>>2]);t=N(n,d)|0;J=R(g[h+264+(t<<3)>>2]);G=R(A*J);v=i+4|0;E=R(g[v>>2]);I=R(g[h+264+(t<<3)+4>>2]);G=R(G-R(E*I));I=R(R(J*E)+R(A*I));A=R(g[k>>2]);t=N(n<<1,d)|0;E=R(g[h+264+(t<<3)>>2]);J=R(A*E);a=k+4|0;z=R(g[a>>2]);L=R(g[h+264+(t<<3)+4>>2]);J=R(J-R(z*L));L=R(R(E*z)+R(A*L));A=R(g[l>>2]);t=N(b,n)|0;z=R(g[h+264+(t<<3)>>2]);E=R(A*z);C=l+4|0;M=R(g[C>>2]);y=R(g[h+264+(t<<3)+4>>2]);E=R(E-R(M*y));y=R(R(z*M)+R(A*y));A=R(g[e>>2]);t=N(n<<2,d)|0;M=R(g[h+264+(t<<3)>>2]);z=R(A*M);w=e+4|0;D=R(g[w>>2]);B=R(g[h+264+(t<<3)+4>>2]);z=R(z-R(D*B));B=R(R(M*D)+R(A*B));A=R(G+z);D=R(I+B);z=R(G-z);B=R(I-B);I=R(J+E);G=R(L+y);E=R(J-E);y=R(L-y);g[f>>2]=R(H+R(I+A));g[u>>2]=R(F+R(G+D));L=R(R(m*I)+R(H+R(o*A)));J=R(R(m*G)+R(F+R(o*D)));M=R(R(p*y)+R(q*B));K=R(R(-R(q*z))-R(p*E));g[i>>2]=R(L-M);g[v>>2]=R(J-K);g[e>>2]=R(M+L);g[w>>2]=R(K+J);A=R(R(o*I)+R(H+R(m*A)));D=R(R(o*G)+R(F+R(m*D)));B=R(R(q*y)-R(p*B));E=R(R(p*z)-R(q*E));g[k>>2]=R(B+A);g[a>>2]=R(E+D);g[l>>2]=R(A-B);g[C>>2]=R(D-E);n=n+1|0;if((n|0)==(x|0))break;else{i=i+8|0;k=k+8|0;l=l+8|0;e=e+8|0;f=f+8|0}}return}default:{u=c[h>>2]|0;v=xa(w<<3)|0;do if((x|0)>0?(w|0)>0:0){if((w|0)==1){f=0;do{k=a+(f<<3)|0;i=c[k>>2]|0;k=c[k+4>>2]|0;C=a+(f<<3)|0;c[C>>2]=i;c[C+4>>2]=k;f=f+1|0}while((f|0)!=(x|0));C=v;c[C>>2]=i;c[C+4>>2]=k;break}else t=0;do{f=t;i=0;while(1){r=a+(f<<3)|0;s=c[r+4>>2]|0;C=v+(i<<3)|0;c[C>>2]=c[r>>2];c[C+4>>2]=s;i=i+1|0;if((i|0)==(w|0))break;else f=f+x|0}n=v;e=c[n>>2]|0;n=c[n+4>>2]|0;m=(c[j>>2]=e,R(g[j>>2]));k=t;l=0;while(1){b=a+(k<<3)|0;r=b;c[r>>2]=e;c[r+4>>2]=n;r=N(k,d)|0;s=a+(k<<3)+4|0;f=1;i=0;o=m;p=R(g[s>>2]);do{C=i+r|0;i=C-((C|0)<(u|0)?0:u)|0;M=R(g[v+(f<<3)>>2]);I=R(g[h+264+(i<<3)>>2]);J=R(M*I);K=R(g[v+(f<<3)+4>>2]);L=R(g[h+264+(i<<3)+4>>2]);M=R(R(I*K)+R(M*L));o=R(o+R(J-R(K*L)));g[b>>2]=o;p=R(p+M);g[s>>2]=p;f=f+1|0}while((f|0)!=(w|0));l=l+1|0;if((l|0)==(w|0))break;else k=k+x|0}t=t+1|0}while((t|0)!=(x|0))}while(0);ya(v);return}}}function sa(a,b,d){a=a|0;b=b|0;d=d|0;if((b|0)==(d|0)){d=xa(c[a>>2]<<3)|0;ra(d,b,1,1,a+8|0,a);Qa(b|0,d|0,c[a>>2]<<3|0)|0;ya(d);return}else{ra(d,b,1,1,a+8|0,a);return}}function ta(a){a=a|0;ya(a);return}function ua(a,b,d,e){a=a|0;b=b|0;d=d|0;e=e|0;var f=0.0,h=0,i=0,j=0,k=0,m=0,n=0.0;k=l;l=l+16|0;i=k;if(a&1|0){Ma(380,36,1,c[63]|0)|0;b=0;l=k;return b|0}j=a>>1;qa(j,b,0,i)|0;h=c[i>>2]|0;a=(((j*3|0)/2|0)<<3)+12+h|0;if(e){m=(c[e>>2]|0)>>>0<a>>>0;c[e>>2]=a;if(m){m=0;l=k;return m|0}}else d=xa(a)|0;if(!d){m=0;l=k;return m|0}m=d+12|0;c[d>>2]=m;h=m+h|0;c[d+4>>2]=h;a=d+8|0;c[a>>2]=h+(j<<3);qa(j,b,m,i)|0;h=(j|0)/2|0;if((j|0)<=1){m=d;l=k;return m|0}f=+(j|0);e=c[a>>2]|0;if(!b){a=0;do{m=a;a=a+1|0;n=(+(a|0)/f+.5)*-3.141592653589793;g[e+(m<<3)>>2]=R(+D(+n));g[e+(m<<3)+4>>2]=R(+E(+n))}while((a|0)<(h|0));l=k;return d|0}else{a=0;do{m=a;a=a+1|0;n=(+(a|0)/f+.5)*-3.141592653589793;g[e+(m<<3)>>2]=R(+D(+n));g[e+(m<<3)+4>>2]=R(+E(+-n))}while((a|0)<(h|0));l=k;return d|0}return 0}function va(a,b,d){a=a|0;b=b|0;d=d|0;var e=0,f=0,h=0,i=0,j=fa,k=fa,l=fa,m=fa,n=fa,o=fa,p=fa,q=0;e=c[a>>2]|0;if(c[e+4>>2]|0){Ma(417,37,1,c[63]|0)|0;ba(1)}i=c[e>>2]|0;f=a+4|0;sa(e,b,c[f>>2]|0);f=c[f>>2]|0;k=R(g[f>>2]);j=R(g[f+4>>2]);g[d>>2]=R(k+j);g[d+(i<<3)>>2]=R(k-j);g[d+4>>2]=R(0.0);g[d+(i<<3)+4>>2]=R(0.0);h=(i|0)/2|0;if((i|0)<2)return;e=c[a+8>>2]|0;b=1;while(1){l=R(g[f+(b<<3)>>2]);o=R(g[f+(b<<3)+4>>2]);a=i-b|0;n=R(g[f+(a<<3)>>2]);p=R(g[f+(a<<3)+4>>2]);m=R(l+n);k=R(o-p);n=R(l-n);p=R(o+p);q=b+-1|0;o=R(g[e+(q<<3)>>2]);l=R(n*o);j=R(g[e+(q<<3)+4>>2]);l=R(l-R(p*j));j=R(R(p*o)+R(n*j));g[d+(b<<3)>>2]=R(R(m+l)*R(.5));g[d+(b<<3)+4>>2]=R(R(k+j)*R(.5));g[d+(a<<3)>>2]=R(R(m-l)*R(.5));g[d+(a<<3)+4>>2]=R(R(j-k)*R(.5));if((b|0)<(h|0))b=b+1|0;else break}return}function wa(a,b,d){a=a|0;b=b|0;d=d|0;var e=0,f=0,h=0,i=0,j=0,k=fa,l=0,m=fa,n=fa,o=fa,p=fa,q=fa,r=fa,s=0;i=c[a>>2]|0;if(!(c[i+4>>2]|0)){Ma(417,37,1,c[63]|0)|0;ba(1)}j=c[i>>2]|0;k=R(g[b>>2]);h=b+(j<<3)|0;k=R(k+R(g[h>>2]));f=c[a+4>>2]|0;g[f>>2]=k;k=R(g[b>>2]);g[f+4>>2]=R(k-R(g[h>>2]));h=(j|0)/2|0;if((j|0)<2){sa(i,f,d);return}e=c[a+8>>2]|0;a=1;while(1){n=R(g[b+(a<<3)>>2]);q=R(g[b+(a<<3)+4>>2]);l=j-a|0;p=R(g[b+(l<<3)>>2]);r=R(g[b+(l<<3)+4>>2]);o=R(n+p);m=R(q-r);p=R(n-p);r=R(q+r);s=a+-1|0;q=R(g[e+(s<<3)>>2]);n=R(p*q);k=R(g[e+(s<<3)+4>>2]);n=R(n-R(r*k));k=R(R(r*q)+R(p*k));g[f+(a<<3)>>2]=R(o+n);g[f+(a<<3)+4>>2]=R(m+k);g[f+(l<<3)>>2]=R(o-n);g[f+(l<<3)+4>>2]=R(-R(m-k));if((a|0)<(h|0))a=a+1|0;else break}sa(i,f,d);return}function xa(a){a=a|0;var b=0,d=0,e=0,f=0,g=0,h=0,i=0,j=0,k=0,m=0,n=0,o=0,p=0,q=0,r=0,s=0,t=0,u=0,v=0,w=0,x=0;x=l;l=l+16|0;o=x;do if(a>>>0<245){k=a>>>0<11?16:a+11&-8;a=k>>>3;n=c[114]|0;d=n>>>a;if(d&3|0){b=(d&1^1)+a|0;a=496+(b<<1<<2)|0;d=a+8|0;e=c[d>>2]|0;f=e+8|0;g=c[f>>2]|0;if((a|0)==(g|0))c[114]=n&~(1<<b);else{c[g+12>>2]=a;c[d>>2]=g}w=b<<3;c[e+4>>2]=w|3;w=e+w+4|0;c[w>>2]=c[w>>2]|1;w=f;l=x;return w|0}m=c[116]|0;if(k>>>0>m>>>0){if(d|0){b=2<<a;b=d<<a&(b|0-b);b=(b&0-b)+-1|0;h=b>>>12&16;b=b>>>h;d=b>>>5&8;b=b>>>d;f=b>>>2&4;b=b>>>f;a=b>>>1&2;b=b>>>a;e=b>>>1&1;e=(d|h|f|a|e)+(b>>>e)|0;b=496+(e<<1<<2)|0;a=b+8|0;f=c[a>>2]|0;h=f+8|0;d=c[h>>2]|0;if((b|0)==(d|0)){a=n&~(1<<e);c[114]=a}else{c[d+12>>2]=b;c[a>>2]=d;a=n}g=(e<<3)-k|0;c[f+4>>2]=k|3;e=f+k|0;c[e+4>>2]=g|1;c[e+g>>2]=g;if(m|0){f=c[119]|0;b=m>>>3;d=496+(b<<1<<2)|0;b=1<<b;if(!(a&b)){c[114]=a|b;b=d;a=d+8|0}else{a=d+8|0;b=c[a>>2]|0}c[a>>2]=f;c[b+12>>2]=f;c[f+8>>2]=b;c[f+12>>2]=d}c[116]=g;c[119]=e;w=h;l=x;return w|0}i=c[115]|0;if(i){d=(i&0-i)+-1|0;h=d>>>12&16;d=d>>>h;g=d>>>5&8;d=d>>>g;j=d>>>2&4;d=d>>>j;e=d>>>1&2;d=d>>>e;a=d>>>1&1;a=c[760+((g|h|j|e|a)+(d>>>a)<<2)>>2]|0;d=(c[a+4>>2]&-8)-k|0;e=c[a+16+(((c[a+16>>2]|0)==0&1)<<2)>>2]|0;if(!e){j=a;g=d}else{do{h=(c[e+4>>2]&-8)-k|0;j=h>>>0<d>>>0;d=j?h:d;a=j?e:a;e=c[e+16+(((c[e+16>>2]|0)==0&1)<<2)>>2]|0}while((e|0)!=0);j=a;g=d}h=j+k|0;if(j>>>0<h>>>0){f=c[j+24>>2]|0;b=c[j+12>>2]|0;do if((b|0)==(j|0)){a=j+20|0;b=c[a>>2]|0;if(!b){a=j+16|0;b=c[a>>2]|0;if(!b){d=0;break}}while(1){d=b+20|0;e=c[d>>2]|0;if(e|0){b=e;a=d;continue}d=b+16|0;e=c[d>>2]|0;if(!e)break;else{b=e;a=d}}c[a>>2]=0;d=b}else{d=c[j+8>>2]|0;c[d+12>>2]=b;c[b+8>>2]=d;d=b}while(0);do if(f|0){b=c[j+28>>2]|0;a=760+(b<<2)|0;if((j|0)==(c[a>>2]|0)){c[a>>2]=d;if(!d){c[115]=i&~(1<<b);break}}else{c[f+16+(((c[f+16>>2]|0)!=(j|0)&1)<<2)>>2]=d;if(!d)break}c[d+24>>2]=f;b=c[j+16>>2]|0;if(b|0){c[d+16>>2]=b;c[b+24>>2]=d}b=c[j+20>>2]|0;if(b|0){c[d+20>>2]=b;c[b+24>>2]=d}}while(0);if(g>>>0<16){w=g+k|0;c[j+4>>2]=w|3;w=j+w+4|0;c[w>>2]=c[w>>2]|1}else{c[j+4>>2]=k|3;c[h+4>>2]=g|1;c[h+g>>2]=g;if(m|0){e=c[119]|0;b=m>>>3;d=496+(b<<1<<2)|0;b=1<<b;if(!(n&b)){c[114]=n|b;b=d;a=d+8|0}else{a=d+8|0;b=c[a>>2]|0}c[a>>2]=e;c[b+12>>2]=e;c[e+8>>2]=b;c[e+12>>2]=d}c[116]=g;c[119]=h}w=j+8|0;l=x;return w|0}else n=k}else n=k}else n=k}else if(a>>>0<=4294967231){a=a+11|0;k=a&-8;j=c[115]|0;if(j){e=0-k|0;a=a>>>8;if(a)if(k>>>0>16777215)i=31;else{n=(a+1048320|0)>>>16&8;v=a<<n;m=(v+520192|0)>>>16&4;v=v<<m;i=(v+245760|0)>>>16&2;i=14-(m|n|i)+(v<<i>>>15)|0;i=k>>>(i+7|0)&1|i<<1}else i=0;d=c[760+(i<<2)>>2]|0;a:do if(!d){d=0;a=0;v=57}else{a=0;h=k<<((i|0)==31?0:25-(i>>>1)|0);g=0;while(1){f=(c[d+4>>2]&-8)-k|0;if(f>>>0<e>>>0)if(!f){a=d;e=0;f=d;v=61;break a}else{a=d;e=f}f=c[d+20>>2]|0;d=c[d+16+(h>>>31<<2)>>2]|0;g=(f|0)==0|(f|0)==(d|0)?g:f;f=(d|0)==0;if(f){d=g;v=57;break}else h=h<<((f^1)&1)}}while(0);if((v|0)==57){if((d|0)==0&(a|0)==0){a=2<<i;a=j&(a|0-a);if(!a){n=k;break}n=(a&0-a)+-1|0;h=n>>>12&16;n=n>>>h;g=n>>>5&8;n=n>>>g;i=n>>>2&4;n=n>>>i;m=n>>>1&2;n=n>>>m;d=n>>>1&1;a=0;d=c[760+((g|h|i|m|d)+(n>>>d)<<2)>>2]|0}if(!d){i=a;h=e}else{f=d;v=61}}if((v|0)==61)while(1){v=0;d=(c[f+4>>2]&-8)-k|0;n=d>>>0<e>>>0;d=n?d:e;a=n?f:a;f=c[f+16+(((c[f+16>>2]|0)==0&1)<<2)>>2]|0;if(!f){i=a;h=d;break}else{e=d;v=61}}if((i|0)!=0?h>>>0<((c[116]|0)-k|0)>>>0:0){g=i+k|0;if(i>>>0>=g>>>0){w=0;l=x;return w|0}f=c[i+24>>2]|0;b=c[i+12>>2]|0;do if((b|0)==(i|0)){a=i+20|0;b=c[a>>2]|0;if(!b){a=i+16|0;b=c[a>>2]|0;if(!b){b=0;break}}while(1){d=b+20|0;e=c[d>>2]|0;if(e|0){b=e;a=d;continue}d=b+16|0;e=c[d>>2]|0;if(!e)break;else{b=e;a=d}}c[a>>2]=0}else{w=c[i+8>>2]|0;c[w+12>>2]=b;c[b+8>>2]=w}while(0);do if(f){a=c[i+28>>2]|0;d=760+(a<<2)|0;if((i|0)==(c[d>>2]|0)){c[d>>2]=b;if(!b){e=j&~(1<<a);c[115]=e;break}}else{c[f+16+(((c[f+16>>2]|0)!=(i|0)&1)<<2)>>2]=b;if(!b){e=j;break}}c[b+24>>2]=f;a=c[i+16>>2]|0;if(a|0){c[b+16>>2]=a;c[a+24>>2]=b}a=c[i+20>>2]|0;if(a){c[b+20>>2]=a;c[a+24>>2]=b;e=j}else e=j}else e=j;while(0);do if(h>>>0>=16){c[i+4>>2]=k|3;c[g+4>>2]=h|1;c[g+h>>2]=h;b=h>>>3;if(h>>>0<256){d=496+(b<<1<<2)|0;a=c[114]|0;b=1<<b;if(!(a&b)){c[114]=a|b;b=d;a=d+8|0}else{a=d+8|0;b=c[a>>2]|0}c[a>>2]=g;c[b+12>>2]=g;c[g+8>>2]=b;c[g+12>>2]=d;break}b=h>>>8;if(b)if(h>>>0>16777215)b=31;else{v=(b+1048320|0)>>>16&8;w=b<<v;u=(w+520192|0)>>>16&4;w=w<<u;b=(w+245760|0)>>>16&2;b=14-(u|v|b)+(w<<b>>>15)|0;b=h>>>(b+7|0)&1|b<<1}else b=0;d=760+(b<<2)|0;c[g+28>>2]=b;a=g+16|0;c[a+4>>2]=0;c[a>>2]=0;a=1<<b;if(!(e&a)){c[115]=e|a;c[d>>2]=g;c[g+24>>2]=d;c[g+12>>2]=g;c[g+8>>2]=g;break}a=h<<((b|0)==31?0:25-(b>>>1)|0);d=c[d>>2]|0;while(1){if((c[d+4>>2]&-8|0)==(h|0)){v=97;break}e=d+16+(a>>>31<<2)|0;b=c[e>>2]|0;if(!b){v=96;break}else{a=a<<1;d=b}}if((v|0)==96){c[e>>2]=g;c[g+24>>2]=d;c[g+12>>2]=g;c[g+8>>2]=g;break}else if((v|0)==97){v=d+8|0;w=c[v>>2]|0;c[w+12>>2]=g;c[v>>2]=g;c[g+8>>2]=w;c[g+12>>2]=d;c[g+24>>2]=0;break}}else{w=h+k|0;c[i+4>>2]=w|3;w=i+w+4|0;c[w>>2]=c[w>>2]|1}while(0);w=i+8|0;l=x;return w|0}else n=k}else n=k}else n=-1;while(0);d=c[116]|0;if(d>>>0>=n>>>0){b=d-n|0;a=c[119]|0;if(b>>>0>15){w=a+n|0;c[119]=w;c[116]=b;c[w+4>>2]=b|1;c[w+b>>2]=b;c[a+4>>2]=n|3}else{c[116]=0;c[119]=0;c[a+4>>2]=d|3;w=a+d+4|0;c[w>>2]=c[w>>2]|1}w=a+8|0;l=x;return w|0}h=c[117]|0;if(h>>>0>n>>>0){u=h-n|0;c[117]=u;w=c[120]|0;v=w+n|0;c[120]=v;c[v+4>>2]=u|1;c[w+4>>2]=n|3;w=w+8|0;l=x;return w|0}if(!(c[232]|0)){c[234]=4096;c[233]=4096;c[235]=-1;c[236]=-1;c[237]=0;c[225]=0;a=o&-16^1431655768;c[o>>2]=a;c[232]=a;a=4096}else a=c[234]|0;i=n+48|0;j=n+47|0;g=a+j|0;f=0-a|0;k=g&f;if(k>>>0<=n>>>0){w=0;l=x;return w|0}a=c[224]|0;if(a|0?(m=c[222]|0,o=m+k|0,o>>>0<=m>>>0|o>>>0>a>>>0):0){w=0;l=x;return w|0}b:do if(!(c[225]&4)){d=c[120]|0;c:do if(d){e=904;while(1){a=c[e>>2]|0;if(a>>>0<=d>>>0?(r=e+4|0,(a+(c[r>>2]|0)|0)>>>0>d>>>0):0)break;a=c[e+8>>2]|0;if(!a){v=118;break c}else e=a}b=g-h&f;if(b>>>0<2147483647){a=Oa(b|0)|0;if((a|0)==((c[e>>2]|0)+(c[r>>2]|0)|0)){if((a|0)!=(-1|0)){h=b;g=a;v=135;break b}}else{e=a;v=126}}else b=0}else v=118;while(0);do if((v|0)==118){d=Oa(0)|0;if((d|0)!=(-1|0)?(b=d,p=c[233]|0,q=p+-1|0,b=((q&b|0)==0?0:(q+b&0-p)-b|0)+k|0,p=c[222]|0,q=b+p|0,b>>>0>n>>>0&b>>>0<2147483647):0){r=c[224]|0;if(r|0?q>>>0<=p>>>0|q>>>0>r>>>0:0){b=0;break}a=Oa(b|0)|0;if((a|0)==(d|0)){h=b;g=d;v=135;break b}else{e=a;v=126}}else b=0}while(0);do if((v|0)==126){d=0-b|0;if(!(i>>>0>b>>>0&(b>>>0<2147483647&(e|0)!=(-1|0))))if((e|0)==(-1|0)){b=0;break}else{h=b;g=e;v=135;break b}a=c[234]|0;a=j-b+a&0-a;if(a>>>0>=2147483647){h=b;g=e;v=135;break b}if((Oa(a|0)|0)==(-1|0)){Oa(d|0)|0;b=0;break}else{h=a+b|0;g=e;v=135;break b}}while(0);c[225]=c[225]|4;v=133}else{b=0;v=133}while(0);if(((v|0)==133?k>>>0<2147483647:0)?(u=Oa(k|0)|0,r=Oa(0)|0,s=r-u|0,t=s>>>0>(n+40|0)>>>0,!((u|0)==(-1|0)|t^1|u>>>0<r>>>0&((u|0)!=(-1|0)&(r|0)!=(-1|0))^1)):0){h=t?s:b;g=u;v=135}if((v|0)==135){b=(c[222]|0)+h|0;c[222]=b;if(b>>>0>(c[223]|0)>>>0)c[223]=b;j=c[120]|0;do if(j){b=904;while(1){a=c[b>>2]|0;d=b+4|0;e=c[d>>2]|0;if((g|0)==(a+e|0)){v=145;break}f=c[b+8>>2]|0;if(!f)break;else b=f}if(((v|0)==145?(c[b+12>>2]&8|0)==0:0)?j>>>0<g>>>0&j>>>0>=a>>>0:0){c[d>>2]=e+h;w=j+8|0;w=(w&7|0)==0?0:0-w&7;v=j+w|0;w=(c[117]|0)+(h-w)|0;c[120]=v;c[117]=w;c[v+4>>2]=w|1;c[v+w+4>>2]=40;c[121]=c[236];break}if(g>>>0<(c[118]|0)>>>0)c[118]=g;d=g+h|0;b=904;while(1){if((c[b>>2]|0)==(d|0)){v=153;break}a=c[b+8>>2]|0;if(!a)break;else b=a}if((v|0)==153?(c[b+12>>2]&8|0)==0:0){c[b>>2]=g;m=b+4|0;c[m>>2]=(c[m>>2]|0)+h;m=g+8|0;m=g+((m&7|0)==0?0:0-m&7)|0;b=d+8|0;b=d+((b&7|0)==0?0:0-b&7)|0;k=m+n|0;i=b-m-n|0;c[m+4>>2]=n|3;do if((b|0)!=(j|0)){if((b|0)==(c[119]|0)){w=(c[116]|0)+i|0;c[116]=w;c[119]=k;c[k+4>>2]=w|1;c[k+w>>2]=w;break}a=c[b+4>>2]|0;if((a&3|0)==1){h=a&-8;e=a>>>3;d:do if(a>>>0<256){a=c[b+8>>2]|0;d=c[b+12>>2]|0;if((d|0)==(a|0)){c[114]=c[114]&~(1<<e);break}else{c[a+12>>2]=d;c[d+8>>2]=a;break}}else{g=c[b+24>>2]|0;a=c[b+12>>2]|0;do if((a|0)==(b|0)){e=b+16|0;d=e+4|0;a=c[d>>2]|0;if(!a){a=c[e>>2]|0;if(!a){a=0;break}else d=e}while(1){e=a+20|0;f=c[e>>2]|0;if(f|0){a=f;d=e;continue}e=a+16|0;f=c[e>>2]|0;if(!f)break;else{a=f;d=e}}c[d>>2]=0}else{w=c[b+8>>2]|0;c[w+12>>2]=a;c[a+8>>2]=w}while(0);if(!g)break;d=c[b+28>>2]|0;e=760+(d<<2)|0;do if((b|0)!=(c[e>>2]|0)){c[g+16+(((c[g+16>>2]|0)!=(b|0)&1)<<2)>>2]=a;if(!a)break d}else{c[e>>2]=a;if(a|0)break;c[115]=c[115]&~(1<<d);break d}while(0);c[a+24>>2]=g;d=b+16|0;e=c[d>>2]|0;if(e|0){c[a+16>>2]=e;c[e+24>>2]=a}d=c[d+4>>2]|0;if(!d)break;c[a+20>>2]=d;c[d+24>>2]=a}while(0);b=b+h|0;f=h+i|0}else f=i;b=b+4|0;c[b>>2]=c[b>>2]&-2;c[k+4>>2]=f|1;c[k+f>>2]=f;b=f>>>3;if(f>>>0<256){d=496+(b<<1<<2)|0;a=c[114]|0;b=1<<b;if(!(a&b)){c[114]=a|b;b=d;a=d+8|0}else{a=d+8|0;b=c[a>>2]|0}c[a>>2]=k;c[b+12>>2]=k;c[k+8>>2]=b;c[k+12>>2]=d;break}b=f>>>8;do if(!b)b=0;else{if(f>>>0>16777215){b=31;break}v=(b+1048320|0)>>>16&8;w=b<<v;u=(w+520192|0)>>>16&4;w=w<<u;b=(w+245760|0)>>>16&2;b=14-(u|v|b)+(w<<b>>>15)|0;b=f>>>(b+7|0)&1|b<<1}while(0);e=760+(b<<2)|0;c[k+28>>2]=b;a=k+16|0;c[a+4>>2]=0;c[a>>2]=0;a=c[115]|0;d=1<<b;if(!(a&d)){c[115]=a|d;c[e>>2]=k;c[k+24>>2]=e;c[k+12>>2]=k;c[k+8>>2]=k;break}a=f<<((b|0)==31?0:25-(b>>>1)|0);d=c[e>>2]|0;while(1){if((c[d+4>>2]&-8|0)==(f|0)){v=194;break}e=d+16+(a>>>31<<2)|0;b=c[e>>2]|0;if(!b){v=193;break}else{a=a<<1;d=b}}if((v|0)==193){c[e>>2]=k;c[k+24>>2]=d;c[k+12>>2]=k;c[k+8>>2]=k;break}else if((v|0)==194){v=d+8|0;w=c[v>>2]|0;c[w+12>>2]=k;c[v>>2]=k;c[k+8>>2]=w;c[k+12>>2]=d;c[k+24>>2]=0;break}}else{w=(c[117]|0)+i|0;c[117]=w;c[120]=k;c[k+4>>2]=w|1}while(0);w=m+8|0;l=x;return w|0}b=904;while(1){a=c[b>>2]|0;if(a>>>0<=j>>>0?(w=a+(c[b+4>>2]|0)|0,w>>>0>j>>>0):0)break;b=c[b+8>>2]|0}f=w+-47|0;a=f+8|0;a=f+((a&7|0)==0?0:0-a&7)|0;f=j+16|0;a=a>>>0<f>>>0?j:a;b=a+8|0;d=g+8|0;d=(d&7|0)==0?0:0-d&7;v=g+d|0;d=h+-40-d|0;c[120]=v;c[117]=d;c[v+4>>2]=d|1;c[v+d+4>>2]=40;c[121]=c[236];d=a+4|0;c[d>>2]=27;c[b>>2]=c[226];c[b+4>>2]=c[227];c[b+8>>2]=c[228];c[b+12>>2]=c[229];c[226]=g;c[227]=h;c[229]=0;c[228]=b;b=a+24|0;do{v=b;b=b+4|0;c[b>>2]=7}while((v+8|0)>>>0<w>>>0);if((a|0)!=(j|0)){g=a-j|0;c[d>>2]=c[d>>2]&-2;c[j+4>>2]=g|1;c[a>>2]=g;b=g>>>3;if(g>>>0<256){d=496+(b<<1<<2)|0;a=c[114]|0;b=1<<b;if(!(a&b)){c[114]=a|b;b=d;a=d+8|0}else{a=d+8|0;b=c[a>>2]|0}c[a>>2]=j;c[b+12>>2]=j;c[j+8>>2]=b;c[j+12>>2]=d;break}b=g>>>8;if(b)if(g>>>0>16777215)d=31;else{v=(b+1048320|0)>>>16&8;w=b<<v;u=(w+520192|0)>>>16&4;w=w<<u;d=(w+245760|0)>>>16&2;d=14-(u|v|d)+(w<<d>>>15)|0;d=g>>>(d+7|0)&1|d<<1}else d=0;e=760+(d<<2)|0;c[j+28>>2]=d;c[j+20>>2]=0;c[f>>2]=0;b=c[115]|0;a=1<<d;if(!(b&a)){c[115]=b|a;c[e>>2]=j;c[j+24>>2]=e;c[j+12>>2]=j;c[j+8>>2]=j;break}a=g<<((d|0)==31?0:25-(d>>>1)|0);d=c[e>>2]|0;while(1){if((c[d+4>>2]&-8|0)==(g|0)){v=216;break}e=d+16+(a>>>31<<2)|0;b=c[e>>2]|0;if(!b){v=215;break}else{a=a<<1;d=b}}if((v|0)==215){c[e>>2]=j;c[j+24>>2]=d;c[j+12>>2]=j;c[j+8>>2]=j;break}else if((v|0)==216){v=d+8|0;w=c[v>>2]|0;c[w+12>>2]=j;c[v>>2]=j;c[j+8>>2]=w;c[j+12>>2]=d;c[j+24>>2]=0;break}}}else{w=c[118]|0;if((w|0)==0|g>>>0<w>>>0)c[118]=g;c[226]=g;c[227]=h;c[229]=0;c[123]=c[232];c[122]=-1;b=0;do{w=496+(b<<1<<2)|0;c[w+12>>2]=w;c[w+8>>2]=w;b=b+1|0}while((b|0)!=32);w=g+8|0;w=(w&7|0)==0?0:0-w&7;v=g+w|0;w=h+-40-w|0;c[120]=v;c[117]=w;c[v+4>>2]=w|1;c[v+w+4>>2]=40;c[121]=c[236]}while(0);b=c[117]|0;if(b>>>0>n>>>0){u=b-n|0;c[117]=u;w=c[120]|0;v=w+n|0;c[120]=v;c[v+4>>2]=u|1;c[w+4>>2]=n|3;w=w+8|0;l=x;return w|0}}c[(Ca()|0)>>2]=12;w=0;l=x;return w|0}function ya(a){a=a|0;var b=0,d=0,e=0,f=0,g=0,h=0,i=0,j=0;if(!a)return;d=a+-8|0;f=c[118]|0;a=c[a+-4>>2]|0;b=a&-8;j=d+b|0;do if(!(a&1)){e=c[d>>2]|0;if(!(a&3))return;h=d+(0-e)|0;g=e+b|0;if(h>>>0<f>>>0)return;if((h|0)==(c[119]|0)){a=j+4|0;b=c[a>>2]|0;if((b&3|0)!=3){i=h;b=g;break}c[116]=g;c[a>>2]=b&-2;c[h+4>>2]=g|1;c[h+g>>2]=g;return}d=e>>>3;if(e>>>0<256){a=c[h+8>>2]|0;b=c[h+12>>2]|0;if((b|0)==(a|0)){c[114]=c[114]&~(1<<d);i=h;b=g;break}else{c[a+12>>2]=b;c[b+8>>2]=a;i=h;b=g;break}}f=c[h+24>>2]|0;a=c[h+12>>2]|0;do if((a|0)==(h|0)){d=h+16|0;b=d+4|0;a=c[b>>2]|0;if(!a){a=c[d>>2]|0;if(!a){a=0;break}else b=d}while(1){d=a+20|0;e=c[d>>2]|0;if(e|0){a=e;b=d;continue}d=a+16|0;e=c[d>>2]|0;if(!e)break;else{a=e;b=d}}c[b>>2]=0}else{i=c[h+8>>2]|0;c[i+12>>2]=a;c[a+8>>2]=i}while(0);if(f){b=c[h+28>>2]|0;d=760+(b<<2)|0;if((h|0)==(c[d>>2]|0)){c[d>>2]=a;if(!a){c[115]=c[115]&~(1<<b);i=h;b=g;break}}else{c[f+16+(((c[f+16>>2]|0)!=(h|0)&1)<<2)>>2]=a;if(!a){i=h;b=g;break}}c[a+24>>2]=f;b=h+16|0;d=c[b>>2]|0;if(d|0){c[a+16>>2]=d;c[d+24>>2]=a}b=c[b+4>>2]|0;if(b){c[a+20>>2]=b;c[b+24>>2]=a;i=h;b=g}else{i=h;b=g}}else{i=h;b=g}}else{i=d;h=d}while(0);if(h>>>0>=j>>>0)return;a=j+4|0;e=c[a>>2]|0;if(!(e&1))return;if(!(e&2)){a=c[119]|0;if((j|0)==(c[120]|0)){j=(c[117]|0)+b|0;c[117]=j;c[120]=i;c[i+4>>2]=j|1;if((i|0)!=(a|0))return;c[119]=0;c[116]=0;return}if((j|0)==(a|0)){j=(c[116]|0)+b|0;c[116]=j;c[119]=h;c[i+4>>2]=j|1;c[h+j>>2]=j;return}f=(e&-8)+b|0;d=e>>>3;do if(e>>>0<256){b=c[j+8>>2]|0;a=c[j+12>>2]|0;if((a|0)==(b|0)){c[114]=c[114]&~(1<<d);break}else{c[b+12>>2]=a;c[a+8>>2]=b;break}}else{g=c[j+24>>2]|0;a=c[j+12>>2]|0;do if((a|0)==(j|0)){d=j+16|0;b=d+4|0;a=c[b>>2]|0;if(!a){a=c[d>>2]|0;if(!a){d=0;break}else b=d}while(1){d=a+20|0;e=c[d>>2]|0;if(e|0){a=e;b=d;continue}d=a+16|0;e=c[d>>2]|0;if(!e)break;else{a=e;b=d}}c[b>>2]=0;d=a}else{d=c[j+8>>2]|0;c[d+12>>2]=a;c[a+8>>2]=d;d=a}while(0);if(g|0){a=c[j+28>>2]|0;b=760+(a<<2)|0;if((j|0)==(c[b>>2]|0)){c[b>>2]=d;if(!d){c[115]=c[115]&~(1<<a);break}}else{c[g+16+(((c[g+16>>2]|0)!=(j|0)&1)<<2)>>2]=d;if(!d)break}c[d+24>>2]=g;a=j+16|0;b=c[a>>2]|0;if(b|0){c[d+16>>2]=b;c[b+24>>2]=d}a=c[a+4>>2]|0;if(a|0){c[d+20>>2]=a;c[a+24>>2]=d}}}while(0);c[i+4>>2]=f|1;c[h+f>>2]=f;if((i|0)==(c[119]|0)){c[116]=f;return}}else{c[a>>2]=e&-2;c[i+4>>2]=b|1;c[h+b>>2]=b;f=b}a=f>>>3;if(f>>>0<256){d=496+(a<<1<<2)|0;b=c[114]|0;a=1<<a;if(!(b&a)){c[114]=b|a;a=d;b=d+8|0}else{b=d+8|0;a=c[b>>2]|0}c[b>>2]=i;c[a+12>>2]=i;c[i+8>>2]=a;c[i+12>>2]=d;return}a=f>>>8;if(a)if(f>>>0>16777215)a=31;else{h=(a+1048320|0)>>>16&8;j=a<<h;g=(j+520192|0)>>>16&4;j=j<<g;a=(j+245760|0)>>>16&2;a=14-(g|h|a)+(j<<a>>>15)|0;a=f>>>(a+7|0)&1|a<<1}else a=0;e=760+(a<<2)|0;c[i+28>>2]=a;c[i+20>>2]=0;c[i+16>>2]=0;b=c[115]|0;d=1<<a;do if(b&d){b=f<<((a|0)==31?0:25-(a>>>1)|0);d=c[e>>2]|0;while(1){if((c[d+4>>2]&-8|0)==(f|0)){a=73;break}e=d+16+(b>>>31<<2)|0;a=c[e>>2]|0;if(!a){a=72;break}else{b=b<<1;d=a}}if((a|0)==72){c[e>>2]=i;c[i+24>>2]=d;c[i+12>>2]=i;c[i+8>>2]=i;break}else if((a|0)==73){h=d+8|0;j=c[h>>2]|0;c[j+12>>2]=i;c[h>>2]=i;c[i+8>>2]=j;c[i+12>>2]=d;c[i+24>>2]=0;break}}else{c[115]=b|d;c[e>>2]=i;c[i+24>>2]=e;c[i+12>>2]=i;c[i+8>>2]=i}while(0);j=(c[122]|0)+-1|0;c[122]=j;if(!j)a=912;else return;while(1){a=c[a>>2]|0;if(!a)break;else a=a+8|0}c[122]=-1;return}function za(a){a=a|0;var b=0,d=0;b=l;l=l+16|0;d=b;c[d>>2]=Fa(c[a+60>>2]|0)|0;a=Ba(Z(6,d|0)|0)|0;l=b;return a|0}function Aa(a,b,d){a=a|0;b=b|0;d=d|0;var e=0,f=0,g=0;f=l;l=l+32|0;g=f;e=f+20|0;c[g>>2]=c[a+60>>2];c[g+4>>2]=0;c[g+8>>2]=b;c[g+12>>2]=e;c[g+16>>2]=d;if((Ba(aa(140,g|0)|0)|0)<0){c[e>>2]=-1;a=-1}else a=c[e>>2]|0;l=f;return a|0}function Ba(a){a=a|0;if(a>>>0>4294963200){c[(Ca()|0)>>2]=0-a;a=-1}return a|0}function Ca(){return (Da()|0)+64|0}function Da(){return Ea()|0}function Ea(){return 8}function Fa(a){a=a|0;return a|0}function Ga(a,b,d){a=a|0;b=b|0;d=d|0;var e=0,f=0,g=0,h=0,i=0,j=0,k=0,m=0,n=0,o=0,p=0;n=l;l=l+48|0;k=n+16|0;g=n;f=n+32|0;i=a+28|0;e=c[i>>2]|0;c[f>>2]=e;j=a+20|0;e=(c[j>>2]|0)-e|0;c[f+4>>2]=e;c[f+8>>2]=b;c[f+12>>2]=d;e=e+d|0;h=a+60|0;c[g>>2]=c[h>>2];c[g+4>>2]=f;c[g+8>>2]=2;g=Ba(da(146,g|0)|0)|0;a:do if((e|0)!=(g|0)){b=2;while(1){if((g|0)<0)break;e=e-g|0;p=c[f+4>>2]|0;o=g>>>0>p>>>0;f=o?f+8|0:f;b=(o<<31>>31)+b|0;p=g-(o?p:0)|0;c[f>>2]=(c[f>>2]|0)+p;o=f+4|0;c[o>>2]=(c[o>>2]|0)-p;c[k>>2]=c[h>>2];c[k+4>>2]=f;c[k+8>>2]=b;g=Ba(da(146,k|0)|0)|0;if((e|0)==(g|0)){m=3;break a}}c[a+16>>2]=0;c[i>>2]=0;c[j>>2]=0;c[a>>2]=c[a>>2]|32;if((b|0)==2)d=0;else d=d-(c[f+4>>2]|0)|0}else m=3;while(0);if((m|0)==3){p=c[a+44>>2]|0;c[a+16>>2]=p+(c[a+48>>2]|0);c[i>>2]=p;c[j>>2]=p}l=n;return d|0}function Ha(){return 952}function Ia(a){a=a|0;return 0}function Ja(a){a=a|0;return}function Ka(b,d,e){b=b|0;d=d|0;e=e|0;var f=0,g=0,h=0,i=0,j=0;f=e+16|0;g=c[f>>2]|0;if(!g)if(!(La(e)|0)){g=c[f>>2]|0;h=5}else f=0;else h=5;a:do if((h|0)==5){j=e+20|0;i=c[j>>2]|0;f=i;if((g-i|0)>>>0<d>>>0){f=ha[c[e+36>>2]&3](e,b,d)|0;break}b:do if((a[e+75>>0]|0)>-1){i=d;while(1){if(!i){h=0;g=b;break b}g=i+-1|0;if((a[b+g>>0]|0)==10)break;else i=g}f=ha[c[e+36>>2]&3](e,b,i)|0;if(f>>>0<i>>>0)break a;h=i;g=b+i|0;d=d-i|0;f=c[j>>2]|0}else{h=0;g=b}while(0);Qa(f|0,g|0,d|0)|0;c[j>>2]=(c[j>>2]|0)+d;f=h+d|0}while(0);return f|0}function La(b){b=b|0;var d=0,e=0;d=b+74|0;e=a[d>>0]|0;a[d>>0]=e+255|e;d=c[b>>2]|0;if(!(d&8)){c[b+8>>2]=0;c[b+4>>2]=0;e=c[b+44>>2]|0;c[b+28>>2]=e;c[b+20>>2]=e;c[b+16>>2]=e+(c[b+48>>2]|0);b=0}else{c[b>>2]=d|32;b=-1}return b|0}function Ma(a,b,d,e){a=a|0;b=b|0;d=d|0;e=e|0;var f=0,g=0;f=N(d,b)|0;d=(b|0)==0?0:d;if((c[e+76>>2]|0)>-1){g=(Ia(e)|0)==0;a=Ka(a,f,e)|0;if(!g)Ja(e)}else a=Ka(a,f,e)|0;if((a|0)!=(f|0))d=(a>>>0)/(b>>>0)|0;return d|0}function Na(){}function Oa(a){a=a|0;var b=0,d=0;d=a+15&-16|0;b=c[i>>2]|0;a=b+d|0;if((d|0)>0&(a|0)<(b|0)|(a|0)<0){W()|0;_(12);return -1}c[i>>2]=a;if((a|0)>(V()|0)?(U()|0)==0:0){c[i>>2]=b;_(12);return -1}return b|0}function Pa(b,d,e){b=b|0;d=d|0;e=e|0;var f=0,g=0,h=0,i=0;h=b+e|0;d=d&255;if((e|0)>=67){while(b&3){a[b>>0]=d;b=b+1|0}f=h&-4|0;g=f-64|0;i=d|d<<8|d<<16|d<<24;while((b|0)<=(g|0)){c[b>>2]=i;c[b+4>>2]=i;c[b+8>>2]=i;c[b+12>>2]=i;c[b+16>>2]=i;c[b+20>>2]=i;c[b+24>>2]=i;c[b+28>>2]=i;c[b+32>>2]=i;c[b+36>>2]=i;c[b+40>>2]=i;c[b+44>>2]=i;c[b+48>>2]=i;c[b+52>>2]=i;c[b+56>>2]=i;c[b+60>>2]=i;b=b+64|0}while((b|0)<(f|0)){c[b>>2]=i;b=b+4|0}}while((b|0)<(h|0)){a[b>>0]=d;b=b+1|0}return h-e|0}function Qa(b,d,e){b=b|0;d=d|0;e=e|0;var f=0,g=0,h=0;if((e|0)>=8192)return $(b|0,d|0,e|0)|0;h=b|0;g=b+e|0;if((b&3)==(d&3)){while(b&3){if(!e)return h|0;a[b>>0]=a[d>>0]|0;b=b+1|0;d=d+1|0;e=e-1|0}e=g&-4|0;f=e-64|0;while((b|0)<=(f|0)){c[b>>2]=c[d>>2];c[b+4>>2]=c[d+4>>2];c[b+8>>2]=c[d+8>>2];c[b+12>>2]=c[d+12>>2];c[b+16>>2]=c[d+16>>2];c[b+20>>2]=c[d+20>>2];c[b+24>>2]=c[d+24>>2];c[b+28>>2]=c[d+28>>2];c[b+32>>2]=c[d+32>>2];c[b+36>>2]=c[d+36>>2];c[b+40>>2]=c[d+40>>2];c[b+44>>2]=c[d+44>>2];c[b+48>>2]=c[d+48>>2];c[b+52>>2]=c[d+52>>2];c[b+56>>2]=c[d+56>>2];c[b+60>>2]=c[d+60>>2];b=b+64|0;d=d+64|0}while((b|0)<(e|0)){c[b>>2]=c[d>>2];b=b+4|0;d=d+4|0}}else{e=g-4|0;while((b|0)<(e|0)){a[b>>0]=a[d>>0]|0;a[b+1>>0]=a[d+1>>0]|0;a[b+2>>0]=a[d+2>>0]|0;a[b+3>>0]=a[d+3>>0]|0;b=b+4|0;d=d+4|0}}while((b|0)<(g|0)){a[b>>0]=a[d>>0]|0;b=b+1|0;d=d+1|0}return h|0}function Ra(a,b){a=a|0;b=b|0;return ga[a&1](b|0)|0}function Sa(a,b,c,d){a=a|0;b=b|0;c=c|0;d=d|0;return ha[a&3](b|0,c|0,d|0)|0}function Ta(a){a=a|0;S(0);return 0}function Ua(a,b,c){a=a|0;b=b|0;c=c|0;S(1);return 0}
-
-// EMSCRIPTEN_END_FUNCS
-var ga=[Ta,za];var ha=[Ua,Ga,Aa,Ua];return{_kiss_fftr_alloc:ua,_kiss_fftri:wa,_memset:Pa,setThrew:ma,_kiss_fftr:va,_kiss_fft_alloc:qa,_sbrk:Oa,_memcpy:Qa,stackAlloc:ia,getTempRet0:oa,setTempRet0:na,_kiss_fftr_free:ta,dynCall_iiii:Sa,_kiss_fft:sa,_emscripten_get_global_libc:Ha,dynCall_ii:Ra,stackSave:ja,_free:ya,runPostSets:Na,establishStackSpace:la,stackRestore:ka,_malloc:xa,_kiss_fft_free:pa}})
-
-
-// EMSCRIPTEN_END_ASM
-(Module.asmGlobalArg,Module.asmLibraryArg,buffer);var _kiss_fftr=Module["_kiss_fftr"]=asm["_kiss_fftr"];var getTempRet0=Module["getTempRet0"]=asm["getTempRet0"];var _free=Module["_free"]=asm["_free"];var runPostSets=Module["runPostSets"]=asm["runPostSets"];var setTempRet0=Module["setTempRet0"]=asm["setTempRet0"];var _kiss_fftr_alloc=Module["_kiss_fftr_alloc"]=asm["_kiss_fftr_alloc"];var _kiss_fftr_free=Module["_kiss_fftr_free"]=asm["_kiss_fftr_free"];var _kiss_fft_free=Module["_kiss_fft_free"]=asm["_kiss_fft_free"];var _kiss_fftri=Module["_kiss_fftri"]=asm["_kiss_fftri"];var _kiss_fft_alloc=Module["_kiss_fft_alloc"]=asm["_kiss_fft_alloc"];var _memset=Module["_memset"]=asm["_memset"];var _malloc=Module["_malloc"]=asm["_malloc"];var _kiss_fft=Module["_kiss_fft"]=asm["_kiss_fft"];var _emscripten_get_global_libc=Module["_emscripten_get_global_libc"]=asm["_emscripten_get_global_libc"];var _memcpy=Module["_memcpy"]=asm["_memcpy"];var stackAlloc=Module["stackAlloc"]=asm["stackAlloc"];var setThrew=Module["setThrew"]=asm["setThrew"];var _sbrk=Module["_sbrk"]=asm["_sbrk"];var stackRestore=Module["stackRestore"]=asm["stackRestore"];var establishStackSpace=Module["establishStackSpace"]=asm["establishStackSpace"];var stackSave=Module["stackSave"]=asm["stackSave"];var dynCall_ii=Module["dynCall_ii"]=asm["dynCall_ii"];var dynCall_iiii=Module["dynCall_iiii"]=asm["dynCall_iiii"];Runtime.stackAlloc=Module["stackAlloc"];Runtime.stackSave=Module["stackSave"];Runtime.stackRestore=Module["stackRestore"];Runtime.establishStackSpace=Module["establishStackSpace"];Runtime.setTempRet0=Module["setTempRet0"];Runtime.getTempRet0=Module["getTempRet0"];Module["asm"]=asm;Module["then"]=(function(func){if(Module["calledRun"]){func(Module)}else{var old=Module["onRuntimeInitialized"];Module["onRuntimeInitialized"]=(function(){if(old)old();func(Module)})}return Module});function ExitStatus(status){this.name="ExitStatus";this.message="Program terminated with exit("+status+")";this.status=status}ExitStatus.prototype=new Error;ExitStatus.prototype.constructor=ExitStatus;var initialStackTop;var preloadStartTime=null;var calledMain=false;dependenciesFulfilled=function runCaller(){if(!Module["calledRun"])run();if(!Module["calledRun"])dependenciesFulfilled=runCaller};Module["callMain"]=Module.callMain=function callMain(args){args=args||[];ensureInitRuntime();var argc=args.length+1;function pad(){for(var i=0;i<4-1;i++){argv.push(0)}}var argv=[allocate(intArrayFromString(Module["thisProgram"]),"i8",ALLOC_NORMAL)];pad();for(var i=0;i<argc-1;i=i+1){argv.push(allocate(intArrayFromString(args[i]),"i8",ALLOC_NORMAL));pad()}argv.push(0);argv=allocate(argv,"i32",ALLOC_NORMAL);try{var ret=Module["_main"](argc,argv,0);exit(ret,true)}catch(e){if(e instanceof ExitStatus){return}else if(e=="SimulateInfiniteLoop"){Module["noExitRuntime"]=true;return}else{var toLog=e;if(e&&typeof e==="object"&&e.stack){toLog=[e,e.stack]}Module.printErr("exception thrown: "+toLog);Module["quit"](1,e)}}finally{calledMain=true}};function run(args){args=args||Module["arguments"];if(preloadStartTime===null)preloadStartTime=Date.now();if(runDependencies>0){return}preRun();if(runDependencies>0)return;if(Module["calledRun"])return;function doRun(){if(Module["calledRun"])return;Module["calledRun"]=true;if(ABORT)return;ensureInitRuntime();preMain();if(Module["onRuntimeInitialized"])Module["onRuntimeInitialized"]();if(Module["_main"]&&shouldRunNow)Module["callMain"](args);postRun()}if(Module["setStatus"]){Module["setStatus"]("Running...");setTimeout((function(){setTimeout((function(){Module["setStatus"]("")}),1);doRun()}),1)}else{doRun()}}Module["run"]=Module.run=run;function exit(status,implicit){if(implicit&&Module["noExitRuntime"]){return}if(Module["noExitRuntime"]){}else{ABORT=true;EXITSTATUS=status;STACKTOP=initialStackTop;exitRuntime();if(Module["onExit"])Module["onExit"](status)}if(ENVIRONMENT_IS_NODE){process["exit"](status)}Module["quit"](status,new ExitStatus(status))}Module["exit"]=Module.exit=exit;var abortDecorators=[];function abort(what){if(Module["onAbort"]){Module["onAbort"](what)}if(what!==undefined){Module.print(what);Module.printErr(what);what=JSON.stringify(what)}else{what=""}ABORT=true;EXITSTATUS=1;var extra="\nIf this abort() is unexpected, build with -s ASSERTIONS=1 which can give more information.";var output="abort("+what+") at "+stackTrace()+extra;if(abortDecorators){abortDecorators.forEach((function(decorator){output=decorator(output,what)}))}throw output}Module["abort"]=Module.abort=abort;if(Module["preInit"]){if(typeof Module["preInit"]=="function")Module["preInit"]=[Module["preInit"]];while(Module["preInit"].length>0){Module["preInit"].pop()()}}var shouldRunNow=true;if(Module["noInitialRun"]){shouldRunNow=false}run()
-
-
-
-
-
-  return KissFFTModule;
-};
-if ( true && module.exports) {
-  module['exports'] = KissFFTModule;
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/kissfft-js/src/main.js":
-/*!*********************************************!*\
-  !*** ./node_modules/kissfft-js/src/main.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-
-var KissFFTModule = __webpack_require__(/*! ./KissFFT */ "./node_modules/kissfft-js/src/KissFFT.js");
-
-
-var kissFFTModule = KissFFTModule({});
-
-var kiss_fftr_alloc = kissFFTModule.cwrap(
-    'kiss_fftr_alloc', 'number', ['number', 'number', 'number', 'number' ]
-);
-
-var kiss_fftr = kissFFTModule.cwrap(
-    'kiss_fftr', 'void', ['number', 'number', 'number' ]
-);
-
-var kiss_fftri = kissFFTModule.cwrap(
-    'kiss_fftri', 'void', ['number', 'number', 'number' ]
-);
-
-var kiss_fftr_free = kissFFTModule.cwrap(
-    'kiss_fftr_free', 'void', ['number']
-);
-
-var kiss_fft_alloc = kissFFTModule.cwrap(
-    'kiss_fft_alloc', 'number', ['number', 'number', 'number', 'number' ]
-);
-
-var kiss_fft = kissFFTModule.cwrap(
-    'kiss_fft', 'void', ['number', 'number', 'number' ]
-);
-
-var kiss_fft_free = kissFFTModule.cwrap(
-    'kiss_fft_free', 'void', ['number']
-);
-
-var FFT = function (size) {
-
-    this.size = size;
-    this.fcfg = kiss_fft_alloc(size, false);
-    this.icfg = kiss_fft_alloc(size, true);
-    
-    this.inptr = kissFFTModule._malloc(size*8 + size*8);
-    this.outptr = this.inptr + size*8;
-    
-    this.cin = new Float32Array(kissFFTModule.HEAPU8.buffer, this.inptr, size*2);
-    this.cout = new Float32Array(kissFFTModule.HEAPU8.buffer, this.outptr, size*2);
-    
-    this.forward = function(cin) {
-	this.cin.set(cin);
-	kiss_fft(this.fcfg, this.inptr, this.outptr);
-	return new Float32Array(kissFFTModule.HEAPU8.buffer,
-				this.outptr, this.size * 2);
-    };
-    
-    this.inverse = function(cin) {
-	this.cin.set(cpx);
-	kiss_fft(this.icfg, this.inptr, this.outptr);
-	return new Float32Array(kissFFTModule.HEAPU8.buffer,
-				this.outptr, this.size * 2);
-    };
-    
-    this.dispose = function() {
-	kissFFTModule._free(this.inptr);
-	kiss_fft_free(this.fcfg);
-	kiss_fft_free(this.icfg);
-    }
-};
-
-var FFTR = function (size) {
-
-    this.size = size;
-    this.fcfg = kiss_fftr_alloc(size, false);
-    this.icfg = kiss_fftr_alloc(size, true);
-    
-    this.rptr = kissFFTModule._malloc(size*4 + (size+2)*4);
-    this.cptr = this.rptr + size*4;
-    
-    this.ri = new Float32Array(kissFFTModule.HEAPU8.buffer, this.rptr, size);
-    this.ci = new Float32Array(kissFFTModule.HEAPU8.buffer, this.cptr, size+2);
-    
-    this.forward = function(real) {
-	this.ri.set(real);
-	kiss_fftr(this.fcfg, this.rptr, this.cptr);
-	return new Float32Array(kissFFTModule.HEAPU8.buffer,
-				this.cptr, this.size + 2);
-    };
-    
-    this.inverse = function(cpx) {
-	this.ci.set(cpx);
-	kiss_fftri(this.icfg, this.cptr, this.rptr);
-	return new Float32Array(kissFFTModule.HEAPU8.buffer,
-				this.rptr, this.size);
-    };
-    
-    this.dispose = function() {
-	kissFFTModule._free(this.rptr);
-	kiss_fftr_free(this.fcfg);
-	kiss_fftr_free(this.icfg);
-    }
-};
-
-module.exports = {
-    FFT: FFT,
-    FFTR: FFTR
-};
-
-
-/***/ }),
-
 /***/ "./node_modules/popper.js/dist/esm/popper.js":
 /*!***************************************************!*\
   !*** ./node_modules/popper.js/dist/esm/popper.js ***!
@@ -31043,26 +30924,6 @@ module.exports = __webpack_require__.p + "assets/1551f4f60c37af51121f.woff2";
 
 /***/ }),
 
-/***/ "?d548":
-/*!********************!*\
-  !*** fs (ignored) ***!
-  \********************/
-/***/ (() => {
-
-/* (ignored) */
-
-/***/ }),
-
-/***/ "?1151":
-/*!**********************!*\
-  !*** path (ignored) ***!
-  \**********************/
-/***/ (() => {
-
-/* (ignored) */
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime/helpers/regeneratorRuntime.js":
 /*!*******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/regeneratorRuntime.js ***!
@@ -31565,6 +31426,166 @@ function _typeof(obj) {
 
 /***/ }),
 
+/***/ "./node_modules/@shren/kissfft-js/dist/esm/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@shren/kissfft-js/dist/esm/index.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "KissFFT": () => (/* binding */ KissFFT_default),
+/* harmony export */   "instantiateKissFFTModuleFromFile": () => (/* binding */ instantiateKissFFTModuleFromFile_default)
+/* harmony export */ });
+// src/instantiateKissFFTModuleFromFile.ts
+var instantiateKissFFTModuleFromFile = async (jsFile, wasmFile = jsFile.replace(/c?js$/, "wasm"), dataFile = jsFile.replace(/c?js$/, "data")) => {
+  var _a, _b;
+  let Module;
+  let wasmBinary;
+  const jsCodeHead = /var (.+) = \(\(\) => \{/;
+  if (typeof globalThis.fetch === "function") {
+    let jsCode = await (await fetch(jsFile)).text();
+    jsCode = `${jsCode}
+export default ${(_a = jsCode.match(jsCodeHead)) == null ? void 0 : _a[1]};
+`;
+    const jsFileMod = URL.createObjectURL(new Blob([jsCode], { type: "text/javascript" }));
+    Module = (await import(
+      /* webpackIgnore: true */
+      jsFileMod
+    )).default;
+    wasmBinary = new Uint8Array(await (await fetch(wasmFile)).arrayBuffer());
+  } else {
+    const { promises: fs } = await __webpack_require__.e(/*! import() */ "_00a1").then(__webpack_require__.t.bind(__webpack_require__, /*! fs */ "?00a1", 19));
+    const { pathToFileURL } = await __webpack_require__.e(/*! import() */ "_2a91").then(__webpack_require__.t.bind(__webpack_require__, /*! url */ "?2a91", 19));
+    let jsCode = await fs.readFile(jsFile, { encoding: "utf-8" });
+    jsCode = `
+import process from "process";
+import * as path from "path";
+import { createRequire } from "module";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const require = createRequire(import.meta.url);
+
+${jsCode}
+
+export default ${(_b = jsCode.match(jsCodeHead)) == null ? void 0 : _b[1]};
+`;
+    const jsFileMod = jsFile.replace(/c?js$/, "mjs");
+    await fs.writeFile(jsFileMod, jsCode);
+    Module = (await import(
+      /* webpackIgnore: true */
+      pathToFileURL(jsFileMod).href
+    )).default;
+    await fs.unlink(jsFileMod);
+    wasmBinary = (await fs.readFile(wasmFile)).buffer;
+  }
+  const module = await Module({
+    wasmBinary
+    /*,
+    getPreloadedPackage: (remotePackageName: string, remotePackageSize: number) => {
+        if (remotePackageName === "libfaust-wasm.data") return dataBinary;
+        return new ArrayBuffer(0);
+    }*/
+  });
+  return module;
+};
+var instantiateKissFFTModuleFromFile_default = instantiateKissFFTModuleFromFile;
+
+// src/KissFFT.ts
+var KissFFT = class {
+  constructor(kissFFTModule) {
+    const {
+      _kiss_fftr_alloc,
+      _kiss_fftr,
+      _kiss_fftri,
+      _kiss_fft,
+      _kiss_fft_alloc,
+      _kiss_fft_cleanup,
+      _free,
+      _malloc
+    } = kissFFTModule;
+    class FFT {
+      constructor(size) {
+        this.size = size;
+        this.fcfg = _kiss_fft_alloc(size, false);
+        this.icfg = _kiss_fft_alloc(size, true);
+        this.inptr = kissFFTModule._malloc(size * 8 + size * 8);
+        this.outptr = this.inptr + size * 8;
+        this.cin = new Float32Array(kissFFTModule.HEAPU8.buffer, this.inptr, size * 2);
+        this.cout = new Float32Array(kissFFTModule.HEAPU8.buffer, this.outptr, size * 2);
+      }
+      forward(cin) {
+        if (typeof cin === "function")
+          cin(this.cin);
+        else
+          this.cin.set(cin);
+        _kiss_fft(this.fcfg, this.inptr, this.outptr);
+        return this.cout;
+      }
+      inverse(cpx) {
+        if (typeof cpx === "function")
+          cpx(this.cin);
+        else
+          this.cin.set(cpx);
+        _kiss_fft(this.icfg, this.inptr, this.outptr);
+        return this.cout;
+      }
+      dispose() {
+        _free(this.inptr);
+        _kiss_fft_cleanup();
+      }
+    }
+    class FFTR {
+      constructor(size) {
+        this.size = size;
+        this.fcfg = _kiss_fftr_alloc(size, false);
+        this.icfg = _kiss_fftr_alloc(size, true);
+        this.rptr = _malloc(size * 4 + (size + 2) * 4);
+        this.cptr = this.rptr + size * 4;
+        this.ri = new Float32Array(kissFFTModule.HEAPU8.buffer, this.rptr, size);
+        this.ci = new Float32Array(kissFFTModule.HEAPU8.buffer, this.cptr, size + 2);
+      }
+      forward(real) {
+        if (typeof real === "function")
+          real(this.ri);
+        else
+          this.ri.set(real);
+        _kiss_fftr(this.fcfg, this.rptr, this.cptr);
+        return this.ci;
+      }
+      inverse(cpx) {
+        if (typeof cpx === "function")
+          cpx(this.ci);
+        else
+          this.ci.set(cpx);
+        _kiss_fftri(this.icfg, this.cptr, this.rptr);
+        return this.ri;
+      }
+      dispose() {
+        _free(this.rptr);
+        _kiss_fft_cleanup();
+      }
+    }
+    this._FFT = FFT;
+    this._FFTR = FFTR;
+  }
+  get FFT() {
+    return this._FFT;
+  }
+  get FFTR() {
+    return this._FFTR;
+  }
+};
+var KissFFT_default = KissFFT;
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
 /***/ "../faustwasm/dist/esm/index.js":
 /*!**************************************!*\
   !*** ../faustwasm/dist/esm/index.js ***!
@@ -31580,11 +31601,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FaustDspInstance": () => (/* binding */ FaustDspInstance_default),
 /* harmony export */   "FaustMonoAudioWorkletNode": () => (/* binding */ FaustMonoAudioWorkletNode),
 /* harmony export */   "FaustMonoDspGenerator": () => (/* binding */ FaustMonoDspGenerator),
+/* harmony export */   "FaustMonoOfflineProcessor": () => (/* binding */ FaustMonoOfflineProcessor),
 /* harmony export */   "FaustMonoScriptProcessorNode": () => (/* binding */ FaustMonoScriptProcessorNode),
 /* harmony export */   "FaustMonoWebAudioDsp": () => (/* binding */ FaustMonoWebAudioDsp),
 /* harmony export */   "FaustOfflineProcessor": () => (/* binding */ FaustOfflineProcessor_default),
 /* harmony export */   "FaustPolyAudioWorkletNode": () => (/* binding */ FaustPolyAudioWorkletNode),
 /* harmony export */   "FaustPolyDspGenerator": () => (/* binding */ FaustPolyDspGenerator),
+/* harmony export */   "FaustPolyOfflineProcessor": () => (/* binding */ FaustPolyOfflineProcessor),
 /* harmony export */   "FaustPolyScriptProcessorNode": () => (/* binding */ FaustPolyScriptProcessorNode),
 /* harmony export */   "FaustPolyWebAudioDsp": () => (/* binding */ FaustPolyWebAudioDsp),
 /* harmony export */   "FaustScriptProcessorNode": () => (/* binding */ FaustScriptProcessorNode),
@@ -31596,6 +31619,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "WavEncoder": () => (/* binding */ WavEncoder_default),
 /* harmony export */   "ab2str": () => (/* binding */ ab2str),
 /* harmony export */   "getFaustAudioWorkletProcessor": () => (/* binding */ FaustAudioWorkletProcessor_default),
+/* harmony export */   "getFaustFFTAudioWorkletProcessor": () => (/* binding */ FaustFFTAudioWorkletProcessor_default),
 /* harmony export */   "instantiateFaustModuleFromFile": () => (/* binding */ instantiateFaustModuleFromFile_default),
 /* harmony export */   "str2ab": () => (/* binding */ str2ab)
 /* harmony export */ });
@@ -32475,10 +32499,11 @@ var instantiateFaustModuleFromFile = async (jsFile, dataFile = jsFile.replace(/c
   let FaustModule;
   let dataBinary;
   let wasmBinary;
+  const jsCodeHead = /var (.+) = \(\(\) => \{/;
   if (typeof globalThis.fetch === "function") {
     let jsCode = await (await fetch(jsFile)).text();
     jsCode = `${jsCode}
-export default ${(_a = jsCode.match(/var (.+) = \(\(\) => \{/)) == null ? void 0 : _a[1]};
+export default ${(_a = jsCode.match(jsCodeHead)) == null ? void 0 : _a[1]};
 `;
     const jsFileMod = URL.createObjectURL(new Blob([jsCode], {
       type: "text/javascript"
@@ -32509,7 +32534,7 @@ const require = createRequire(import.meta.url);
 
 ${jsCode}
 
-export default ${(_b = jsCode.match(/var (.+) = \(\(\) => \{/)) == null ? void 0 : _b[1]};
+export default ${(_b = jsCode.match(jsCodeHead)) == null ? void 0 : _b[1]};
 `;
     const jsFileMod = jsFile.replace(/c?js$/, "mjs");
     await fs.writeFile(jsFileMod, jsCode);
@@ -32549,24 +32574,23 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
     poly
   } = faustData;
   const analysePolyParameters = item => {
+    const polyKeywords = ["/gate", "/freq", "/gain", "/key", "/vel", "/velocity"];
+    const isPolyReserved = "address" in item && !!polyKeywords.find(k => item.address.endsWith(k));
+    if (poly && isPolyReserved) return null;
     if (item.type === "vslider" || item.type === "hslider" || item.type === "nentry") {
-      if (!poly || !item.address.endsWith("/gate") && !item.address.endsWith("/freq") && !item.address.endsWith("/gain") && !item.address.endsWith("/key") && !item.address.endsWith("/vel") && !item.address.endsWith("/velocity")) {
-        return {
-          name: item.address,
-          defaultValue: item.init || 0,
-          minValue: item.min || 0,
-          maxValue: item.max || 0
-        };
-      }
+      return {
+        name: item.address,
+        defaultValue: item.init || 0,
+        minValue: item.min || 0,
+        maxValue: item.max || 0
+      };
     } else if (item.type === "button" || item.type === "checkbox") {
-      if (!poly || !item.address.endsWith("/gate") && !item.address.endsWith("/freq") && !item.address.endsWith("/gain") && !item.address.endsWith("/key") && !item.address.endsWith("/vel") && !item.address.endsWith("/velocity")) {
-        return {
-          name: item.address,
-          defaultValue: item.init || 0,
-          minValue: 0,
-          maxValue: 1
-        };
-      }
+      return {
+        name: item.address,
+        defaultValue: item.init || 0,
+        minValue: 0,
+        maxValue: 1
+      };
     }
     return null;
   };
@@ -32703,7 +32727,7 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
         }
       };
       const {
-        FaustPolyWebAudioDsp: FaustPolyWebAudioDsp2
+        FaustPolyWebAudioDsp: FaustPolyWebAudioDsp3
       } = dependencies;
       const {
         voiceFactory,
@@ -32713,7 +32737,7 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
         sampleSize
       } = options.processorOptions;
       const instance = FaustWasmInstantiator2.createSyncPolyDSPInstance(voiceFactory, mixerModule, voices, effectFactory);
-      this.fDSPCode = new FaustPolyWebAudioDsp2(instance, sampleRate, sampleSize, 128);
+      this.fDSPCode = new FaustPolyWebAudioDsp3(instance, sampleRate, sampleSize, 128);
       this.port.onmessage = e => this.handleMessageAux(e);
       this.fDSPCode.setOutputParamHandler((path, value) => this.port.postMessage({
         path,
@@ -32750,6 +32774,415 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
   return poly ? FaustPolyAudioWorkletProcessor : FaustMonoAudioWorkletProcessor;
 };
 var FaustAudioWorkletProcessor_default = getFaustAudioWorkletProcessor;
+
+// src/FaustFFTAudioWorkletProcessor.ts
+var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true) => {
+  const {
+    registerProcessor,
+    AudioWorkletProcessor,
+    sampleRate
+  } = globalThis;
+  const {
+    FaustBaseWebAudioDsp: FaustBaseWebAudioDsp2,
+    FaustWasmInstantiator: FaustWasmInstantiator2,
+    FaustMonoWebAudioDsp: FaustMonoWebAudioDsp2,
+    FFTUtils
+  } = dependencies;
+  const {
+    processorName,
+    dspName,
+    dspMeta,
+    fftOptions
+  } = faustData;
+  const {
+    windowFunctions,
+    getFFT,
+    fftToSignal,
+    signalToFFT,
+    signalToNoFFT
+  } = FFTUtils;
+  const ceil = (x, to) => Math.abs(to) < 1 ? Math.ceil(x * (1 / to)) / (1 / to) : Math.ceil(x / to) * to;
+  const mod = (x, y) => (x % y + y) % y;
+  const apply = (array, windowFunction) => {
+    for (let i = 0; i < array.length; i++) {
+      array[i] *= windowFunction(i, array.length);
+    }
+  };
+  const fftParamKeywords = ["/fftSize", "/fftHopSize", "/fftOverlap", "/windowFunction", "/noIFFT"];
+  const setTypedArray = (to, from, offsetTo = 0, offsetFrom = 0) => {
+    const toLength = to.length;
+    const fromLength = from.length;
+    const spillLength = Math.min(toLength, fromLength);
+    let spilled = 0;
+    let $to = mod(offsetTo, toLength) || 0;
+    let $from = mod(offsetFrom, fromLength) || 0;
+    while (spilled < spillLength) {
+      const $spillLength = Math.min(spillLength - spilled, toLength - $to, fromLength - $from);
+      const $fromEnd = $from + $spillLength;
+      if ($from === 0 && $fromEnd === fromLength) to.set(from, $to);else to.set(from.subarray($from, $fromEnd), $to);
+      $to = ($to + $spillLength) % toLength;
+      $from = $fromEnd % fromLength;
+      spilled += $spillLength;
+    }
+    return $to;
+  };
+  const analyseParameters = item => {
+    const isFFTReserved = "address" in item && !!fftParamKeywords.find(k => item.address.endsWith(k));
+    if (isFFTReserved) return null;
+    if (item.type === "vslider" || item.type === "hslider" || item.type === "nentry") {
+      return {
+        name: item.address,
+        defaultValue: item.init || 0,
+        minValue: item.min || 0,
+        maxValue: item.max || 0
+      };
+    } else if (item.type === "button" || item.type === "checkbox") {
+      return {
+        name: item.address,
+        defaultValue: item.init || 0,
+        minValue: 0,
+        maxValue: 1
+      };
+    }
+    return null;
+  };
+  class FaustFFTAudioWorkletProcessor extends AudioWorkletProcessor {
+    constructor(options) {
+      super(options);
+      this.paramValuesCache = {};
+      this.destroyed = false;
+      this.$inputWrite = 0;
+      this.$inputRead = 0;
+      this.$outputWrite = 0;
+      this.$outputRead = 0;
+      this.noIFFT = false;
+      this.fftInput = [];
+      this.fftOutput = [];
+      this.fftOverlap = 0;
+      this.fftHopSize = 0;
+      this.fftSize = 0;
+      this.fftBufferSize = 0;
+      this.windowFunction = null;
+      this.port.onmessage = e => this.handleMessageAux(e);
+      const {
+        parameterDescriptors
+      } = this.constructor;
+      parameterDescriptors.forEach(pd => {
+        this.paramValuesCache[pd.name] = pd.defaultValue || 0;
+      });
+      const {
+        factory,
+        sampleSize
+      } = options.processorOptions;
+      this.dspInstance = FaustWasmInstantiator2.createSyncMonoDSPInstance(factory);
+      this.sampleSize = sampleSize;
+      this.initFFT();
+    }
+    get fftProcessorBufferSize() {
+      return this.fftSize / 2 + 1;
+    }
+    async initFFT() {
+      this.FFT = await getFFT();
+      await this.createFFTProcessor();
+      return true;
+    }
+    static get parameterDescriptors() {
+      const params = [];
+      const callback = item => {
+        const param = analyseParameters(item);
+        if (param) params.push(param);
+      };
+      FaustBaseWebAudioDsp2.parseUI(dspMeta.ui, callback);
+      return [...params, {
+        defaultValue: (fftOptions == null ? void 0 : fftOptions.fftSize) || 1024,
+        maxValue: 2 ** 32,
+        minValue: 2,
+        name: "fftSize"
+      }, {
+        defaultValue: (fftOptions == null ? void 0 : fftOptions.fftOverlap) || 2,
+        maxValue: 32,
+        minValue: 1,
+        name: "fftOverlap"
+      }, {
+        defaultValue: typeof (fftOptions == null ? void 0 : fftOptions.defaultWindowFunction) === "number" ? fftOptions.defaultWindowFunction + 1 : 0,
+        maxValue: (windowFunctions == null ? void 0 : windowFunctions.length) || 0,
+        minValue: 0,
+        name: "windowFunction"
+      }, {
+        defaultValue: +!!(fftOptions == null ? void 0 : fftOptions.noIFFT) || 0,
+        maxValue: 1,
+        minValue: 0,
+        name: "noIFFT"
+      }];
+    }
+    processFFT() {
+      let samplesForFFT = mod(this.$inputWrite - this.$inputRead, this.fftBufferSize) || this.fftBufferSize;
+      while (samplesForFFT >= this.fftSize) {
+        let fftProcessorOutputs = [];
+        this.fDSPCode.compute(inputs => {
+          for (let i = 0; i < Math.min(this.fftInput.length, Math.ceil(inputs.length / 3)); i++) {
+            const ffted = this.rfft.forward(fftBuffer => {
+              setTypedArray(fftBuffer, this.fftInput[i], 0, this.$inputRead);
+              for (let j = 0; j < fftBuffer.length; j++) {
+                fftBuffer[j] *= this.window[j];
+              }
+            });
+            fftToSignal(ffted, inputs[i * 3], inputs[i * 3 + 1], inputs[i * 3 + 2]);
+          }
+          for (let i = this.fftInput.length * 3; i < inputs.length; i++) {
+            if (i % 3 === 2) inputs[i].forEach((v, j) => inputs[i][j] = j);else inputs[i].fill(0);
+          }
+        }, outputs => {
+          fftProcessorOutputs = outputs;
+        });
+        this.$inputRead += this.fftHopSize;
+        this.$inputRead %= this.fftBufferSize;
+        samplesForFFT -= this.fftHopSize;
+        for (let i = 0; i < this.fftOutput.length; i++) {
+          let iffted;
+          if (this.noIFFT) {
+            iffted = this.noIFFTBuffer;
+            signalToNoFFT(fftProcessorOutputs[i * 2] || this.fftProcessorZeros, fftProcessorOutputs[i * 2 + 1] || this.fftProcessorZeros, iffted);
+          } else {
+            iffted = this.rfft.inverse(ifftBuffer => {
+              signalToFFT(fftProcessorOutputs[i * 2] || this.fftProcessorZeros, fftProcessorOutputs[i * 2 + 1] || this.fftProcessorZeros, ifftBuffer);
+            });
+          }
+          for (let j = 0; j < iffted.length; j++) {
+            iffted[j] *= this.window[j];
+          }
+          let $;
+          for (let j = 0; j < iffted.length - this.fftHopSize; j++) {
+            $ = mod(this.$outputWrite + j, this.fftBufferSize);
+            this.fftOutput[i][$] += iffted[j];
+            if (i === 0) this.windowSumSquare[$] += this.noIFFT ? this.window[j] : this.window[j] ** 2;
+          }
+          for (let j = iffted.length - this.fftHopSize; j < iffted.length; j++) {
+            $ = mod(this.$outputWrite + j, this.fftBufferSize);
+            this.fftOutput[i][$] = iffted[j];
+            if (i === 0) this.windowSumSquare[$] = this.noIFFT ? this.window[j] : this.window[j] ** 2;
+          }
+        }
+        this.$outputWrite += this.fftHopSize;
+        this.$outputWrite %= this.fftBufferSize;
+      }
+    }
+    process(inputs, outputs, parameters) {
+      if (this.destroyed) return false;
+      if (!this.FFT) return true;
+      const input = inputs[0];
+      const output = outputs[0];
+      const inputChannels = input.length;
+      const outputChannels = output.length;
+      const bufferSize = input.length ? Math.max(...input.map(c => c.length)) || 128 : 128;
+      this.noIFFT = !!parameters.noIFFT[0];
+      this.resetFFT(~~parameters.fftSize[0], ~~parameters.fftOverlap[0], ~~parameters.windowFunction[0], inputChannels, outputChannels, bufferSize);
+      if (!this.fDSPCode) return true;
+      for (const path in parameters) {
+        if (!!fftParamKeywords.find(k => `/${path}`.endsWith(k))) continue;
+        const [paramValue] = parameters[path];
+        if (paramValue !== this.paramValuesCache[path]) {
+          this.fDSPCode.setParamValue(path, paramValue);
+          this.paramValuesCache[path] = paramValue;
+        }
+      }
+      if (input.length) {
+        let $inputWrite = 0;
+        for (let i = 0; i < input.length; i++) {
+          const inputWindow = this.fftInput[i];
+          const channel = input[i].length ? input[i] : new Float32Array(bufferSize);
+          $inputWrite = setTypedArray(inputWindow, channel, this.$inputWrite);
+        }
+        this.$inputWrite = $inputWrite;
+      } else {
+        this.$inputWrite += bufferSize;
+        this.$inputWrite %= this.fftBufferSize;
+      }
+      this.processFFT();
+      for (let i = 0; i < output.length; i++) {
+        setTypedArray(output[i], this.fftOutput[i], 0, this.$outputRead);
+        let div = 0;
+        for (let j = 0; j < bufferSize; j++) {
+          div = this.windowSumSquare[mod(this.$outputRead + j, this.fftBufferSize)];
+          output[i][j] /= div < Number.EPSILON ? 1 : div;
+        }
+      }
+      this.$outputRead += bufferSize;
+      this.$outputRead %= this.fftBufferSize;
+      return true;
+    }
+    handleMessageAux(e) {
+      var _a, _b, _c;
+      const msg = e.data;
+      switch (msg.type) {
+        case "midi":
+          this.midiMessage(msg.data);
+          break;
+        case "ctrlChange":
+          this.ctrlChange(msg.data[0], msg.data[1], msg.data[2]);
+          break;
+        case "pitchWheel":
+          this.pitchWheel(msg.data[0], msg.data[1]);
+          break;
+        case "param":
+          this.setParamValue(msg.data.path, msg.data.value);
+          break;
+        case "setPlotHandler":
+          {
+            if (msg.data) {
+              this.plotHandler = (output, index, events) => this.port.postMessage({
+                type: "plot",
+                value: output,
+                index,
+                events
+              });
+            } else {
+              this.plotHandler = null;
+            }
+            (_a = this.fDSPCode) == null ? void 0 : _a.setPlotHandler(this.plotHandler);
+            break;
+          }
+        case "start":
+          {
+            (_b = this.fDSPCode) == null ? void 0 : _b.start();
+            break;
+          }
+        case "stop":
+          {
+            (_c = this.fDSPCode) == null ? void 0 : _c.stop();
+            break;
+          }
+        case "destroy":
+          {
+            this.port.close();
+            this.destroy();
+            break;
+          }
+        default:
+          break;
+      }
+    }
+    setParamValue(path, value) {
+      var _a;
+      (_a = this.fDSPCode) == null ? void 0 : _a.setParamValue(path, value);
+      this.paramValuesCache[path] = value;
+    }
+    midiMessage(data) {
+      var _a;
+      (_a = this.fDSPCode) == null ? void 0 : _a.midiMessage(data);
+    }
+    ctrlChange(channel, ctrl, value) {
+      var _a;
+      (_a = this.fDSPCode) == null ? void 0 : _a.ctrlChange(channel, ctrl, value);
+    }
+    pitchWheel(channel, wheel) {
+      var _a;
+      (_a = this.fDSPCode) == null ? void 0 : _a.pitchWheel(channel, wheel);
+    }
+    resetFFT(sizeIn, overlapIn, windowFunctionIn, inputChannels, outputChannels, bufferSize) {
+      var _a, _b;
+      const fftSize = ~~ceil(Math.max(2, sizeIn || 1024), 2);
+      const fftOverlap = ~~Math.min(fftSize, Math.max(1, overlapIn));
+      const fftHopSize = ~~Math.max(1, fftSize / fftOverlap);
+      const latency = fftSize - Math.min(fftHopSize, bufferSize);
+      let windowFunction = null;
+      if (windowFunctionIn !== 0) {
+        windowFunction = typeof windowFunctions === "object" ? windowFunctions[~~windowFunctionIn - 1] || null : null;
+      }
+      const fftSizeChanged = fftSize !== this.fftSize;
+      const fftOverlapChanged = fftOverlap !== this.fftOverlap;
+      if (fftSizeChanged || fftOverlapChanged) {
+        this.fftSize = fftSize;
+        this.fftOverlap = fftOverlap;
+        this.fftHopSize = fftHopSize;
+        this.$inputWrite = 0;
+        this.$inputRead = 0;
+        this.$outputWrite = 0;
+        this.$outputRead = -latency;
+        this.fftBufferSize = Math.max(fftSize * 2 - this.fftHopSize, bufferSize * 2);
+        if (!fftSizeChanged && this.fftHopSizeParam) (_a = this.fDSPCode) == null ? void 0 : _a.setParamValue(this.fftHopSizeParam, this.fftHopSize);
+      }
+      if (fftSizeChanged) {
+        (_b = this.rfft) == null ? void 0 : _b.dispose();
+        this.rfft = new this.FFT(fftSize);
+        this.noIFFTBuffer = new Float32Array(this.fftSize);
+        this.createFFTProcessor();
+      }
+      if (fftSizeChanged || fftOverlapChanged || windowFunction !== this.windowFunction) {
+        this.windowFunction = windowFunction;
+        this.window = new Float32Array(fftSize);
+        this.window.fill(1);
+        if (windowFunction) apply(this.window, windowFunction);
+        this.windowSumSquare = new Float32Array(this.fftBufferSize);
+      }
+      if (this.fftInput.length > inputChannels) {
+        this.fftInput.splice(inputChannels);
+      }
+      if (this.fftOutput.length > outputChannels) {
+        this.fftOutput.splice(outputChannels);
+      }
+      if (fftSizeChanged || fftOverlapChanged) {
+        for (let i = 0; i < inputChannels; i++) {
+          this.fftInput[i] = new Float32Array(this.fftBufferSize);
+        }
+        for (let i = 0; i < outputChannels; i++) {
+          this.fftOutput[i] = new Float32Array(this.fftBufferSize);
+        }
+      } else {
+        if (this.fftInput.length < inputChannels) {
+          for (let i = this.fftInput.length; i < inputChannels; i++) {
+            this.fftInput[i] = new Float32Array(this.fftBufferSize);
+          }
+        }
+        if (this.fftOutput.length < outputChannels) {
+          for (let i = this.fftOutput.length; i < outputChannels; i++) {
+            this.fftOutput[i] = new Float32Array(this.fftBufferSize);
+          }
+        }
+      }
+    }
+    async createFFTProcessor() {
+      var _a, _b;
+      (_a = this.fDSPCode) == null ? void 0 : _a.stop();
+      (_b = this.fDSPCode) == null ? void 0 : _b.destroy();
+      this.fDSPCode = new FaustMonoWebAudioDsp2(this.dspInstance, sampleRate, this.sampleSize, this.fftProcessorBufferSize);
+      this.fDSPCode.setOutputParamHandler((path, value) => this.port.postMessage({
+        path,
+        value,
+        type: "param"
+      }));
+      this.fDSPCode.setPlotHandler(this.plotHandler);
+      const params = this.fDSPCode.getParams();
+      this.fDSPCode.start();
+      for (const path in this.paramValuesCache) {
+        if (!!fftParamKeywords.find(k => `/${path}`.endsWith(k))) continue;
+        this.fDSPCode.setParamValue(path, this.paramValuesCache[path]);
+      }
+      const fftSizeParam = params.find(s => s.endsWith("/fftSize"));
+      if (fftSizeParam) this.fDSPCode.setParamValue(fftSizeParam, this.fftSize);
+      this.fftHopSizeParam = params.find(s => s.endsWith("/fftHopSize"));
+      if (this.fftHopSizeParam) this.fDSPCode.setParamValue(this.fftHopSizeParam, this.fftHopSize);
+      this.fftProcessorZeros = new Float32Array(this.fftProcessorBufferSize);
+    }
+    destroy() {
+      var _a, _b, _c;
+      (_a = this.fDSPCode) == null ? void 0 : _a.stop();
+      (_b = this.fDSPCode) == null ? void 0 : _b.destroy();
+      (_c = this.rfft) == null ? void 0 : _c.dispose();
+      this.destroyed = true;
+    }
+  }
+  const Processor = FaustFFTAudioWorkletProcessor;
+  if (register) {
+    try {
+      registerProcessor(processorName || dspName || "myfftdsp", Processor);
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+  return FaustFFTAudioWorkletProcessor;
+};
+var FaustFFTAudioWorkletProcessor_default = getFaustFFTAudioWorkletProcessor;
 
 // src/FaustCompiler.ts
 var import_sha256_js = __toESM(require_build2(), 1);
@@ -33211,6 +33644,670 @@ var FaustWasmInstantiator = class {
 };
 var FaustWasmInstantiator_default = FaustWasmInstantiator;
 
+// src/FaustWebAudioDsp.ts
+var FaustBaseWebAudioDsp = class {
+  constructor(sampleSize, bufferSize) {
+    this.fOutputHandler = null;
+    this.fComputeHandler = null;
+    this.fCachedEvents = [];
+    this.fBufferNum = 0;
+    this.fPlotHandler = null;
+    this.fBufferSize = bufferSize;
+    this.fInChannels = [];
+    this.fOutChannels = [];
+    this.gPtrSize = sampleSize;
+    this.gSampleSize = sampleSize;
+    this.fOutputsTimer = 5;
+    this.fInputsItems = [];
+    this.fOutputsItems = [];
+    this.fDescriptor = [];
+    this.fPitchwheelLabel = [];
+    this.fCtrlLabel = new Array(128).fill(null).map(() => []);
+    this.fPathTable = {};
+    this.fProcessing = false;
+    this.fDestroyed = false;
+    this.fUICallback = item => {
+      if (item.type === "hbargraph" || item.type === "vbargraph") {
+        this.fOutputsItems.push(item.address);
+        this.fPathTable[item.address] = item.index;
+      } else if (item.type === "vslider" || item.type === "hslider" || item.type === "button" || item.type === "checkbox" || item.type === "nentry") {
+        this.fInputsItems.push(item.address);
+        this.fPathTable[item.address] = item.index;
+        this.fDescriptor.push(item);
+        if (!item.meta) return;
+        item.meta.forEach(meta => {
+          const {
+            midi
+          } = meta;
+          if (!midi) return;
+          const strMidi = midi.trim();
+          if (strMidi === "pitchwheel") {
+            this.fPitchwheelLabel.push({
+              path: item.address,
+              min: item.min,
+              max: item.max
+            });
+          } else {
+            const matched = strMidi.match(/^ctrl\s(\d+)/);
+            if (!matched) return;
+            this.fCtrlLabel[parseInt(matched[1])].push({
+              path: item.address,
+              min: item.min,
+              max: item.max
+            });
+          }
+        });
+      }
+    };
+  }
+  static remap(v, mn0, mx0, mn1, mx1) {
+    return (v - mn0) / (mx0 - mn0) * (mx1 - mn1) + mn1;
+  }
+  static parseUI(ui, callback) {
+    ui.forEach(group => this.parseGroup(group, callback));
+  }
+  static parseGroup(group, callback) {
+    if (group.items) {
+      this.parseItems(group.items, callback);
+    }
+  }
+  static parseItems(items, callback) {
+    items.forEach(item => this.parseItem(item, callback));
+  }
+  static parseItem(item, callback) {
+    if (item.type === "vgroup" || item.type === "hgroup" || item.type === "tgroup") {
+      this.parseItems(item.items, callback);
+    } else {
+      callback(item);
+    }
+  }
+  updateOutputs() {
+    if (this.fOutputsItems.length > 0 && this.fOutputHandler && this.fOutputsTimer-- === 0) {
+      this.fOutputsTimer = 5;
+      this.fOutputsItems.forEach(item => {
+        var _a;
+        return (_a = this.fOutputHandler) == null ? void 0 : _a.call(this, item, this.getParamValue(item));
+      });
+    }
+  }
+  metadata(handler) {
+    if (this.fJSONDsp.meta) {
+      this.fJSONDsp.meta.forEach(meta => handler(Object.keys(meta)[0], meta[Object.keys(meta)[0]]));
+    }
+  }
+  compute(input, output) {
+    return false;
+  }
+  setOutputParamHandler(handler) {
+    this.fOutputHandler = handler;
+  }
+  getOutputParamHandler() {
+    return this.fOutputHandler;
+  }
+  setComputeHandler(handler) {
+    this.fComputeHandler = handler;
+  }
+  getComputeHandler() {
+    return this.fComputeHandler;
+  }
+  setPlotHandler(handler) {
+    this.fPlotHandler = handler;
+  }
+  getPlotHandler() {
+    return this.fPlotHandler;
+  }
+  getNumInputs() {
+    return -1;
+  }
+  getNumOutputs() {
+    return -1;
+  }
+  midiMessage(data) {
+    if (this.fPlotHandler) this.fCachedEvents.push({
+      data,
+      type: "midi"
+    });
+    const cmd = data[0] >> 4;
+    const channel = data[0] & 15;
+    const data1 = data[1];
+    const data2 = data[2];
+    if (cmd === 11) return this.ctrlChange(channel, data1, data2);
+    if (cmd === 14) return this.pitchWheel(channel, data2 * 128 + data1);
+  }
+  ctrlChange(channel, ctrl, value) {
+    if (this.fPlotHandler) this.fCachedEvents.push({
+      type: "ctrlChange",
+      data: [channel, ctrl, value]
+    });
+    if (this.fCtrlLabel[ctrl].length) {
+      this.fCtrlLabel[ctrl].forEach(ctrl2 => {
+        const {
+          path
+        } = ctrl2;
+        this.setParamValue(path, FaustBaseWebAudioDsp.remap(value, 0, 127, ctrl2.min, ctrl2.max));
+        if (this.fOutputHandler) this.fOutputHandler(path, this.getParamValue(path));
+      });
+    }
+  }
+  pitchWheel(channel, wheel) {
+    if (this.fPlotHandler) this.fCachedEvents.push({
+      type: "pitchWheel",
+      data: [channel, wheel]
+    });
+    this.fPitchwheelLabel.forEach(pw => {
+      this.setParamValue(pw.path, FaustBaseWebAudioDsp.remap(wheel, 0, 16383, pw.min, pw.max));
+      if (this.fOutputHandler) this.fOutputHandler(pw.path, this.getParamValue(pw.path));
+    });
+  }
+  setParamValue(path, value) {}
+  getParamValue(path) {
+    return 0;
+  }
+  getParams() {
+    return this.fInputsItems;
+  }
+  getMeta() {
+    return this.fJSONDsp;
+  }
+  getJSON() {
+    return JSON.stringify(this.getMeta());
+  }
+  getUI() {
+    return this.fJSONDsp.ui;
+  }
+  getDescriptors() {
+    return this.fDescriptor;
+  }
+  start() {
+    this.fProcessing = true;
+  }
+  stop() {
+    this.fProcessing = false;
+  }
+  destroy() {
+    this.fDestroyed = true;
+    this.fOutputHandler = null;
+    this.fComputeHandler = null;
+    this.fPlotHandler = null;
+  }
+};
+var FaustMonoWebAudioDsp = class extends FaustBaseWebAudioDsp {
+  constructor(instance, sampleRate, sampleSize, bufferSize) {
+    super(sampleSize, bufferSize);
+    this.fInstance = instance;
+    this.fJSONDsp = JSON.parse(this.fInstance.json);
+    FaustBaseWebAudioDsp.parseUI(this.fJSONDsp.ui, this.fUICallback);
+    this.initMemory();
+    this.fInstance.api.init(this.fDSP, sampleRate);
+  }
+  initMemory() {
+    this.fDSP = 0;
+    const $audio = this.fJSONDsp.size;
+    this.fAudioInputs = $audio;
+    this.fAudioOutputs = this.fAudioInputs + this.getNumInputs() * this.gPtrSize;
+    const $audioInputs = this.fAudioOutputs + this.getNumOutputs() * this.gPtrSize;
+    const $audioOutputs = $audioInputs + this.getNumInputs() * this.fBufferSize * this.gSampleSize;
+    const HEAP = this.fInstance.memory.buffer;
+    const HEAP32 = new Int32Array(HEAP);
+    const HEAPF = this.gSampleSize === 4 ? new Float32Array(HEAP) : new Float64Array(HEAP);
+    if (this.getNumInputs() > 0) {
+      for (let chan = 0; chan < this.getNumInputs(); chan++) {
+        HEAP32[(this.fAudioInputs >> 2) + chan] = $audioInputs + this.fBufferSize * this.gSampleSize * chan;
+      }
+      const dspInChans = HEAP32.subarray(this.fAudioInputs >> 2, this.fAudioInputs + this.getNumInputs() * this.gPtrSize >> 2);
+      for (let chan = 0; chan < this.getNumInputs(); chan++) {
+        this.fInChannels[chan] = HEAPF.subarray(dspInChans[chan] >> Math.log2(this.gSampleSize), dspInChans[chan] + this.fBufferSize * this.gSampleSize >> Math.log2(this.gSampleSize));
+      }
+    }
+    if (this.getNumOutputs() > 0) {
+      for (let chan = 0; chan < this.getNumOutputs(); chan++) {
+        HEAP32[(this.fAudioOutputs >> 2) + chan] = $audioOutputs + this.fBufferSize * this.gSampleSize * chan;
+      }
+      const dspOutChans = HEAP32.subarray(this.fAudioOutputs >> 2, this.fAudioOutputs + this.getNumOutputs() * this.gPtrSize >> 2);
+      for (let chan = 0; chan < this.getNumOutputs(); chan++) {
+        this.fOutChannels[chan] = HEAPF.subarray(dspOutChans[chan] >> Math.log2(this.gSampleSize), dspOutChans[chan] + this.fBufferSize * this.gSampleSize >> Math.log2(this.gSampleSize));
+      }
+    }
+  }
+  toString() {
+    return `============== Mono Memory layout ==============
+this.fBufferSize: ${this.fBufferSize}
+this.fJSONDsp.size: ${this.fJSONDsp.size}
+this.fAudioInputs: ${this.fAudioInputs}
+this.fAudioOutputs: ${this.fAudioOutputs}
+this.fDSP: ${this.fDSP}`;
+  }
+  compute(input, output) {
+    if (this.fDestroyed) return false;
+    if (!this.fProcessing) return true;
+    if (typeof input === "function") {
+      input(this.fInChannels);
+    } else {
+      if (this.getNumInputs() > 0 && (!input || !input[0] || input[0].length === 0)) {
+        return true;
+      }
+      if (this.getNumOutputs() > 0 && typeof output !== "function" && (!output || !output[0] || output[0].length === 0)) {
+        return true;
+      }
+      if (input !== void 0) {
+        for (let chan = 0; chan < Math.min(this.getNumInputs(), input.length); chan++) {
+          const dspInput = this.fInChannels[chan];
+          dspInput.set(input[chan]);
+        }
+      }
+    }
+    if (this.fComputeHandler) this.fComputeHandler(this.fBufferSize);
+    this.fInstance.api.compute(this.fDSP, this.fBufferSize, this.fAudioInputs, this.fAudioOutputs);
+    this.updateOutputs();
+    let forPlot = this.fOutChannels;
+    if (typeof output === "function") {
+      output(this.fOutChannels);
+    } else {
+      for (let chan = 0; chan < Math.min(this.getNumOutputs(), output.length); chan++) {
+        const dspOutput = this.fOutChannels[chan];
+        output[chan].set(dspOutput);
+      }
+      forPlot = output;
+    }
+    if (this.fPlotHandler) {
+      this.fPlotHandler(forPlot, this.fBufferNum++, this.fCachedEvents.length ? this.fCachedEvents : void 0);
+      this.fCachedEvents = [];
+    }
+    return true;
+  }
+  metadata(handler) {
+    super.metadata(handler);
+  }
+  getNumInputs() {
+    return this.fInstance.api.getNumInputs(this.fDSP);
+  }
+  getNumOutputs() {
+    return this.fInstance.api.getNumOutputs(this.fDSP);
+  }
+  setParamValue(path, value) {
+    if (this.fPlotHandler) this.fCachedEvents.push({
+      type: "param",
+      data: {
+        path,
+        value
+      }
+    });
+    this.fInstance.api.setParamValue(this.fDSP, this.fPathTable[path], value);
+  }
+  getParamValue(path) {
+    return this.fInstance.api.getParamValue(this.fDSP, this.fPathTable[path]);
+  }
+  getMeta() {
+    return this.fJSONDsp;
+  }
+  getJSON() {
+    return this.fInstance.json;
+  }
+  getDescriptors() {
+    return this.fDescriptor;
+  }
+  getUI() {
+    return this.fJSONDsp.ui;
+  }
+};
+var FaustWebAudioDspVoice = class {
+  constructor($dsp, api, inputItems, pathTable, sampleRate) {
+    FaustWebAudioDspVoice.kActiveVoice = 0;
+    FaustWebAudioDspVoice.kFreeVoice = -1;
+    FaustWebAudioDspVoice.kReleaseVoice = -2;
+    FaustWebAudioDspVoice.kLegatoVoice = -3;
+    FaustWebAudioDspVoice.kNoVoice = -4;
+    FaustWebAudioDspVoice.VOICE_STOP_LEVEL = 5e-4;
+    this.fCurNote = FaustWebAudioDspVoice.kFreeVoice;
+    this.fNextNote = this.fNextVel = -1;
+    this.fLevel = 0;
+    this.fDate = this.fRelease = 0;
+    this.fDSP = $dsp;
+    this.fAPI = api;
+    this.fGateLabel = [];
+    this.fGainLabel = [];
+    this.fFreqLabel = [];
+    this.fKeyLabel = [];
+    this.fVelLabel = [];
+    this.fAPI.init(this.fDSP, sampleRate);
+    this.extractPaths(inputItems, pathTable);
+  }
+  static midiToFreq(note) {
+    return 440 * 2 ** ((note - 69) / 12);
+  }
+  static normalizeVelocity(velocity) {
+    return velocity / 127;
+  }
+  extractPaths(inputItems, pathTable) {
+    inputItems.forEach(item => {
+      if (item.endsWith("/gate")) {
+        this.fGateLabel.push(pathTable[item]);
+      } else if (item.endsWith("/freq")) {
+        this.fFreqLabel.push(pathTable[item]);
+      } else if (item.endsWith("/key")) {
+        this.fKeyLabel.push(pathTable[item]);
+      } else if (item.endsWith("/gain")) {
+        this.fGainLabel.push(pathTable[item]);
+      } else if (item.endsWith("/vel") && item.endsWith("/velocity")) {
+        this.fVelLabel.push(pathTable[item]);
+      }
+    });
+  }
+  keyOn(pitch, velocity, legato = false) {
+    if (legato) {
+      this.fNextNote = pitch;
+      this.fNextVel = velocity;
+    } else {
+      this.fFreqLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, FaustWebAudioDspVoice.midiToFreq(pitch)));
+      this.fGateLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, 1));
+      this.fGainLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, FaustWebAudioDspVoice.normalizeVelocity(velocity)));
+      this.fKeyLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, pitch));
+      this.fVelLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, velocity));
+      this.fCurNote = pitch;
+    }
+  }
+  keyOff(hard = false) {
+    this.fGateLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, 0));
+    if (hard) {
+      this.fCurNote = FaustWebAudioDspVoice.kFreeVoice;
+    } else {
+      this.fRelease = this.fAPI.getSampleRate(this.fDSP) / 2;
+      this.fCurNote = FaustWebAudioDspVoice.kReleaseVoice;
+    }
+  }
+  computeLegato(bufferSize, $inputs, $outputZero, $outputsHalf) {
+    let size = bufferSize / 2;
+    this.fGateLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, 0));
+    this.fAPI.compute(this.fDSP, size, $inputs, $outputZero);
+    this.keyOn(this.fNextNote, this.fNextVel);
+    this.fAPI.compute(this.fDSP, size, $inputs, $outputsHalf);
+  }
+  compute(bufferSize, $inputs, $outputs) {
+    this.fAPI.compute(this.fDSP, bufferSize, $inputs, $outputs);
+  }
+  setParamValue(index, value) {
+    this.fAPI.setParamValue(this.fDSP, index, value);
+  }
+  getParamValue(index) {
+    return this.fAPI.getParamValue(this.fDSP, index);
+  }
+};
+var FaustPolyWebAudioDsp = class extends FaustBaseWebAudioDsp {
+  constructor(instance, sampleRate, sampleSize, bufferSize) {
+    super(sampleSize, bufferSize);
+    this.fInstance = instance;
+    this.fJSONDsp = JSON.parse(this.fInstance.voiceJSON);
+    this.fJSONEffect = this.fInstance.effectAPI && this.fInstance.effectJSON ? JSON.parse(this.fInstance.effectJSON) : null;
+    FaustBaseWebAudioDsp.parseUI(this.fJSONDsp.ui, this.fUICallback);
+    if (this.fJSONEffect) FaustBaseWebAudioDsp.parseUI(this.fJSONEffect.ui, this.fUICallback);
+    this.initMemory();
+    this.fVoiceTable = [];
+    for (let voice = 0; voice < this.fInstance.voices; voice++) {
+      this.fVoiceTable.push(new FaustWebAudioDspVoice(this.fJSONDsp.size * voice, this.fInstance.voiceAPI, this.fInputsItems, this.fPathTable, sampleRate));
+    }
+    if (this.fInstance.effectAPI) this.fInstance.effectAPI.init(this.fEffect, sampleRate);
+  }
+  initMemory() {
+    this.fEffect = this.fJSONDsp.size * this.fInstance.voices;
+    const $audio = this.fEffect + (this.fJSONEffect ? this.fJSONEffect.size : 0);
+    this.fAudioInputs = $audio;
+    this.fAudioOutputs = this.fAudioInputs + this.getNumInputs() * this.gPtrSize;
+    this.fAudioMixing = this.fAudioOutputs + this.getNumOutputs() * this.gPtrSize;
+    this.fAudioMixingHalf = this.fAudioMixing + this.getNumOutputs() * this.gPtrSize;
+    const $audioInputs = this.fAudioMixingHalf + this.getNumOutputs() * this.gPtrSize;
+    const $audioOutputs = $audioInputs + this.getNumInputs() * this.fBufferSize * this.gSampleSize;
+    const $audioMixing = $audioOutputs + this.getNumOutputs() * this.fBufferSize * this.gSampleSize;
+    const HEAP = this.fInstance.memory.buffer;
+    const HEAP32 = new Int32Array(HEAP);
+    const HEAPF = this.gSampleSize === 4 ? new Float32Array(HEAP) : new Float64Array(HEAP);
+    if (this.getNumInputs() > 0) {
+      for (let chan = 0; chan < this.getNumInputs(); chan++) {
+        HEAP32[(this.fAudioInputs >> 2) + chan] = $audioInputs + this.fBufferSize * this.gSampleSize * chan;
+      }
+      const dspInChans = HEAP32.subarray(this.fAudioInputs >> 2, this.fAudioInputs + this.getNumInputs() * this.gPtrSize >> 2);
+      for (let chan = 0; chan < this.getNumInputs(); chan++) {
+        this.fInChannels[chan] = HEAPF.subarray(dspInChans[chan] >> Math.log2(this.gSampleSize), dspInChans[chan] + this.fBufferSize * this.gSampleSize >> Math.log2(this.gSampleSize));
+      }
+    }
+    if (this.getNumOutputs() > 0) {
+      for (let chan = 0; chan < this.getNumOutputs(); chan++) {
+        HEAP32[(this.fAudioOutputs >> 2) + chan] = $audioOutputs + this.fBufferSize * this.gSampleSize * chan;
+        HEAP32[(this.fAudioMixing >> 2) + chan] = $audioMixing + this.fBufferSize * this.gSampleSize * chan;
+        HEAP32[(this.fAudioMixingHalf >> 2) + chan] = $audioMixing + this.fBufferSize * this.gSampleSize * chan + this.fBufferSize / 2 * this.gSampleSize;
+      }
+      const dspOutChans = HEAP32.subarray(this.fAudioOutputs >> 2, this.fAudioOutputs + this.getNumOutputs() * this.gPtrSize >> 2);
+      for (let chan = 0; chan < this.getNumOutputs(); chan++) {
+        this.fOutChannels[chan] = HEAPF.subarray(dspOutChans[chan] >> Math.log2(this.gSampleSize), dspOutChans[chan] + this.fBufferSize * this.gSampleSize >> Math.log2(this.gSampleSize));
+      }
+    }
+  }
+  toString() {
+    return `============== Poly Memory layout ==============
+this.fBufferSize: ${this.fBufferSize}
+this.fJSONDsp.size: ${this.fJSONDsp.size}
+this.fAudioInputs: ${this.fAudioInputs}
+this.fAudioOutputs: ${this.fAudioOutputs}
+this.fAudioMixing: ${this.fAudioMixing}
+this.fAudioMixingHalf: ${this.fAudioMixingHalf}`;
+  }
+  allocVoice(voice, type) {
+    this.fVoiceTable[voice].fDate++;
+    this.fVoiceTable[voice].fCurNote = type;
+    return voice;
+  }
+  getPlayingVoice(pitch) {
+    let voicePlaying = FaustWebAudioDspVoice.kNoVoice;
+    let oldestDatePlaying = Number.MAX_VALUE;
+    for (let voice = 0; voice < this.fInstance.voices; voice++) {
+      if (this.fVoiceTable[voice].fCurNote === pitch) {
+        if (this.fVoiceTable[voice].fDate < oldestDatePlaying) {
+          oldestDatePlaying = this.fVoiceTable[voice].fDate;
+          voicePlaying = voice;
+        }
+      }
+    }
+    return voicePlaying;
+  }
+  getFreeVoice() {
+    for (let voice = 0; voice < this.fInstance.voices; voice++) {
+      if (this.fVoiceTable[voice].fCurNote === FaustWebAudioDspVoice.kFreeVoice) {
+        return this.allocVoice(voice, FaustWebAudioDspVoice.kActiveVoice);
+      }
+    }
+    let voiceRelease = FaustWebAudioDspVoice.kNoVoice;
+    let voicePlaying = FaustWebAudioDspVoice.kNoVoice;
+    let oldestDateRelease = Number.MAX_VALUE;
+    let oldestDatePlaying = Number.MAX_VALUE;
+    for (let voice = 0; voice < this.fInstance.voices; voice++) {
+      if (this.fVoiceTable[voice].fCurNote === FaustWebAudioDspVoice.kReleaseVoice) {
+        if (this.fVoiceTable[voice].fDate < oldestDateRelease) {
+          oldestDateRelease = this.fVoiceTable[voice].fDate;
+          voiceRelease = voice;
+        }
+      } else if (this.fVoiceTable[voice].fDate < oldestDatePlaying) {
+        oldestDatePlaying = this.fVoiceTable[voice].fDate;
+        voicePlaying = voice;
+      }
+    }
+    if (oldestDateRelease !== Number.MAX_VALUE) {
+      console.log(`Steal release voice : voice_date = ${this.fVoiceTable[voiceRelease].fDate} voice = ${voiceRelease}`);
+      return this.allocVoice(voiceRelease, FaustWebAudioDspVoice.kLegatoVoice);
+    }
+    if (oldestDatePlaying !== Number.MAX_VALUE) {
+      console.log(`Steal playing voice : voice_date = ${this.fVoiceTable[voicePlaying].fDate} voice = ${voicePlaying}`);
+      return this.allocVoice(voicePlaying, FaustWebAudioDspVoice.kLegatoVoice);
+    }
+    return FaustWebAudioDspVoice.kNoVoice;
+  }
+  compute(input, output) {
+    if (this.fDestroyed) return false;
+    if (!this.fProcessing) return true;
+    if (this.getNumInputs() > 0 && (!input || !input[0] || input[0].length === 0)) {
+      return true;
+    }
+    if (this.getNumOutputs() > 0 && (!output || !output[0] || output[0].length === 0)) {
+      return true;
+    }
+    if (input !== void 0) {
+      for (let chan = 0; chan < Math.min(this.getNumInputs(), input.length); ++chan) {
+        const dspInput = this.fInChannels[chan];
+        dspInput.set(input[chan]);
+      }
+    }
+    if (this.fComputeHandler) this.fComputeHandler(this.fBufferSize);
+    this.fInstance.mixerAPI.clearOutput(this.fBufferSize, this.getNumOutputs(), this.fAudioOutputs);
+    this.fVoiceTable.forEach(voice => {
+      if (voice.fCurNote === FaustWebAudioDspVoice.kLegatoVoice) {
+        voice.computeLegato(this.fBufferSize, this.fAudioInputs, this.fAudioMixing, this.fAudioMixingHalf);
+        this.fInstance.mixerAPI.fadeOut(this.fBufferSize / 2, this.getNumOutputs(), this.fAudioMixing);
+        voice.fLevel = this.fInstance.mixerAPI.mixCheckVoice(this.fBufferSize, this.getNumOutputs(), this.fAudioMixing, this.fAudioOutputs);
+      } else if (voice.fCurNote !== FaustWebAudioDspVoice.kFreeVoice) {
+        voice.compute(this.fBufferSize, this.fAudioInputs, this.fAudioMixing);
+        voice.fLevel = this.fInstance.mixerAPI.mixCheckVoice(this.fBufferSize, this.getNumOutputs(), this.fAudioMixing, this.fAudioOutputs);
+        voice.fRelease -= this.fBufferSize;
+        if (voice.fCurNote == FaustWebAudioDspVoice.kReleaseVoice && voice.fLevel < FaustWebAudioDspVoice.VOICE_STOP_LEVEL && voice.fRelease < 0) {
+          voice.fCurNote = FaustWebAudioDspVoice.kFreeVoice;
+        }
+      }
+    });
+    if (this.fInstance.effectAPI) this.fInstance.effectAPI.compute(this.fEffect, this.fBufferSize, this.fAudioOutputs, this.fAudioOutputs);
+    this.updateOutputs();
+    if (output !== void 0) {
+      for (let chan = 0; chan < Math.min(this.getNumOutputs(), output.length); chan++) {
+        const dspOutput = this.fOutChannels[chan];
+        output[chan].set(dspOutput);
+      }
+      if (this.fPlotHandler) {
+        this.fPlotHandler(output, this.fBufferNum++, this.fCachedEvents.length ? this.fCachedEvents : void 0);
+        this.fCachedEvents = [];
+      }
+    }
+    return true;
+  }
+  getNumInputs() {
+    return this.fInstance.voiceAPI.getNumInputs(0);
+  }
+  getNumOutputs() {
+    return this.fInstance.voiceAPI.getNumOutputs(0);
+  }
+  static findPath(o, p) {
+    if (typeof o !== "object") {
+      return false;
+    } else if (o.address) {
+      return o.address === p;
+    } else {
+      for (const k in o) {
+        if (FaustPolyWebAudioDsp.findPath(o[k], p)) return true;
+      }
+      return false;
+    }
+  }
+  setParamValue(path, value) {
+    if (this.fPlotHandler) this.fCachedEvents.push({
+      type: "param",
+      data: {
+        path,
+        value
+      }
+    });
+    if (this.fJSONEffect && FaustPolyWebAudioDsp.findPath(this.fJSONEffect.ui, path) && this.fInstance.effectAPI) {
+      this.fInstance.effectAPI.setParamValue(this.fEffect, this.fPathTable[path], value);
+    } else {
+      this.fVoiceTable.forEach(voice => voice.setParamValue(this.fPathTable[path], value));
+    }
+  }
+  getParamValue(path) {
+    if (this.fJSONEffect && FaustPolyWebAudioDsp.findPath(this.fJSONEffect.ui, path) && this.fInstance.effectAPI) {
+      return this.fInstance.effectAPI.getParamValue(this.fEffect, this.fPathTable[path]);
+    } else {
+      return this.fVoiceTable[0].getParamValue(this.fPathTable[path]);
+    }
+  }
+  getMeta() {
+    const o = this.fJSONDsp;
+    const e = this.fJSONEffect;
+    const r = {
+      ...o
+    };
+    if (e) {
+      r.ui = [{
+        type: "tgroup",
+        label: "Sequencer",
+        items: [{
+          type: "vgroup",
+          label: "Instrument",
+          items: o.ui
+        }, {
+          type: "vgroup",
+          label: "Effect",
+          items: e.ui
+        }]
+      }];
+    } else {
+      r.ui = [{
+        type: "tgroup",
+        label: "Polyphonic",
+        items: [{
+          type: "vgroup",
+          label: "Voices",
+          items: o.ui
+        }]
+      }];
+    }
+    return r;
+  }
+  getJSON() {
+    return JSON.stringify(this.getMeta());
+  }
+  getUI() {
+    return this.getMeta().ui;
+  }
+  getDescriptors() {
+    return this.fDescriptor;
+  }
+  midiMessage(data) {
+    const cmd = data[0] >> 4;
+    const channel = data[0] & 15;
+    const data1 = data[1];
+    const data2 = data[2];
+    if (cmd === 8 || cmd === 9 && data2 === 0) return this.keyOff(channel, data1, data2);else if (cmd === 9) return this.keyOn(channel, data1, data2);else super.midiMessage(data);
+  }
+  ctrlChange(channel, ctrl, value) {
+    if (ctrl === 123 || ctrl === 120) {
+      this.allNotesOff(true);
+    } else {
+      super.ctrlChange(channel, ctrl, value);
+    }
+  }
+  keyOn(channel, pitch, velocity) {
+    if (this.fPlotHandler) this.fCachedEvents.push({
+      type: "keyOn",
+      data: [channel, pitch, velocity]
+    });
+    const voice = this.getFreeVoice();
+    this.fVoiceTable[voice].keyOn(pitch, velocity, this.fVoiceTable[voice].fCurNote == FaustWebAudioDspVoice.kLegatoVoice);
+  }
+  keyOff(channel, pitch, velocity) {
+    if (this.fPlotHandler) this.fCachedEvents.push({
+      type: "keyOff",
+      data: [channel, pitch, velocity]
+    });
+    const voice = this.getPlayingVoice(pitch);
+    if (voice !== FaustWebAudioDspVoice.kNoVoice) {
+      this.fVoiceTable[voice].keyOff();
+    } else {
+      console.log("Playing pitch = %d not found\n", pitch);
+    }
+  }
+  allNotesOff(hard = true) {
+    this.fCachedEvents.push({
+      type: "ctrlChange",
+      data: [0, 123, 0]
+    });
+    this.fVoiceTable.forEach(voice => voice.keyOff(hard));
+  }
+};
+
 // src/FaustOfflineProcessor.ts
 var FaustOfflineProcessor = class {
   constructor(instance, bufferSize) {
@@ -33218,6 +34315,101 @@ var FaustOfflineProcessor = class {
     this.fBufferSize = bufferSize;
     this.fInputs = new Array(this.fDSPCode.getNumInputs()).fill(null).map(() => new Float32Array(bufferSize));
     this.fOutputs = new Array(this.fDSPCode.getNumOutputs()).fill(null).map(() => new Float32Array(bufferSize));
+  }
+  getParameterDescriptors() {
+    const params = [];
+    const callback = item => {
+      let param = null;
+      const polyKeywords = ["/gate", "/freq", "/gain", "/key", "/vel", "/velocity"];
+      const isPolyReserved = "address" in item && !!polyKeywords.find(k => item.address.endsWith(k));
+      if (this.fDSPCode instanceof FaustMonoWebAudioDsp || !isPolyReserved) {
+        if (item.type === "vslider" || item.type === "hslider" || item.type === "nentry") {
+          param = {
+            name: item.address,
+            defaultValue: item.init || 0,
+            minValue: item.min || 0,
+            maxValue: item.max || 0
+          };
+        } else if (item.type === "button" || item.type === "checkbox") {
+          param = {
+            name: item.address,
+            defaultValue: item.init || 0,
+            minValue: 0,
+            maxValue: 1
+          };
+        }
+      }
+      if (param) params.push(param);
+    };
+    FaustBaseWebAudioDsp.parseUI(this.fDSPCode.getUI(), callback);
+    return params;
+  }
+  compute(input, output) {
+    return this.fDSPCode.compute(input, output);
+  }
+  setOutputParamHandler(handler) {
+    this.fDSPCode.setOutputParamHandler(handler);
+  }
+  getOutputParamHandler() {
+    return this.fDSPCode.getOutputParamHandler();
+  }
+  setComputeHandler(handler) {
+    this.fDSPCode.setComputeHandler(handler);
+  }
+  getComputeHandler() {
+    return this.fDSPCode.getComputeHandler();
+  }
+  setPlotHandler(handler) {
+    this.fDSPCode.setPlotHandler(handler);
+  }
+  getPlotHandler() {
+    return this.fDSPCode.getPlotHandler();
+  }
+  getNumInputs() {
+    return this.fDSPCode.getNumInputs();
+  }
+  getNumOutputs() {
+    return this.fDSPCode.getNumOutputs();
+  }
+  metadata(handler) {}
+  midiMessage(data) {
+    this.fDSPCode.midiMessage(data);
+  }
+  ctrlChange(chan, ctrl, value) {
+    this.fDSPCode.ctrlChange(chan, ctrl, value);
+  }
+  pitchWheel(chan, value) {
+    this.fDSPCode.pitchWheel(chan, value);
+  }
+  setParamValue(path, value) {
+    this.fDSPCode.setParamValue(path, value);
+  }
+  getParamValue(path) {
+    return this.fDSPCode.getParamValue(path);
+  }
+  getParams() {
+    return this.fDSPCode.getParams();
+  }
+  getMeta() {
+    return this.fDSPCode.getMeta();
+  }
+  getJSON() {
+    return this.fDSPCode.getJSON();
+  }
+  getDescriptors() {
+    return this.fDSPCode.getDescriptors();
+  }
+  getUI() {
+    return this.fDSPCode.getUI();
+  }
+  start() {
+    this.fDSPCode.start();
+  }
+  stop() {
+    this.fDSPCode.stop();
+  }
+  destroy() {
+    this.fDSPCode.destroy();
   }
   render(inputs = [], length = this.fBufferSize, onUpdate) {
     let l = 0;
@@ -33254,6 +34446,18 @@ var FaustOfflineProcessor = class {
     }
     this.fDSPCode.stop();
     return outputs;
+  }
+};
+var FaustMonoOfflineProcessor = class extends FaustOfflineProcessor {};
+var FaustPolyOfflineProcessor = class extends FaustOfflineProcessor {
+  keyOn(channel, pitch, velocity) {
+    this.fDSPCode.keyOn(channel, pitch, velocity);
+  }
+  keyOff(channel, pitch, velocity) {
+    this.fDSPCode.keyOff(channel, pitch, velocity);
+  }
+  allNotesOff(hard) {
+    this.fDSPCode.allNotesOff(hard);
   }
 };
 var FaustOfflineProcessor_default = FaustOfflineProcessor;
@@ -33702,662 +34906,6 @@ var Reader = class {
 };
 var WavDecoder_default = WavDecoder;
 
-// src/FaustWebAudioDsp.ts
-var FaustBaseWebAudioDsp = class {
-  constructor(sampleSize, bufferSize) {
-    this.fOutputHandler = null;
-    this.fComputeHandler = null;
-    this.fCachedEvents = [];
-    this.fBufferNum = 0;
-    this.fPlotHandler = null;
-    this.fBufferSize = bufferSize;
-    this.fInChannels = [];
-    this.fOutChannels = [];
-    this.gPtrSize = sampleSize;
-    this.gSampleSize = sampleSize;
-    this.fOutputsTimer = 5;
-    this.fInputsItems = [];
-    this.fOutputsItems = [];
-    this.fDescriptor = [];
-    this.fPitchwheelLabel = [];
-    this.fCtrlLabel = new Array(128).fill(null).map(() => []);
-    this.fPathTable = {};
-    this.fProcessing = false;
-    this.fDestroyed = false;
-    this.fUICallback = item => {
-      if (item.type === "hbargraph" || item.type === "vbargraph") {
-        this.fOutputsItems.push(item.address);
-        this.fPathTable[item.address] = item.index;
-      } else if (item.type === "vslider" || item.type === "hslider" || item.type === "button" || item.type === "checkbox" || item.type === "nentry") {
-        this.fInputsItems.push(item.address);
-        this.fPathTable[item.address] = item.index;
-        this.fDescriptor.push(item);
-        if (!item.meta) return;
-        item.meta.forEach(meta => {
-          const {
-            midi
-          } = meta;
-          if (!midi) return;
-          const strMidi = midi.trim();
-          if (strMidi === "pitchwheel") {
-            this.fPitchwheelLabel.push({
-              path: item.address,
-              min: item.min,
-              max: item.max
-            });
-          } else {
-            const matched = strMidi.match(/^ctrl\s(\d+)/);
-            if (!matched) return;
-            this.fCtrlLabel[parseInt(matched[1])].push({
-              path: item.address,
-              min: item.min,
-              max: item.max
-            });
-          }
-        });
-      }
-    };
-  }
-  static remap(v, mn0, mx0, mn1, mx1) {
-    return (v - mn0) / (mx0 - mn0) * (mx1 - mn1) + mn1;
-  }
-  static parseUI(ui, callback) {
-    ui.forEach(group => this.parseGroup(group, callback));
-  }
-  static parseGroup(group, callback) {
-    if (group.items) {
-      this.parseItems(group.items, callback);
-    }
-  }
-  static parseItems(items, callback) {
-    items.forEach(item => this.parseItem(item, callback));
-  }
-  static parseItem(item, callback) {
-    if (item.type === "vgroup" || item.type === "hgroup" || item.type === "tgroup") {
-      this.parseItems(item.items, callback);
-    } else {
-      callback(item);
-    }
-  }
-  updateOutputs() {
-    if (this.fOutputsItems.length > 0 && this.fOutputHandler && this.fOutputsTimer-- === 0) {
-      this.fOutputsTimer = 5;
-      this.fOutputsItems.forEach(item => {
-        var _a;
-        return (_a = this.fOutputHandler) == null ? void 0 : _a.call(this, item, this.getParamValue(item));
-      });
-    }
-  }
-  metadata(handler) {
-    if (this.fJSONDsp.meta) {
-      this.fJSONDsp.meta.forEach(meta => handler(Object.keys(meta)[0], meta[Object.keys(meta)[0]]));
-    }
-  }
-  compute(input, output) {
-    return false;
-  }
-  setOutputParamHandler(handler) {
-    this.fOutputHandler = handler;
-  }
-  getOutputParamHandler() {
-    return this.fOutputHandler;
-  }
-  setComputeHandler(handler) {
-    this.fComputeHandler = handler;
-  }
-  getComputeHandler() {
-    return this.fComputeHandler;
-  }
-  setPlotHandler(handler) {
-    this.fPlotHandler = handler;
-  }
-  getPlotHandler() {
-    return this.fPlotHandler;
-  }
-  getNumInputs() {
-    return -1;
-  }
-  getNumOutputs() {
-    return -1;
-  }
-  midiMessage(data) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      data,
-      type: "midi"
-    });
-    const cmd = data[0] >> 4;
-    const channel = data[0] & 15;
-    const data1 = data[1];
-    const data2 = data[2];
-    if (cmd === 11) return this.ctrlChange(channel, data1, data2);
-    if (cmd === 14) return this.pitchWheel(channel, data2 * 128 + data1);
-  }
-  ctrlChange(channel, ctrl, value) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "ctrlChange",
-      data: [channel, ctrl, value]
-    });
-    if (this.fCtrlLabel[ctrl].length) {
-      this.fCtrlLabel[ctrl].forEach(ctrl2 => {
-        const {
-          path
-        } = ctrl2;
-        this.setParamValue(path, FaustBaseWebAudioDsp.remap(value, 0, 127, ctrl2.min, ctrl2.max));
-        if (this.fOutputHandler) this.fOutputHandler(path, this.getParamValue(path));
-      });
-    }
-  }
-  pitchWheel(channel, wheel) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "pitchWheel",
-      data: [channel, wheel]
-    });
-    this.fPitchwheelLabel.forEach(pw => {
-      this.setParamValue(pw.path, FaustBaseWebAudioDsp.remap(wheel, 0, 16383, pw.min, pw.max));
-      if (this.fOutputHandler) this.fOutputHandler(pw.path, this.getParamValue(pw.path));
-    });
-  }
-  setParamValue(path, value) {}
-  getParamValue(path) {
-    return 0;
-  }
-  getParams() {
-    return this.fInputsItems;
-  }
-  getMeta() {
-    return this.fJSONDsp;
-  }
-  getJSON() {
-    return JSON.stringify(this.getMeta());
-  }
-  getUI() {
-    return this.fJSONDsp.ui;
-  }
-  getDescriptors() {
-    return this.fDescriptor;
-  }
-  start() {
-    this.fProcessing = true;
-  }
-  stop() {
-    this.fProcessing = false;
-  }
-  destroy() {
-    this.fDestroyed = true;
-    this.fOutputHandler = null;
-    this.fComputeHandler = null;
-    this.fPlotHandler = null;
-  }
-};
-var FaustMonoWebAudioDsp = class extends FaustBaseWebAudioDsp {
-  constructor(instance, sampleRate, sampleSize, bufferSize) {
-    super(sampleSize, bufferSize);
-    this.fInstance = instance;
-    this.fJSONDsp = JSON.parse(this.fInstance.json);
-    FaustBaseWebAudioDsp.parseUI(this.fJSONDsp.ui, this.fUICallback);
-    this.initMemory();
-    this.fInstance.api.init(this.fDSP, sampleRate);
-  }
-  initMemory() {
-    this.fDSP = 0;
-    const $audio = this.fJSONDsp.size;
-    this.fAudioInputs = $audio;
-    this.fAudioOutputs = this.fAudioInputs + this.getNumInputs() * this.gPtrSize;
-    const $audioInputs = this.fAudioOutputs + this.getNumOutputs() * this.gPtrSize;
-    const $audioOutputs = $audioInputs + this.getNumInputs() * this.fBufferSize * this.gSampleSize;
-    const HEAP = this.fInstance.memory.buffer;
-    const HEAP32 = new Int32Array(HEAP);
-    const HEAPF = this.gSampleSize === 4 ? new Float32Array(HEAP) : new Float64Array(HEAP);
-    if (this.getNumInputs() > 0) {
-      for (let chan = 0; chan < this.getNumInputs(); chan++) {
-        HEAP32[(this.fAudioInputs >> 2) + chan] = $audioInputs + this.fBufferSize * this.gSampleSize * chan;
-      }
-      const dspInChans = HEAP32.subarray(this.fAudioInputs >> 2, this.fAudioInputs + this.getNumInputs() * this.gPtrSize >> 2);
-      for (let chan = 0; chan < this.getNumInputs(); chan++) {
-        this.fInChannels[chan] = HEAPF.subarray(dspInChans[chan] >> Math.log2(this.gSampleSize), dspInChans[chan] + this.fBufferSize * this.gSampleSize >> Math.log2(this.gSampleSize));
-      }
-    }
-    if (this.getNumOutputs() > 0) {
-      for (let chan = 0; chan < this.getNumOutputs(); chan++) {
-        HEAP32[(this.fAudioOutputs >> 2) + chan] = $audioOutputs + this.fBufferSize * this.gSampleSize * chan;
-      }
-      const dspOutChans = HEAP32.subarray(this.fAudioOutputs >> 2, this.fAudioOutputs + this.getNumOutputs() * this.gPtrSize >> 2);
-      for (let chan = 0; chan < this.getNumOutputs(); chan++) {
-        this.fOutChannels[chan] = HEAPF.subarray(dspOutChans[chan] >> Math.log2(this.gSampleSize), dspOutChans[chan] + this.fBufferSize * this.gSampleSize >> Math.log2(this.gSampleSize));
-      }
-    }
-  }
-  toString() {
-    return `============== Mono Memory layout ==============
-this.fBufferSize: ${this.fBufferSize}
-this.fJSONDsp.size: ${this.fJSONDsp.size}
-this.fAudioInputs: ${this.fAudioInputs}
-this.fAudioOutputs: ${this.fAudioOutputs}
-this.fDSP: ${this.fDSP}`;
-  }
-  compute(input, output) {
-    if (this.fDestroyed) return false;
-    if (!this.fProcessing) return true;
-    if (this.getNumInputs() > 0 && (!input || !input[0] || input[0].length === 0)) {
-      return true;
-    }
-    if (this.getNumOutputs() > 0 && (!output || !output[0] || output[0].length === 0)) {
-      return true;
-    }
-    if (input !== void 0) {
-      for (let chan = 0; chan < Math.min(this.getNumInputs(), input.length); ++chan) {
-        const dspInput = this.fInChannels[chan];
-        dspInput.set(input[chan]);
-      }
-    }
-    if (this.fComputeHandler) this.fComputeHandler(this.fBufferSize);
-    this.fInstance.api.compute(this.fDSP, this.fBufferSize, this.fAudioInputs, this.fAudioOutputs);
-    this.updateOutputs();
-    if (output !== void 0) {
-      for (let chan = 0; chan < Math.min(this.getNumOutputs(), output.length); chan++) {
-        const dspOutput = this.fOutChannels[chan];
-        output[chan].set(dspOutput);
-      }
-      if (this.fPlotHandler) {
-        this.fPlotHandler(output, this.fBufferNum++, this.fCachedEvents.length ? this.fCachedEvents : void 0);
-        this.fCachedEvents = [];
-      }
-    }
-    return true;
-  }
-  metadata(handler) {
-    super.metadata(handler);
-  }
-  getNumInputs() {
-    return this.fInstance.api.getNumInputs(this.fDSP);
-  }
-  getNumOutputs() {
-    return this.fInstance.api.getNumOutputs(this.fDSP);
-  }
-  setParamValue(path, value) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "param",
-      data: {
-        path,
-        value
-      }
-    });
-    this.fInstance.api.setParamValue(this.fDSP, this.fPathTable[path], value);
-  }
-  getParamValue(path) {
-    return this.fInstance.api.getParamValue(this.fDSP, this.fPathTable[path]);
-  }
-  getMeta() {
-    return this.fJSONDsp;
-  }
-  getJSON() {
-    return this.fInstance.json;
-  }
-  getDescriptors() {
-    return this.fDescriptor;
-  }
-  getUI() {
-    return this.fJSONDsp.ui;
-  }
-};
-var FaustWebAudioDspVoice = class {
-  constructor($dsp, api, inputItems, pathTable, sampleRate) {
-    FaustWebAudioDspVoice.kActiveVoice = 0;
-    FaustWebAudioDspVoice.kFreeVoice = -1;
-    FaustWebAudioDspVoice.kReleaseVoice = -2;
-    FaustWebAudioDspVoice.kLegatoVoice = -3;
-    FaustWebAudioDspVoice.kNoVoice = -4;
-    FaustWebAudioDspVoice.VOICE_STOP_LEVEL = 5e-4;
-    this.fCurNote = FaustWebAudioDspVoice.kFreeVoice;
-    this.fNextNote = this.fNextVel = -1;
-    this.fLevel = 0;
-    this.fDate = this.fRelease = 0;
-    this.fDSP = $dsp;
-    this.fAPI = api;
-    this.fGateLabel = [];
-    this.fGainLabel = [];
-    this.fFreqLabel = [];
-    this.fKeyLabel = [];
-    this.fVelLabel = [];
-    this.fAPI.init(this.fDSP, sampleRate);
-    this.extractPaths(inputItems, pathTable);
-  }
-  static midiToFreq(note) {
-    return 440 * 2 ** ((note - 69) / 12);
-  }
-  static normalizeVelocity(velocity) {
-    return velocity / 127;
-  }
-  extractPaths(inputItems, pathTable) {
-    inputItems.forEach(item => {
-      if (item.endsWith("/gate")) {
-        this.fGateLabel.push(pathTable[item]);
-      } else if (item.endsWith("/freq")) {
-        this.fFreqLabel.push(pathTable[item]);
-      } else if (item.endsWith("/key")) {
-        this.fKeyLabel.push(pathTable[item]);
-      } else if (item.endsWith("/gain")) {
-        this.fGainLabel.push(pathTable[item]);
-      } else if (item.endsWith("/vel") && item.endsWith("/velocity")) {
-        this.fVelLabel.push(pathTable[item]);
-      }
-    });
-  }
-  keyOn(pitch, velocity, legato = false) {
-    if (legato) {
-      this.fNextNote = pitch;
-      this.fNextVel = velocity;
-    } else {
-      this.fFreqLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, FaustWebAudioDspVoice.midiToFreq(pitch)));
-      this.fGateLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, 1));
-      this.fGainLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, FaustWebAudioDspVoice.normalizeVelocity(velocity)));
-      this.fKeyLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, pitch));
-      this.fVelLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, velocity));
-      this.fCurNote = pitch;
-    }
-  }
-  keyOff(hard = false) {
-    this.fGateLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, 0));
-    if (hard) {
-      this.fCurNote = FaustWebAudioDspVoice.kFreeVoice;
-    } else {
-      this.fRelease = this.fAPI.getSampleRate(this.fDSP) / 2;
-      this.fCurNote = FaustWebAudioDspVoice.kReleaseVoice;
-    }
-  }
-  computeLegato(bufferSize, $inputs, $outputZero, $outputsHalf) {
-    let size = bufferSize / 2;
-    this.fGateLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, 0));
-    this.fAPI.compute(this.fDSP, size, $inputs, $outputZero);
-    this.keyOn(this.fNextNote, this.fNextVel);
-    this.fAPI.compute(this.fDSP, size, $inputs, $outputsHalf);
-  }
-  compute(bufferSize, $inputs, $outputs) {
-    this.fAPI.compute(this.fDSP, bufferSize, $inputs, $outputs);
-  }
-  setParamValue(index, value) {
-    this.fAPI.setParamValue(this.fDSP, index, value);
-  }
-  getParamValue(index) {
-    return this.fAPI.getParamValue(this.fDSP, index);
-  }
-};
-var FaustPolyWebAudioDsp = class extends FaustBaseWebAudioDsp {
-  constructor(instance, sampleRate, sampleSize, bufferSize) {
-    super(sampleSize, bufferSize);
-    this.fInstance = instance;
-    this.fJSONDsp = JSON.parse(this.fInstance.voiceJSON);
-    this.fJSONEffect = this.fInstance.effectAPI && this.fInstance.effectJSON ? JSON.parse(this.fInstance.effectJSON) : null;
-    FaustBaseWebAudioDsp.parseUI(this.fJSONDsp.ui, this.fUICallback);
-    if (this.fJSONEffect) FaustBaseWebAudioDsp.parseUI(this.fJSONEffect.ui, this.fUICallback);
-    this.initMemory();
-    this.fVoiceTable = [];
-    for (let voice = 0; voice < this.fInstance.voices; voice++) {
-      this.fVoiceTable.push(new FaustWebAudioDspVoice(this.fJSONDsp.size * voice, this.fInstance.voiceAPI, this.fInputsItems, this.fPathTable, sampleRate));
-    }
-    if (this.fInstance.effectAPI) this.fInstance.effectAPI.init(this.fEffect, sampleRate);
-  }
-  initMemory() {
-    this.fEffect = this.fJSONDsp.size * this.fInstance.voices;
-    const $audio = this.fEffect + (this.fJSONEffect ? this.fJSONEffect.size : 0);
-    this.fAudioInputs = $audio;
-    this.fAudioOutputs = this.fAudioInputs + this.getNumInputs() * this.gPtrSize;
-    this.fAudioMixing = this.fAudioOutputs + this.getNumOutputs() * this.gPtrSize;
-    this.fAudioMixingHalf = this.fAudioMixing + this.getNumOutputs() * this.gPtrSize;
-    const $audioInputs = this.fAudioMixingHalf + this.getNumOutputs() * this.gPtrSize;
-    const $audioOutputs = $audioInputs + this.getNumInputs() * this.fBufferSize * this.gSampleSize;
-    const $audioMixing = $audioOutputs + this.getNumOutputs() * this.fBufferSize * this.gSampleSize;
-    const HEAP = this.fInstance.memory.buffer;
-    const HEAP32 = new Int32Array(HEAP);
-    const HEAPF = this.gSampleSize === 4 ? new Float32Array(HEAP) : new Float64Array(HEAP);
-    if (this.getNumInputs() > 0) {
-      for (let chan = 0; chan < this.getNumInputs(); chan++) {
-        HEAP32[(this.fAudioInputs >> 2) + chan] = $audioInputs + this.fBufferSize * this.gSampleSize * chan;
-      }
-      const dspInChans = HEAP32.subarray(this.fAudioInputs >> 2, this.fAudioInputs + this.getNumInputs() * this.gPtrSize >> 2);
-      for (let chan = 0; chan < this.getNumInputs(); chan++) {
-        this.fInChannels[chan] = HEAPF.subarray(dspInChans[chan] >> Math.log2(this.gSampleSize), dspInChans[chan] + this.fBufferSize * this.gSampleSize >> Math.log2(this.gSampleSize));
-      }
-    }
-    if (this.getNumOutputs() > 0) {
-      for (let chan = 0; chan < this.getNumOutputs(); chan++) {
-        HEAP32[(this.fAudioOutputs >> 2) + chan] = $audioOutputs + this.fBufferSize * this.gSampleSize * chan;
-        HEAP32[(this.fAudioMixing >> 2) + chan] = $audioMixing + this.fBufferSize * this.gSampleSize * chan;
-        HEAP32[(this.fAudioMixingHalf >> 2) + chan] = $audioMixing + this.fBufferSize * this.gSampleSize * chan + this.fBufferSize / 2 * this.gSampleSize;
-      }
-      const dspOutChans = HEAP32.subarray(this.fAudioOutputs >> 2, this.fAudioOutputs + this.getNumOutputs() * this.gPtrSize >> 2);
-      for (let chan = 0; chan < this.getNumOutputs(); chan++) {
-        this.fOutChannels[chan] = HEAPF.subarray(dspOutChans[chan] >> Math.log2(this.gSampleSize), dspOutChans[chan] + this.fBufferSize * this.gSampleSize >> Math.log2(this.gSampleSize));
-      }
-    }
-  }
-  toString() {
-    return `============== Poly Memory layout ==============
-this.fBufferSize: ${this.fBufferSize}
-this.fJSONDsp.size: ${this.fJSONDsp.size}
-this.fAudioInputs: ${this.fAudioInputs}
-this.fAudioOutputs: ${this.fAudioOutputs}
-this.fAudioMixing: ${this.fAudioMixing}
-this.fAudioMixingHalf: ${this.fAudioMixingHalf}`;
-  }
-  allocVoice(voice, type) {
-    this.fVoiceTable[voice].fDate++;
-    this.fVoiceTable[voice].fCurNote = type;
-    return voice;
-  }
-  getPlayingVoice(pitch) {
-    let voicePlaying = FaustWebAudioDspVoice.kNoVoice;
-    let oldestDatePlaying = Number.MAX_VALUE;
-    for (let voice = 0; voice < this.fInstance.voices; voice++) {
-      if (this.fVoiceTable[voice].fCurNote === pitch) {
-        if (this.fVoiceTable[voice].fDate < oldestDatePlaying) {
-          oldestDatePlaying = this.fVoiceTable[voice].fDate;
-          voicePlaying = voice;
-        }
-      }
-    }
-    return voicePlaying;
-  }
-  getFreeVoice() {
-    for (let voice = 0; voice < this.fInstance.voices; voice++) {
-      if (this.fVoiceTable[voice].fCurNote === FaustWebAudioDspVoice.kFreeVoice) {
-        return this.allocVoice(voice, FaustWebAudioDspVoice.kActiveVoice);
-      }
-    }
-    let voiceRelease = FaustWebAudioDspVoice.kNoVoice;
-    let voicePlaying = FaustWebAudioDspVoice.kNoVoice;
-    let oldestDateRelease = Number.MAX_VALUE;
-    let oldestDatePlaying = Number.MAX_VALUE;
-    for (let voice = 0; voice < this.fInstance.voices; voice++) {
-      if (this.fVoiceTable[voice].fCurNote === FaustWebAudioDspVoice.kReleaseVoice) {
-        if (this.fVoiceTable[voice].fDate < oldestDateRelease) {
-          oldestDateRelease = this.fVoiceTable[voice].fDate;
-          voiceRelease = voice;
-        }
-      } else if (this.fVoiceTable[voice].fDate < oldestDatePlaying) {
-        oldestDatePlaying = this.fVoiceTable[voice].fDate;
-        voicePlaying = voice;
-      }
-    }
-    if (oldestDateRelease !== Number.MAX_VALUE) {
-      console.log(`Steal release voice : voice_date = ${this.fVoiceTable[voiceRelease].fDate} voice = ${voiceRelease}`);
-      return this.allocVoice(voiceRelease, FaustWebAudioDspVoice.kLegatoVoice);
-    }
-    if (oldestDatePlaying !== Number.MAX_VALUE) {
-      console.log(`Steal playing voice : voice_date = ${this.fVoiceTable[voicePlaying].fDate} voice = ${voicePlaying}`);
-      return this.allocVoice(voicePlaying, FaustWebAudioDspVoice.kLegatoVoice);
-    }
-    return FaustWebAudioDspVoice.kNoVoice;
-  }
-  compute(input, output) {
-    if (this.fDestroyed) return false;
-    if (!this.fProcessing) return true;
-    if (this.getNumInputs() > 0 && (!input || !input[0] || input[0].length === 0)) {
-      return true;
-    }
-    if (this.getNumOutputs() > 0 && (!output || !output[0] || output[0].length === 0)) {
-      return true;
-    }
-    if (input !== void 0) {
-      for (let chan = 0; chan < Math.min(this.getNumInputs(), input.length); ++chan) {
-        const dspInput = this.fInChannels[chan];
-        dspInput.set(input[chan]);
-      }
-    }
-    if (this.fComputeHandler) this.fComputeHandler(this.fBufferSize);
-    this.fInstance.mixerAPI.clearOutput(this.fBufferSize, this.getNumOutputs(), this.fAudioOutputs);
-    this.fVoiceTable.forEach(voice => {
-      if (voice.fCurNote === FaustWebAudioDspVoice.kLegatoVoice) {
-        voice.computeLegato(this.fBufferSize, this.fAudioInputs, this.fAudioMixing, this.fAudioMixingHalf);
-        this.fInstance.mixerAPI.fadeOut(this.fBufferSize / 2, this.getNumOutputs(), this.fAudioMixing);
-        voice.fLevel = this.fInstance.mixerAPI.mixCheckVoice(this.fBufferSize, this.getNumOutputs(), this.fAudioMixing, this.fAudioOutputs);
-      } else if (voice.fCurNote !== FaustWebAudioDspVoice.kFreeVoice) {
-        voice.compute(this.fBufferSize, this.fAudioInputs, this.fAudioMixing);
-        voice.fLevel = this.fInstance.mixerAPI.mixCheckVoice(this.fBufferSize, this.getNumOutputs(), this.fAudioMixing, this.fAudioOutputs);
-        voice.fRelease -= this.fBufferSize;
-        if (voice.fCurNote == FaustWebAudioDspVoice.kReleaseVoice && voice.fLevel < FaustWebAudioDspVoice.VOICE_STOP_LEVEL && voice.fRelease < 0) {
-          voice.fCurNote = FaustWebAudioDspVoice.kFreeVoice;
-        }
-      }
-    });
-    if (this.fInstance.effectAPI) this.fInstance.effectAPI.compute(this.fEffect, this.fBufferSize, this.fAudioOutputs, this.fAudioOutputs);
-    this.updateOutputs();
-    if (output !== void 0) {
-      for (let chan = 0; chan < Math.min(this.getNumOutputs(), output.length); chan++) {
-        const dspOutput = this.fOutChannels[chan];
-        output[chan].set(dspOutput);
-      }
-      if (this.fPlotHandler) {
-        this.fPlotHandler(output, this.fBufferNum++, this.fCachedEvents.length ? this.fCachedEvents : void 0);
-        this.fCachedEvents = [];
-      }
-    }
-    return true;
-  }
-  getNumInputs() {
-    return this.fInstance.voiceAPI.getNumInputs(0);
-  }
-  getNumOutputs() {
-    return this.fInstance.voiceAPI.getNumOutputs(0);
-  }
-  static findPath(o, p) {
-    if (typeof o !== "object") {
-      return false;
-    } else if (o.address) {
-      return o.address === p;
-    } else {
-      for (const k in o) {
-        if (FaustPolyWebAudioDsp.findPath(o[k], p)) return true;
-      }
-      return false;
-    }
-  }
-  setParamValue(path, value) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "param",
-      data: {
-        path,
-        value
-      }
-    });
-    if (this.fJSONEffect && FaustPolyWebAudioDsp.findPath(this.fJSONEffect.ui, path) && this.fInstance.effectAPI) {
-      this.fInstance.effectAPI.setParamValue(this.fEffect, this.fPathTable[path], value);
-    } else {
-      this.fVoiceTable.forEach(voice => voice.setParamValue(this.fPathTable[path], value));
-    }
-  }
-  getParamValue(path) {
-    if (this.fJSONEffect && FaustPolyWebAudioDsp.findPath(this.fJSONEffect.ui, path) && this.fInstance.effectAPI) {
-      return this.fInstance.effectAPI.getParamValue(this.fEffect, this.fPathTable[path]);
-    } else {
-      return this.fVoiceTable[0].getParamValue(this.fPathTable[path]);
-    }
-  }
-  getMeta() {
-    const o = this.fJSONDsp;
-    const e = this.fJSONEffect;
-    const r = {
-      ...o
-    };
-    if (e) {
-      r.ui = [{
-        type: "tgroup",
-        label: "Sequencer",
-        items: [{
-          type: "vgroup",
-          label: "Instrument",
-          items: o.ui
-        }, {
-          type: "vgroup",
-          label: "Effect",
-          items: e.ui
-        }]
-      }];
-    } else {
-      r.ui = [{
-        type: "tgroup",
-        label: "Polyphonic",
-        items: [{
-          type: "vgroup",
-          label: "Voices",
-          items: o.ui
-        }]
-      }];
-    }
-    return r;
-  }
-  getJSON() {
-    return JSON.stringify(this.getMeta());
-  }
-  getUI() {
-    return this.getMeta().ui;
-  }
-  getDescriptors() {
-    return this.fDescriptor;
-  }
-  midiMessage(data) {
-    const cmd = data[0] >> 4;
-    const channel = data[0] & 15;
-    const data1 = data[1];
-    const data2 = data[2];
-    if (cmd === 8 || cmd === 9 && data2 === 0) return this.keyOff(channel, data1, data2);else if (cmd === 9) return this.keyOn(channel, data1, data2);else super.midiMessage(data);
-  }
-  ctrlChange(channel, ctrl, value) {
-    if (ctrl === 123 || ctrl === 120) {
-      this.allNotesOff(true);
-    } else {
-      super.ctrlChange(channel, ctrl, value);
-    }
-  }
-  keyOn(channel, pitch, velocity) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "keyOn",
-      data: [channel, pitch, velocity]
-    });
-    const voice = this.getFreeVoice();
-    this.fVoiceTable[voice].keyOn(pitch, velocity, this.fVoiceTable[voice].fCurNote == FaustWebAudioDspVoice.kLegatoVoice);
-  }
-  keyOff(channel, pitch, velocity) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "keyOff",
-      data: [channel, pitch, velocity]
-    });
-    const voice = this.getPlayingVoice(pitch);
-    if (voice !== FaustWebAudioDspVoice.kNoVoice) {
-      this.fVoiceTable[voice].keyOff();
-    } else {
-      console.log("Playing pitch = %d not found\n", pitch);
-    }
-  }
-  allNotesOff(hard = true) {
-    this.fCachedEvents.push({
-      type: "ctrlChange",
-      data: [0, 123, 0]
-    });
-    this.fVoiceTable.forEach(voice => voice.keyOff(hard));
-  }
-};
-
 // src/FaustAudioWorkletNode.ts
 var FaustAudioWorkletNode = class extends (globalThis.AudioWorkletNode || null) {
   constructor(context, name, factory, options) {
@@ -34760,6 +35308,66 @@ const dependencies = {
       return node;
     }
   }
+  async createFFTNode(context, fftUtils, name = this.name, factory = this.factory, fftOptions = {}, processorName = (factory == null ? void 0 : factory.shaKey) ? `${factory.shaKey}_fft` : name) {
+    var _a, _b;
+    if (!factory) throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
+    const meta = JSON.parse(factory.json);
+    const sampleSize = meta.compile_options.match("-double") ? 8 : 4;
+    if (!_FaustMonoDspGenerator.gWorkletProcessors.has(context)) _FaustMonoDspGenerator.gWorkletProcessors.set(context, /* @__PURE__ */new Set());
+    if (!((_a = _FaustMonoDspGenerator.gWorkletProcessors.get(context)) == null ? void 0 : _a.has(processorName))) {
+      try {
+        const processorCode = `
+// DSP name and JSON string for DSP are generated
+const faustData = ${JSON.stringify({
+          processorName,
+          dspName: name,
+          dspMeta: meta,
+          fftOptions
+        })};
+// Implementation needed classes of functions
+const ${FaustDspInstance_default.name}_default = ${FaustDspInstance_default.toString()}
+const ${FaustBaseWebAudioDsp.name} = ${FaustBaseWebAudioDsp.toString()}
+const ${FaustMonoWebAudioDsp.name} = ${FaustMonoWebAudioDsp.toString()}
+const ${FaustWasmInstantiator_default.name} = ${FaustWasmInstantiator_default.toString()}
+const FFTUtils = ${fftUtils.toString()}
+// Put them in dependencies
+const dependencies = {
+    ${FaustBaseWebAudioDsp.name},
+    ${FaustMonoWebAudioDsp.name},
+    ${FaustWasmInstantiator_default.name},
+    FFTUtils
+};
+// Generate the actual AudioWorkletProcessor code
+(${FaustFFTAudioWorkletProcessor_default.toString()})(dependencies, faustData);
+`;
+        const url = URL.createObjectURL(new Blob([processorCode], {
+          type: "text/javascript"
+        }));
+        await context.audioWorklet.addModule(url);
+        (_b = _FaustMonoDspGenerator.gWorkletProcessors.get(context)) == null ? void 0 : _b.add(processorName);
+      } catch (e) {
+        throw e;
+      }
+    }
+    const node = new FaustMonoAudioWorkletNode(context, processorName, factory, sampleSize);
+    if (fftOptions.fftSize) {
+      const param = node.parameters.get("fftSize");
+      if (param) param.value = fftOptions.fftSize;
+    }
+    if (fftOptions.fftOverlap) {
+      const param = node.parameters.get("fftOverlap");
+      if (param) param.value = fftOptions.fftOverlap;
+    }
+    if (typeof fftOptions.defaultWindowFunction === "number") {
+      const param = node.parameters.get("windowFunction");
+      if (param) param.value = fftOptions.defaultWindowFunction + 1;
+    }
+    if (typeof fftOptions.noIFFT === "boolean") {
+      const param = node.parameters.get("noIFFT");
+      if (param) param.value = +fftOptions.noIFFT;
+    }
+    return node;
+  }
   async createAudioWorkletProcessor(name = this.name, factory = this.factory, processorName = (factory == null ? void 0 : factory.shaKey) || name) {
     if (!factory) throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
     const meta = JSON.parse(factory.json);
@@ -34789,7 +35397,7 @@ const dependencies = {
     const instance = await FaustWasmInstantiator_default.createAsyncMonoDSPInstance(factory);
     const sampleSize = meta.compile_options.match("-double") ? 8 : 4;
     const monoDsp = new FaustMonoWebAudioDsp(instance, sampleRate, sampleSize, bufferSize);
-    return new FaustOfflineProcessor_default(monoDsp, bufferSize);
+    return new FaustMonoOfflineProcessor(monoDsp, bufferSize);
   }
 };
 var FaustMonoDspGenerator = _FaustMonoDspGenerator;
@@ -34902,6 +35510,15 @@ const dependencies = {
       throw e;
     }
   }
+  async createOfflineProcessor(sampleRate, bufferSize, voices, voiceFactory = this.voiceFactory, mixerModule = this.mixerModule, effectFactory = this.effectFactory) {
+    if (!voiceFactory) throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
+    const voiceMeta = JSON.parse(voiceFactory.json);
+    const effectMeta = effectFactory ? JSON.parse(effectFactory.json) : void 0;
+    const instance = await FaustWasmInstantiator_default.createAsyncPolyDSPInstance(voiceFactory, mixerModule, voices, effectFactory || void 0);
+    const sampleSize = voiceMeta.compile_options.match("-double") ? 8 : 4;
+    const polyDsp = new FaustPolyWebAudioDsp(instance, sampleRate, sampleSize, bufferSize);
+    return new FaustPolyOfflineProcessor(polyDsp, bufferSize);
+  }
 };
 var FaustPolyDspGenerator = _FaustPolyDspGenerator;
 FaustPolyDspGenerator.gWorkletProcessors = /* @__PURE__ */new Map();
@@ -34930,7 +35547,7 @@ PERFORMANCE OF THIS SOFTWARE.
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"fausteditorweb","version":"1.0.76","description":"Faust Editor","main":"src/index.ts","scripts":{"prebuild":"node ./src/listEx.js","build":"webpack --mode development","build-watch":"webpack --mode development --watch","dist":"npm run prebuild && webpack --mode production","publish":"rm -rf docs/* && git checkout docs/CNAME && cp -r dist/* docs","version":"npm run build"},"repository":{"type":"git","url":"git+https://github.com/grame-cncm/faustide.git"},"keywords":["Faust","WebAudio","WebAssembly"],"author":"Grame-CNCM","license":"GPL-3.0-or-later","bugs":{"url":"https://github.com/grame-cncm/faustide/issues"},"homepage":"https://github.com/grame-cncm/faustide#readme","devDependencies":{"@babel/core":"^7.13.10","@babel/plugin-proposal-class-properties":"^7.13.0","@babel/plugin-transform-runtime":"^7.13.10","@babel/preset-env":"^7.13.12","@babel/preset-typescript":"^7.13.0","@babel/runtime":"^7.13.10","@fortawesome/fontawesome-free":"^5.15.3","@shren/faust-ui":"^1.1.1","@shren/faustwasm":"^0.0.19","@types/bootstrap":"^4.6.0","@types/jquery":"^3.5.5","@types/jszip":"^3.4.1","@types/qrcode":"^1.4.0","@types/wavesurfer.js":"^3.3.2","@typescript-eslint/eslint-plugin":"^2.34.0","@typescript-eslint/parser":"^2.34.0","babel-loader":"^9.1.0","bootstrap":"^4.6.0","clean-webpack-plugin":"^4.0.0","copy-webpack-plugin":"^11.0.0","css-loader":"^6.7.3","directory-tree":"^2.2.7","eslint":"^6.8.0","eslint-config-airbnb-base":"^14.2.1","eslint-plugin-import":"^2.26.0","jquery":"^3.6.0","jszip":"^3.6.0","kissfft-js":"^0.1.8","luvi":"^5.2.0","monaco-editor":"^0.34.1","monaco-editor-webpack-plugin":"^7.0.1","npm-run-all":"^4.1.5","popper.js":"^1.16.1","qrcode":"^1.5.1","sass":"^1.54.0","sass-loader":"^13.2.0","source-map-loader":"^4.0.1","style-loader":"^3.3.1","stylelint":"^13.13.1","stylelint-config-recommended":"^5.0.0","typescript":"^3.9.9","wav-encoder":"^1.3.0","wavesurfer.js":"^3.3.3","webmidi":"^2.5.2","webpack":"^5.75.0","webpack-cli":"^5.0.1","window-function":"^2.1.0","workbox-webpack-plugin":"^6.5.4"}}');
+module.exports = JSON.parse('{"name":"fausteditorweb","version":"1.0.76","description":"Faust Editor","main":"src/index.ts","scripts":{"prebuild":"node ./src/listEx.js","build":"webpack --mode development","build-watch":"webpack --mode development --watch","dist":"npm run prebuild && webpack --mode production","publish":"rm -rf docs/* && git checkout docs/CNAME && cp -r dist/* docs","version":"npm run build"},"repository":{"type":"git","url":"git+https://github.com/grame-cncm/faustide.git"},"keywords":["Faust","WebAudio","WebAssembly"],"author":"Grame-CNCM","license":"GPL-3.0-or-later","bugs":{"url":"https://github.com/grame-cncm/faustide/issues"},"homepage":"https://github.com/grame-cncm/faustide#readme","devDependencies":{"@babel/core":"^7.13.10","@babel/plugin-proposal-class-properties":"^7.13.0","@babel/plugin-transform-runtime":"^7.13.10","@babel/preset-env":"^7.13.12","@babel/preset-typescript":"^7.13.0","@babel/runtime":"^7.13.10","@fortawesome/fontawesome-free":"^5.15.3","@shren/faust-ui":"^1.1.1","@shren/faustwasm":"^0.0.21","@shren/kissfft-js":"^0.1.10","@types/bootstrap":"^4.6.0","@types/jquery":"^3.5.5","@types/jszip":"^3.4.1","@types/qrcode":"^1.4.0","@types/wavesurfer.js":"^3.3.2","@typescript-eslint/eslint-plugin":"^2.34.0","@typescript-eslint/parser":"^2.34.0","babel-loader":"^9.1.0","bootstrap":"^4.6.0","clean-webpack-plugin":"^4.0.0","copy-webpack-plugin":"^11.0.0","css-loader":"^6.7.3","directory-tree":"^2.2.7","eslint":"^6.8.0","eslint-config-airbnb-base":"^14.2.1","eslint-plugin-import":"^2.26.0","jquery":"^3.6.0","jszip":"^3.6.0","luvi":"^5.2.0","monaco-editor":"^0.34.1","monaco-editor-webpack-plugin":"^7.0.1","npm-run-all":"^4.1.5","popper.js":"^1.16.1","qrcode":"^1.5.1","sass":"^1.54.0","sass-loader":"^13.2.0","source-map-loader":"^4.0.1","style-loader":"^3.3.1","stylelint":"^13.13.1","stylelint-config-recommended":"^5.0.0","typescript":"^3.9.9","wav-encoder":"^1.3.0","wavesurfer.js":"^3.3.3","webmidi":"^2.5.2","webpack":"^5.75.0","webpack-cli":"^5.0.1","window-function":"^2.1.0","workbox-webpack-plugin":"^6.5.4"}}');
 
 /***/ })
 
@@ -35041,7 +35658,7 @@ module.exports = JSON.parse('{"name":"fausteditorweb","version":"1.0.76","descri
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "js/" + {"vendors-include-loader_node_modules_monaco-editor_esm_vs_editor_editor_main_js":"aa38625b9bdedaf00f57","data_image_png_base64_iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5_AAAAAXNSR0IArs4c6QAAAARnQU1-ba2ffd":"948b16577e780e652668","_8529":"ffe4a1371b6d8a9550ab","_98aa":"baa516013d08e9e7d17a","src_monaco-faust_FaustLang_ts-data_image_png_base64_iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8-ee670f":"03e0c4db343947f3949e","vendors-node_modules_monaco-editor_esm_vs_basic-languages_abap_abap_js":"f5beab8ab7123dac4bb5","node_modules_monaco-editor_esm_vs_basic-languages_apex_apex_js":"31961b7517dfe8eebe45","node_modules_monaco-editor_esm_vs_basic-languages_azcli_azcli_js":"868b29cdeefaafd5cfb7","node_modules_monaco-editor_esm_vs_basic-languages_bat_bat_js":"09f9aebd27a285656188","node_modules_monaco-editor_esm_vs_basic-languages_bicep_bicep_js":"47323f340e3fefd03d29","node_modules_monaco-editor_esm_vs_basic-languages_cameligo_cameligo_js":"42eead714a7d871c60f0","vendors-node_modules_monaco-editor_esm_vs_basic-languages_clojure_clojure_js":"0a243956b6403557db8c","node_modules_monaco-editor_esm_vs_basic-languages_coffee_coffee_js":"d7ce16f5038f6ba51e51","node_modules_monaco-editor_esm_vs_basic-languages_cpp_cpp_js":"b99b437695d4ade3ef2f","node_modules_monaco-editor_esm_vs_basic-languages_csharp_csharp_js":"8428c65fd96f8b53d382","node_modules_monaco-editor_esm_vs_basic-languages_csp_csp_js":"1a3f8415f753792ccabf","node_modules_monaco-editor_esm_vs_basic-languages_css_css_js":"6d6932de73c132e6f9b3","node_modules_monaco-editor_esm_vs_basic-languages_cypher_cypher_js":"ea5d5de5c34840f3b2d9","node_modules_monaco-editor_esm_vs_basic-languages_dart_dart_js":"cf7510aac667db950e67","node_modules_monaco-editor_esm_vs_basic-languages_dockerfile_dockerfile_js":"ec9ac55b81ff161e2cac","node_modules_monaco-editor_esm_vs_basic-languages_ecl_ecl_js":"f0d8975c9c8d80df2421","vendors-node_modules_monaco-editor_esm_vs_basic-languages_elixir_elixir_js":"c3b6c20c58eaa1fbf8ae","node_modules_monaco-editor_esm_vs_basic-languages_flow9_flow9_js":"faf57641c4bf2f103f25","node_modules_monaco-editor_esm_vs_basic-languages_fsharp_fsharp_js":"62bfcfb6d28b5a4d32c1","vendors-node_modules_monaco-editor_esm_vs_basic-languages_freemarker2_freemarker2_js":"44144b6599302e1abdd4","node_modules_monaco-editor_esm_vs_basic-languages_go_go_js":"2e3aa1eaa307e04216b3","node_modules_monaco-editor_esm_vs_basic-languages_graphql_graphql_js":"2973f5a2a77a9e2bc451","vendors-node_modules_monaco-editor_esm_vs_basic-languages_handlebars_handlebars_js":"f37fbc52e150546c80bc","node_modules_monaco-editor_esm_vs_basic-languages_hcl_hcl_js":"58598ce42c576d618d9f","node_modules_monaco-editor_esm_vs_basic-languages_html_html_js":"828d901e114cc41377b7","node_modules_monaco-editor_esm_vs_basic-languages_ini_ini_js":"1f11664695410dc3bace","node_modules_monaco-editor_esm_vs_basic-languages_java_java_js":"2e7588c460485acce4c5","vendors-node_modules_monaco-editor_esm_vs_basic-languages_javascript_javascript_js":"8a08edc78efbcd0e14f3","vendors-node_modules_monaco-editor_esm_vs_basic-languages_julia_julia_js":"179e546e346713dff4ac","node_modules_monaco-editor_esm_vs_basic-languages_kotlin_kotlin_js":"56c2ad3d43b61670e7f9","node_modules_monaco-editor_esm_vs_basic-languages_less_less_js":"76ad40a8284c399987d0","node_modules_monaco-editor_esm_vs_basic-languages_lexon_lexon_js":"acd711ea8c6a7661e7c2","node_modules_monaco-editor_esm_vs_basic-languages_lua_lua_js":"c32f9074cb5c23c4f288","node_modules_monaco-editor_esm_vs_basic-languages_liquid_liquid_js":"a83ac5529b7d207b8b87","node_modules_monaco-editor_esm_vs_basic-languages_m3_m3_js":"62129917b8b000c9993f","node_modules_monaco-editor_esm_vs_basic-languages_markdown_markdown_js":"cb74851d935568da8659","node_modules_monaco-editor_esm_vs_basic-languages_mips_mips_js":"b3a6345e59c81bd3e172","node_modules_monaco-editor_esm_vs_basic-languages_msdax_msdax_js":"414ea5601a6953631dc2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_mysql_mysql_js":"0d755dc460249badcc85","node_modules_monaco-editor_esm_vs_basic-languages_objective-c_objective-c_js":"258ae672857550e9c4c5","node_modules_monaco-editor_esm_vs_basic-languages_pascal_pascal_js":"0574c771f6b2276906b3","node_modules_monaco-editor_esm_vs_basic-languages_pascaligo_pascaligo_js":"bd50069295e6a126395c","vendors-node_modules_monaco-editor_esm_vs_basic-languages_perl_perl_js":"39ac9e5c65f1d0cbc1d2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_pgsql_pgsql_js":"4238c2c890d73e5ffd54","vendors-node_modules_monaco-editor_esm_vs_basic-languages_php_php_js":"d13a2c721ef2c716bd86","node_modules_monaco-editor_esm_vs_basic-languages_pla_pla_js":"9475deb54982556eb44b","vendors-node_modules_monaco-editor_esm_vs_basic-languages_postiats_postiats_js":"dd179878988c9b3080fb","vendors-node_modules_monaco-editor_esm_vs_basic-languages_powerquery_powerquery_js":"e9dbc0dc494c50b3f7a1","node_modules_monaco-editor_esm_vs_basic-languages_powershell_powershell_js":"7f9c27e7d59a4e443c23","vendors-node_modules_monaco-editor_esm_vs_basic-languages_protobuf_protobuf_js":"c2dca5715c8d79acfbc4","node_modules_monaco-editor_esm_vs_basic-languages_pug_pug_js":"f28370dcccb368d4950d","node_modules_monaco-editor_esm_vs_basic-languages_python_python_js":"02ba839479faf071c7bd","node_modules_monaco-editor_esm_vs_basic-languages_qsharp_qsharp_js":"f14bcbc0d619f3cf4fef","node_modules_monaco-editor_esm_vs_basic-languages_r_r_js":"2fd6e1eefb2c93dec258","vendors-node_modules_monaco-editor_esm_vs_basic-languages_razor_razor_js":"fee315ae8c34f1663fbc","node_modules_monaco-editor_esm_vs_basic-languages_redis_redis_js":"a43a329d9a0f2ba28e79","vendors-node_modules_monaco-editor_esm_vs_basic-languages_redshift_redshift_js":"4c659ad26fa60489e3c5","node_modules_monaco-editor_esm_vs_basic-languages_restructuredtext_restructuredtext_js":"ce850f79523f5eed6dd2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_ruby_ruby_js":"3c7289714441e09eb1e0","node_modules_monaco-editor_esm_vs_basic-languages_rust_rust_js":"9f7ea056cb967b0c8987","node_modules_monaco-editor_esm_vs_basic-languages_sb_sb_js":"38c74530ec2e1493c1aa","vendors-node_modules_monaco-editor_esm_vs_basic-languages_scala_scala_js":"eac39fa6313d29aa8377","node_modules_monaco-editor_esm_vs_basic-languages_scheme_scheme_js":"32e8917a54e878a1c8a2","node_modules_monaco-editor_esm_vs_basic-languages_scss_scss_js":"549d76012363d578343d","node_modules_monaco-editor_esm_vs_basic-languages_shell_shell_js":"e0fdbf8635487c19fa8b","vendors-node_modules_monaco-editor_esm_vs_basic-languages_solidity_solidity_js":"cf39dc8df1c22730e2fb","node_modules_monaco-editor_esm_vs_basic-languages_sophia_sophia_js":"0447c04a2a879545304e","node_modules_monaco-editor_esm_vs_basic-languages_sparql_sparql_js":"c9739bc384cbfa7f747a","vendors-node_modules_monaco-editor_esm_vs_basic-languages_sql_sql_js":"d99df7fd3adb49d6246f","vendors-node_modules_monaco-editor_esm_vs_basic-languages_st_st_js":"9e291f8d5fdabc8e06f6","node_modules_monaco-editor_esm_vs_basic-languages_swift_swift_js":"2eaf5b27729cddd6d571","vendors-node_modules_monaco-editor_esm_vs_basic-languages_systemverilog_systemverilog_js":"c8689573ae36511c2947","node_modules_monaco-editor_esm_vs_basic-languages_tcl_tcl_js":"f2d5f5c76d8aaf825bda","node_modules_monaco-editor_esm_vs_basic-languages_twig_twig_js":"29029c6edbb390e58ded","node_modules_monaco-editor_esm_vs_basic-languages_typescript_typescript_js":"d369d1842b93e47b80a9","node_modules_monaco-editor_esm_vs_basic-languages_vb_vb_js":"5d1469f6125b98d52b19","node_modules_monaco-editor_esm_vs_basic-languages_xml_xml_js":"178a52c986e95473c3b2","node_modules_monaco-editor_esm_vs_basic-languages_yaml_yaml_js":"109d06f6e7817ce46ced","vendors-node_modules_monaco-editor_esm_vs_language_css_cssMode_js":"866fd27138e3d18db6cb","vendors-node_modules_monaco-editor_esm_vs_language_html_htmlMode_js":"11cb856f83cdbefcdcc7","vendors-node_modules_monaco-editor_esm_vs_language_json_jsonMode_js":"df09d3235c2bc37f0f69","vendors-node_modules_monaco-editor_esm_vs_language_typescript_tsMode_js":"1d43e23ea625167c03ed"}[chunkId] + ".js";
+/******/ 			return "js/" + {"vendors-include-loader_node_modules_monaco-editor_esm_vs_editor_editor_main_js":"aa38625b9bdedaf00f57","data_image_png_base64_iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5_AAAAAXNSR0IArs4c6QAAAARnQU1-ba2ffd":"948b16577e780e652668","_8529":"ffe4a1371b6d8a9550ab","_98aa":"baa516013d08e9e7d17a","_00a1":"f476ccf9d0f0dfaf28f7","_2a91":"492f9631962b658ac8c1","src_monaco-faust_FaustLang_ts-data_image_png_base64_iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8-ee670f":"03e0c4db343947f3949e","vendors-node_modules_monaco-editor_esm_vs_basic-languages_abap_abap_js":"f5beab8ab7123dac4bb5","node_modules_monaco-editor_esm_vs_basic-languages_apex_apex_js":"31961b7517dfe8eebe45","node_modules_monaco-editor_esm_vs_basic-languages_azcli_azcli_js":"868b29cdeefaafd5cfb7","node_modules_monaco-editor_esm_vs_basic-languages_bat_bat_js":"09f9aebd27a285656188","node_modules_monaco-editor_esm_vs_basic-languages_bicep_bicep_js":"47323f340e3fefd03d29","node_modules_monaco-editor_esm_vs_basic-languages_cameligo_cameligo_js":"42eead714a7d871c60f0","vendors-node_modules_monaco-editor_esm_vs_basic-languages_clojure_clojure_js":"0a243956b6403557db8c","node_modules_monaco-editor_esm_vs_basic-languages_coffee_coffee_js":"d7ce16f5038f6ba51e51","node_modules_monaco-editor_esm_vs_basic-languages_cpp_cpp_js":"b99b437695d4ade3ef2f","node_modules_monaco-editor_esm_vs_basic-languages_csharp_csharp_js":"8428c65fd96f8b53d382","node_modules_monaco-editor_esm_vs_basic-languages_csp_csp_js":"1a3f8415f753792ccabf","node_modules_monaco-editor_esm_vs_basic-languages_css_css_js":"6d6932de73c132e6f9b3","node_modules_monaco-editor_esm_vs_basic-languages_cypher_cypher_js":"ea5d5de5c34840f3b2d9","node_modules_monaco-editor_esm_vs_basic-languages_dart_dart_js":"cf7510aac667db950e67","node_modules_monaco-editor_esm_vs_basic-languages_dockerfile_dockerfile_js":"ec9ac55b81ff161e2cac","node_modules_monaco-editor_esm_vs_basic-languages_ecl_ecl_js":"f0d8975c9c8d80df2421","vendors-node_modules_monaco-editor_esm_vs_basic-languages_elixir_elixir_js":"c3b6c20c58eaa1fbf8ae","node_modules_monaco-editor_esm_vs_basic-languages_flow9_flow9_js":"faf57641c4bf2f103f25","node_modules_monaco-editor_esm_vs_basic-languages_fsharp_fsharp_js":"62bfcfb6d28b5a4d32c1","vendors-node_modules_monaco-editor_esm_vs_basic-languages_freemarker2_freemarker2_js":"44144b6599302e1abdd4","node_modules_monaco-editor_esm_vs_basic-languages_go_go_js":"2e3aa1eaa307e04216b3","node_modules_monaco-editor_esm_vs_basic-languages_graphql_graphql_js":"2973f5a2a77a9e2bc451","vendors-node_modules_monaco-editor_esm_vs_basic-languages_handlebars_handlebars_js":"f37fbc52e150546c80bc","node_modules_monaco-editor_esm_vs_basic-languages_hcl_hcl_js":"58598ce42c576d618d9f","node_modules_monaco-editor_esm_vs_basic-languages_html_html_js":"828d901e114cc41377b7","node_modules_monaco-editor_esm_vs_basic-languages_ini_ini_js":"1f11664695410dc3bace","node_modules_monaco-editor_esm_vs_basic-languages_java_java_js":"2e7588c460485acce4c5","vendors-node_modules_monaco-editor_esm_vs_basic-languages_javascript_javascript_js":"8a08edc78efbcd0e14f3","vendors-node_modules_monaco-editor_esm_vs_basic-languages_julia_julia_js":"179e546e346713dff4ac","node_modules_monaco-editor_esm_vs_basic-languages_kotlin_kotlin_js":"56c2ad3d43b61670e7f9","node_modules_monaco-editor_esm_vs_basic-languages_less_less_js":"76ad40a8284c399987d0","node_modules_monaco-editor_esm_vs_basic-languages_lexon_lexon_js":"acd711ea8c6a7661e7c2","node_modules_monaco-editor_esm_vs_basic-languages_lua_lua_js":"c32f9074cb5c23c4f288","node_modules_monaco-editor_esm_vs_basic-languages_liquid_liquid_js":"a83ac5529b7d207b8b87","node_modules_monaco-editor_esm_vs_basic-languages_m3_m3_js":"62129917b8b000c9993f","node_modules_monaco-editor_esm_vs_basic-languages_markdown_markdown_js":"cb74851d935568da8659","node_modules_monaco-editor_esm_vs_basic-languages_mips_mips_js":"b3a6345e59c81bd3e172","node_modules_monaco-editor_esm_vs_basic-languages_msdax_msdax_js":"414ea5601a6953631dc2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_mysql_mysql_js":"0d755dc460249badcc85","node_modules_monaco-editor_esm_vs_basic-languages_objective-c_objective-c_js":"258ae672857550e9c4c5","node_modules_monaco-editor_esm_vs_basic-languages_pascal_pascal_js":"0574c771f6b2276906b3","node_modules_monaco-editor_esm_vs_basic-languages_pascaligo_pascaligo_js":"bd50069295e6a126395c","vendors-node_modules_monaco-editor_esm_vs_basic-languages_perl_perl_js":"39ac9e5c65f1d0cbc1d2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_pgsql_pgsql_js":"4238c2c890d73e5ffd54","vendors-node_modules_monaco-editor_esm_vs_basic-languages_php_php_js":"d13a2c721ef2c716bd86","node_modules_monaco-editor_esm_vs_basic-languages_pla_pla_js":"9475deb54982556eb44b","vendors-node_modules_monaco-editor_esm_vs_basic-languages_postiats_postiats_js":"dd179878988c9b3080fb","vendors-node_modules_monaco-editor_esm_vs_basic-languages_powerquery_powerquery_js":"e9dbc0dc494c50b3f7a1","node_modules_monaco-editor_esm_vs_basic-languages_powershell_powershell_js":"7f9c27e7d59a4e443c23","vendors-node_modules_monaco-editor_esm_vs_basic-languages_protobuf_protobuf_js":"c2dca5715c8d79acfbc4","node_modules_monaco-editor_esm_vs_basic-languages_pug_pug_js":"f28370dcccb368d4950d","node_modules_monaco-editor_esm_vs_basic-languages_python_python_js":"02ba839479faf071c7bd","node_modules_monaco-editor_esm_vs_basic-languages_qsharp_qsharp_js":"f14bcbc0d619f3cf4fef","node_modules_monaco-editor_esm_vs_basic-languages_r_r_js":"2fd6e1eefb2c93dec258","vendors-node_modules_monaco-editor_esm_vs_basic-languages_razor_razor_js":"fee315ae8c34f1663fbc","node_modules_monaco-editor_esm_vs_basic-languages_redis_redis_js":"a43a329d9a0f2ba28e79","vendors-node_modules_monaco-editor_esm_vs_basic-languages_redshift_redshift_js":"4c659ad26fa60489e3c5","node_modules_monaco-editor_esm_vs_basic-languages_restructuredtext_restructuredtext_js":"ce850f79523f5eed6dd2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_ruby_ruby_js":"3c7289714441e09eb1e0","node_modules_monaco-editor_esm_vs_basic-languages_rust_rust_js":"9f7ea056cb967b0c8987","node_modules_monaco-editor_esm_vs_basic-languages_sb_sb_js":"38c74530ec2e1493c1aa","vendors-node_modules_monaco-editor_esm_vs_basic-languages_scala_scala_js":"eac39fa6313d29aa8377","node_modules_monaco-editor_esm_vs_basic-languages_scheme_scheme_js":"32e8917a54e878a1c8a2","node_modules_monaco-editor_esm_vs_basic-languages_scss_scss_js":"549d76012363d578343d","node_modules_monaco-editor_esm_vs_basic-languages_shell_shell_js":"e0fdbf8635487c19fa8b","vendors-node_modules_monaco-editor_esm_vs_basic-languages_solidity_solidity_js":"cf39dc8df1c22730e2fb","node_modules_monaco-editor_esm_vs_basic-languages_sophia_sophia_js":"0447c04a2a879545304e","node_modules_monaco-editor_esm_vs_basic-languages_sparql_sparql_js":"c9739bc384cbfa7f747a","vendors-node_modules_monaco-editor_esm_vs_basic-languages_sql_sql_js":"d99df7fd3adb49d6246f","vendors-node_modules_monaco-editor_esm_vs_basic-languages_st_st_js":"9e291f8d5fdabc8e06f6","node_modules_monaco-editor_esm_vs_basic-languages_swift_swift_js":"2eaf5b27729cddd6d571","vendors-node_modules_monaco-editor_esm_vs_basic-languages_systemverilog_systemverilog_js":"c8689573ae36511c2947","node_modules_monaco-editor_esm_vs_basic-languages_tcl_tcl_js":"f2d5f5c76d8aaf825bda","node_modules_monaco-editor_esm_vs_basic-languages_twig_twig_js":"29029c6edbb390e58ded","node_modules_monaco-editor_esm_vs_basic-languages_typescript_typescript_js":"d369d1842b93e47b80a9","node_modules_monaco-editor_esm_vs_basic-languages_vb_vb_js":"5d1469f6125b98d52b19","node_modules_monaco-editor_esm_vs_basic-languages_xml_xml_js":"178a52c986e95473c3b2","node_modules_monaco-editor_esm_vs_basic-languages_yaml_yaml_js":"109d06f6e7817ce46ced","vendors-node_modules_monaco-editor_esm_vs_language_css_cssMode_js":"866fd27138e3d18db6cb","vendors-node_modules_monaco-editor_esm_vs_language_html_htmlMode_js":"11cb856f83cdbefcdcc7","vendors-node_modules_monaco-editor_esm_vs_language_json_jsonMode_js":"df09d3235c2bc37f0f69","vendors-node_modules_monaco-editor_esm_vs_language_typescript_tsMode_js":"1d43e23ea625167c03ed"}[chunkId] + ".js";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -35254,28 +35871,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! jszip */ "./node_modules/jszip/dist/jszip.min.js");
 /* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(jszip__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @shren/faustwasm */ "../faustwasm/dist/esm/index.js");
-/* harmony import */ var _Key2Midi__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Key2Midi */ "./src/Key2Midi.ts");
-/* harmony import */ var _Scope__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Scope */ "./src/Scope.ts");
-/* harmony import */ var bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! bootstrap/js/dist/dropdown */ "./node_modules/bootstrap/js/dist/dropdown.js");
-/* harmony import */ var bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var bootstrap_js_dist_tooltip__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/tooltip */ "./node_modules/bootstrap/js/dist/tooltip.js");
-/* harmony import */ var bootstrap_js_dist_tooltip__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tooltip__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var _fortawesome_fontawesome_free_css_all_css__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @fortawesome/fontawesome-free/css/all.css */ "./node_modules/@fortawesome/fontawesome-free/css/all.css");
-/* harmony import */ var bootstrap_scss_bootstrap_scss__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/scss/bootstrap.scss */ "./node_modules/bootstrap/scss/bootstrap.scss");
-/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./index.scss */ "./src/index.scss");
-/* harmony import */ var _StaticScope__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./StaticScope */ "./src/StaticScope.ts");
-/* harmony import */ var _Analyser__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Analyser */ "./src/Analyser.ts");
-/* harmony import */ var _FileManager__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./FileManager */ "./src/FileManager.ts");
-/* harmony import */ var _MeterNode__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./MeterNode */ "./src/MeterNode.ts");
-/* harmony import */ var _Recorder__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Recorder */ "./src/Recorder.ts");
-/* harmony import */ var _monaco_faust_register__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./monaco-faust/register */ "./src/monaco-faust/register.ts");
-/* harmony import */ var _version__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./version */ "./src/version.js");
-/* harmony import */ var _version__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_version__WEBPACK_IMPORTED_MODULE_23__);
-/* harmony import */ var _documentation__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./documentation */ "./src/documentation.ts");
+/* harmony import */ var _shren_kissfft_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @shren/kissfft-js */ "./node_modules/@shren/kissfft-js/dist/esm/index.js");
+/* harmony import */ var _Key2Midi__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Key2Midi */ "./src/Key2Midi.ts");
+/* harmony import */ var _Scope__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Scope */ "./src/Scope.ts");
+/* harmony import */ var bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/dropdown */ "./node_modules/bootstrap/js/dist/dropdown.js");
+/* harmony import */ var bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_tooltip__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/tooltip */ "./node_modules/bootstrap/js/dist/tooltip.js");
+/* harmony import */ var bootstrap_js_dist_tooltip__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tooltip__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _fortawesome_fontawesome_free_css_all_css__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @fortawesome/fontawesome-free/css/all.css */ "./node_modules/@fortawesome/fontawesome-free/css/all.css");
+/* harmony import */ var bootstrap_scss_bootstrap_scss__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! bootstrap/scss/bootstrap.scss */ "./node_modules/bootstrap/scss/bootstrap.scss");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./index.scss */ "./src/index.scss");
+/* harmony import */ var _StaticScope__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./StaticScope */ "./src/StaticScope.ts");
+/* harmony import */ var _Analyser__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Analyser */ "./src/Analyser.ts");
+/* harmony import */ var _FileManager__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./FileManager */ "./src/FileManager.ts");
+/* harmony import */ var _MeterNode__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./MeterNode */ "./src/MeterNode.ts");
+/* harmony import */ var _Recorder__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Recorder */ "./src/Recorder.ts");
+/* harmony import */ var _monaco_faust_register__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./monaco-faust/register */ "./src/monaco-faust/register.ts");
+/* harmony import */ var _version__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./version */ "./src/version.js");
+/* harmony import */ var _version__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(_version__WEBPACK_IMPORTED_MODULE_24__);
+/* harmony import */ var _documentation__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./documentation */ "./src/documentation.ts");
+/* harmony import */ var _FFTUtils__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./FFTUtils */ "./src/FFTUtils.ts");
 /* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* provided dependency */ var jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
@@ -35320,16 +35939,18 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 
+
+
 var supportAudioWorklet = !!window.AudioWorklet;
 var supportMediaStreamDestination = !!(window.AudioContext || window.webkitAudioContext).prototype.createMediaStreamDestination && !!HTMLAudioElement.prototype.setSinkId;
 var server = "https://faustservicecloud.grame.fr";
 $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee16() {
-  var faustModule, libFaust, faustCompiler, faustSvgDiagrams, faustPrimitiveLibFile, faustPrimitiveLib, saveEditorDspTable, loadEditorDspTable, saveEditorParams, loadEditorParams, loadDspParams, saveDspParams, dspParams, loadProject, showError, clearError, _yield$initEditor, editor, monaco, editorDecoration, updateDiagram, isCompilingDsp, runDsp, rtCompileTimer, audioEnv, midiEnv, uiEnv, compileOptions, faustEnv, loadURLParams, exportProgram, getTargets, makeURL, key2Midi, handleMIDIConnect, handleMIDIDisconnect, wavesurfer, handleMediaDeviceChange, devices, $selectInput, $selectOutput, svgDragged;
+  var faustModule, libFaust, faustCompiler, faustSvgDiagrams, faustPrimitiveLibFile, faustPrimitiveLib, kissFFTModule, kissFFT, FFTR, saveEditorDspTable, loadEditorDspTable, saveEditorParams, loadEditorParams, loadDspParams, saveDspParams, dspParams, loadProject, showError, clearError, _yield$initEditor, editor, monaco, editorDecoration, updateDiagram, isCompilingDsp, runDsp, rtCompileTimer, audioEnv, midiEnv, uiEnv, compileOptions, faustEnv, loadURLParams, exportProgram, getTargets, makeURL, key2Midi, handleMIDIConnect, handleMIDIDisconnect, wavesurfer, handleMediaDeviceChange, devices, $selectInput, $selectOutput, svgDragged;
   return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee16$(_context16) {
     while (1) switch (_context16.prev = _context16.next) {
       case 0:
         _context16.next = 2;
-        return (0,_shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__.instantiateFaustModuleFromFile)("./libfaust-wasm.js");
+        return (0,_shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__.instantiateFaustModuleFromFile)("./faustwasm/libfaust-wasm.js");
       case 2:
         faustModule = _context16.sent;
         libFaust = new _shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__.LibFaust(faustModule);
@@ -35344,7 +35965,12 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
       case 11:
         faustPrimitiveLib = _context16.sent;
         libFaust.fs().writeFile("/usr/share/faust/primitives.lib", faustPrimitiveLib);
-        window.faustCompiler = faustCompiler;
+        _context16.next = 15;
+        return (0,_shren_kissfft_js__WEBPACK_IMPORTED_MODULE_8__.instantiateKissFFTModuleFromFile)("./kissfftwasm/libkissfft.js");
+      case 15:
+        kissFFTModule = _context16.sent;
+        kissFFT = new _shren_kissfft_js__WEBPACK_IMPORTED_MODULE_8__.KissFFT(kissFFTModule);
+        FFTR = kissFFT.FFTR;
         /**
          * To save dsp table to localStorage
          */
@@ -35391,7 +36017,7 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
          */
         loadEditorParams = () => {
           var clientVersion = localStorage.getItem("faust_editor_version");
-          if (clientVersion !== _version__WEBPACK_IMPORTED_MODULE_23__) return {};
+          if (clientVersion !== _version__WEBPACK_IMPORTED_MODULE_24__) return {};
           var str = localStorage.getItem("faust_editor_params");
           if (!str) return {};
           try {
@@ -35456,9 +36082,9 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
          * Async Load Monaco Editor Core
          * Use import() for webpack code splitting, needs babel-dynamic-import
          */
-        _context16.next = 26;
+        _context16.next = 30;
         return initEditor(libFaust);
-      case 26:
+      case 30:
         _yield$initEditor = _context16.sent;
         editor = _yield$initEditor.editor;
         monaco = _yield$initEditor.monaco;
@@ -35521,13 +36147,10 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
         isCompilingDsp = false;
         /**
          * Generate both diagram and dsp
-         *
-         * @param {string} code
-         * @returns {{ success: boolean; error?: Error }}
          */
         runDsp = /*#__PURE__*/function () {
           var _ref3 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2(codeIn) {
-            var fileName, dspName, code, audioCtx, gain, splitter, analyser, useWorklet, bufferSize, voices, args, node, mediaLengthRaf, mediaLengthFrame, mediaLengthSpan, mediaLengthDisplay, plotHandler, generator, _generator, dsp, _path, channelsCount, uiWindow, bindUI, guiBuilder;
+            var fileName, dspName, code, audioCtx, gain, splitter, analyser, useWorklet, bufferSize, voices, args, fftDsp, node, mediaLengthRaf, mediaLengthFrame, mediaLengthSpan, mediaLengthDisplay, plotHandler, generator, fftSize, fftOverlap, windowFunction, noIFFT, _generator, _generator2, dsp, _path, channelsCount, uiWindow, bindUI, guiBuilder;
             return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee2$(_context2) {
               while (1) switch (_context2.prev = _context2.next) {
                 case 0:
@@ -35557,7 +36180,7 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
                 case 13:
                   initAnalysersUI(uiEnv, audioEnv);
                 case 14:
-                  useWorklet = compileOptions.useWorklet, bufferSize = compileOptions.bufferSize, voices = compileOptions.voices, args = compileOptions.args;
+                  useWorklet = compileOptions.useWorklet, bufferSize = compileOptions.bufferSize, voices = compileOptions.voices, args = compileOptions.args, fftDsp = compileOptions.fftDsp;
                   mediaLengthFrame = 0;
                   mediaLengthSpan = $("#recorder-time")[0];
                   mediaLengthDisplay = t => {
@@ -35580,41 +36203,62 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
                     mediaLengthRaf = requestAnimationFrame(() => mediaLengthDisplay(t));
                   };
                   _context2.prev = 19;
-                  if (!voices) {
-                    _context2.next = 29;
+                  if (!fftDsp) {
+                    _context2.next = 30;
                     break;
                   }
-                  generator = new _shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__.FaustPolyDspGenerator();
+                  generator = new _shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__.FaustMonoDspGenerator();
                   _context2.next = 24;
                   return generator.compile(faustCompiler, dspName, code, args.join(" "));
                 case 24:
-                  _context2.next = 26;
-                  return generator.createNode(audioCtx, voices, undefined, undefined, undefined, undefined, !useWorklet, bufferSize);
-                case 26:
+                  fftSize = compileOptions.fftSize, fftOverlap = compileOptions.fftOverlap, windowFunction = compileOptions.windowFunction, noIFFT = compileOptions.noIFFT;
+                  _context2.next = 27;
+                  return generator.createFFTNode(audioCtx, _FFTUtils__WEBPACK_IMPORTED_MODULE_26__.FFTUtils, undefined, undefined, {
+                    fftSize,
+                    fftOverlap,
+                    defaultWindowFunction: windowFunction - 1,
+                    noIFFT
+                  });
+                case 27:
                   node = _context2.sent;
-                  _context2.next = 35;
+                  _context2.next = 45;
                   break;
-                case 29:
-                  _generator = new _shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__.FaustMonoDspGenerator();
-                  _context2.next = 32;
-                  return _generator.compile(faustCompiler, dspName, code, args.join(" "));
-                case 32:
+                case 30:
+                  if (!voices) {
+                    _context2.next = 39;
+                    break;
+                  }
+                  _generator = new _shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__.FaustPolyDspGenerator();
                   _context2.next = 34;
-                  return _generator.createNode(audioCtx, undefined, undefined, !useWorklet, bufferSize);
+                  return _generator.compile(faustCompiler, dspName, code, args.join(" "));
                 case 34:
+                  _context2.next = 36;
+                  return _generator.createNode(audioCtx, voices, undefined, undefined, undefined, undefined, !useWorklet, bufferSize);
+                case 36:
                   node = _context2.sent;
-                case 35:
+                  _context2.next = 45;
+                  break;
+                case 39:
+                  _generator2 = new _shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__.FaustMonoDspGenerator();
+                  _context2.next = 42;
+                  return _generator2.compile(faustCompiler, dspName, code, args.join(" "));
+                case 42:
+                  _context2.next = 44;
+                  return _generator2.createNode(audioCtx, undefined, undefined, !useWorklet, bufferSize);
+                case 44:
+                  node = _context2.sent;
+                case 45:
                   node.setPlotHandler(plotHandler);
                   if (node) {
-                    _context2.next = 38;
+                    _context2.next = 48;
                     break;
                   }
                   throw new Error("Unknown Error in WebAudio Node.");
-                case 38:
-                  _context2.next = 45;
+                case 48:
+                  _context2.next = 55;
                   break;
-                case 40:
-                  _context2.prev = 40;
+                case 50:
+                  _context2.prev = 50;
                   _context2.t0 = _context2["catch"](19);
                   /*
                   const uiWindow = ($("#iframe-faust-ui")[0] as HTMLIFrameElement).contentWindow;
@@ -35629,7 +36273,7 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
                     success: false,
                     error: _context2.t0
                   });
-                case 45:
+                case 55:
                   /**
                    * Push get diagram to end of scheduler
                    * generate diagram only when the tab is active
@@ -35658,9 +36302,9 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
                       }
                     }
                   }
-                  _context2.next = 51;
+                  _context2.next = 61;
                   return audioEnv.audioCtx.resume();
-                case 51:
+                case 61:
                   // Resume audioContext for firefox
                   /**
                    * Connect the dsp to graph (use a new splitter)
@@ -35770,11 +36414,11 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
                   return _context2.abrupt("return", {
                     success: true
                   });
-                case 72:
+                case 82:
                 case "end":
                   return _context2.stop();
               }
-            }, _callee2, null, [[19, 40]]);
+            }, _callee2, null, [[19, 50]]);
           }));
           return function runDsp(_x) {
             return _ref3.apply(this, arguments);
@@ -35784,7 +36428,8 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           dspConnectedToInput: false,
           dspConnectedToOutput: false,
           inputEnabled: false,
-          outputEnabled: false
+          outputEnabled: false,
+          kissFFTInjected: false
         };
         midiEnv = {
           input: null
@@ -35794,7 +36439,7 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           inputScope: null,
           outputScope: null,
           plotScope: undefined,
-          analyser: new _Analyser__WEBPACK_IMPORTED_MODULE_18__.Analyser(16, "continuous"),
+          analyser: new _Analyser__WEBPACK_IMPORTED_MODULE_19__.Analyser(FFTR, 16, "continuous"),
           fileManager: undefined
         };
         compileOptions = _objectSpread(_objectSpread({
@@ -35814,7 +36459,12 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           enableGuiBuilder: false,
           guiBuilderUrl: "https://mainline.i3s.unice.fr/fausteditorweb/dist/PedalEditor/Front-End/",
           exportPlatform: "owl",
-          exportArch: "owl"
+          exportArch: "owl",
+          fftDsp: false,
+          fftSize: 1024,
+          fftOverlap: 2,
+          noIFFT: false,
+          windowFunction: 1
         }, loadEditorParams()), {}, {
           realtimeCompile: false,
           args: ["-I", "/usr/share/project"]
@@ -35827,16 +36477,17 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           jQuery,
           editor,
           libFaust,
-          recorder: new _Recorder__WEBPACK_IMPORTED_MODULE_21__.Recorder()
+          faustCompiler,
+          recorder: new _Recorder__WEBPACK_IMPORTED_MODULE_22__.Recorder()
         };
-        localStorage.setItem("faust_editor_version", _version__WEBPACK_IMPORTED_MODULE_23__);
-        uiEnv.plotScope = new _StaticScope__WEBPACK_IMPORTED_MODULE_17__.StaticScope({
+        localStorage.setItem("faust_editor_version", _version__WEBPACK_IMPORTED_MODULE_24__);
+        uiEnv.plotScope = new _StaticScope__WEBPACK_IMPORTED_MODULE_18__.StaticScope({
           container: $("#plot-ui")[0]
         });
         uiEnv.analyser.drawHandler = uiEnv.plotScope.draw;
         uiEnv.analyser.getSampleRate = () => compileOptions.plotMode === "offline" ? compileOptions.plotSR : audioEnv.audioCtx.sampleRate;
         if (compileOptions.saveCode) loadProject();else libFaust.fs().mkdir("/usr/share/project");
-        uiEnv.fileManager = new _FileManager__WEBPACK_IMPORTED_MODULE_19__.FileManager({
+        uiEnv.fileManager = new _FileManager__WEBPACK_IMPORTED_MODULE_20__.FileManager({
           container: $("#filemanager")[0],
           fs: libFaust.fs(),
           path: "/usr/share/project/",
@@ -35876,12 +36527,12 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           }
         });
         if (!compileOptions.saveDsp) {
-          _context16.next = 48;
+          _context16.next = 52;
           break;
         }
-        _context16.next = 48;
+        _context16.next = 52;
         return loadEditorDspTable();
-      case 48:
+      case 52:
         /**
          * Bind DOM events
          */
@@ -35975,12 +36626,12 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           };
         }())[0].checked = compileOptions.saveDsp;
         if (!compileOptions.saveDsp) {
-          _context16.next = 65;
+          _context16.next = 69;
           break;
         }
-        _context16.next = 65;
+        _context16.next = 69;
         return loadEditorDspTable();
-      case 65:
+      case 69:
         // Real-time Diagram
         $("#check-realtime-compile").on("change", e => {
           compileOptions.realtimeCompile = e.currentTarget.checked;
@@ -36080,6 +36731,55 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           compileOptions.plotFFTOverlap = +e.currentTarget.value;
           uiEnv.analyser.fftOverlap = compileOptions.plotFFTOverlap;
           saveEditorParams();
+        });
+        // FFT
+        $("#check-fftdsp").on("change", e => {
+          compileOptions.fftDsp = e.currentTarget.checked;
+          saveEditorParams();
+          if (compileOptions.realtimeCompile) {
+            var code = uiEnv.fileManager.mainCode;
+            if (audioEnv.dsp) runDsp(code);
+          }
+        });
+        $("#check-noifft").on("change", e => {
+          compileOptions.noIFFT = e.currentTarget.checked;
+          saveEditorParams();
+          if (compileOptions.realtimeCompile && compileOptions.fftDsp) {
+            if (audioEnv.dsp && audioEnv.dsp instanceof AudioWorkletNode) {
+              var param = audioEnv.dsp.parameters.get("noIFFT");
+              if (param) param.value = ~~+compileOptions.noIFFT;
+            }
+          }
+        });
+        $("#select-fftsize").on("change", e => {
+          compileOptions.fftSize = +e.currentTarget.value;
+          saveEditorParams();
+          if (compileOptions.realtimeCompile && compileOptions.fftDsp) {
+            if (audioEnv.dsp && audioEnv.dsp instanceof AudioWorkletNode) {
+              var param = audioEnv.dsp.parameters.get("fftSize");
+              if (param) param.value = ~~+compileOptions.fftSize;
+            }
+          }
+        });
+        $("#select-fftoverlap").on("change", e => {
+          compileOptions.fftOverlap = +e.currentTarget.value;
+          saveEditorParams();
+          if (compileOptions.realtimeCompile && compileOptions.fftDsp) {
+            if (audioEnv.dsp && audioEnv.dsp instanceof AudioWorkletNode) {
+              var param = audioEnv.dsp.parameters.get("fftOverlap");
+              if (param) param.value = ~~+compileOptions.fftOverlap;
+            }
+          }
+        });
+        $("#select-window-function").on("change", e => {
+          compileOptions.windowFunction = +e.currentTarget.value;
+          saveEditorParams();
+          if (compileOptions.realtimeCompile && compileOptions.fftDsp) {
+            if (audioEnv.dsp && audioEnv.dsp instanceof AudioWorkletNode) {
+              var param = audioEnv.dsp.parameters.get("windowFunction");
+              if (param) param.value = ~~+compileOptions.windowFunction;
+            }
+          }
         });
         /**
          * Load options from URL, override current
@@ -36387,17 +37087,17 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           server = e.currentTarget.value;
           getTargets(e.currentTarget.value);
         });
-        _context16.prev = 84;
-        _context16.next = 87;
+        _context16.prev = 93;
+        _context16.next = 96;
         return getTargets(server);
-      case 87:
-        _context16.next = 92;
+      case 96:
+        _context16.next = 101;
         break;
-      case 89:
-        _context16.prev = 89;
-        _context16.t0 = _context16["catch"](84);
+      case 98:
+        _context16.prev = 98;
+        _context16.t0 = _context16["catch"](93);
         console.error(_context16.t0); // eslint-disable-line no-console
-      case 92:
+      case 101:
         // Share
         /**
          * Make share URL with options
@@ -36434,8 +37134,8 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
          * Right panel options
          */
         // Keyboard as midi input
-        key2Midi = new _Key2Midi__WEBPACK_IMPORTED_MODULE_8__.Key2Midi({
-          keyMap: navigator.language === "fr-FR" ? _Key2Midi__WEBPACK_IMPORTED_MODULE_8__.Key2Midi.KEY_MAP_FR : _Key2Midi__WEBPACK_IMPORTED_MODULE_8__.Key2Midi.KEY_MAP,
+        key2Midi = new _Key2Midi__WEBPACK_IMPORTED_MODULE_9__.Key2Midi({
+          keyMap: navigator.language === "fr-FR" ? _Key2Midi__WEBPACK_IMPORTED_MODULE_9__.Key2Midi.KEY_MAP_FR : _Key2Midi__WEBPACK_IMPORTED_MODULE_9__.Key2Midi.KEY_MAP,
           enabled: false
         });
         $(document).on("keydown", e => {
@@ -36743,24 +37443,24 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           };
         }();
         if (!navigator.mediaDevices) {
-          _context16.next = 130;
+          _context16.next = 139;
           break;
         }
-        _context16.prev = 115;
-        _context16.next = 118;
+        _context16.prev = 124;
+        _context16.next = 127;
         return navigator.mediaDevices.getUserMedia({
           audio: true
         });
-      case 118:
-        _context16.next = 122;
+      case 127:
+        _context16.next = 131;
         break;
-      case 120:
-        _context16.prev = 120;
-        _context16.t1 = _context16["catch"](115);
-      case 122:
-        _context16.next = 124;
+      case 129:
+        _context16.prev = 129;
+        _context16.t1 = _context16["catch"](124);
+      case 131:
+        _context16.next = 133;
         return navigator.mediaDevices.enumerateDevices();
-      case 124:
+      case 133:
         devices = _context16.sent;
         $("#input-ui-default").hide();
         $selectInput = $("#select-audio-input").prop("disabled", false);
@@ -36784,7 +37484,7 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
             $selectOutput.append(new Option(device.label || device.deviceId, device.deviceId));
           }
         });
-      case 130:
+      case 139:
         // DSP info
         refreshDspUI();
         if (supportAudioWorklet) {
@@ -37259,8 +37959,8 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           }
           $("#iframe-faust-ui").css("pointer-events", "none");
           var $div = $(e.currentTarget).parent();
-          var x = typeof e.pageX === "number" ? e.pageX : e.touches[0].pageX;
-          var y = typeof e.pageY === "number" ? e.pageY : e.touches[0].pageY;
+          var x = e.pageX || e.touches[0].pageX;
+          var y = e.pageY || e.touches[0].pageY;
           var w = $div.width();
           var h = $div.height();
           var modes = [];
@@ -37273,8 +37973,8 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
               e.preventDefault();
               e.stopPropagation();
             }
-            var dX = (typeof e.pageX === "number" ? e.pageX : e.touches[0].pageX) - x;
-            var dY = (typeof e.pageY === "number" ? e.pageY : e.touches[0].pageY) - y;
+            var dX = (e.pageX || e.touches[0].pageX) - x;
+            var dY = (e.pageY || e.touches[0].pageY) - y;
             if (modes.indexOf("left") !== -1) $div.width(w - dX);
             if (modes.indexOf("right") !== -1) $div.width(w + dX);
             if (modes.indexOf("top") !== -1) $div.height(h - dY);
@@ -37328,18 +38028,18 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           }
         }).resize();
         // autorunning
-        _context16.next = 160;
+        _context16.next = 169;
         return initAudioCtx(audioEnv);
-      case 160:
+      case 169:
         faustEnv.recorder.sampleRate = audioEnv.audioCtx.sampleRate;
         // Analysers
         initAnalysersUI(uiEnv, audioEnv);
         $("#output-analyser-ui").hide();
         uiEnv.outputScope.disabled = true;
         $("#select-audio-input").change();
-        _context16.next = 167;
+        _context16.next = 176;
         return loadURLParams(window.location.search);
-      case 167:
+      case 176:
         $("#select-voices").children("option[value=".concat(compileOptions.voices, "]")).prop("selected", true);
         $("#select-buffer-size").children("option[value=".concat(compileOptions.bufferSize, "]")).prop("selected", true);
         if (supportAudioWorklet) $("#check-worklet").prop({
@@ -37351,14 +38051,19 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
         $("#select-plot-fftoverlap").children("option[value=".concat(compileOptions.plotFFTOverlap, "]")).prop("selected", true).change();
         $("#input-plot-samps").change();
         $("#check-draw-spectrogram").change();
+        $("#check-fftdsp")[0].checked = compileOptions.fftDsp;
+        $("#check-noifft")[0].checked = compileOptions.noIFFT;
+        $("#select-fftsize").children("option[value=".concat(compileOptions.plotFFT, "]")).prop("selected", true).change();
+        $("#select-fftoverlap").children("option[value=".concat(compileOptions.plotFFTOverlap, "]")).prop("selected", true).change();
+        $("#select-window-function").children("option[value=".concat(compileOptions.windowFunction, "]")).prop("selected", true).change();
         $("#check-realtime-compile")[0].checked = compileOptions.realtimeCompile;
         if (compileOptions.realtimeCompile && !audioEnv.dsp) setTimeout(updateDiagram, 0, uiEnv.fileManager.mainCode);
         window.faustEnv = faustEnv;
-      case 178:
+      case 192:
       case "end":
         return _context16.stop();
     }
-  }, _callee16, null, [[84, 89], [115, 120]]);
+  }, _callee16, null, [[93, 98], [124, 129]]);
 })));
 /**
  * Init audio environment, audioNodes
@@ -37369,7 +38074,7 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
  */
 var initAudioCtx = /*#__PURE__*/function () {
   var _ref17 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee17(audioEnv, deviceId) {
-    var audioCtx, unlockAudioContext, stream;
+    var audioCtx, unlockAudioContext, stream, _audioEnv$audioCtx$au;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee17$(_context17) {
       while (1) switch (_context17.prev = _context17.next) {
         case 0:
@@ -37422,10 +38127,10 @@ var initAudioCtx = /*#__PURE__*/function () {
           stream = _context17.sent;
           audioEnv.inputs[deviceId] = audioEnv.audioCtx.createMediaStreamSource(stream);
         case 12:
-          if (!audioEnv.meterInput) audioEnv.meterInput = (0,_MeterNode__WEBPACK_IMPORTED_MODULE_20__.createMeterNode)(audioEnv.audioCtx);
+          if (!audioEnv.meterInput) audioEnv.meterInput = (0,_MeterNode__WEBPACK_IMPORTED_MODULE_21__.createMeterNode)(audioEnv.audioCtx);
           if (!audioEnv.gainInput) audioEnv.gainInput = audioEnv.audioCtx.createGain();
           audioEnv.gainInput.connect(audioEnv.meterInput, 0, 0);
-          if (!audioEnv.gainUIInput) audioEnv.gainUIInput = new _MeterNode__WEBPACK_IMPORTED_MODULE_20__.GainUI($("#input-gain")[0], audioEnv.meterInput, audioEnv.gainInput);
+          if (!audioEnv.gainUIInput) audioEnv.gainUIInput = new _MeterNode__WEBPACK_IMPORTED_MODULE_21__.GainUI($("#input-gain")[0], audioEnv.meterInput, audioEnv.gainInput);
           audioEnv.gainUIInput.value = 0;
           if (!audioEnv.splitterInput) audioEnv.splitterInput = audioEnv.audioCtx.createChannelSplitter(2);
           audioEnv.meterInput.connect(audioEnv.splitterInput, 0, 0);
@@ -37447,8 +38152,17 @@ var initAudioCtx = /*#__PURE__*/function () {
             audioEnv.destination.channelCount = audioEnv.destination.maxChannelCount;
             audioEnv.destination.channelInterpretation = "discrete";
           }
+          if (audioEnv.kissFFTInjected) {
+            _context17.next = 27;
+            break;
+          }
+          _context17.next = 26;
+          return (_audioEnv$audioCtx$au = audioEnv.audioCtx.audioWorklet) === null || _audioEnv$audioCtx$au === void 0 ? void 0 : _audioEnv$audioCtx$au.addModule("./kissfftwasm/cjs-bundle/index.js");
+        case 26:
+          audioEnv.kissFFTInjected = true;
+        case 27:
           return _context17.abrupt("return", audioEnv);
-        case 24:
+        case 28:
         case "end":
           return _context17.stop();
       }
@@ -37467,14 +38181,14 @@ var initAudioCtx = /*#__PURE__*/function () {
  */
 var initAnalysersUI = (uiEnv, audioEnv) => {
   if (uiEnv.analysersInited) return;
-  uiEnv.inputScope = new _Scope__WEBPACK_IMPORTED_MODULE_9__.Scope({
+  uiEnv.inputScope = new _Scope__WEBPACK_IMPORTED_MODULE_10__.Scope({
     audioCtx: audioEnv.audioCtx,
     analyser: audioEnv.analyserInput,
     splitter: audioEnv.splitterInput,
     channels: 2,
     container: $("#input-analyser-ui")[0]
   });
-  uiEnv.outputScope = new _Scope__WEBPACK_IMPORTED_MODULE_9__.Scope({
+  uiEnv.outputScope = new _Scope__WEBPACK_IMPORTED_MODULE_10__.Scope({
     audioCtx: audioEnv.audioCtx,
     analyser: audioEnv.analyserOutput,
     splitter: audioEnv.splitterOutput,
@@ -37523,7 +38237,7 @@ var initEditor = /*#__PURE__*/function () {
         case 4:
           monaco = _context18.sent;
           _context18.next = 7;
-          return (0,_monaco_faust_register__WEBPACK_IMPORTED_MODULE_22__.faustLangRegister)(monaco, faust);
+          return (0,_monaco_faust_register__WEBPACK_IMPORTED_MODULE_23__.faustLangRegister)(monaco, faust);
         case 7:
           _yield$faustLangRegis = _context18.sent;
           faustLang = _yield$faustLangRegis.faustLang;
@@ -37553,10 +38267,10 @@ var initEditor = /*#__PURE__*/function () {
               var prefix = matched.nameArray.slice();
               prefix.pop();
               var doc = matched.doc;
-              $("#a-docs").attr("href", "".concat(_documentation__WEBPACK_IMPORTED_MODULE_24__.faustDocURL, "/").concat(_documentation__WEBPACK_IMPORTED_MODULE_24__.docSections[prefix.toString().slice(0, 2)], "/#").concat(prefix.join(".")).concat(doc.name.replace(/[[\]|]/g, "").toLowerCase()))[0].click();
+              $("#a-docs").attr("href", "".concat(_documentation__WEBPACK_IMPORTED_MODULE_25__.faustDocURL, "/").concat(_documentation__WEBPACK_IMPORTED_MODULE_25__.docSections[prefix.toString().slice(0, 2)], "/#").concat(prefix.join(".")).concat(doc.name.replace(/[[\]|]/g, "").toLowerCase()))[0].click();
               return;
             }
-            $("#a-docs").attr("href", _documentation__WEBPACK_IMPORTED_MODULE_24__.faustDocURL)[0].click();
+            $("#a-docs").attr("href", _documentation__WEBPACK_IMPORTED_MODULE_25__.faustDocURL)[0].click();
           };
           $("#btn-docs").off("click").on("click", showDoc);
           $(window).on("resize", () => editor.layout());

@@ -56,7 +56,7 @@ const config = {
       {
         test: /\.js$/,
         use: ["source-map-loader"],
-        include: /faust2webaudio/,
+        include: /faustwasm/,
         enforce: "pre"
       }
     ]
@@ -67,7 +67,9 @@ const config = {
       patterns: [
         { context: './src/static', from: './', to: './', globOptions: { ignore: ['**/.DS_Store'] } },
         { from: './src/monaco-faust/primitives.lib', to: './' },
-        { from: './node_modules/@shren/faustwasm/libfaust-wasm/libfaust-wasm.*', to: './[name][ext]' },
+        { from: './node_modules/@shren/faustwasm/libfaust-wasm/libfaust-wasm.*', to: './faustwasm/[name][ext]' },
+        { from: './node_modules/@shren/kissfft-js/libkissfft-wasm/libkissfft.*', to: './kissfftwasm/[name][ext]' },
+        { from: './node_modules/@shren/kissfft-js/dist/cjs-bundle/index.*', to: './kissfftwasm/cjs-bundle/[name][ext]' },
         { from: './node_modules/@shren/faust-ui/dist/index.*', to: './faust-ui/[name][ext]' }
       ]
     }),
