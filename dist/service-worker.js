@@ -136,7 +136,7 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": "a15620f01cc62e5eb29df78d8b2b1bfe"
   }, {
     "url": "examples.json",
-    "revision": "1447ce92b517bb37db84e2c78a6ecef8"
+    "revision": "87f76081e82b433c7600c5c990875020"
   }, {
     "url": "examples/LIBRARIES/aanl.lib",
     "revision": "56db3a9bf284b85ec2a604e21a060471"
@@ -472,7 +472,7 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": "77e4d0b0703671c7d36d6996340720c7"
   }, {
     "url": "examples/fft/fft_remove_phase.dsp",
-    "revision": "f29f1f403066bc7096eb065fb41c08fc"
+    "revision": "8a23c35b4e1fc46962ccf398a950a3a8"
   }, {
     "url": "examples/fft/fft_synth.dsp",
     "revision": "276434e57e65575b8cfc280084d1eeb5"
@@ -976,7 +976,7 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": "75db0d7da924675d623f465b19ecd8f9"
   }, {
     "url": "index.js",
-    "revision": "bd94a734a506c8998882e8058bfcb44f"
+    "revision": "95fe68c6c82a7b7ca69e8009345dede5"
   }, {
     "url": "js/02ba839479faf071c7bd.js",
     "revision": null
