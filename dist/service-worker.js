@@ -136,7 +136,7 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": "a15620f01cc62e5eb29df78d8b2b1bfe"
   }, {
     "url": "examples.json",
-    "revision": "09fbc2bfd0a6ca6d540ac2f651f732b1"
+    "revision": "1447ce92b517bb37db84e2c78a6ecef8"
   }, {
     "url": "examples/LIBRARIES/aanl.lib",
     "revision": "56db3a9bf284b85ec2a604e21a060471"
@@ -458,6 +458,24 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
   }, {
     "url": "examples/dynamic/volume.dsp",
     "revision": "3b0febd96a24dbcf252b271516e5ce9d"
+  }, {
+    "url": "examples/fft/fft_bandpass.dsp",
+    "revision": "6caa7cf7599740273277e8b26e59d701"
+  }, {
+    "url": "examples/fft/fft_centroid.dsp",
+    "revision": "c7b7264bee13c178eecb599d7a55a0d0"
+  }, {
+    "url": "examples/fft/fft_delay.dsp",
+    "revision": "9098da6aa6516aaa2f32a899160b01fc"
+  }, {
+    "url": "examples/fft/fft_gain.dsp",
+    "revision": "77e4d0b0703671c7d36d6996340720c7"
+  }, {
+    "url": "examples/fft/fft_remove_phase.dsp",
+    "revision": "f29f1f403066bc7096eb065fb41c08fc"
+  }, {
+    "url": "examples/fft/fft_synth.dsp",
+    "revision": "276434e57e65575b8cfc280084d1eeb5"
   }, {
     "url": "examples/filtering/APF.dsp",
     "revision": "e7997002c33fbbebcdcf9708ee00e9b6"
@@ -958,7 +976,7 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": "75db0d7da924675d623f465b19ecd8f9"
   }, {
     "url": "index.js",
-    "revision": "928e1368605bbe032ce3b73bdd0a8823"
+    "revision": "bd94a734a506c8998882e8058bfcb44f"
   }, {
     "url": "js/02ba839479faf071c7bd.js",
     "revision": null
