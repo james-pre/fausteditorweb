@@ -1221,6 +1221,7 @@ $(async () => {
         });
     };
     if (navigator.mediaDevices) {
+        // TODO: This Bugs Safari Tech Preview
         try {
             await navigator.mediaDevices.getUserMedia({ audio: true });
         } catch (e) { } // eslint-disable-line no-empty
