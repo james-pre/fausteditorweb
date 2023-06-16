@@ -35,7 +35,7 @@
     "@babel/runtime": "^7.13.10",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@shren/faust-ui": "^1.1.1",
-    "@shren/faustwasm": "^0.0.21",
+    "@shren/faustwasm": "^0.0.25",
     "@shren/kissfft-js": "^0.1.10",
     "@types/bootstrap": "^4.6.0",
     "@types/jquery": "^3.5.5",

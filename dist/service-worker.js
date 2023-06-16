@@ -133,10 +133,10 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": null
   }, {
     "url": "editor.worker.js",
-    "revision": "a15620f01cc62e5eb29df78d8b2b1bfe"
+    "revision": "a75c33a61199cbd5bbcaa4028f3e8728"
   }, {
     "url": "examples.json",
-    "revision": "87f76081e82b433c7600c5c990875020"
+    "revision": "b59753a264708a3be7946931d35da10e"
   }, {
     "url": "examples/LIBRARIES/aanl.lib",
     "revision": "56db3a9bf284b85ec2a604e21a060471"
@@ -949,16 +949,16 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": "cef35c37b0dcdb9408f85f29aeb40d49"
   }, {
     "url": "faustwasm/libfaust-wasm.data",
-    "revision": "f1126e184dcb3ae9883fabe9706cf23d"
+    "revision": "e5ed5db6d7ef1b78c5aa694a2d64ec98"
   }, {
     "url": "faustwasm/libfaust-wasm.data.d.ts",
     "revision": "efb8590a96d416771ef946b323008668"
   }, {
     "url": "faustwasm/libfaust-wasm.js",
-    "revision": "263d4f7f04cad7f94352997bd4f7ae6d"
+    "revision": "a8ec3fc64a5acab11a14b7d09d3d4039"
   }, {
     "url": "faustwasm/libfaust-wasm.wasm",
-    "revision": "8a8701619074e0513fa1489a0ee4b8f6"
+    "revision": "1cd2f11d30f9415e2549a00508d04017"
   }, {
     "url": "faustwasm/libfaust-wasm.wasm.d.ts",
     "revision": "efb8590a96d416771ef946b323008668"
@@ -976,7 +976,7 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": "75db0d7da924675d623f465b19ecd8f9"
   }, {
     "url": "index.js",
-    "revision": "95fe68c6c82a7b7ca69e8009345dede5"
+    "revision": "ad86f67936c3775f671ad51a6fa3b56d"
   }, {
     "url": "js/02ba839479faf071c7bd.js",
     "revision": null
@@ -1125,6 +1125,9 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "url": "js/948b16577e780e652668.js",
     "revision": null
   }, {
+    "url": "js/99e85d0c4004e42e3962.js",
+    "revision": null
+  }, {
     "url": "js/9e291f8d5fdabc8e06f6.js",
     "revision": null
   }, {
@@ -1147,9 +1150,6 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": null
   }, {
     "url": "js/b99b437695d4ade3ef2f.js",
-    "revision": null
-  }, {
-    "url": "js/baa516013d08e9e7d17a.js",
     "revision": null
   }, {
     "url": "js/bd50069295e6a126395c.js",
@@ -1239,10 +1239,10 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "url": "js/faf57641c4bf2f103f25.js",
     "revision": null
   }, {
-    "url": "js/fee315ae8c34f1663fbc.js",
+    "url": "js/fe2d1d98ef802c2e38be.js",
     "revision": null
   }, {
-    "url": "js/ffe4a1371b6d8a9550ab.js",
+    "url": "js/fee315ae8c34f1663fbc.js",
     "revision": null
   }, {
     "url": "kissfftwasm/cjs-bundle/index.d.ts",

@@ -10,7 +10,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Analyser": () => (/* binding */ Analyser)
+/* harmony export */   Analyser: () => (/* binding */ Analyser)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
@@ -246,7 +246,7 @@ class Analyser {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FFTUtils": () => (/* binding */ FFTUtils)
+/* harmony export */   FFTUtils: () => (/* binding */ FFTUtils)
 /* harmony export */ });
 var FFTUtils = class {
   static get windowFunctions() {
@@ -306,7 +306,7 @@ var FFTUtils = class {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FileManager": () => (/* binding */ FileManager)
+/* harmony export */   FileManager: () => (/* binding */ FileManager)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 /* harmony import */ var _FileManager_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileManager.scss */ "./src/FileManager.scss");
@@ -763,7 +763,7 @@ class FileManager {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Key2Midi": () => (/* binding */ Key2Midi)
+/* harmony export */   Key2Midi: () => (/* binding */ Key2Midi)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 
@@ -960,8 +960,8 @@ class Key2Midi {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "GainUI": () => (/* binding */ GainUI),
-/* harmony export */   "createMeterNode": () => (/* binding */ createMeterNode)
+/* harmony export */   GainUI: () => (/* binding */ GainUI),
+/* harmony export */   createMeterNode: () => (/* binding */ createMeterNode)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 
@@ -1345,7 +1345,7 @@ class GainUI {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Recorder": () => (/* binding */ Recorder)
+/* harmony export */   Recorder: () => (/* binding */ Recorder)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
@@ -1435,7 +1435,7 @@ class Recorder {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Scope": () => (/* binding */ Scope)
+/* harmony export */   Scope: () => (/* binding */ Scope)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 /* harmony import */ var _Scope_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Scope.scss */ "./src/Scope.scss");
@@ -1888,7 +1888,7 @@ class Scope {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "StaticScope": () => (/* binding */ StaticScope)
+/* harmony export */   StaticScope: () => (/* binding */ StaticScope)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
@@ -2972,8 +2972,8 @@ class StaticScope {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "docSections": () => (/* binding */ docSections),
-/* harmony export */   "faustDocURL": () => (/* binding */ faustDocURL)
+/* harmony export */   docSections: () => (/* binding */ docSections),
+/* harmony export */   faustDocURL: () => (/* binding */ faustDocURL)
 /* harmony export */ });
 // Definitions related to the libraries documentation system
 
@@ -3023,7 +3023,7 @@ var docSections = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "faustLangRegister": () => (/* binding */ faustLangRegister)
+/* harmony export */   faustLangRegister: () => (/* binding */ faustLangRegister)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -3076,15 +3076,15 @@ var faustLangRegister = /*#__PURE__*/function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "estimateFreq": () => (/* binding */ estimateFreq),
-/* harmony export */   "fillRectWrap": () => (/* binding */ fillRectWrap),
-/* harmony export */   "getFrequencyDomainData": () => (/* binding */ getFrequencyDomainData),
-/* harmony export */   "getRms": () => (/* binding */ getRms),
-/* harmony export */   "indexToFreq": () => (/* binding */ indexToFreq),
-/* harmony export */   "mod": () => (/* binding */ mod),
-/* harmony export */   "setWrap": () => (/* binding */ setWrap),
-/* harmony export */   "sliceWrap": () => (/* binding */ sliceWrap),
-/* harmony export */   "wrap": () => (/* binding */ wrap)
+/* harmony export */   estimateFreq: () => (/* binding */ estimateFreq),
+/* harmony export */   fillRectWrap: () => (/* binding */ fillRectWrap),
+/* harmony export */   getFrequencyDomainData: () => (/* binding */ getFrequencyDomainData),
+/* harmony export */   getRms: () => (/* binding */ getRms),
+/* harmony export */   indexToFreq: () => (/* binding */ indexToFreq),
+/* harmony export */   mod: () => (/* binding */ mod),
+/* harmony export */   setWrap: () => (/* binding */ setWrap),
+/* harmony export */   sliceWrap: () => (/* binding */ sliceWrap),
+/* harmony export */   wrap: () => (/* binding */ wrap)
 /* harmony export */ });
 /* harmony import */ var window_function_apply__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! window-function/apply */ "./node_modules/window-function/apply.js");
 /* harmony import */ var window_function_apply__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(window_function_apply__WEBPACK_IMPORTED_MODULE_0__);
@@ -31435,8 +31435,8 @@ function _typeof(obj) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "KissFFT": () => (/* binding */ KissFFT_default),
-/* harmony export */   "instantiateKissFFTModuleFromFile": () => (/* binding */ instantiateKissFFTModuleFromFile_default)
+/* harmony export */   KissFFT: () => (/* binding */ KissFFT_default),
+/* harmony export */   instantiateKissFFTModuleFromFile: () => (/* binding */ instantiateKissFFTModuleFromFile_default)
 /* harmony export */ });
 // src/instantiateKissFFTModuleFromFile.ts
 var instantiateKissFFTModuleFromFile = async (jsFile, wasmFile = jsFile.replace(/c?js$/, "wasm"), dataFile = jsFile.replace(/c?js$/, "data")) => {
@@ -31586,42 +31586,42 @@ var KissFFT_default = KissFFT;
 
 /***/ }),
 
-/***/ "../faustwasm/dist/esm/index.js":
-/*!**************************************!*\
-  !*** ../faustwasm/dist/esm/index.js ***!
-  \**************************************/
+/***/ "./node_modules/@shren/faustwasm/dist/esm/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@shren/faustwasm/dist/esm/index.js ***!
+  \*********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FaustAudioWorkletNode": () => (/* binding */ FaustAudioWorkletNode),
-/* harmony export */   "FaustBaseWebAudioDsp": () => (/* binding */ FaustBaseWebAudioDsp),
-/* harmony export */   "FaustCompiler": () => (/* binding */ FaustCompiler_default),
-/* harmony export */   "FaustDspInstance": () => (/* binding */ FaustDspInstance_default),
-/* harmony export */   "FaustMonoAudioWorkletNode": () => (/* binding */ FaustMonoAudioWorkletNode),
-/* harmony export */   "FaustMonoDspGenerator": () => (/* binding */ FaustMonoDspGenerator),
-/* harmony export */   "FaustMonoOfflineProcessor": () => (/* binding */ FaustMonoOfflineProcessor),
-/* harmony export */   "FaustMonoScriptProcessorNode": () => (/* binding */ FaustMonoScriptProcessorNode),
-/* harmony export */   "FaustMonoWebAudioDsp": () => (/* binding */ FaustMonoWebAudioDsp),
-/* harmony export */   "FaustOfflineProcessor": () => (/* binding */ FaustOfflineProcessor_default),
-/* harmony export */   "FaustPolyAudioWorkletNode": () => (/* binding */ FaustPolyAudioWorkletNode),
-/* harmony export */   "FaustPolyDspGenerator": () => (/* binding */ FaustPolyDspGenerator),
-/* harmony export */   "FaustPolyOfflineProcessor": () => (/* binding */ FaustPolyOfflineProcessor),
-/* harmony export */   "FaustPolyScriptProcessorNode": () => (/* binding */ FaustPolyScriptProcessorNode),
-/* harmony export */   "FaustPolyWebAudioDsp": () => (/* binding */ FaustPolyWebAudioDsp),
-/* harmony export */   "FaustScriptProcessorNode": () => (/* binding */ FaustScriptProcessorNode),
-/* harmony export */   "FaustSvgDiagrams": () => (/* binding */ FaustSvgDiagrams_default),
-/* harmony export */   "FaustWasmInstantiator": () => (/* binding */ FaustWasmInstantiator_default),
-/* harmony export */   "FaustWebAudioDspVoice": () => (/* binding */ FaustWebAudioDspVoice),
-/* harmony export */   "LibFaust": () => (/* binding */ LibFaust_default),
-/* harmony export */   "WavDecoder": () => (/* binding */ WavDecoder_default),
-/* harmony export */   "WavEncoder": () => (/* binding */ WavEncoder_default),
-/* harmony export */   "ab2str": () => (/* binding */ ab2str),
-/* harmony export */   "getFaustAudioWorkletProcessor": () => (/* binding */ FaustAudioWorkletProcessor_default),
-/* harmony export */   "getFaustFFTAudioWorkletProcessor": () => (/* binding */ FaustFFTAudioWorkletProcessor_default),
-/* harmony export */   "instantiateFaustModuleFromFile": () => (/* binding */ instantiateFaustModuleFromFile_default),
-/* harmony export */   "str2ab": () => (/* binding */ str2ab)
+/* harmony export */   FaustAudioWorkletNode: () => (/* binding */ FaustAudioWorkletNode),
+/* harmony export */   FaustBaseWebAudioDsp: () => (/* binding */ FaustBaseWebAudioDsp),
+/* harmony export */   FaustCompiler: () => (/* binding */ FaustCompiler_default),
+/* harmony export */   FaustDspInstance: () => (/* binding */ FaustDspInstance_default),
+/* harmony export */   FaustMonoAudioWorkletNode: () => (/* binding */ FaustMonoAudioWorkletNode),
+/* harmony export */   FaustMonoDspGenerator: () => (/* binding */ FaustMonoDspGenerator),
+/* harmony export */   FaustMonoOfflineProcessor: () => (/* binding */ FaustMonoOfflineProcessor),
+/* harmony export */   FaustMonoScriptProcessorNode: () => (/* binding */ FaustMonoScriptProcessorNode),
+/* harmony export */   FaustMonoWebAudioDsp: () => (/* binding */ FaustMonoWebAudioDsp),
+/* harmony export */   FaustOfflineProcessor: () => (/* binding */ FaustOfflineProcessor_default),
+/* harmony export */   FaustPolyAudioWorkletNode: () => (/* binding */ FaustPolyAudioWorkletNode),
+/* harmony export */   FaustPolyDspGenerator: () => (/* binding */ FaustPolyDspGenerator),
+/* harmony export */   FaustPolyOfflineProcessor: () => (/* binding */ FaustPolyOfflineProcessor),
+/* harmony export */   FaustPolyScriptProcessorNode: () => (/* binding */ FaustPolyScriptProcessorNode),
+/* harmony export */   FaustPolyWebAudioDsp: () => (/* binding */ FaustPolyWebAudioDsp),
+/* harmony export */   FaustScriptProcessorNode: () => (/* binding */ FaustScriptProcessorNode),
+/* harmony export */   FaustSvgDiagrams: () => (/* binding */ FaustSvgDiagrams_default),
+/* harmony export */   FaustWasmInstantiator: () => (/* binding */ FaustWasmInstantiator_default),
+/* harmony export */   FaustWebAudioDspVoice: () => (/* binding */ FaustWebAudioDspVoice),
+/* harmony export */   LibFaust: () => (/* binding */ LibFaust_default),
+/* harmony export */   WavDecoder: () => (/* binding */ WavDecoder_default),
+/* harmony export */   WavEncoder: () => (/* binding */ WavEncoder_default),
+/* harmony export */   ab2str: () => (/* binding */ ab2str),
+/* harmony export */   getFaustAudioWorkletProcessor: () => (/* binding */ FaustAudioWorkletProcessor_default),
+/* harmony export */   getFaustFFTAudioWorkletProcessor: () => (/* binding */ FaustFFTAudioWorkletProcessor_default),
+/* harmony export */   instantiateFaustModuleFromFile: () => (/* binding */ instantiateFaustModuleFromFile_default),
+/* harmony export */   str2ab: () => (/* binding */ str2ab)
 /* harmony export */ });
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -31630,23 +31630,17 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = {
-    exports: {}
-  }).exports, mod), mod.exports;
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from)) if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
-      get: () => from[key],
-      enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
-    });
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
-  value: mod,
-  enumerable: true
-}) : target, mod));
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
 
 // node_modules/tslib/tslib.js
 var require_tslib = __commonJS({
@@ -31674,10 +31668,10 @@ var require_tslib = __commonJS({
     var __classPrivateFieldGet;
     var __classPrivateFieldSet;
     var __createBinding;
-    (function (factory) {
+    (function(factory) {
       var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
       if (typeof define === "function" && define.amd) {
-        define("tslib", ["exports"], function (exports2) {
+        define("tslib", ["exports"], function(exports2) {
           factory(createExporter(root, createExporter(exports2)));
         });
       } else if (typeof module === "object" && typeof module.exports === "object") {
@@ -31688,69 +31682,77 @@ var require_tslib = __commonJS({
       function createExporter(exports2, previous) {
         if (exports2 !== root) {
           if (typeof Object.create === "function") {
-            Object.defineProperty(exports2, "__esModule", {
-              value: true
-            });
+            Object.defineProperty(exports2, "__esModule", { value: true });
           } else {
             exports2.__esModule = true;
           }
         }
-        return function (id, v) {
+        return function(id, v) {
           return exports2[id] = previous ? previous(id, v) : v;
         };
       }
-    })(function (exporter) {
-      var extendStatics = Object.setPrototypeOf || {
-        __proto__: []
-      } instanceof Array && function (d, b) {
+    })(function(exporter) {
+      var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d, b) {
         d.__proto__ = b;
-      } || function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+      } || function(d, b) {
+        for (var p in b)
+          if (b.hasOwnProperty(p))
+            d[p] = b[p];
       };
-      __extends = function (d, b) {
+      __extends = function(d, b) {
         extendStatics(d, b);
         function __() {
           this.constructor = d;
         }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
       };
-      __assign = Object.assign || function (t) {
+      __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
           s = arguments[i];
-          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+          for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p))
+              t[p] = s[p];
         }
         return t;
       };
-      __rest = function (s, e) {
+      __rest = function(s, e) {
         var t = {};
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-        if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-        }
+        for (var p in s)
+          if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (s != null && typeof Object.getOwnPropertySymbols === "function")
+          for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+              t[p[i]] = s[p[i]];
+          }
         return t;
       };
-      __decorate = function (decorators, target, key, desc) {
-        var c = arguments.length,
-          r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-          d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+      __decorate = function(decorators, target, key, desc) {
+        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+        if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+          r = Reflect.decorate(decorators, target, key, desc);
+        else
+          for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+              r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
       };
-      __param = function (paramIndex, decorator) {
-        return function (target, key) {
+      __param = function(paramIndex, decorator) {
+        return function(target, key) {
           decorator(target, key, paramIndex);
         };
       };
-      __metadata = function (metadataKey, metadataValue) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+      __metadata = function(metadataKey, metadataValue) {
+        if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+          return Reflect.metadata(metadataKey, metadataValue);
       };
-      __awaiter = function (thisArg, _arguments, P, generator) {
+      __awaiter = function(thisArg, _arguments, P, generator) {
         function adopt(value) {
-          return value instanceof P ? value : new P(function (resolve) {
+          return value instanceof P ? value : new P(function(resolve) {
             resolve(value);
           });
         }
-        return new (P || (P = Promise))(function (resolve, reject) {
+        return new (P || (P = Promise))(function(resolve, reject) {
           function fulfilled(value) {
             try {
               step(generator.next(value));
@@ -31771,165 +31773,157 @@ var require_tslib = __commonJS({
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      __generator = function (thisArg, body) {
-        var _ = {
-            label: 0,
-            sent: function () {
-              if (t[0] & 1) throw t[1];
-              return t[1];
-            },
-            trys: [],
-            ops: []
-          },
-          f,
-          y,
-          t,
-          g;
-        return g = {
-          next: verb(0),
-          "throw": verb(1),
-          "return": verb(2)
-        }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+      __generator = function(thisArg, body) {
+        var _ = { label: 0, sent: function() {
+          if (t[0] & 1)
+            throw t[1];
+          return t[1];
+        }, trys: [], ops: [] }, f, y, t, g;
+        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
           return this;
         }), g;
         function verb(n) {
-          return function (v) {
+          return function(v) {
             return step([n, v]);
           };
         }
         function step(op) {
-          if (f) throw new TypeError("Generator is already executing.");
-          while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-              case 0:
-              case 1:
-                t = op;
-                break;
-              case 4:
-                _.label++;
-                return {
-                  value: op[1],
-                  done: false
-                };
-              case 5:
-                _.label++;
-                y = op[1];
-                op = [0];
-                continue;
-              case 7:
-                op = _.ops.pop();
-                _.trys.pop();
-                continue;
-              default:
-                if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-                  _ = 0;
-                  continue;
-                }
-                if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-                  _.label = op[1];
-                  break;
-                }
-                if (op[0] === 6 && _.label < t[1]) {
-                  _.label = t[1];
+          if (f)
+            throw new TypeError("Generator is already executing.");
+          while (_)
+            try {
+              if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
+                return t;
+              if (y = 0, t)
+                op = [op[0] & 2, t.value];
+              switch (op[0]) {
+                case 0:
+                case 1:
                   t = op;
                   break;
-                }
-                if (t && _.label < t[2]) {
-                  _.label = t[2];
-                  _.ops.push(op);
-                  break;
-                }
-                if (t[2]) _.ops.pop();
-                _.trys.pop();
-                continue;
+                case 4:
+                  _.label++;
+                  return { value: op[1], done: false };
+                case 5:
+                  _.label++;
+                  y = op[1];
+                  op = [0];
+                  continue;
+                case 7:
+                  op = _.ops.pop();
+                  _.trys.pop();
+                  continue;
+                default:
+                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                    _ = 0;
+                    continue;
+                  }
+                  if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+                    _.label = op[1];
+                    break;
+                  }
+                  if (op[0] === 6 && _.label < t[1]) {
+                    _.label = t[1];
+                    t = op;
+                    break;
+                  }
+                  if (t && _.label < t[2]) {
+                    _.label = t[2];
+                    _.ops.push(op);
+                    break;
+                  }
+                  if (t[2])
+                    _.ops.pop();
+                  _.trys.pop();
+                  continue;
+              }
+              op = body.call(thisArg, _);
+            } catch (e) {
+              op = [6, e];
+              y = 0;
+            } finally {
+              f = t = 0;
             }
-            op = body.call(thisArg, _);
-          } catch (e) {
-            op = [6, e];
-            y = 0;
-          } finally {
-            f = t = 0;
-          }
-          if (op[0] & 5) throw op[1];
-          return {
-            value: op[0] ? op[1] : void 0,
-            done: true
-          };
+          if (op[0] & 5)
+            throw op[1];
+          return { value: op[0] ? op[1] : void 0, done: true };
         }
       };
-      __createBinding = function (o, m, k, k2) {
-        if (k2 === void 0) k2 = k;
+      __createBinding = function(o, m, k, k2) {
+        if (k2 === void 0)
+          k2 = k;
         o[k2] = m[k];
       };
-      __exportStar = function (m, exports2) {
-        for (var p in m) if (p !== "default" && !exports2.hasOwnProperty(p)) exports2[p] = m[p];
+      __exportStar = function(m, exports2) {
+        for (var p in m)
+          if (p !== "default" && !exports2.hasOwnProperty(p))
+            exports2[p] = m[p];
       };
-      __values = function (o) {
-        var s = typeof Symbol === "function" && Symbol.iterator,
-          m = s && o[s],
-          i = 0;
-        if (m) return m.call(o);
-        if (o && typeof o.length === "number") return {
-          next: function () {
-            if (o && i >= o.length) o = void 0;
-            return {
-              value: o && o[i++],
-              done: !o
-            };
-          }
-        };
+      __values = function(o) {
+        var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+        if (m)
+          return m.call(o);
+        if (o && typeof o.length === "number")
+          return {
+            next: function() {
+              if (o && i >= o.length)
+                o = void 0;
+              return { value: o && o[i++], done: !o };
+            }
+          };
         throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
       };
-      __read = function (o, n) {
+      __read = function(o, n) {
         var m = typeof Symbol === "function" && o[Symbol.iterator];
-        if (!m) return o;
-        var i = m.call(o),
-          r,
-          ar = [],
-          e;
+        if (!m)
+          return o;
+        var i = m.call(o), r, ar = [], e;
         try {
-          while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+          while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
+            ar.push(r.value);
         } catch (error) {
-          e = {
-            error
-          };
+          e = { error };
         } finally {
           try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
+            if (r && !r.done && (m = i["return"]))
+              m.call(i);
           } finally {
-            if (e) throw e.error;
+            if (e)
+              throw e.error;
           }
         }
         return ar;
       };
-      __spread = function () {
-        for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+      __spread = function() {
+        for (var ar = [], i = 0; i < arguments.length; i++)
+          ar = ar.concat(__read(arguments[i]));
         return ar;
       };
-      __spreadArrays = function () {
-        for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-        for (var r = Array(s), k = 0, i = 0; i < il; i++) for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++) r[k] = a[j];
+      __spreadArrays = function() {
+        for (var s = 0, i = 0, il = arguments.length; i < il; i++)
+          s += arguments[i].length;
+        for (var r = Array(s), k = 0, i = 0; i < il; i++)
+          for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
         return r;
       };
-      __await = function (v) {
+      __await = function(v) {
         return this instanceof __await ? (this.v = v, this) : new __await(v);
       };
-      __asyncGenerator = function (thisArg, _arguments, generator) {
-        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-        var g = generator.apply(thisArg, _arguments || []),
-          i,
-          q = [];
-        return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () {
+      __asyncGenerator = function(thisArg, _arguments, generator) {
+        if (!Symbol.asyncIterator)
+          throw new TypeError("Symbol.asyncIterator is not defined.");
+        var g = generator.apply(thisArg, _arguments || []), i, q = [];
+        return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
           return this;
         }, i;
         function verb(n) {
-          if (g[n]) i[n] = function (v) {
-            return new Promise(function (a, b) {
-              q.push([n, v, a, b]) > 1 || resume(n, v);
-            });
-          };
+          if (g[n])
+            i[n] = function(v) {
+              return new Promise(function(a, b) {
+                q.push([n, v, a, b]) > 1 || resume(n, v);
+              });
+            };
         }
         function resume(n, v) {
           try {
@@ -31948,79 +31942,73 @@ var require_tslib = __commonJS({
           resume("throw", value);
         }
         function settle(f, v) {
-          if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]);
+          if (f(v), q.shift(), q.length)
+            resume(q[0][0], q[0][1]);
         }
       };
-      __asyncDelegator = function (o) {
+      __asyncDelegator = function(o) {
         var i, p;
-        return i = {}, verb("next"), verb("throw", function (e) {
+        return i = {}, verb("next"), verb("throw", function(e) {
           throw e;
-        }), verb("return"), i[Symbol.iterator] = function () {
+        }), verb("return"), i[Symbol.iterator] = function() {
           return this;
         }, i;
         function verb(n, f) {
-          i[n] = o[n] ? function (v) {
-            return (p = !p) ? {
-              value: __await(o[n](v)),
-              done: n === "return"
-            } : f ? f(v) : v;
+          i[n] = o[n] ? function(v) {
+            return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v;
           } : f;
         }
       };
-      __asyncValues = function (o) {
-        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-        var m = o[Symbol.asyncIterator],
-          i;
-        return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () {
+      __asyncValues = function(o) {
+        if (!Symbol.asyncIterator)
+          throw new TypeError("Symbol.asyncIterator is not defined.");
+        var m = o[Symbol.asyncIterator], i;
+        return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
           return this;
         }, i);
         function verb(n) {
-          i[n] = o[n] && function (v) {
-            return new Promise(function (resolve, reject) {
+          i[n] = o[n] && function(v) {
+            return new Promise(function(resolve, reject) {
               v = o[n](v), settle(resolve, reject, v.done, v.value);
             });
           };
         }
         function settle(resolve, reject, d, v) {
-          Promise.resolve(v).then(function (v2) {
-            resolve({
-              value: v2,
-              done: d
-            });
+          Promise.resolve(v).then(function(v2) {
+            resolve({ value: v2, done: d });
           }, reject);
         }
       };
-      __makeTemplateObject = function (cooked, raw) {
+      __makeTemplateObject = function(cooked, raw) {
         if (Object.defineProperty) {
-          Object.defineProperty(cooked, "raw", {
-            value: raw
-          });
+          Object.defineProperty(cooked, "raw", { value: raw });
         } else {
           cooked.raw = raw;
         }
         return cooked;
       };
-      __importStar = function (mod) {
-        if (mod && mod.__esModule) return mod;
+      __importStar = function(mod) {
+        if (mod && mod.__esModule)
+          return mod;
         var result = {};
         if (mod != null) {
-          for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+          for (var k in mod)
+            if (Object.hasOwnProperty.call(mod, k))
+              result[k] = mod[k];
         }
         result["default"] = mod;
         return result;
       };
-      __importDefault = function (mod) {
-        return mod && mod.__esModule ? mod : {
-          "default": mod
-        };
+      __importDefault = function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
       };
-      __classPrivateFieldGet = function (receiver, privateMap) {
+      __classPrivateFieldGet = function(receiver, privateMap) {
         if (!privateMap.has(receiver)) {
           throw new TypeError("attempted to get private field on non-instance");
         }
         return privateMap.get(receiver);
       };
-      __classPrivateFieldSet = function (receiver, privateMap, value) {
+      __classPrivateFieldSet = function(receiver, privateMap, value) {
         if (!privateMap.has(receiver)) {
           throw new TypeError("attempted to set private field on non-instance");
         }
@@ -32058,15 +32046,86 @@ var require_tslib = __commonJS({
 var require_constants = __commonJS({
   "node_modules/@aws-crypto/sha256-js/build/constants.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.MAX_HASHABLE_LENGTH = exports.INIT = exports.KEY = exports.DIGEST_LENGTH = exports.BLOCK_SIZE = void 0;
     exports.BLOCK_SIZE = 64;
     exports.DIGEST_LENGTH = 32;
-    exports.KEY = new Uint32Array([1116352408, 1899447441, 3049323471, 3921009573, 961987163, 1508970993, 2453635748, 2870763221, 3624381080, 310598401, 607225278, 1426881987, 1925078388, 2162078206, 2614888103, 3248222580, 3835390401, 4022224774, 264347078, 604807628, 770255983, 1249150122, 1555081692, 1996064986, 2554220882, 2821834349, 2952996808, 3210313671, 3336571891, 3584528711, 113926993, 338241895, 666307205, 773529912, 1294757372, 1396182291, 1695183700, 1986661051, 2177026350, 2456956037, 2730485921, 2820302411, 3259730800, 3345764771, 3516065817, 3600352804, 4094571909, 275423344, 430227734, 506948616, 659060556, 883997877, 958139571, 1322822218, 1537002063, 1747873779, 1955562222, 2024104815, 2227730452, 2361852424, 2428436474, 2756734187, 3204031479, 3329325298]);
-    exports.INIT = [1779033703, 3144134277, 1013904242, 2773480762, 1359893119, 2600822924, 528734635, 1541459225];
+    exports.KEY = new Uint32Array([
+      1116352408,
+      1899447441,
+      3049323471,
+      3921009573,
+      961987163,
+      1508970993,
+      2453635748,
+      2870763221,
+      3624381080,
+      310598401,
+      607225278,
+      1426881987,
+      1925078388,
+      2162078206,
+      2614888103,
+      3248222580,
+      3835390401,
+      4022224774,
+      264347078,
+      604807628,
+      770255983,
+      1249150122,
+      1555081692,
+      1996064986,
+      2554220882,
+      2821834349,
+      2952996808,
+      3210313671,
+      3336571891,
+      3584528711,
+      113926993,
+      338241895,
+      666307205,
+      773529912,
+      1294757372,
+      1396182291,
+      1695183700,
+      1986661051,
+      2177026350,
+      2456956037,
+      2730485921,
+      2820302411,
+      3259730800,
+      3345764771,
+      3516065817,
+      3600352804,
+      4094571909,
+      275423344,
+      430227734,
+      506948616,
+      659060556,
+      883997877,
+      958139571,
+      1322822218,
+      1537002063,
+      1747873779,
+      1955562222,
+      2024104815,
+      2227730452,
+      2361852424,
+      2428436474,
+      2756734187,
+      3204031479,
+      3329325298
+    ]);
+    exports.INIT = [
+      1779033703,
+      3144134277,
+      1013904242,
+      2773480762,
+      1359893119,
+      2600822924,
+      528734635,
+      1541459225
+    ];
     exports.MAX_HASHABLE_LENGTH = Math.pow(2, 53) - 1;
   }
 });
@@ -32075,13 +32134,10 @@ var require_constants = __commonJS({
 var require_RawSha256 = __commonJS({
   "node_modules/@aws-crypto/sha256-js/build/RawSha256.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.RawSha256 = void 0;
     var constants_1 = require_constants();
-    var RawSha256 = function () {
+    var RawSha256 = function() {
       function RawSha2562() {
         this.state = Int32Array.from(constants_1.INIT);
         this.temp = new Int32Array(64);
@@ -32090,7 +32146,7 @@ var require_RawSha256 = __commonJS({
         this.bytesHashed = 0;
         this.finished = false;
       }
-      RawSha2562.prototype.update = function (data) {
+      RawSha2562.prototype.update = function(data) {
         if (this.finished) {
           throw new Error("Attempted to update an already finished hash.");
         }
@@ -32109,7 +32165,7 @@ var require_RawSha256 = __commonJS({
           }
         }
       };
-      RawSha2562.prototype.digest = function () {
+      RawSha2562.prototype.digest = function() {
         if (!this.finished) {
           var bitsHashed = this.bytesHashed * 8;
           var bufferView = new DataView(this.buffer.buffer, this.buffer.byteOffset, this.buffer.byteLength);
@@ -32139,18 +32195,9 @@ var require_RawSha256 = __commonJS({
         }
         return out;
       };
-      RawSha2562.prototype.hashBuffer = function () {
-        var _a = this,
-          buffer = _a.buffer,
-          state = _a.state;
-        var state0 = state[0],
-          state1 = state[1],
-          state2 = state[2],
-          state3 = state[3],
-          state4 = state[4],
-          state5 = state[5],
-          state6 = state[6],
-          state7 = state[7];
+      RawSha2562.prototype.hashBuffer = function() {
+        var _a = this, buffer = _a.buffer, state = _a.state;
+        var state0 = state[0], state1 = state[1], state2 = state[2], state3 = state[3], state4 = state[4], state5 = state[5], state6 = state[6], state7 = state[7];
         for (var i = 0; i < constants_1.BLOCK_SIZE; i++) {
           if (i < 16) {
             this.temp[i] = (buffer[i * 4] & 255) << 24 | (buffer[i * 4 + 1] & 255) << 16 | (buffer[i * 4 + 2] & 255) << 8 | buffer[i * 4 + 3] & 255;
@@ -32191,12 +32238,9 @@ var require_RawSha256 = __commonJS({
 var require_pureJs = __commonJS({
   "node_modules/@aws-sdk/util-utf8-browser/dist-cjs/pureJs.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.toUtf8 = exports.fromUtf8 = void 0;
-    var fromUtf8 = input => {
+    var fromUtf8 = (input) => {
       const bytes = [];
       for (let i = 0, len = input.length; i < len; i++) {
         const value = input.charCodeAt(i);
@@ -32214,7 +32258,7 @@ var require_pureJs = __commonJS({
       return Uint8Array.from(bytes);
     };
     exports.fromUtf8 = fromUtf8;
-    var toUtf8 = input => {
+    var toUtf8 = (input) => {
       let decoded = "";
       for (let i = 0, len = input.length; i < len; i++) {
         const byte = input[i];
@@ -32225,7 +32269,7 @@ var require_pureJs = __commonJS({
           decoded += String.fromCharCode((byte & 31) << 6 | nextByte & 63);
         } else if (240 <= byte && byte < 365) {
           const surrogatePair = [byte, input[++i], input[++i], input[++i]];
-          const encoded = "%" + surrogatePair.map(byteValue => byteValue.toString(16)).join("%");
+          const encoded = "%" + surrogatePair.map((byteValue) => byteValue.toString(16)).join("%");
           decoded += decodeURIComponent(encoded);
         } else {
           decoded += String.fromCharCode((byte & 15) << 12 | (input[++i] & 63) << 6 | input[++i] & 63);
@@ -32241,10 +32285,7 @@ var require_pureJs = __commonJS({
 var require_whatwgEncodingApi = __commonJS({
   "node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.toUtf8 = exports.fromUtf8 = void 0;
     function fromUtf8(input) {
       return new TextEncoder().encode(input);
@@ -32261,16 +32302,13 @@ var require_whatwgEncodingApi = __commonJS({
 var require_dist_cjs = __commonJS({
   "node_modules/@aws-sdk/util-utf8-browser/dist-cjs/index.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.toUtf8 = exports.fromUtf8 = void 0;
     var pureJs_1 = require_pureJs();
     var whatwgEncodingApi_1 = require_whatwgEncodingApi();
-    var fromUtf8 = input => typeof TextEncoder === "function" ? (0, whatwgEncodingApi_1.fromUtf8)(input) : (0, pureJs_1.fromUtf8)(input);
+    var fromUtf8 = (input) => typeof TextEncoder === "function" ? (0, whatwgEncodingApi_1.fromUtf8)(input) : (0, pureJs_1.fromUtf8)(input);
     exports.fromUtf8 = fromUtf8;
-    var toUtf8 = input => typeof TextDecoder === "function" ? (0, whatwgEncodingApi_1.toUtf8)(input) : (0, pureJs_1.toUtf8)(input);
+    var toUtf8 = (input) => typeof TextDecoder === "function" ? (0, whatwgEncodingApi_1.toUtf8)(input) : (0, pureJs_1.toUtf8)(input);
     exports.toUtf8 = toUtf8;
   }
 });
@@ -32279,17 +32317,15 @@ var require_dist_cjs = __commonJS({
 var require_convertToBuffer = __commonJS({
   "node_modules/@aws-crypto/util/build/convertToBuffer.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.convertToBuffer = void 0;
     var util_utf8_browser_1 = require_dist_cjs();
-    var fromUtf8 = typeof Buffer !== "undefined" && Buffer.from ? function (input) {
+    var fromUtf8 = typeof Buffer !== "undefined" && Buffer.from ? function(input) {
       return Buffer.from(input, "utf8");
     } : util_utf8_browser_1.fromUtf8;
     function convertToBuffer(data) {
-      if (data instanceof Uint8Array) return data;
+      if (data instanceof Uint8Array)
+        return data;
       if (typeof data === "string") {
         return fromUtf8(data);
       }
@@ -32306,10 +32342,7 @@ var require_convertToBuffer = __commonJS({
 var require_isEmptyData = __commonJS({
   "node_modules/@aws-crypto/util/build/isEmptyData.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.isEmptyData = void 0;
     function isEmptyData(data) {
       if (typeof data === "string") {
@@ -32325,13 +32358,15 @@ var require_isEmptyData = __commonJS({
 var require_numToUint8 = __commonJS({
   "node_modules/@aws-crypto/util/build/numToUint8.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.numToUint8 = void 0;
     function numToUint8(num) {
-      return new Uint8Array([(num & 4278190080) >> 24, (num & 16711680) >> 16, (num & 65280) >> 8, num & 255]);
+      return new Uint8Array([
+        (num & 4278190080) >> 24,
+        (num & 16711680) >> 16,
+        (num & 65280) >> 8,
+        num & 255
+      ]);
     }
     exports.numToUint8 = numToUint8;
   }
@@ -32341,10 +32376,7 @@ var require_numToUint8 = __commonJS({
 var require_uint32ArrayFrom = __commonJS({
   "node_modules/@aws-crypto/util/build/uint32ArrayFrom.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.uint32ArrayFrom = void 0;
     function uint32ArrayFrom(a_lookUpTable) {
       if (!Uint32Array.from) {
@@ -32366,39 +32398,24 @@ var require_uint32ArrayFrom = __commonJS({
 var require_build = __commonJS({
   "node_modules/@aws-crypto/util/build/index.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.uint32ArrayFrom = exports.numToUint8 = exports.isEmptyData = exports.convertToBuffer = void 0;
     var convertToBuffer_1 = require_convertToBuffer();
-    Object.defineProperty(exports, "convertToBuffer", {
-      enumerable: true,
-      get: function () {
-        return convertToBuffer_1.convertToBuffer;
-      }
-    });
+    Object.defineProperty(exports, "convertToBuffer", { enumerable: true, get: function() {
+      return convertToBuffer_1.convertToBuffer;
+    } });
     var isEmptyData_1 = require_isEmptyData();
-    Object.defineProperty(exports, "isEmptyData", {
-      enumerable: true,
-      get: function () {
-        return isEmptyData_1.isEmptyData;
-      }
-    });
+    Object.defineProperty(exports, "isEmptyData", { enumerable: true, get: function() {
+      return isEmptyData_1.isEmptyData;
+    } });
     var numToUint8_1 = require_numToUint8();
-    Object.defineProperty(exports, "numToUint8", {
-      enumerable: true,
-      get: function () {
-        return numToUint8_1.numToUint8;
-      }
-    });
+    Object.defineProperty(exports, "numToUint8", { enumerable: true, get: function() {
+      return numToUint8_1.numToUint8;
+    } });
     var uint32ArrayFrom_1 = require_uint32ArrayFrom();
-    Object.defineProperty(exports, "uint32ArrayFrom", {
-      enumerable: true,
-      get: function () {
-        return uint32ArrayFrom_1.uint32ArrayFrom;
-      }
-    });
+    Object.defineProperty(exports, "uint32ArrayFrom", { enumerable: true, get: function() {
+      return uint32ArrayFrom_1.uint32ArrayFrom;
+    } });
   }
 });
 
@@ -32406,16 +32423,13 @@ var require_build = __commonJS({
 var require_jsSha256 = __commonJS({
   "node_modules/@aws-crypto/sha256-js/build/jsSha256.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.Sha256 = void 0;
     var tslib_1 = require_tslib();
     var constants_1 = require_constants();
     var RawSha256_1 = require_RawSha256();
     var util_1 = require_build();
-    var Sha2562 = function () {
+    var Sha2562 = function() {
       function Sha2563(secret) {
         this.hash = new RawSha256_1.RawSha256();
         if (secret) {
@@ -32434,7 +32448,7 @@ var require_jsSha256 = __commonJS({
           }
         }
       }
-      Sha2563.prototype.update = function (toHash) {
+      Sha2563.prototype.update = function(toHash) {
         if ((0, util_1.isEmptyData)(toHash) || this.error) {
           return;
         }
@@ -32444,7 +32458,7 @@ var require_jsSha256 = __commonJS({
           this.error = e;
         }
       };
-      Sha2563.prototype.digestSync = function () {
+      Sha2563.prototype.digestSync = function() {
         if (this.error) {
           throw this.error;
         }
@@ -32456,9 +32470,9 @@ var require_jsSha256 = __commonJS({
         }
         return this.hash.digest();
       };
-      Sha2563.prototype.digest = function () {
-        return (0, tslib_1.__awaiter)(this, void 0, void 0, function () {
-          return (0, tslib_1.__generator)(this, function (_a) {
+      Sha2563.prototype.digest = function() {
+        return (0, tslib_1.__awaiter)(this, void 0, void 0, function() {
+          return (0, tslib_1.__generator)(this, function(_a) {
             return [2, this.digestSync()];
           });
         });
@@ -32484,10 +32498,7 @@ var require_jsSha256 = __commonJS({
 var require_build2 = __commonJS({
   "node_modules/@aws-crypto/sha256-js/build/index.js"(exports) {
     "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
+    Object.defineProperty(exports, "__esModule", { value: true });
     var tslib_1 = require_tslib();
     (0, tslib_1.__exportStar)(require_jsSha256(), exports);
   }
@@ -32499,29 +32510,23 @@ var instantiateFaustModuleFromFile = async (jsFile, dataFile = jsFile.replace(/c
   let FaustModule;
   let dataBinary;
   let wasmBinary;
-  const jsCodeHead = /var (.+) = \(\(\) => \{/;
-  if (typeof globalThis.fetch === "function") {
+  const jsCodeHead = /var (.+) = \(/;
+  if (typeof window === "object") {
     let jsCode = await (await fetch(jsFile)).text();
     jsCode = `${jsCode}
 export default ${(_a = jsCode.match(jsCodeHead)) == null ? void 0 : _a[1]};
 `;
-    const jsFileMod = URL.createObjectURL(new Blob([jsCode], {
-      type: "text/javascript"
-    }));
-    FaustModule = (await import( /* webpackIgnore: true */
-    jsFileMod)).default;
+    const jsFileMod = URL.createObjectURL(new Blob([jsCode], { type: "text/javascript" }));
+    FaustModule = (await import(
+      /* webpackIgnore: true */
+      jsFileMod
+    )).default;
     dataBinary = await (await fetch(dataFile)).arrayBuffer();
     wasmBinary = new Uint8Array(await (await fetch(wasmFile)).arrayBuffer());
   } else {
-    const {
-      promises: fs
-    } = await __webpack_require__.e(/*! import() */ "_8529").then(__webpack_require__.t.bind(__webpack_require__, /*! fs */ "?8529", 19));
-    const {
-      pathToFileURL
-    } = await __webpack_require__.e(/*! import() */ "_98aa").then(__webpack_require__.t.bind(__webpack_require__, /*! url */ "?98aa", 19));
-    let jsCode = await fs.readFile(jsFile, {
-      encoding: "utf-8"
-    });
+    const { promises: fs } = await __webpack_require__.e(/*! import() */ "_dc1c").then(__webpack_require__.t.bind(__webpack_require__, /*! fs */ "?dc1c", 19));
+    const { pathToFileURL } = await __webpack_require__.e(/*! import() */ "_af15").then(__webpack_require__.t.bind(__webpack_require__, /*! url */ "?af15", 19));
+    let jsCode = await fs.readFile(jsFile, { encoding: "utf-8" });
     jsCode = `
 import process from "process";
 import * as path from "path";
@@ -32538,8 +32543,10 @@ export default ${(_b = jsCode.match(jsCodeHead)) == null ? void 0 : _b[1]};
 `;
     const jsFileMod = jsFile.replace(/c?js$/, "mjs");
     await fs.writeFile(jsFileMod, jsCode);
-    FaustModule = (await import( /* webpackIgnore: true */
-    pathToFileURL(jsFileMod).href)).default;
+    FaustModule = (await import(
+      /* webpackIgnore: true */
+      pathToFileURL(jsFileMod).href
+    )).default;
     await fs.unlink(jsFileMod);
     dataBinary = (await fs.readFile(dataFile)).buffer;
     wasmBinary = (await fs.readFile(wasmFile)).buffer;
@@ -32547,7 +32554,8 @@ export default ${(_b = jsCode.match(jsCodeHead)) == null ? void 0 : _b[1]};
   const faustModule = await FaustModule({
     wasmBinary,
     getPreloadedPackage: (remotePackageName, remotePackageSize) => {
-      if (remotePackageName === "libfaust-wasm.data") return dataBinary;
+      if (remotePackageName === "libfaust-wasm.data")
+        return dataBinary;
       return new ArrayBuffer(0);
     }
   });
@@ -32557,11 +32565,7 @@ var instantiateFaustModuleFromFile_default = instantiateFaustModuleFromFile;
 
 // src/FaustAudioWorkletProcessor.ts
 var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) => {
-  const {
-    registerProcessor,
-    AudioWorkletProcessor,
-    sampleRate
-  } = globalThis;
+  const { registerProcessor, AudioWorkletProcessor, sampleRate } = globalThis;
   const {
     FaustBaseWebAudioDsp: FaustBaseWebAudioDsp2,
     FaustWasmInstantiator: FaustWasmInstantiator2
@@ -32573,24 +32577,15 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
     effectMeta,
     poly
   } = faustData;
-  const analysePolyParameters = item => {
+  const analysePolyParameters = (item) => {
     const polyKeywords = ["/gate", "/freq", "/gain", "/key", "/vel", "/velocity"];
-    const isPolyReserved = "address" in item && !!polyKeywords.find(k => item.address.endsWith(k));
-    if (poly && isPolyReserved) return null;
+    const isPolyReserved = "address" in item && !!polyKeywords.find((k) => item.address.endsWith(k));
+    if (poly && isPolyReserved)
+      return null;
     if (item.type === "vslider" || item.type === "hslider" || item.type === "nentry") {
-      return {
-        name: item.address,
-        defaultValue: item.init || 0,
-        minValue: item.min || 0,
-        maxValue: item.max || 0
-      };
+      return { name: item.address, defaultValue: item.init || 0, minValue: item.min || 0, maxValue: item.max || 0 };
     } else if (item.type === "button" || item.type === "checkbox") {
-      return {
-        name: item.address,
-        defaultValue: item.init || 0,
-        minValue: 0,
-        maxValue: 1
-      };
+      return { name: item.address, defaultValue: item.init || 0, minValue: 0, maxValue: 1 };
     }
     return null;
   };
@@ -32598,22 +32593,22 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
     constructor(options) {
       super(options);
       this.paramValuesCache = {};
-      this.port.onmessage = e => this.handleMessageAux(e);
-      const {
-        parameterDescriptors
-      } = this.constructor;
-      parameterDescriptors.forEach(pd => {
+      this.port.onmessage = (e) => this.handleMessageAux(e);
+      const { parameterDescriptors } = this.constructor;
+      parameterDescriptors.forEach((pd) => {
         this.paramValuesCache[pd.name] = pd.defaultValue || 0;
       });
     }
     static get parameterDescriptors() {
       const params = [];
-      const callback = item => {
+      const callback = (item) => {
         const param = analysePolyParameters(item);
-        if (param) params.push(param);
+        if (param)
+          params.push(param);
       };
       FaustBaseWebAudioDsp2.parseUI(dspMeta.ui, callback);
-      if (effectMeta) FaustBaseWebAudioDsp2.parseUI(effectMeta.ui, callback);
+      if (effectMeta)
+        FaustBaseWebAudioDsp2.parseUI(effectMeta.ui, callback);
       return params;
     }
     process(inputs, outputs, parameters) {
@@ -32641,36 +32636,27 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
         case "param":
           this.setParamValue(msg.data.path, msg.data.value);
           break;
-        case "setPlotHandler":
-          {
-            if (msg.data) {
-              this.fDSPCode.setPlotHandler((output, index, events) => this.port.postMessage({
-                type: "plot",
-                value: output,
-                index,
-                events
-              }));
-            } else {
-              this.fDSPCode.setPlotHandler(null);
-            }
-            break;
+        case "setPlotHandler": {
+          if (msg.data) {
+            this.fDSPCode.setPlotHandler((output, index, events) => this.port.postMessage({ type: "plot", value: output, index, events }));
+          } else {
+            this.fDSPCode.setPlotHandler(null);
           }
-        case "start":
-          {
-            this.fDSPCode.start();
-            break;
-          }
-        case "stop":
-          {
-            this.fDSPCode.stop();
-            break;
-          }
-        case "destroy":
-          {
-            this.port.close();
-            this.fDSPCode.destroy();
-            break;
-          }
+          break;
+        }
+        case "start": {
+          this.fDSPCode.start();
+          break;
+        }
+        case "stop": {
+          this.fDSPCode.stop();
+          break;
+        }
+        case "destroy": {
+          this.port.close();
+          this.fDSPCode.destroy();
+          break;
+        }
         default:
           break;
       }
@@ -32692,27 +32678,18 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
   class FaustMonoAudioWorkletProcessor extends FaustAudioWorkletProcessor {
     constructor(options) {
       super(options);
-      const {
-        FaustMonoWebAudioDsp: FaustMonoWebAudioDsp2
-      } = dependencies;
-      const {
-        factory,
-        sampleSize
-      } = options.processorOptions;
+      const { FaustMonoWebAudioDsp: FaustMonoWebAudioDsp2 } = dependencies;
+      const { factory, sampleSize } = options.processorOptions;
       const instance = FaustWasmInstantiator2.createSyncMonoDSPInstance(factory);
       this.fDSPCode = new FaustMonoWebAudioDsp2(instance, sampleRate, sampleSize, 128);
-      this.fDSPCode.setOutputParamHandler((path, value) => this.port.postMessage({
-        path,
-        value,
-        type: "param"
-      }));
+      this.fDSPCode.setOutputParamHandler((path, value) => this.port.postMessage({ path, value, type: "param" }));
       this.fDSPCode.start();
     }
   }
   class FaustPolyAudioWorkletProcessor extends FaustAudioWorkletProcessor {
     constructor(options) {
       super(options);
-      this.handleMessageAux = e => {
+      this.handleMessageAux = (e) => {
         const msg = e.data;
         switch (msg.type) {
           case "keyOn":
@@ -32726,24 +32703,12 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
             break;
         }
       };
-      const {
-        FaustPolyWebAudioDsp: FaustPolyWebAudioDsp3
-      } = dependencies;
-      const {
-        voiceFactory,
-        mixerModule,
-        voices,
-        effectFactory,
-        sampleSize
-      } = options.processorOptions;
+      const { FaustPolyWebAudioDsp: FaustPolyWebAudioDsp3 } = dependencies;
+      const { voiceFactory, mixerModule, voices, effectFactory, sampleSize } = options.processorOptions;
       const instance = FaustWasmInstantiator2.createSyncPolyDSPInstance(voiceFactory, mixerModule, voices, effectFactory);
       this.fDSPCode = new FaustPolyWebAudioDsp3(instance, sampleRate, sampleSize, 128);
-      this.port.onmessage = e => this.handleMessageAux(e);
-      this.fDSPCode.setOutputParamHandler((path, value) => this.port.postMessage({
-        path,
-        value,
-        type: "param"
-      }));
+      this.port.onmessage = (e) => this.handleMessageAux(e);
+      this.fDSPCode.setOutputParamHandler((path, value) => this.port.postMessage({ path, value, type: "param" }));
       this.fDSPCode.start();
     }
     midiMessage(data) {
@@ -32751,7 +32716,12 @@ var getFaustAudioWorkletProcessor = (dependencies, faustData, register = true) =
       const channel = data[0] & 15;
       const data1 = data[1];
       const data2 = data[2];
-      if (cmd === 8 || cmd === 9 && data2 === 0) this.keyOff(channel, data1, data2);else if (cmd === 9) this.keyOn(channel, data1, data2);else super.midiMessage(data);
+      if (cmd === 8 || cmd === 9 && data2 === 0)
+        this.keyOff(channel, data1, data2);
+      else if (cmd === 9)
+        this.keyOn(channel, data1, data2);
+      else
+        super.midiMessage(data);
     }
     keyOn(channel, pitch, velocity) {
       this.fDSPCode.keyOn(channel, pitch, velocity);
@@ -32777,11 +32747,7 @@ var FaustAudioWorkletProcessor_default = getFaustAudioWorkletProcessor;
 
 // src/FaustFFTAudioWorkletProcessor.ts
 var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true) => {
-  const {
-    registerProcessor,
-    AudioWorkletProcessor,
-    sampleRate
-  } = globalThis;
+  const { registerProcessor, AudioWorkletProcessor, sampleRate } = globalThis;
   const {
     FaustBaseWebAudioDsp: FaustBaseWebAudioDsp2,
     FaustWasmInstantiator: FaustWasmInstantiator2,
@@ -32819,30 +32785,24 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
     while (spilled < spillLength) {
       const $spillLength = Math.min(spillLength - spilled, toLength - $to, fromLength - $from);
       const $fromEnd = $from + $spillLength;
-      if ($from === 0 && $fromEnd === fromLength) to.set(from, $to);else to.set(from.subarray($from, $fromEnd), $to);
+      if ($from === 0 && $fromEnd === fromLength)
+        to.set(from, $to);
+      else
+        to.set(from.subarray($from, $fromEnd), $to);
       $to = ($to + $spillLength) % toLength;
       $from = $fromEnd % fromLength;
       spilled += $spillLength;
     }
     return $to;
   };
-  const analyseParameters = item => {
-    const isFFTReserved = "address" in item && !!fftParamKeywords.find(k => item.address.endsWith(k));
-    if (isFFTReserved) return null;
+  const analyseParameters = (item) => {
+    const isFFTReserved = "address" in item && !!fftParamKeywords.find((k) => item.address.endsWith(k));
+    if (isFFTReserved)
+      return null;
     if (item.type === "vslider" || item.type === "hslider" || item.type === "nentry") {
-      return {
-        name: item.address,
-        defaultValue: item.init || 0,
-        minValue: item.min || 0,
-        maxValue: item.max || 0
-      };
+      return { name: item.address, defaultValue: item.init || 0, minValue: item.min || 0, maxValue: item.max || 0 };
     } else if (item.type === "button" || item.type === "checkbox") {
-      return {
-        name: item.address,
-        defaultValue: item.init || 0,
-        minValue: 0,
-        maxValue: 1
-      };
+      return { name: item.address, defaultValue: item.init || 0, minValue: 0, maxValue: 1 };
     }
     return null;
   };
@@ -32866,17 +32826,12 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
       this.fCachedEvents = [];
       this.fBufferNum = 0;
       this.windowFunction = null;
-      this.port.onmessage = e => this.handleMessageAux(e);
-      const {
-        parameterDescriptors
-      } = this.constructor;
-      parameterDescriptors.forEach(pd => {
+      this.port.onmessage = (e) => this.handleMessageAux(e);
+      const { parameterDescriptors } = this.constructor;
+      parameterDescriptors.forEach((pd) => {
         this.paramValuesCache[pd.name] = pd.defaultValue || 0;
       });
-      const {
-        factory,
-        sampleSize
-      } = options.processorOptions;
+      const { factory, sampleSize } = options.processorOptions;
       this.dspInstance = FaustWasmInstantiator2.createSyncMonoDSPInstance(factory);
       this.sampleSize = sampleSize;
       this.initFFT();
@@ -32891,40 +32846,47 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
     }
     static get parameterDescriptors() {
       const params = [];
-      const callback = item => {
+      const callback = (item) => {
         const param = analyseParameters(item);
-        if (param) params.push(param);
+        if (param)
+          params.push(param);
       };
       FaustBaseWebAudioDsp2.parseUI(dspMeta.ui, callback);
-      return [...params, {
-        defaultValue: (fftOptions == null ? void 0 : fftOptions.fftSize) || 1024,
-        maxValue: 2 ** 32,
-        minValue: 2,
-        name: "fftSize"
-      }, {
-        defaultValue: (fftOptions == null ? void 0 : fftOptions.fftOverlap) || 2,
-        maxValue: 32,
-        minValue: 1,
-        name: "fftOverlap"
-      }, {
-        defaultValue: typeof (fftOptions == null ? void 0 : fftOptions.defaultWindowFunction) === "number" ? fftOptions.defaultWindowFunction + 1 : 0,
-        maxValue: (windowFunctions == null ? void 0 : windowFunctions.length) || 0,
-        minValue: 0,
-        name: "windowFunction"
-      }, {
-        defaultValue: +!!(fftOptions == null ? void 0 : fftOptions.noIFFT) || 0,
-        maxValue: 1,
-        minValue: 0,
-        name: "noIFFT"
-      }];
+      return [
+        ...params,
+        {
+          defaultValue: (fftOptions == null ? void 0 : fftOptions.fftSize) || 1024,
+          maxValue: 2 ** 32,
+          minValue: 2,
+          name: "fftSize"
+        },
+        {
+          defaultValue: (fftOptions == null ? void 0 : fftOptions.fftOverlap) || 2,
+          maxValue: 32,
+          minValue: 1,
+          name: "fftOverlap"
+        },
+        {
+          defaultValue: typeof (fftOptions == null ? void 0 : fftOptions.defaultWindowFunction) === "number" ? fftOptions.defaultWindowFunction + 1 : 0,
+          maxValue: (windowFunctions == null ? void 0 : windowFunctions.length) || 0,
+          minValue: 0,
+          name: "windowFunction"
+        },
+        {
+          defaultValue: +!!(fftOptions == null ? void 0 : fftOptions.noIFFT) || 0,
+          maxValue: 1,
+          minValue: 0,
+          name: "noIFFT"
+        }
+      ];
     }
     processFFT() {
       let samplesForFFT = mod(this.$inputWrite - this.$inputRead, this.fftBufferSize) || this.fftBufferSize;
       while (samplesForFFT >= this.fftSize) {
         let fftProcessorOutputs = [];
-        this.fDSPCode.compute(inputs => {
+        this.fDSPCode.compute((inputs) => {
           for (let i = 0; i < Math.min(this.fftInput.length, Math.ceil(inputs.length / 3)); i++) {
-            const ffted = this.rfft.forward(fftBuffer => {
+            const ffted = this.rfft.forward((fftBuffer) => {
               setTypedArray(fftBuffer, this.fftInput[i], 0, this.$inputRead);
               for (let j = 0; j < fftBuffer.length; j++) {
                 fftBuffer[j] *= this.window[j];
@@ -32933,9 +32895,12 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
             fftToSignal(ffted, inputs[i * 3], inputs[i * 3 + 1], inputs[i * 3 + 2]);
           }
           for (let i = this.fftInput.length * 3; i < inputs.length; i++) {
-            if (i % 3 === 2) inputs[i].forEach((v, j) => inputs[i][j] = j);else inputs[i].fill(0);
+            if (i % 3 === 2)
+              inputs[i].forEach((v, j) => inputs[i][j] = j);
+            else
+              inputs[i].fill(0);
           }
-        }, outputs => {
+        }, (outputs) => {
           fftProcessorOutputs = outputs;
         });
         this.$inputRead += this.fftHopSize;
@@ -32947,7 +32912,7 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
             iffted = this.noIFFTBuffer;
             signalToNoFFT(fftProcessorOutputs[i * 2] || this.fftProcessorZeros, fftProcessorOutputs[i * 2 + 1] || this.fftProcessorZeros, iffted);
           } else {
-            iffted = this.rfft.inverse(ifftBuffer => {
+            iffted = this.rfft.inverse((ifftBuffer) => {
               signalToFFT(fftProcessorOutputs[i * 2] || this.fftProcessorZeros, fftProcessorOutputs[i * 2 + 1] || this.fftProcessorZeros, ifftBuffer);
             });
           }
@@ -32958,12 +32923,14 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
           for (let j = 0; j < iffted.length - this.fftHopSize; j++) {
             $ = mod(this.$outputWrite + j, this.fftBufferSize);
             this.fftOutput[i][$] += iffted[j];
-            if (i === 0) this.windowSumSquare[$] += this.noIFFT ? this.window[j] : this.window[j] ** 2;
+            if (i === 0)
+              this.windowSumSquare[$] += this.noIFFT ? this.window[j] : this.window[j] ** 2;
           }
           for (let j = iffted.length - this.fftHopSize; j < iffted.length; j++) {
             $ = mod(this.$outputWrite + j, this.fftBufferSize);
             this.fftOutput[i][$] = iffted[j];
-            if (i === 0) this.windowSumSquare[$] = this.noIFFT ? this.window[j] : this.window[j] ** 2;
+            if (i === 0)
+              this.windowSumSquare[$] = this.noIFFT ? this.window[j] : this.window[j] ** 2;
           }
         }
         this.$outputWrite += this.fftHopSize;
@@ -32971,18 +32938,22 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
       }
     }
     process(inputs, outputs, parameters) {
-      if (this.destroyed) return false;
-      if (!this.FFT) return true;
+      if (this.destroyed)
+        return false;
+      if (!this.FFT)
+        return true;
       const input = inputs[0];
       const output = outputs[0];
       const inputChannels = (input == null ? void 0 : input.length) || 0;
       const outputChannels = (output == null ? void 0 : output.length) || 0;
-      const bufferSize = (input == null ? void 0 : input.length) ? Math.max(...input.map(c => c.length)) || 128 : 128;
+      const bufferSize = (input == null ? void 0 : input.length) ? Math.max(...input.map((c) => c.length)) || 128 : 128;
       this.noIFFT = !!parameters.noIFFT[0];
       this.resetFFT(~~parameters.fftSize[0], ~~parameters.fftOverlap[0], ~~parameters.windowFunction[0], inputChannels, outputChannels, bufferSize);
-      if (!this.fDSPCode) return true;
+      if (!this.fDSPCode)
+        return true;
       for (const path in parameters) {
-        if (!!fftParamKeywords.find(k => `/${path}`.endsWith(k))) continue;
+        if (!!fftParamKeywords.find((k) => `/${path}`.endsWith(k)))
+          continue;
         const [paramValue] = parameters[path];
         if (paramValue !== this.paramValuesCache[path]) {
           this.fDSPCode.setParamValue(path, paramValue);
@@ -33013,12 +32984,7 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
       this.$outputRead += bufferSize;
       this.$outputRead %= this.fftBufferSize;
       if (this.fPlotHandler) {
-        this.port.postMessage({
-          type: "plot",
-          value: output,
-          index: this.fBufferNum++,
-          events: this.fCachedEvents
-        });
+        this.port.postMessage({ type: "plot", value: output, index: this.fBufferNum++, events: this.fCachedEvents });
         this.fCachedEvents = [];
       }
       return true;
@@ -33039,34 +33005,31 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
         case "param":
           this.setParamValue(msg.data.path, msg.data.value);
           break;
-        case "setPlotHandler":
-          {
-            if (msg.data) {
-              this.fPlotHandler = (output, index, events) => {
-                if (events) this.fCachedEvents.push(...events);
-              };
-            } else {
-              this.fPlotHandler = null;
-            }
-            (_a = this.fDSPCode) == null ? void 0 : _a.setPlotHandler(this.fPlotHandler);
-            break;
+        case "setPlotHandler": {
+          if (msg.data) {
+            this.fPlotHandler = (output, index, events) => {
+              if (events)
+                this.fCachedEvents.push(...events);
+            };
+          } else {
+            this.fPlotHandler = null;
           }
-        case "start":
-          {
-            (_b = this.fDSPCode) == null ? void 0 : _b.start();
-            break;
-          }
-        case "stop":
-          {
-            (_c = this.fDSPCode) == null ? void 0 : _c.stop();
-            break;
-          }
-        case "destroy":
-          {
-            this.port.close();
-            this.destroy();
-            break;
-          }
+          (_a = this.fDSPCode) == null ? void 0 : _a.setPlotHandler(this.fPlotHandler);
+          break;
+        }
+        case "start": {
+          (_b = this.fDSPCode) == null ? void 0 : _b.start();
+          break;
+        }
+        case "stop": {
+          (_c = this.fDSPCode) == null ? void 0 : _c.stop();
+          break;
+        }
+        case "destroy": {
+          this.port.close();
+          this.destroy();
+          break;
+        }
         default:
           break;
       }
@@ -33109,7 +33072,8 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
         this.$outputWrite = 0;
         this.$outputRead = -latency;
         this.fftBufferSize = Math.max(fftSize * 2 - this.fftHopSize, bufferSize * 2);
-        if (!fftSizeChanged && this.fftHopSizeParam) (_a = this.fDSPCode) == null ? void 0 : _a.setParamValue(this.fftHopSizeParam, this.fftHopSize);
+        if (!fftSizeChanged && this.fftHopSizeParam)
+          (_a = this.fDSPCode) == null ? void 0 : _a.setParamValue(this.fftHopSizeParam, this.fftHopSize);
       }
       if (fftSizeChanged) {
         (_b = this.rfft) == null ? void 0 : _b.dispose();
@@ -33121,7 +33085,8 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
         this.windowFunction = windowFunction;
         this.window = new Float32Array(fftSize);
         this.window.fill(1);
-        if (windowFunction) apply(this.window, windowFunction);
+        if (windowFunction)
+          apply(this.window, windowFunction);
         this.windowSumSquare = new Float32Array(this.fftBufferSize);
       }
       if (this.fftInput.length > inputChannels) {
@@ -33155,22 +33120,21 @@ var getFaustFFTAudioWorkletProcessor = (dependencies, faustData, register = true
       (_a = this.fDSPCode) == null ? void 0 : _a.stop();
       (_b = this.fDSPCode) == null ? void 0 : _b.destroy();
       this.fDSPCode = new FaustMonoWebAudioDsp2(this.dspInstance, sampleRate, this.sampleSize, this.fftProcessorBufferSize);
-      this.fDSPCode.setOutputParamHandler((path, value) => this.port.postMessage({
-        path,
-        value,
-        type: "param"
-      }));
+      this.fDSPCode.setOutputParamHandler((path, value) => this.port.postMessage({ path, value, type: "param" }));
       this.fDSPCode.setPlotHandler(this.fPlotHandler);
       const params = this.fDSPCode.getParams();
       this.fDSPCode.start();
       for (const path in this.paramValuesCache) {
-        if (!!fftParamKeywords.find(k => `/${path}`.endsWith(k))) continue;
+        if (!!fftParamKeywords.find((k) => `/${path}`.endsWith(k)))
+          continue;
         this.fDSPCode.setParamValue(path, this.paramValuesCache[path]);
       }
-      const fftSizeParam = params.find(s => s.endsWith("/fftSize"));
-      if (fftSizeParam) this.fDSPCode.setParamValue(fftSizeParam, this.fftSize);
-      this.fftHopSizeParam = params.find(s => s.endsWith("/fftHopSize"));
-      if (this.fftHopSizeParam) this.fDSPCode.setParamValue(this.fftHopSizeParam, this.fftHopSize);
+      const fftSizeParam = params.find((s) => s.endsWith("/fftSize"));
+      if (fftSizeParam)
+        this.fDSPCode.setParamValue(fftSizeParam, this.fftSize);
+      this.fftHopSizeParam = params.find((s) => s.endsWith("/fftHopSize"));
+      if (this.fftHopSizeParam)
+        this.fDSPCode.setParamValue(this.fftHopSizeParam, this.fftHopSize);
       this.fftProcessorZeros = new Float32Array(this.fftProcessorBufferSize);
     }
     destroy() {
@@ -33195,8 +33159,8 @@ var FaustFFTAudioWorkletProcessor_default = getFaustFFTAudioWorkletProcessor;
 
 // src/FaustCompiler.ts
 var import_sha256_js = __toESM(require_build2(), 1);
-var ab2str = buf => String.fromCharCode.apply(null, buf);
-var str2ab = str => {
+var ab2str = (buf) => String.fromCharCode.apply(null, buf);
+var str2ab = (str) => {
   const buf = new ArrayBuffer(str.length);
   const bufView = new Uint8Array(buf);
   for (let i = 0, strLen = str.length; i < strLen; i++) {
@@ -33204,27 +33168,19 @@ var str2ab = str => {
   }
   return bufView;
 };
-var sha256 = async str => {
+var sha256 = async (str) => {
   const sha2562 = new import_sha256_js.Sha256();
   sha2562.update(str);
   const hashArray = Array.from(await sha2562.digest());
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
   return hashHex;
 };
 var _FaustCompiler = class {
   static serializeDSPFactories() {
     const table = {};
     this.gFactories.forEach((factory, shaKey) => {
-      const {
-        code,
-        json,
-        poly
-      } = factory;
-      table[shaKey] = {
-        code: btoa(ab2str(code)),
-        json: JSON.parse(json),
-        poly
-      };
+      const { code, json, poly } = factory;
+      table[shaKey] = { code: btoa(ab2str(code)), json: JSON.parse(json), poly };
     });
     return table;
   }
@@ -33235,20 +33191,9 @@ var _FaustCompiler = class {
     const awaited = [];
     for (const shaKey in table) {
       const factory = table[shaKey];
-      const {
-        code,
-        json,
-        poly
-      } = factory;
+      const { code, json, poly } = factory;
       const ab = str2ab(atob(code));
-      awaited.push(WebAssembly.compile(ab).then(module => this.gFactories.set(shaKey, {
-        shaKey,
-        cfactory: 0,
-        code: ab,
-        module,
-        json: JSON.stringify(json),
-        poly
-      })));
+      awaited.push(WebAssembly.compile(ab).then((module) => this.gFactories.set(shaKey, { shaKey, cfactory: 0, code: ab, module, json: JSON.stringify(json), poly })));
     }
     return Promise.all(awaited);
   }
@@ -33281,14 +33226,7 @@ var _FaustCompiler = class {
         const ui8Code = this.intVec2intArray(faustDspWasm.data);
         faustDspWasm.data.delete();
         const module = await WebAssembly.compile(ui8Code);
-        const factory = {
-          shaKey,
-          cfactory: faustDspWasm.cfactory,
-          code: ui8Code,
-          module,
-          json: faustDspWasm.json,
-          poly
-        };
+        const factory = { shaKey, cfactory: faustDspWasm.cfactory, code: ui8Code, module, json: faustDspWasm.json, poly };
         this.deleteDSPFactory(factory);
         _FaustCompiler.gFactories.set(shaKey, factory);
         return factory;
@@ -33342,44 +33280,30 @@ var _FaustCompiler = class {
   async getAsyncInternalMixerModule(isDouble = false) {
     const bufferKey = isDouble ? "mixer64Buffer" : "mixer32Buffer";
     const moduleKey = isDouble ? "mixer64Module" : "mixer32Module";
-    if (this[moduleKey]) return {
-      mixerBuffer: this[bufferKey],
-      mixerModule: this[moduleKey]
-    };
+    if (this[moduleKey])
+      return { mixerBuffer: this[bufferKey], mixerModule: this[moduleKey] };
     const path = isDouble ? "/usr/rsrc/mixer64.wasm" : "/usr/rsrc/mixer32.wasm";
-    const mixerBuffer = this.fs().readFile(path, {
-      encoding: "binary"
-    });
+    const mixerBuffer = this.fs().readFile(path, { encoding: "binary" });
     this[bufferKey] = mixerBuffer;
     const mixerModule = await WebAssembly.compile(mixerBuffer);
     this[moduleKey] = mixerModule;
-    return {
-      mixerBuffer,
-      mixerModule
-    };
+    return { mixerBuffer, mixerModule };
   }
   getSyncInternalMixerModule(isDouble = false) {
     const bufferKey = isDouble ? "mixer64Buffer" : "mixer32Buffer";
     const moduleKey = isDouble ? "mixer64Module" : "mixer32Module";
-    if (this[moduleKey]) return {
-      mixerBuffer: this[bufferKey],
-      mixerModule: this[moduleKey]
-    };
+    if (this[moduleKey])
+      return { mixerBuffer: this[bufferKey], mixerModule: this[moduleKey] };
     const path = isDouble ? "/usr/rsrc/mixer64.wasm" : "/usr/rsrc/mixer32.wasm";
-    const mixerBuffer = this.fs().readFile(path, {
-      encoding: "binary"
-    });
+    const mixerBuffer = this.fs().readFile(path, { encoding: "binary" });
     this[bufferKey] = mixerBuffer;
     const mixerModule = new WebAssembly.Module(mixerBuffer);
     this[moduleKey] = mixerModule;
-    return {
-      mixerBuffer,
-      mixerModule
-    };
+    return { mixerBuffer, mixerModule };
   }
 };
 var FaustCompiler = _FaustCompiler;
-FaustCompiler.gFactories = /* @__PURE__ */new Map();
+FaustCompiler.gFactories = /* @__PURE__ */ new Map();
 var FaustCompiler_default = FaustCompiler;
 
 // src/FaustDspInstance.ts
@@ -33428,9 +33352,7 @@ var FaustWasmInstantiator = class {
   static createWasmImport(memory) {
     return {
       env: {
-        memory: memory || new WebAssembly.Memory({
-          initial: 100
-        }),
+        memory: memory || new WebAssembly.Memory({ initial: 100 }),
         memoryBase: 0,
         tableBase: 0,
         _abs: Math.abs,
@@ -33460,7 +33382,7 @@ var FaustWasmInstantiator = class {
         _sinhf: Math.sinh,
         _tanhf: Math.tanh,
         _isnanf: Number.isNaN,
-        _isinff: x => !isFinite(x),
+        _isinff: (x) => !isFinite(x),
         _copysignf: (x, y) => Math.sign(x) === Math.sign(y) ? x : -x,
         _acos: Math.acos,
         _asin: Math.asin,
@@ -33488,19 +33410,16 @@ var FaustWasmInstantiator = class {
         _sinh: Math.sinh,
         _tanh: Math.tanh,
         _isnan: Number.isNaN,
-        _isinf: x => !isFinite(x),
+        _isinf: (x) => !isFinite(x),
         _copysign: (x, y) => Math.sign(x) === Math.sign(y) ? x : -x,
-        table: new WebAssembly.Table({
-          initial: 0,
-          element: "anyfunc"
-        })
+        table: new WebAssembly.Table({ initial: 0, element: "anyfunc" })
       }
     };
   }
   static createWasmMemory(voicesIn, sampleSize, dspMeta, effectMeta, bufferSize) {
     const voices = Math.max(4, voicesIn);
     const ptrSize = sampleSize;
-    const pow2limit = x => {
+    const pow2limit = (x) => {
       let n = 65536;
       while (n < x) {
         n *= 2;
@@ -33510,20 +33429,13 @@ var FaustWasmInstantiator = class {
     const effectSize = effectMeta ? effectMeta.size : 0;
     let memorySize = pow2limit(effectSize + dspMeta.size * voices + (dspMeta.inputs + dspMeta.outputs * 2) * (ptrSize + bufferSize * sampleSize)) / 65536;
     memorySize = Math.max(2, memorySize);
-    return new WebAssembly.Memory({
-      initial: memorySize,
-      maximum: memorySize
-    });
+    return new WebAssembly.Memory({ initial: memorySize, maximum: memorySize });
   }
   static createMonoDSPInstanceAux(instance, json) {
     const functions = instance.exports;
     const api = new FaustDspInstance_default(functions);
     const memory = instance.exports.memory;
-    return {
-      memory,
-      api,
-      json
-    };
+    return { memory, api, json };
   }
   static createMemoryAux(voices, voiceFactory, effectFactory) {
     const voiceMeta = JSON.parse(voiceFactory.json);
@@ -33533,12 +33445,8 @@ var FaustWasmInstantiator = class {
   }
   static createMixerAux(mixerModule, memory) {
     const mixerImport = {
-      imports: {
-        print: console.log
-      },
-      memory: {
-        memory
-      }
+      imports: { print: console.log },
+      memory: { memory }
     };
     const mixerInstance = new WebAssembly.Instance(mixerModule, mixerImport);
     const mixerFunctions = mixerInstance.exports;
@@ -33557,13 +33465,7 @@ var FaustWasmInstantiator = class {
       const meta = JSON.parse(json);
       const cOptions = meta.compile_options;
       const poly = cOptions.indexOf("wasm-e") !== -1;
-      return {
-        cfactory: 0,
-        code: new Uint8Array(wasmBuffer),
-        module,
-        json,
-        poly
-      };
+      return { cfactory: 0, code: new Uint8Array(wasmBuffer), module, json, poly };
     } catch (e) {
       throw e;
     }
@@ -33572,9 +33474,7 @@ var FaustWasmInstantiator = class {
     try {
       let mixerBuffer = null;
       if (fs) {
-        mixerBuffer = fs.readFile(mixerPath, {
-          encoding: "binary"
-        });
+        mixerBuffer = fs.readFile(mixerPath, { encoding: "binary" });
       } else {
         const mixerFile = await fetch(mixerPath);
         mixerBuffer = await mixerFile.arrayBuffer();
@@ -33675,7 +33575,7 @@ var FaustBaseWebAudioDsp = class {
     this.fPathTable = {};
     this.fProcessing = false;
     this.fDestroyed = false;
-    this.fUICallback = item => {
+    this.fUICallback = (item) => {
       if (item.type === "hbargraph" || item.type === "vbargraph") {
         this.fOutputsItems.push(item.address);
         this.fPathTable[item.address] = item.index;
@@ -33683,27 +33583,20 @@ var FaustBaseWebAudioDsp = class {
         this.fInputsItems.push(item.address);
         this.fPathTable[item.address] = item.index;
         this.fDescriptor.push(item);
-        if (!item.meta) return;
-        item.meta.forEach(meta => {
-          const {
-            midi
-          } = meta;
-          if (!midi) return;
+        if (!item.meta)
+          return;
+        item.meta.forEach((meta) => {
+          const { midi } = meta;
+          if (!midi)
+            return;
           const strMidi = midi.trim();
           if (strMidi === "pitchwheel") {
-            this.fPitchwheelLabel.push({
-              path: item.address,
-              min: item.min,
-              max: item.max
-            });
+            this.fPitchwheelLabel.push({ path: item.address, min: item.min, max: item.max });
           } else {
             const matched = strMidi.match(/^ctrl\s(\d+)/);
-            if (!matched) return;
-            this.fCtrlLabel[parseInt(matched[1])].push({
-              path: item.address,
-              min: item.min,
-              max: item.max
-            });
+            if (!matched)
+              return;
+            this.fCtrlLabel[parseInt(matched[1])].push({ path: item.address, min: item.min, max: item.max });
           }
         });
       }
@@ -33713,7 +33606,7 @@ var FaustBaseWebAudioDsp = class {
     return (v - mn0) / (mx0 - mn0) * (mx1 - mn1) + mn1;
   }
   static parseUI(ui, callback) {
-    ui.forEach(group => this.parseGroup(group, callback));
+    ui.forEach((group) => this.parseGroup(group, callback));
   }
   static parseGroup(group, callback) {
     if (group.items) {
@@ -33721,7 +33614,7 @@ var FaustBaseWebAudioDsp = class {
     }
   }
   static parseItems(items, callback) {
-    items.forEach(item => this.parseItem(item, callback));
+    items.forEach((item) => this.parseItem(item, callback));
   }
   static parseItem(item, callback) {
     if (item.type === "vgroup" || item.type === "hgroup" || item.type === "tgroup") {
@@ -33733,7 +33626,7 @@ var FaustBaseWebAudioDsp = class {
   updateOutputs() {
     if (this.fOutputsItems.length > 0 && this.fOutputHandler && this.fOutputsTimer-- === 0) {
       this.fOutputsTimer = 5;
-      this.fOutputsItems.forEach(item => {
+      this.fOutputsItems.forEach((item) => {
         var _a;
         return (_a = this.fOutputHandler) == null ? void 0 : _a.call(this, item, this.getParamValue(item));
       });
@@ -33741,7 +33634,7 @@ var FaustBaseWebAudioDsp = class {
   }
   metadata(handler) {
     if (this.fJSONDsp.meta) {
-      this.fJSONDsp.meta.forEach(meta => handler(Object.keys(meta)[0], meta[Object.keys(meta)[0]]));
+      this.fJSONDsp.meta.forEach((meta) => handler(Object.keys(meta)[0], meta[Object.keys(meta)[0]]));
     }
   }
   compute(input, output) {
@@ -33772,43 +33665,40 @@ var FaustBaseWebAudioDsp = class {
     return -1;
   }
   midiMessage(data) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      data,
-      type: "midi"
-    });
+    if (this.fPlotHandler)
+      this.fCachedEvents.push({ data, type: "midi" });
     const cmd = data[0] >> 4;
     const channel = data[0] & 15;
     const data1 = data[1];
     const data2 = data[2];
-    if (cmd === 11) return this.ctrlChange(channel, data1, data2);
-    if (cmd === 14) return this.pitchWheel(channel, data2 * 128 + data1);
+    if (cmd === 11)
+      return this.ctrlChange(channel, data1, data2);
+    if (cmd === 14)
+      return this.pitchWheel(channel, data2 * 128 + data1);
   }
   ctrlChange(channel, ctrl, value) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "ctrlChange",
-      data: [channel, ctrl, value]
-    });
+    if (this.fPlotHandler)
+      this.fCachedEvents.push({ type: "ctrlChange", data: [channel, ctrl, value] });
     if (this.fCtrlLabel[ctrl].length) {
-      this.fCtrlLabel[ctrl].forEach(ctrl2 => {
-        const {
-          path
-        } = ctrl2;
+      this.fCtrlLabel[ctrl].forEach((ctrl2) => {
+        const { path } = ctrl2;
         this.setParamValue(path, FaustBaseWebAudioDsp.remap(value, 0, 127, ctrl2.min, ctrl2.max));
-        if (this.fOutputHandler) this.fOutputHandler(path, this.getParamValue(path));
+        if (this.fOutputHandler)
+          this.fOutputHandler(path, this.getParamValue(path));
       });
     }
   }
   pitchWheel(channel, wheel) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "pitchWheel",
-      data: [channel, wheel]
-    });
-    this.fPitchwheelLabel.forEach(pw => {
+    if (this.fPlotHandler)
+      this.fCachedEvents.push({ type: "pitchWheel", data: [channel, wheel] });
+    this.fPitchwheelLabel.forEach((pw) => {
       this.setParamValue(pw.path, FaustBaseWebAudioDsp.remap(wheel, 0, 16383, pw.min, pw.max));
-      if (this.fOutputHandler) this.fOutputHandler(pw.path, this.getParamValue(pw.path));
+      if (this.fOutputHandler)
+        this.fOutputHandler(pw.path, this.getParamValue(pw.path));
     });
   }
-  setParamValue(path, value) {}
+  setParamValue(path, value) {
+  }
   getParamValue(path) {
     return 0;
   }
@@ -33887,8 +33777,10 @@ this.fAudioOutputs: ${this.fAudioOutputs}
 this.fDSP: ${this.fDSP}`;
   }
   compute(input, output) {
-    if (this.fDestroyed) return false;
-    if (!this.fProcessing) return true;
+    if (this.fDestroyed)
+      return false;
+    if (!this.fProcessing)
+      return true;
     if (typeof input === "function") {
       input(this.fInChannels);
     } else {
@@ -33905,7 +33797,8 @@ this.fDSP: ${this.fDSP}`;
         }
       }
     }
-    if (this.fComputeHandler) this.fComputeHandler(this.fBufferSize);
+    if (this.fComputeHandler)
+      this.fComputeHandler(this.fBufferSize);
     this.fInstance.api.compute(this.fDSP, this.fBufferSize, this.fAudioInputs, this.fAudioOutputs);
     this.updateOutputs();
     let forPlot = this.fOutChannels;
@@ -33934,13 +33827,8 @@ this.fDSP: ${this.fDSP}`;
     return this.fInstance.api.getNumOutputs(this.fDSP);
   }
   setParamValue(path, value) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "param",
-      data: {
-        path,
-        value
-      }
-    });
+    if (this.fPlotHandler)
+      this.fCachedEvents.push({ type: "param", data: { path, value } });
     this.fInstance.api.setParamValue(this.fDSP, this.fPathTable[path], value);
   }
   getParamValue(path) {
@@ -33988,7 +33876,7 @@ var FaustWebAudioDspVoice = class {
     return velocity / 127;
   }
   extractPaths(inputItems, pathTable) {
-    inputItems.forEach(item => {
+    inputItems.forEach((item) => {
       if (item.endsWith("/gate")) {
         this.fGateLabel.push(pathTable[item]);
       } else if (item.endsWith("/freq")) {
@@ -34007,16 +33895,16 @@ var FaustWebAudioDspVoice = class {
       this.fNextNote = pitch;
       this.fNextVel = velocity;
     } else {
-      this.fFreqLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, FaustWebAudioDspVoice.midiToFreq(pitch)));
-      this.fGateLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, 1));
-      this.fGainLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, FaustWebAudioDspVoice.normalizeVelocity(velocity)));
-      this.fKeyLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, pitch));
-      this.fVelLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, velocity));
+      this.fFreqLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, FaustWebAudioDspVoice.midiToFreq(pitch)));
+      this.fGateLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, 1));
+      this.fGainLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, FaustWebAudioDspVoice.normalizeVelocity(velocity)));
+      this.fKeyLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, pitch));
+      this.fVelLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, velocity));
       this.fCurNote = pitch;
     }
   }
   keyOff(hard = false) {
-    this.fGateLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, 0));
+    this.fGateLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, 0));
     if (hard) {
       this.fCurNote = FaustWebAudioDspVoice.kFreeVoice;
     } else {
@@ -34026,7 +33914,7 @@ var FaustWebAudioDspVoice = class {
   }
   computeLegato(bufferSize, $inputs, $outputZero, $outputsHalf) {
     let size = bufferSize / 2;
-    this.fGateLabel.forEach(index => this.fAPI.setParamValue(this.fDSP, index, 0));
+    this.fGateLabel.forEach((index) => this.fAPI.setParamValue(this.fDSP, index, 0));
     this.fAPI.compute(this.fDSP, size, $inputs, $outputZero);
     this.keyOn(this.fNextNote, this.fNextVel);
     this.fAPI.compute(this.fDSP, size, $inputs, $outputsHalf);
@@ -34048,13 +33936,15 @@ var FaustPolyWebAudioDsp = class extends FaustBaseWebAudioDsp {
     this.fJSONDsp = JSON.parse(this.fInstance.voiceJSON);
     this.fJSONEffect = this.fInstance.effectAPI && this.fInstance.effectJSON ? JSON.parse(this.fInstance.effectJSON) : null;
     FaustBaseWebAudioDsp.parseUI(this.fJSONDsp.ui, this.fUICallback);
-    if (this.fJSONEffect) FaustBaseWebAudioDsp.parseUI(this.fJSONEffect.ui, this.fUICallback);
+    if (this.fJSONEffect)
+      FaustBaseWebAudioDsp.parseUI(this.fJSONEffect.ui, this.fUICallback);
     this.initMemory();
     this.fVoiceTable = [];
     for (let voice = 0; voice < this.fInstance.voices; voice++) {
       this.fVoiceTable.push(new FaustWebAudioDspVoice(this.fJSONDsp.size * voice, this.fInstance.voiceAPI, this.fInputsItems, this.fPathTable, sampleRate));
     }
-    if (this.fInstance.effectAPI) this.fInstance.effectAPI.init(this.fEffect, sampleRate);
+    if (this.fInstance.effectAPI)
+      this.fInstance.effectAPI.init(this.fEffect, sampleRate);
   }
   initMemory() {
     this.fEffect = this.fJSONDsp.size * this.fInstance.voices;
@@ -34149,8 +34039,10 @@ this.fAudioMixingHalf: ${this.fAudioMixingHalf}`;
     return FaustWebAudioDspVoice.kNoVoice;
   }
   compute(input, output) {
-    if (this.fDestroyed) return false;
-    if (!this.fProcessing) return true;
+    if (this.fDestroyed)
+      return false;
+    if (!this.fProcessing)
+      return true;
     if (this.getNumInputs() > 0 && (!input || !input[0] || input[0].length === 0)) {
       return true;
     }
@@ -34163,9 +34055,10 @@ this.fAudioMixingHalf: ${this.fAudioMixingHalf}`;
         dspInput.set(input[chan]);
       }
     }
-    if (this.fComputeHandler) this.fComputeHandler(this.fBufferSize);
+    if (this.fComputeHandler)
+      this.fComputeHandler(this.fBufferSize);
     this.fInstance.mixerAPI.clearOutput(this.fBufferSize, this.getNumOutputs(), this.fAudioOutputs);
-    this.fVoiceTable.forEach(voice => {
+    this.fVoiceTable.forEach((voice) => {
       if (voice.fCurNote === FaustWebAudioDspVoice.kLegatoVoice) {
         voice.computeLegato(this.fBufferSize, this.fAudioInputs, this.fAudioMixing, this.fAudioMixingHalf);
         this.fInstance.mixerAPI.fadeOut(this.fBufferSize / 2, this.getNumOutputs(), this.fAudioMixing);
@@ -34174,12 +34067,13 @@ this.fAudioMixingHalf: ${this.fAudioMixingHalf}`;
         voice.compute(this.fBufferSize, this.fAudioInputs, this.fAudioMixing);
         voice.fLevel = this.fInstance.mixerAPI.mixCheckVoice(this.fBufferSize, this.getNumOutputs(), this.fAudioMixing, this.fAudioOutputs);
         voice.fRelease -= this.fBufferSize;
-        if (voice.fCurNote == FaustWebAudioDspVoice.kReleaseVoice && voice.fLevel < FaustWebAudioDspVoice.VOICE_STOP_LEVEL && voice.fRelease < 0) {
+        if (voice.fCurNote == FaustWebAudioDspVoice.kReleaseVoice && (voice.fLevel < FaustWebAudioDspVoice.VOICE_STOP_LEVEL && voice.fRelease < 0)) {
           voice.fCurNote = FaustWebAudioDspVoice.kFreeVoice;
         }
       }
     });
-    if (this.fInstance.effectAPI) this.fInstance.effectAPI.compute(this.fEffect, this.fBufferSize, this.fAudioOutputs, this.fAudioOutputs);
+    if (this.fInstance.effectAPI)
+      this.fInstance.effectAPI.compute(this.fEffect, this.fBufferSize, this.fAudioOutputs, this.fAudioOutputs);
     this.updateOutputs();
     if (output !== void 0) {
       for (let chan = 0; chan < Math.min(this.getNumOutputs(), output.length); chan++) {
@@ -34206,23 +34100,19 @@ this.fAudioMixingHalf: ${this.fAudioMixingHalf}`;
       return o.address === p;
     } else {
       for (const k in o) {
-        if (FaustPolyWebAudioDsp.findPath(o[k], p)) return true;
+        if (FaustPolyWebAudioDsp.findPath(o[k], p))
+          return true;
       }
       return false;
     }
   }
   setParamValue(path, value) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "param",
-      data: {
-        path,
-        value
-      }
-    });
+    if (this.fPlotHandler)
+      this.fCachedEvents.push({ type: "param", data: { path, value } });
     if (this.fJSONEffect && FaustPolyWebAudioDsp.findPath(this.fJSONEffect.ui, path) && this.fInstance.effectAPI) {
       this.fInstance.effectAPI.setParamValue(this.fEffect, this.fPathTable[path], value);
     } else {
-      this.fVoiceTable.forEach(voice => voice.setParamValue(this.fPathTable[path], value));
+      this.fVoiceTable.forEach((voice) => voice.setParamValue(this.fPathTable[path], value));
     }
   }
   getParamValue(path) {
@@ -34235,32 +34125,23 @@ this.fAudioMixingHalf: ${this.fAudioMixingHalf}`;
   getMeta() {
     const o = this.fJSONDsp;
     const e = this.fJSONEffect;
-    const r = {
-      ...o
-    };
+    const r = { ...o };
     if (e) {
       r.ui = [{
         type: "tgroup",
         label: "Sequencer",
-        items: [{
-          type: "vgroup",
-          label: "Instrument",
-          items: o.ui
-        }, {
-          type: "vgroup",
-          label: "Effect",
-          items: e.ui
-        }]
+        items: [
+          { type: "vgroup", label: "Instrument", items: o.ui },
+          { type: "vgroup", label: "Effect", items: e.ui }
+        ]
       }];
     } else {
       r.ui = [{
         type: "tgroup",
         label: "Polyphonic",
-        items: [{
-          type: "vgroup",
-          label: "Voices",
-          items: o.ui
-        }]
+        items: [
+          { type: "vgroup", label: "Voices", items: o.ui }
+        ]
       }];
     }
     return r;
@@ -34279,7 +34160,12 @@ this.fAudioMixingHalf: ${this.fAudioMixingHalf}`;
     const channel = data[0] & 15;
     const data1 = data[1];
     const data2 = data[2];
-    if (cmd === 8 || cmd === 9 && data2 === 0) return this.keyOff(channel, data1, data2);else if (cmd === 9) return this.keyOn(channel, data1, data2);else super.midiMessage(data);
+    if (cmd === 8 || cmd === 9 && data2 === 0)
+      return this.keyOff(channel, data1, data2);
+    else if (cmd === 9)
+      return this.keyOn(channel, data1, data2);
+    else
+      super.midiMessage(data);
   }
   ctrlChange(channel, ctrl, value) {
     if (ctrl === 123 || ctrl === 120) {
@@ -34289,18 +34175,14 @@ this.fAudioMixingHalf: ${this.fAudioMixingHalf}`;
     }
   }
   keyOn(channel, pitch, velocity) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "keyOn",
-      data: [channel, pitch, velocity]
-    });
+    if (this.fPlotHandler)
+      this.fCachedEvents.push({ type: "keyOn", data: [channel, pitch, velocity] });
     const voice = this.getFreeVoice();
     this.fVoiceTable[voice].keyOn(pitch, velocity, this.fVoiceTable[voice].fCurNote == FaustWebAudioDspVoice.kLegatoVoice);
   }
   keyOff(channel, pitch, velocity) {
-    if (this.fPlotHandler) this.fCachedEvents.push({
-      type: "keyOff",
-      data: [channel, pitch, velocity]
-    });
+    if (this.fPlotHandler)
+      this.fCachedEvents.push({ type: "keyOff", data: [channel, pitch, velocity] });
     const voice = this.getPlayingVoice(pitch);
     if (voice !== FaustWebAudioDspVoice.kNoVoice) {
       this.fVoiceTable[voice].keyOff();
@@ -34309,11 +34191,8 @@ this.fAudioMixingHalf: ${this.fAudioMixingHalf}`;
     }
   }
   allNotesOff(hard = true) {
-    this.fCachedEvents.push({
-      type: "ctrlChange",
-      data: [0, 123, 0]
-    });
-    this.fVoiceTable.forEach(voice => voice.keyOff(hard));
+    this.fCachedEvents.push({ type: "ctrlChange", data: [0, 123, 0] });
+    this.fVoiceTable.forEach((voice) => voice.keyOff(hard));
   }
 };
 
@@ -34327,28 +34206,19 @@ var FaustOfflineProcessor = class {
   }
   getParameterDescriptors() {
     const params = [];
-    const callback = item => {
+    const callback = (item) => {
       let param = null;
       const polyKeywords = ["/gate", "/freq", "/gain", "/key", "/vel", "/velocity"];
-      const isPolyReserved = "address" in item && !!polyKeywords.find(k => item.address.endsWith(k));
+      const isPolyReserved = "address" in item && !!polyKeywords.find((k) => item.address.endsWith(k));
       if (this.fDSPCode instanceof FaustMonoWebAudioDsp || !isPolyReserved) {
         if (item.type === "vslider" || item.type === "hslider" || item.type === "nentry") {
-          param = {
-            name: item.address,
-            defaultValue: item.init || 0,
-            minValue: item.min || 0,
-            maxValue: item.max || 0
-          };
+          param = { name: item.address, defaultValue: item.init || 0, minValue: item.min || 0, maxValue: item.max || 0 };
         } else if (item.type === "button" || item.type === "checkbox") {
-          param = {
-            name: item.address,
-            defaultValue: item.init || 0,
-            minValue: 0,
-            maxValue: 1
-          };
+          param = { name: item.address, defaultValue: item.init || 0, minValue: 0, maxValue: 1 };
         }
       }
-      if (param) params.push(param);
+      if (param)
+        params.push(param);
     };
     FaustBaseWebAudioDsp.parseUI(this.fDSPCode.getUI(), callback);
     return params;
@@ -34380,7 +34250,8 @@ var FaustOfflineProcessor = class {
   getNumOutputs() {
     return this.fDSPCode.getNumOutputs();
   }
-  metadata(handler) {}
+  metadata(handler) {
+  }
   midiMessage(data) {
     this.fDSPCode.midiMessage(data);
   }
@@ -34457,7 +34328,8 @@ var FaustOfflineProcessor = class {
     return outputs;
   }
 };
-var FaustMonoOfflineProcessor = class extends FaustOfflineProcessor {};
+var FaustMonoOfflineProcessor = class extends FaustOfflineProcessor {
+};
 var FaustPolyOfflineProcessor = class extends FaustOfflineProcessor {
   keyOn(channel, pitch, velocity) {
     this.fDSPCode.keyOn(channel, pitch, velocity);
@@ -34480,15 +34352,15 @@ var FaustSvgDiagrams = class {
     const fs = this.compiler.fs();
     try {
       const files2 = fs.readdir(`/${name}-svg/`);
-      files2.filter(file => file !== "." && file !== "..").forEach(file => fs.unlink(`/${name}-svg/${file}`));
-    } catch {}
+      files2.filter((file) => file !== "." && file !== "..").forEach((file) => fs.unlink(`/${name}-svg/${file}`));
+    } catch {
+    }
     const success = this.compiler.generateAuxFiles(name, code, `-lang wasm -svg ${args}`);
-    if (!success) throw new Error(this.compiler.getErrorMessage());
+    if (!success)
+      throw new Error(this.compiler.getErrorMessage());
     const svgs = {};
     const files = fs.readdir(`/${name}-svg/`);
-    files.filter(file => file !== "." && file !== "..").forEach(file => svgs[file] = fs.readFile(`/${name}-svg/${file}`, {
-      encoding: "utf8"
-    }));
+    files.filter((file) => file !== "." && file !== "..").forEach((file) => svgs[file] = fs.readFile(`/${name}-svg/${file}`, { encoding: "utf8" }));
     return svgs;
   }
 };
@@ -34545,10 +34417,7 @@ var WavEncoder = class {
   static encode(audioBuffer, options) {
     const numberOfChannels = audioBuffer.length;
     const length = audioBuffer[0].length;
-    const {
-      shared,
-      float
-    } = options;
+    const { shared, float } = options;
     const bitDepth = float ? 32 : options.bitDepth | 0 || 16;
     const byteDepth = bitDepth >> 3;
     const byteLength = length * numberOfChannels * byteDepth;
@@ -34571,14 +34440,7 @@ var WavEncoder = class {
     return ab;
   }
   static writeHeader(writer, format) {
-    const {
-      formatId,
-      sampleRate,
-      bitDepth,
-      numberOfChannels,
-      length,
-      byteDepth
-    } = format;
+    const { formatId, sampleRate, bitDepth, numberOfChannels, length, byteDepth } = format;
     writer.string("RIFF");
     writer.uint32(writer.dataView.byteLength - 8);
     writer.string("WAVE");
@@ -34595,18 +34457,9 @@ var WavEncoder = class {
     return writer.pos;
   }
   static writeData(writer, audioBuffer, format) {
-    const {
-      bitDepth,
-      float,
-      length,
-      numberOfChannels,
-      symmetric
-    } = format;
+    const { bitDepth, float, length, numberOfChannels, symmetric } = format;
     if (bitDepth === 32 && float) {
-      const {
-        dataView,
-        pos
-      } = writer;
+      const { dataView, pos } = writer;
       const ab = dataView.buffer;
       const f32View = new Float32Array(ab, pos);
       if (numberOfChannels === 1) {
@@ -34936,14 +34789,14 @@ var FaustAudioWorkletNode = class extends (globalThis.AudioWorkletNode || null) 
     this.fPlotHandler = null;
     this.fDescriptor = [];
     this.fInputsItems = [];
-    this.fUICallback = item => {
+    this.fUICallback = (item) => {
       if (item.type === "vslider" || item.type === "hslider" || item.type === "button" || item.type === "checkbox" || item.type === "nentry") {
         this.fInputsItems.push(item.address);
         this.fDescriptor.push(item);
       }
     };
     FaustBaseWebAudioDsp.parseUI(this.fJSONDsp.ui, this.fUICallback);
-    this.port.onmessage = e => {
+    this.port.onmessage = (e) => {
       if (e.data.type === "param" && this.fOutputHandler) {
         this.fOutputHandler(e.data.path, e.data.value);
       } else if (e.data.type === "plot" && this.fPlotHandler) {
@@ -34966,15 +34819,9 @@ var FaustAudioWorkletNode = class extends (globalThis.AudioWorkletNode || null) 
   setPlotHandler(handler) {
     this.fPlotHandler = handler;
     if (this.fPlotHandler) {
-      this.port.postMessage({
-        type: "setPlotHandler",
-        data: true
-      });
+      this.port.postMessage({ type: "setPlotHandler", data: true });
     } else {
-      this.port.postMessage({
-        type: "setPlotHandler",
-        data: false
-      });
+      this.port.postMessage({ type: "setPlotHandler", data: false });
     }
   }
   getPlotHandler() {
@@ -34991,7 +34838,7 @@ var FaustAudioWorkletNode = class extends (globalThis.AudioWorkletNode || null) 
   }
   metadata(handler) {
     if (this.fJSONDsp.meta) {
-      this.fJSONDsp.meta.forEach(meta => handler(Object.keys(meta)[0], meta[Object.keys(meta)[0]]));
+      this.fJSONDsp.meta.forEach((meta) => handler(Object.keys(meta)[0], meta[Object.keys(meta)[0]]));
     }
   }
   midiMessage(data) {
@@ -34999,36 +34846,27 @@ var FaustAudioWorkletNode = class extends (globalThis.AudioWorkletNode || null) 
     const channel = data[0] & 15;
     const data1 = data[1];
     const data2 = data[2];
-    if (cmd === 11) this.ctrlChange(channel, data1, data2);else if (cmd === 14) this.pitchWheel(channel, data2 * 128 + data1);else this.port.postMessage({
-      type: "midi",
-      data
-    });
+    if (cmd === 11)
+      this.ctrlChange(channel, data1, data2);
+    else if (cmd === 14)
+      this.pitchWheel(channel, data2 * 128 + data1);
+    else
+      this.port.postMessage({ type: "midi", data });
   }
   ctrlChange(channel, ctrl, value) {
-    const e = {
-      type: "ctrlChange",
-      data: [channel, ctrl, value]
-    };
+    const e = { type: "ctrlChange", data: [channel, ctrl, value] };
     this.port.postMessage(e);
   }
   pitchWheel(channel, wheel) {
-    const e = {
-      type: "pitchWheel",
-      data: [channel, wheel]
-    };
+    const e = { type: "pitchWheel", data: [channel, wheel] };
     this.port.postMessage(e);
   }
   setParamValue(path, value) {
-    const e = {
-      type: "param",
-      data: {
-        path,
-        value
-      }
-    };
+    const e = { type: "param", data: { path, value } };
     this.port.postMessage(e);
     const param = this.parameters.get(path);
-    if (param) param.setValueAtTime(value, this.context.currentTime);
+    if (param)
+      param.setValueAtTime(value, this.context.currentTime);
   }
   getParamValue(path) {
     const param = this.parameters.get(path);
@@ -35050,30 +34888,20 @@ var FaustAudioWorkletNode = class extends (globalThis.AudioWorkletNode || null) 
     return this.fDescriptor;
   }
   start() {
-    this.port.postMessage({
-      type: "start"
-    });
+    this.port.postMessage({ type: "start" });
   }
   stop() {
-    this.port.postMessage({
-      type: "stop"
-    });
+    this.port.postMessage({ type: "stop" });
   }
   destroy() {
-    this.port.postMessage({
-      type: "destroy"
-    });
+    this.port.postMessage({ type: "destroy" });
     this.port.close();
   }
 };
 var FaustMonoAudioWorkletNode = class extends FaustAudioWorkletNode {
   constructor(context, name, factory, sampleSize, nodeOptions = {}) {
-    super(context, name, factory, {
-      name,
-      factory,
-      sampleSize
-    }, nodeOptions);
-    this.onprocessorerror = e => {
+    super(context, name, factory, { name, factory, sampleSize }, nodeOptions);
+    this.onprocessorerror = (e) => {
       throw e;
     };
   }
@@ -35088,7 +34916,7 @@ var FaustPolyAudioWorkletNode = class extends FaustAudioWorkletNode {
       sampleSize,
       effectFactory
     }, nodeOptions);
-    this.onprocessorerror = e => {
+    this.onprocessorerror = (e) => {
       throw e;
     };
     this.fJSONEffect = effectFactory ? JSON.parse(effectFactory.json) : null;
@@ -35097,55 +34925,37 @@ var FaustPolyAudioWorkletNode = class extends FaustAudioWorkletNode {
     }
   }
   keyOn(channel, pitch, velocity) {
-    const e = {
-      type: "keyOn",
-      data: [channel, pitch, velocity]
-    };
+    const e = { type: "keyOn", data: [channel, pitch, velocity] };
     this.port.postMessage(e);
   }
   keyOff(channel, pitch, velocity) {
-    const e = {
-      type: "keyOff",
-      data: [channel, pitch, velocity]
-    };
+    const e = { type: "keyOff", data: [channel, pitch, velocity] };
     this.port.postMessage(e);
   }
   allNotesOff(hard) {
-    const e = {
-      type: "ctrlChange",
-      data: [0, 123, 0]
-    };
+    const e = { type: "ctrlChange", data: [0, 123, 0] };
     this.port.postMessage(e);
   }
   getMeta() {
     const o = this.fJSONDsp;
     const e = this.fJSONEffect;
-    const r = {
-      ...o
-    };
+    const r = { ...o };
     if (e) {
       r.ui = [{
         type: "tgroup",
         label: "Sequencer",
-        items: [{
-          type: "vgroup",
-          label: "Instrument",
-          items: o.ui
-        }, {
-          type: "vgroup",
-          label: "Effect",
-          items: e.ui
-        }]
+        items: [
+          { type: "vgroup", label: "Instrument", items: o.ui },
+          { type: "vgroup", label: "Effect", items: e.ui }
+        ]
       }];
     } else {
       r.ui = [{
         type: "tgroup",
         label: "Polyphonic",
-        items: [{
-          type: "vgroup",
-          label: "Voices",
-          items: o.ui
-        }]
+        items: [
+          { type: "vgroup", label: "Voices", items: o.ui }
+        ]
       }];
     }
     return r;
@@ -35164,7 +34974,7 @@ var FaustScriptProcessorNode = class extends (globalThis.ScriptProcessorNode || 
     this.fDSPCode = instance;
     this.fInputs = new Array(this.fDSPCode.getNumInputs());
     this.fOutputs = new Array(this.fDSPCode.getNumOutputs());
-    this.onaudioprocess = e => {
+    this.onaudioprocess = (e) => {
       for (let chan = 0; chan < this.fDSPCode.getNumInputs(); chan++) {
         this.fInputs[chan] = e.inputBuffer.getChannelData(chan);
       }
@@ -35202,7 +35012,8 @@ var FaustScriptProcessorNode = class extends (globalThis.ScriptProcessorNode || 
   getNumOutputs() {
     return this.fDSPCode.getNumOutputs();
   }
-  metadata(handler) {}
+  metadata(handler) {
+  }
   midiMessage(data) {
     this.fDSPCode.midiMessage(data);
   }
@@ -35243,7 +35054,8 @@ var FaustScriptProcessorNode = class extends (globalThis.ScriptProcessorNode || 
     this.fDSPCode.destroy();
   }
 };
-var FaustMonoScriptProcessorNode = class extends FaustScriptProcessorNode {};
+var FaustMonoScriptProcessorNode = class extends FaustScriptProcessorNode {
+};
 var FaustPolyScriptProcessorNode = class extends FaustScriptProcessorNode {
   keyOn(channel, pitch, velocity) {
     this.fDSPCode.keyOn(channel, pitch, velocity);
@@ -35263,13 +35075,15 @@ var _FaustMonoDspGenerator = class {
   }
   async compile(compiler, name, code, args) {
     this.factory = await compiler.createMonoDSPFactory(name, code, args);
-    if (!this.factory) return null;
+    if (!this.factory)
+      return null;
     this.name = name;
     return this;
   }
   async createNode(context, name = this.name, factory = this.factory, sp = false, bufferSize = 1024, processorName = (factory == null ? void 0 : factory.shaKey) || name) {
     var _a, _b;
-    if (!factory) throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
+    if (!factory)
+      throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
     const meta = JSON.parse(factory.json);
     const sampleSize = meta.compile_options.match("-double") ? 8 : 4;
     if (sp) {
@@ -35280,7 +35094,8 @@ var _FaustMonoDspGenerator = class {
       sp2.init(monoDsp);
       return sp2;
     } else {
-      if (!_FaustMonoDspGenerator.gWorkletProcessors.has(context)) _FaustMonoDspGenerator.gWorkletProcessors.set(context, /* @__PURE__ */new Set());
+      if (!_FaustMonoDspGenerator.gWorkletProcessors.has(context))
+        _FaustMonoDspGenerator.gWorkletProcessors.set(context, /* @__PURE__ */ new Set());
       if (!((_a = _FaustMonoDspGenerator.gWorkletProcessors.get(context)) == null ? void 0 : _a.has(processorName))) {
         try {
           const processorCode = `
@@ -35305,9 +35120,7 @@ const dependencies = {
 // Generate the actual AudioWorkletProcessor code
 (${FaustAudioWorkletProcessor_default.toString()})(dependencies, faustData);
 `;
-          const url = URL.createObjectURL(new Blob([processorCode], {
-            type: "text/javascript"
-          }));
+          const url = URL.createObjectURL(new Blob([processorCode], { type: "text/javascript" }));
           await context.audioWorklet.addModule(url);
           (_b = _FaustMonoDspGenerator.gWorkletProcessors.get(context)) == null ? void 0 : _b.add(processorName);
         } catch (e) {
@@ -35320,10 +35133,12 @@ const dependencies = {
   }
   async createFFTNode(context, fftUtils, name = this.name, factory = this.factory, fftOptions = {}, processorName = (factory == null ? void 0 : factory.shaKey) ? `${factory.shaKey}_fft` : name) {
     var _a, _b;
-    if (!factory) throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
+    if (!factory)
+      throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
     const meta = JSON.parse(factory.json);
     const sampleSize = meta.compile_options.match("-double") ? 8 : 4;
-    if (!_FaustMonoDspGenerator.gWorkletProcessors.has(context)) _FaustMonoDspGenerator.gWorkletProcessors.set(context, /* @__PURE__ */new Set());
+    if (!_FaustMonoDspGenerator.gWorkletProcessors.has(context))
+      _FaustMonoDspGenerator.gWorkletProcessors.set(context, /* @__PURE__ */ new Set());
     if (!((_a = _FaustMonoDspGenerator.gWorkletProcessors.get(context)) == null ? void 0 : _a.has(processorName))) {
       try {
         const processorCode = `
@@ -35350,39 +35165,39 @@ const dependencies = {
 // Generate the actual AudioWorkletProcessor code
 (${FaustFFTAudioWorkletProcessor_default.toString()})(dependencies, faustData);
 `;
-        const url = URL.createObjectURL(new Blob([processorCode], {
-          type: "text/javascript"
-        }));
+        const url = URL.createObjectURL(new Blob([processorCode], { type: "text/javascript" }));
         await context.audioWorklet.addModule(url);
         (_b = _FaustMonoDspGenerator.gWorkletProcessors.get(context)) == null ? void 0 : _b.add(processorName);
       } catch (e) {
         throw e;
       }
     }
-    const node = new FaustMonoAudioWorkletNode(context, processorName, factory, sampleSize, {
-      channelCount: Math.max(1, Math.ceil(meta.inputs / 3)),
-      outputChannelCount: [Math.ceil(meta.outputs / 2)]
-    });
+    const node = new FaustMonoAudioWorkletNode(context, processorName, factory, sampleSize, { channelCount: Math.max(1, Math.ceil(meta.inputs / 3)), outputChannelCount: [Math.ceil(meta.outputs / 2)] });
     if (fftOptions.fftSize) {
       const param = node.parameters.get("fftSize");
-      if (param) param.value = fftOptions.fftSize;
+      if (param)
+        param.value = fftOptions.fftSize;
     }
     if (fftOptions.fftOverlap) {
       const param = node.parameters.get("fftOverlap");
-      if (param) param.value = fftOptions.fftOverlap;
+      if (param)
+        param.value = fftOptions.fftOverlap;
     }
     if (typeof fftOptions.defaultWindowFunction === "number") {
       const param = node.parameters.get("windowFunction");
-      if (param) param.value = fftOptions.defaultWindowFunction + 1;
+      if (param)
+        param.value = fftOptions.defaultWindowFunction + 1;
     }
     if (typeof fftOptions.noIFFT === "boolean") {
       const param = node.parameters.get("noIFFT");
-      if (param) param.value = +fftOptions.noIFFT;
+      if (param)
+        param.value = +fftOptions.noIFFT;
     }
     return node;
   }
   async createAudioWorkletProcessor(name = this.name, factory = this.factory, processorName = (factory == null ? void 0 : factory.shaKey) || name) {
-    if (!factory) throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
+    if (!factory)
+      throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
     const meta = JSON.parse(factory.json);
     const dependencies = {
       FaustBaseWebAudioDsp,
@@ -35405,7 +35220,8 @@ const dependencies = {
     }
   }
   async createOfflineProcessor(sampleRate, bufferSize, factory = this.factory) {
-    if (!factory) throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
+    if (!factory)
+      throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
     const meta = JSON.parse(factory.json);
     const instance = await FaustWasmInstantiator_default.createAsyncMonoDSPInstance(factory);
     const sampleSize = meta.compile_options.match("-double") ? 8 : 4;
@@ -35414,7 +35230,7 @@ const dependencies = {
   }
 };
 var FaustMonoDspGenerator = _FaustMonoDspGenerator;
-FaustMonoDspGenerator.gWorkletProcessors = /* @__PURE__ */new Map();
+FaustMonoDspGenerator.gWorkletProcessors = /* @__PURE__ */ new Map();
 var _FaustPolyDspGenerator = class {
   constructor() {
     this.voiceFactory = null;
@@ -35426,7 +35242,8 @@ adaptor(F,G) = adapt(outputs(F),inputs(G));
 dsp_code = environment{${dspCode}};
 process = adaptor(dsp_code.process, dsp_code.effect) : dsp_code.effect;`) {
     this.voiceFactory = await compiler.createPolyDSPFactory(name, dspCode, args);
-    if (!this.voiceFactory) return null;
+    if (!this.voiceFactory)
+      return null;
     try {
       this.effectFactory = await compiler.createPolyDSPFactory(name, effectCode, args);
     } catch (e) {
@@ -35435,17 +35252,15 @@ process = adaptor(dsp_code.process, dsp_code.effect) : dsp_code.effect;`) {
     this.name = name;
     const voiceMeta = JSON.parse(this.voiceFactory.json);
     const isDouble = voiceMeta.compile_options.match("-double");
-    const {
-      mixerBuffer,
-      mixerModule
-    } = await compiler.getAsyncInternalMixerModule(!!isDouble);
+    const { mixerBuffer, mixerModule } = await compiler.getAsyncInternalMixerModule(!!isDouble);
     this.mixerBuffer = mixerBuffer;
     this.mixerModule = mixerModule;
     return this;
   }
   async createNode(context, voices, name = this.name, voiceFactory = this.voiceFactory, mixerModule = this.mixerModule, effectFactory = this.effectFactory, sp = false, bufferSize = 1024, processorName = ((voiceFactory == null ? void 0 : voiceFactory.shaKey) || "") + ((effectFactory == null ? void 0 : effectFactory.shaKey) || "") || `${name}_poly`) {
     var _a, _b;
-    if (!voiceFactory) throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
+    if (!voiceFactory)
+      throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
     const voiceMeta = JSON.parse(voiceFactory.json);
     const effectMeta = effectFactory ? JSON.parse(effectFactory.json) : void 0;
     const sampleSize = voiceMeta.compile_options.match("-double") ? 8 : 4;
@@ -35457,7 +35272,8 @@ process = adaptor(dsp_code.process, dsp_code.effect) : dsp_code.effect;`) {
       sp2.init(polyDsp);
       return sp2;
     } else {
-      if (!_FaustPolyDspGenerator.gWorkletProcessors.has(context)) _FaustPolyDspGenerator.gWorkletProcessors.set(context, /* @__PURE__ */new Set());
+      if (!_FaustPolyDspGenerator.gWorkletProcessors.has(context))
+        _FaustPolyDspGenerator.gWorkletProcessors.set(context, /* @__PURE__ */ new Set());
       if (!((_a = _FaustPolyDspGenerator.gWorkletProcessors.get(context)) == null ? void 0 : _a.has(processorName))) {
         try {
           const processorCode = `
@@ -35484,9 +35300,7 @@ const dependencies = {
 // Generate the actual AudioWorkletProcessor code
 (${FaustAudioWorkletProcessor_default.toString()})(dependencies, faustData);
 `;
-          const url = URL.createObjectURL(new Blob([processorCode], {
-            type: "text/javascript"
-          }));
+          const url = URL.createObjectURL(new Blob([processorCode], { type: "text/javascript" }));
           await context.audioWorklet.addModule(url);
           (_b = _FaustPolyDspGenerator.gWorkletProcessors.get(context)) == null ? void 0 : _b.add(processorName);
         } catch (e) {
@@ -35498,7 +35312,8 @@ const dependencies = {
     }
   }
   async createAudioWorkletProcessor(name = this.name, voiceFactory = this.voiceFactory, effectFactory = this.effectFactory, processorName = ((voiceFactory == null ? void 0 : voiceFactory.shaKey) || "") + ((effectFactory == null ? void 0 : effectFactory.shaKey) || "") || `${name}_poly`) {
-    if (!voiceFactory) throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
+    if (!voiceFactory)
+      throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
     const voiceMeta = JSON.parse(voiceFactory.json);
     const effectMeta = effectFactory ? JSON.parse(effectFactory.json) : void 0;
     const sampleSize = voiceMeta.compile_options.match("-double") ? 8 : 4;
@@ -35524,7 +35339,8 @@ const dependencies = {
     }
   }
   async createOfflineProcessor(sampleRate, bufferSize, voices, voiceFactory = this.voiceFactory, mixerModule = this.mixerModule, effectFactory = this.effectFactory) {
-    if (!voiceFactory) throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
+    if (!voiceFactory)
+      throw new Error("Code is not compiled, please define the factory or call `await this.compile()` first.");
     const voiceMeta = JSON.parse(voiceFactory.json);
     const effectMeta = effectFactory ? JSON.parse(effectFactory.json) : void 0;
     const instance = await FaustWasmInstantiator_default.createAsyncPolyDSPInstance(voiceFactory, mixerModule, voices, effectFactory || void 0);
@@ -35534,7 +35350,7 @@ const dependencies = {
   }
 };
 var FaustPolyDspGenerator = _FaustPolyDspGenerator;
-FaustPolyDspGenerator.gWorkletProcessors = /* @__PURE__ */new Map();
+FaustPolyDspGenerator.gWorkletProcessors = /* @__PURE__ */ new Map();
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -35551,6 +35367,7 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
+
 /***/ }),
 
 /***/ "./package.json":
@@ -35560,7 +35377,7 @@ PERFORMANCE OF THIS SOFTWARE.
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"fausteditorweb","version":"1.0.76","description":"Faust Editor","main":"src/index.ts","scripts":{"prebuild":"node ./src/listEx.js","build":"webpack --mode development","build-watch":"webpack --mode development --watch","dist":"npm run prebuild && webpack --mode production","publish":"rm -rf docs/* && git checkout docs/CNAME && cp -r dist/* docs","version":"npm run build"},"repository":{"type":"git","url":"git+https://github.com/grame-cncm/faustide.git"},"keywords":["Faust","WebAudio","WebAssembly"],"author":"Grame-CNCM","license":"GPL-3.0-or-later","bugs":{"url":"https://github.com/grame-cncm/faustide/issues"},"homepage":"https://github.com/grame-cncm/faustide#readme","devDependencies":{"@babel/core":"^7.13.10","@babel/plugin-proposal-class-properties":"^7.13.0","@babel/plugin-transform-runtime":"^7.13.10","@babel/preset-env":"^7.13.12","@babel/preset-typescript":"^7.13.0","@babel/runtime":"^7.13.10","@fortawesome/fontawesome-free":"^5.15.3","@shren/faust-ui":"^1.1.1","@shren/faustwasm":"^0.0.21","@shren/kissfft-js":"^0.1.10","@types/bootstrap":"^4.6.0","@types/jquery":"^3.5.5","@types/jszip":"^3.4.1","@types/qrcode":"^1.4.0","@types/wavesurfer.js":"^3.3.2","@typescript-eslint/eslint-plugin":"^2.34.0","@typescript-eslint/parser":"^2.34.0","babel-loader":"^9.1.0","bootstrap":"^4.6.0","clean-webpack-plugin":"^4.0.0","copy-webpack-plugin":"^11.0.0","css-loader":"^6.7.3","directory-tree":"^2.2.7","eslint":"^6.8.0","eslint-config-airbnb-base":"^14.2.1","eslint-plugin-import":"^2.26.0","jquery":"^3.6.0","jszip":"^3.6.0","luvi":"^5.2.0","monaco-editor":"^0.34.1","monaco-editor-webpack-plugin":"^7.0.1","npm-run-all":"^4.1.5","popper.js":"^1.16.1","qrcode":"^1.5.1","sass":"^1.54.0","sass-loader":"^13.2.0","source-map-loader":"^4.0.1","style-loader":"^3.3.1","stylelint":"^13.13.1","stylelint-config-recommended":"^5.0.0","typescript":"^3.9.9","wav-encoder":"^1.3.0","wavesurfer.js":"^3.3.3","webmidi":"^2.5.2","webpack":"^5.75.0","webpack-cli":"^5.0.1","window-function":"^2.1.0","workbox-webpack-plugin":"^6.5.4"}}');
+module.exports = JSON.parse('{"name":"fausteditorweb","version":"1.0.76","description":"Faust Editor","main":"src/index.ts","scripts":{"prebuild":"node ./src/listEx.js","build":"webpack --mode development","build-watch":"webpack --mode development --watch","dist":"npm run prebuild && webpack --mode production","publish":"rm -rf docs/* && git checkout docs/CNAME && cp -r dist/* docs","version":"npm run build"},"repository":{"type":"git","url":"git+https://github.com/grame-cncm/faustide.git"},"keywords":["Faust","WebAudio","WebAssembly"],"author":"Grame-CNCM","license":"GPL-3.0-or-later","bugs":{"url":"https://github.com/grame-cncm/faustide/issues"},"homepage":"https://github.com/grame-cncm/faustide#readme","devDependencies":{"@babel/core":"^7.13.10","@babel/plugin-proposal-class-properties":"^7.13.0","@babel/plugin-transform-runtime":"^7.13.10","@babel/preset-env":"^7.13.12","@babel/preset-typescript":"^7.13.0","@babel/runtime":"^7.13.10","@fortawesome/fontawesome-free":"^5.15.3","@shren/faust-ui":"^1.1.1","@shren/faustwasm":"^0.0.25","@shren/kissfft-js":"^0.1.10","@types/bootstrap":"^4.6.0","@types/jquery":"^3.5.5","@types/jszip":"^3.4.1","@types/qrcode":"^1.4.0","@types/wavesurfer.js":"^3.3.2","@typescript-eslint/eslint-plugin":"^2.34.0","@typescript-eslint/parser":"^2.34.0","babel-loader":"^9.1.0","bootstrap":"^4.6.0","clean-webpack-plugin":"^4.0.0","copy-webpack-plugin":"^11.0.0","css-loader":"^6.7.3","directory-tree":"^2.2.7","eslint":"^6.8.0","eslint-config-airbnb-base":"^14.2.1","eslint-plugin-import":"^2.26.0","jquery":"^3.6.0","jszip":"^3.6.0","luvi":"^5.2.0","monaco-editor":"^0.34.1","monaco-editor-webpack-plugin":"^7.0.1","npm-run-all":"^4.1.5","popper.js":"^1.16.1","qrcode":"^1.5.1","sass":"^1.54.0","sass-loader":"^13.2.0","source-map-loader":"^4.0.1","style-loader":"^3.3.1","stylelint":"^13.13.1","stylelint-config-recommended":"^5.0.0","typescript":"^3.9.9","wav-encoder":"^1.3.0","wavesurfer.js":"^3.3.3","webmidi":"^2.5.2","webpack":"^5.75.0","webpack-cli":"^5.0.1","window-function":"^2.1.0","workbox-webpack-plugin":"^6.5.4"}}');
 
 /***/ })
 
@@ -35671,7 +35488,7 @@ module.exports = JSON.parse('{"name":"fausteditorweb","version":"1.0.76","descri
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "js/" + {"vendors-include-loader_node_modules_monaco-editor_esm_vs_editor_editor_main_js":"aa38625b9bdedaf00f57","data_image_png_base64_iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5_AAAAAXNSR0IArs4c6QAAAARnQU1-ba2ffd":"948b16577e780e652668","_8529":"ffe4a1371b6d8a9550ab","_98aa":"baa516013d08e9e7d17a","_00a1":"f476ccf9d0f0dfaf28f7","_2a91":"492f9631962b658ac8c1","src_monaco-faust_FaustLang_ts-data_image_png_base64_iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8-ee670f":"03e0c4db343947f3949e","vendors-node_modules_monaco-editor_esm_vs_basic-languages_abap_abap_js":"f5beab8ab7123dac4bb5","node_modules_monaco-editor_esm_vs_basic-languages_apex_apex_js":"31961b7517dfe8eebe45","node_modules_monaco-editor_esm_vs_basic-languages_azcli_azcli_js":"868b29cdeefaafd5cfb7","node_modules_monaco-editor_esm_vs_basic-languages_bat_bat_js":"09f9aebd27a285656188","node_modules_monaco-editor_esm_vs_basic-languages_bicep_bicep_js":"47323f340e3fefd03d29","node_modules_monaco-editor_esm_vs_basic-languages_cameligo_cameligo_js":"42eead714a7d871c60f0","vendors-node_modules_monaco-editor_esm_vs_basic-languages_clojure_clojure_js":"0a243956b6403557db8c","node_modules_monaco-editor_esm_vs_basic-languages_coffee_coffee_js":"d7ce16f5038f6ba51e51","node_modules_monaco-editor_esm_vs_basic-languages_cpp_cpp_js":"b99b437695d4ade3ef2f","node_modules_monaco-editor_esm_vs_basic-languages_csharp_csharp_js":"8428c65fd96f8b53d382","node_modules_monaco-editor_esm_vs_basic-languages_csp_csp_js":"1a3f8415f753792ccabf","node_modules_monaco-editor_esm_vs_basic-languages_css_css_js":"6d6932de73c132e6f9b3","node_modules_monaco-editor_esm_vs_basic-languages_cypher_cypher_js":"ea5d5de5c34840f3b2d9","node_modules_monaco-editor_esm_vs_basic-languages_dart_dart_js":"cf7510aac667db950e67","node_modules_monaco-editor_esm_vs_basic-languages_dockerfile_dockerfile_js":"ec9ac55b81ff161e2cac","node_modules_monaco-editor_esm_vs_basic-languages_ecl_ecl_js":"f0d8975c9c8d80df2421","vendors-node_modules_monaco-editor_esm_vs_basic-languages_elixir_elixir_js":"c3b6c20c58eaa1fbf8ae","node_modules_monaco-editor_esm_vs_basic-languages_flow9_flow9_js":"faf57641c4bf2f103f25","node_modules_monaco-editor_esm_vs_basic-languages_fsharp_fsharp_js":"62bfcfb6d28b5a4d32c1","vendors-node_modules_monaco-editor_esm_vs_basic-languages_freemarker2_freemarker2_js":"44144b6599302e1abdd4","node_modules_monaco-editor_esm_vs_basic-languages_go_go_js":"2e3aa1eaa307e04216b3","node_modules_monaco-editor_esm_vs_basic-languages_graphql_graphql_js":"2973f5a2a77a9e2bc451","vendors-node_modules_monaco-editor_esm_vs_basic-languages_handlebars_handlebars_js":"f37fbc52e150546c80bc","node_modules_monaco-editor_esm_vs_basic-languages_hcl_hcl_js":"58598ce42c576d618d9f","node_modules_monaco-editor_esm_vs_basic-languages_html_html_js":"828d901e114cc41377b7","node_modules_monaco-editor_esm_vs_basic-languages_ini_ini_js":"1f11664695410dc3bace","node_modules_monaco-editor_esm_vs_basic-languages_java_java_js":"2e7588c460485acce4c5","vendors-node_modules_monaco-editor_esm_vs_basic-languages_javascript_javascript_js":"8a08edc78efbcd0e14f3","vendors-node_modules_monaco-editor_esm_vs_basic-languages_julia_julia_js":"179e546e346713dff4ac","node_modules_monaco-editor_esm_vs_basic-languages_kotlin_kotlin_js":"56c2ad3d43b61670e7f9","node_modules_monaco-editor_esm_vs_basic-languages_less_less_js":"76ad40a8284c399987d0","node_modules_monaco-editor_esm_vs_basic-languages_lexon_lexon_js":"acd711ea8c6a7661e7c2","node_modules_monaco-editor_esm_vs_basic-languages_lua_lua_js":"c32f9074cb5c23c4f288","node_modules_monaco-editor_esm_vs_basic-languages_liquid_liquid_js":"a83ac5529b7d207b8b87","node_modules_monaco-editor_esm_vs_basic-languages_m3_m3_js":"62129917b8b000c9993f","node_modules_monaco-editor_esm_vs_basic-languages_markdown_markdown_js":"cb74851d935568da8659","node_modules_monaco-editor_esm_vs_basic-languages_mips_mips_js":"b3a6345e59c81bd3e172","node_modules_monaco-editor_esm_vs_basic-languages_msdax_msdax_js":"414ea5601a6953631dc2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_mysql_mysql_js":"0d755dc460249badcc85","node_modules_monaco-editor_esm_vs_basic-languages_objective-c_objective-c_js":"258ae672857550e9c4c5","node_modules_monaco-editor_esm_vs_basic-languages_pascal_pascal_js":"0574c771f6b2276906b3","node_modules_monaco-editor_esm_vs_basic-languages_pascaligo_pascaligo_js":"bd50069295e6a126395c","vendors-node_modules_monaco-editor_esm_vs_basic-languages_perl_perl_js":"39ac9e5c65f1d0cbc1d2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_pgsql_pgsql_js":"4238c2c890d73e5ffd54","vendors-node_modules_monaco-editor_esm_vs_basic-languages_php_php_js":"d13a2c721ef2c716bd86","node_modules_monaco-editor_esm_vs_basic-languages_pla_pla_js":"9475deb54982556eb44b","vendors-node_modules_monaco-editor_esm_vs_basic-languages_postiats_postiats_js":"dd179878988c9b3080fb","vendors-node_modules_monaco-editor_esm_vs_basic-languages_powerquery_powerquery_js":"e9dbc0dc494c50b3f7a1","node_modules_monaco-editor_esm_vs_basic-languages_powershell_powershell_js":"7f9c27e7d59a4e443c23","vendors-node_modules_monaco-editor_esm_vs_basic-languages_protobuf_protobuf_js":"c2dca5715c8d79acfbc4","node_modules_monaco-editor_esm_vs_basic-languages_pug_pug_js":"f28370dcccb368d4950d","node_modules_monaco-editor_esm_vs_basic-languages_python_python_js":"02ba839479faf071c7bd","node_modules_monaco-editor_esm_vs_basic-languages_qsharp_qsharp_js":"f14bcbc0d619f3cf4fef","node_modules_monaco-editor_esm_vs_basic-languages_r_r_js":"2fd6e1eefb2c93dec258","vendors-node_modules_monaco-editor_esm_vs_basic-languages_razor_razor_js":"fee315ae8c34f1663fbc","node_modules_monaco-editor_esm_vs_basic-languages_redis_redis_js":"a43a329d9a0f2ba28e79","vendors-node_modules_monaco-editor_esm_vs_basic-languages_redshift_redshift_js":"4c659ad26fa60489e3c5","node_modules_monaco-editor_esm_vs_basic-languages_restructuredtext_restructuredtext_js":"ce850f79523f5eed6dd2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_ruby_ruby_js":"3c7289714441e09eb1e0","node_modules_monaco-editor_esm_vs_basic-languages_rust_rust_js":"9f7ea056cb967b0c8987","node_modules_monaco-editor_esm_vs_basic-languages_sb_sb_js":"38c74530ec2e1493c1aa","vendors-node_modules_monaco-editor_esm_vs_basic-languages_scala_scala_js":"eac39fa6313d29aa8377","node_modules_monaco-editor_esm_vs_basic-languages_scheme_scheme_js":"32e8917a54e878a1c8a2","node_modules_monaco-editor_esm_vs_basic-languages_scss_scss_js":"549d76012363d578343d","node_modules_monaco-editor_esm_vs_basic-languages_shell_shell_js":"e0fdbf8635487c19fa8b","vendors-node_modules_monaco-editor_esm_vs_basic-languages_solidity_solidity_js":"cf39dc8df1c22730e2fb","node_modules_monaco-editor_esm_vs_basic-languages_sophia_sophia_js":"0447c04a2a879545304e","node_modules_monaco-editor_esm_vs_basic-languages_sparql_sparql_js":"c9739bc384cbfa7f747a","vendors-node_modules_monaco-editor_esm_vs_basic-languages_sql_sql_js":"d99df7fd3adb49d6246f","vendors-node_modules_monaco-editor_esm_vs_basic-languages_st_st_js":"9e291f8d5fdabc8e06f6","node_modules_monaco-editor_esm_vs_basic-languages_swift_swift_js":"2eaf5b27729cddd6d571","vendors-node_modules_monaco-editor_esm_vs_basic-languages_systemverilog_systemverilog_js":"c8689573ae36511c2947","node_modules_monaco-editor_esm_vs_basic-languages_tcl_tcl_js":"f2d5f5c76d8aaf825bda","node_modules_monaco-editor_esm_vs_basic-languages_twig_twig_js":"29029c6edbb390e58ded","node_modules_monaco-editor_esm_vs_basic-languages_typescript_typescript_js":"d369d1842b93e47b80a9","node_modules_monaco-editor_esm_vs_basic-languages_vb_vb_js":"5d1469f6125b98d52b19","node_modules_monaco-editor_esm_vs_basic-languages_xml_xml_js":"178a52c986e95473c3b2","node_modules_monaco-editor_esm_vs_basic-languages_yaml_yaml_js":"109d06f6e7817ce46ced","vendors-node_modules_monaco-editor_esm_vs_language_css_cssMode_js":"866fd27138e3d18db6cb","vendors-node_modules_monaco-editor_esm_vs_language_html_htmlMode_js":"11cb856f83cdbefcdcc7","vendors-node_modules_monaco-editor_esm_vs_language_json_jsonMode_js":"df09d3235c2bc37f0f69","vendors-node_modules_monaco-editor_esm_vs_language_typescript_tsMode_js":"1d43e23ea625167c03ed"}[chunkId] + ".js";
+/******/ 			return "js/" + {"vendors-include-loader_node_modules_monaco-editor_esm_vs_editor_editor_main_js":"aa38625b9bdedaf00f57","data_image_png_base64_iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5_AAAAAXNSR0IArs4c6QAAAARnQU1-ba2ffd":"948b16577e780e652668","_dc1c":"99e85d0c4004e42e3962","_af15":"fe2d1d98ef802c2e38be","_00a1":"f476ccf9d0f0dfaf28f7","_2a91":"492f9631962b658ac8c1","src_monaco-faust_FaustLang_ts-data_image_png_base64_iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8-ee670f":"03e0c4db343947f3949e","vendors-node_modules_monaco-editor_esm_vs_basic-languages_abap_abap_js":"f5beab8ab7123dac4bb5","node_modules_monaco-editor_esm_vs_basic-languages_apex_apex_js":"31961b7517dfe8eebe45","node_modules_monaco-editor_esm_vs_basic-languages_azcli_azcli_js":"868b29cdeefaafd5cfb7","node_modules_monaco-editor_esm_vs_basic-languages_bat_bat_js":"09f9aebd27a285656188","node_modules_monaco-editor_esm_vs_basic-languages_bicep_bicep_js":"47323f340e3fefd03d29","node_modules_monaco-editor_esm_vs_basic-languages_cameligo_cameligo_js":"42eead714a7d871c60f0","vendors-node_modules_monaco-editor_esm_vs_basic-languages_clojure_clojure_js":"0a243956b6403557db8c","node_modules_monaco-editor_esm_vs_basic-languages_coffee_coffee_js":"d7ce16f5038f6ba51e51","node_modules_monaco-editor_esm_vs_basic-languages_cpp_cpp_js":"b99b437695d4ade3ef2f","node_modules_monaco-editor_esm_vs_basic-languages_csharp_csharp_js":"8428c65fd96f8b53d382","node_modules_monaco-editor_esm_vs_basic-languages_csp_csp_js":"1a3f8415f753792ccabf","node_modules_monaco-editor_esm_vs_basic-languages_css_css_js":"6d6932de73c132e6f9b3","node_modules_monaco-editor_esm_vs_basic-languages_cypher_cypher_js":"ea5d5de5c34840f3b2d9","node_modules_monaco-editor_esm_vs_basic-languages_dart_dart_js":"cf7510aac667db950e67","node_modules_monaco-editor_esm_vs_basic-languages_dockerfile_dockerfile_js":"ec9ac55b81ff161e2cac","node_modules_monaco-editor_esm_vs_basic-languages_ecl_ecl_js":"f0d8975c9c8d80df2421","vendors-node_modules_monaco-editor_esm_vs_basic-languages_elixir_elixir_js":"c3b6c20c58eaa1fbf8ae","node_modules_monaco-editor_esm_vs_basic-languages_flow9_flow9_js":"faf57641c4bf2f103f25","node_modules_monaco-editor_esm_vs_basic-languages_fsharp_fsharp_js":"62bfcfb6d28b5a4d32c1","vendors-node_modules_monaco-editor_esm_vs_basic-languages_freemarker2_freemarker2_js":"44144b6599302e1abdd4","node_modules_monaco-editor_esm_vs_basic-languages_go_go_js":"2e3aa1eaa307e04216b3","node_modules_monaco-editor_esm_vs_basic-languages_graphql_graphql_js":"2973f5a2a77a9e2bc451","vendors-node_modules_monaco-editor_esm_vs_basic-languages_handlebars_handlebars_js":"f37fbc52e150546c80bc","node_modules_monaco-editor_esm_vs_basic-languages_hcl_hcl_js":"58598ce42c576d618d9f","node_modules_monaco-editor_esm_vs_basic-languages_html_html_js":"828d901e114cc41377b7","node_modules_monaco-editor_esm_vs_basic-languages_ini_ini_js":"1f11664695410dc3bace","node_modules_monaco-editor_esm_vs_basic-languages_java_java_js":"2e7588c460485acce4c5","vendors-node_modules_monaco-editor_esm_vs_basic-languages_javascript_javascript_js":"8a08edc78efbcd0e14f3","vendors-node_modules_monaco-editor_esm_vs_basic-languages_julia_julia_js":"179e546e346713dff4ac","node_modules_monaco-editor_esm_vs_basic-languages_kotlin_kotlin_js":"56c2ad3d43b61670e7f9","node_modules_monaco-editor_esm_vs_basic-languages_less_less_js":"76ad40a8284c399987d0","node_modules_monaco-editor_esm_vs_basic-languages_lexon_lexon_js":"acd711ea8c6a7661e7c2","node_modules_monaco-editor_esm_vs_basic-languages_lua_lua_js":"c32f9074cb5c23c4f288","node_modules_monaco-editor_esm_vs_basic-languages_liquid_liquid_js":"a83ac5529b7d207b8b87","node_modules_monaco-editor_esm_vs_basic-languages_m3_m3_js":"62129917b8b000c9993f","node_modules_monaco-editor_esm_vs_basic-languages_markdown_markdown_js":"cb74851d935568da8659","node_modules_monaco-editor_esm_vs_basic-languages_mips_mips_js":"b3a6345e59c81bd3e172","node_modules_monaco-editor_esm_vs_basic-languages_msdax_msdax_js":"414ea5601a6953631dc2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_mysql_mysql_js":"0d755dc460249badcc85","node_modules_monaco-editor_esm_vs_basic-languages_objective-c_objective-c_js":"258ae672857550e9c4c5","node_modules_monaco-editor_esm_vs_basic-languages_pascal_pascal_js":"0574c771f6b2276906b3","node_modules_monaco-editor_esm_vs_basic-languages_pascaligo_pascaligo_js":"bd50069295e6a126395c","vendors-node_modules_monaco-editor_esm_vs_basic-languages_perl_perl_js":"39ac9e5c65f1d0cbc1d2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_pgsql_pgsql_js":"4238c2c890d73e5ffd54","vendors-node_modules_monaco-editor_esm_vs_basic-languages_php_php_js":"d13a2c721ef2c716bd86","node_modules_monaco-editor_esm_vs_basic-languages_pla_pla_js":"9475deb54982556eb44b","vendors-node_modules_monaco-editor_esm_vs_basic-languages_postiats_postiats_js":"dd179878988c9b3080fb","vendors-node_modules_monaco-editor_esm_vs_basic-languages_powerquery_powerquery_js":"e9dbc0dc494c50b3f7a1","node_modules_monaco-editor_esm_vs_basic-languages_powershell_powershell_js":"7f9c27e7d59a4e443c23","vendors-node_modules_monaco-editor_esm_vs_basic-languages_protobuf_protobuf_js":"c2dca5715c8d79acfbc4","node_modules_monaco-editor_esm_vs_basic-languages_pug_pug_js":"f28370dcccb368d4950d","node_modules_monaco-editor_esm_vs_basic-languages_python_python_js":"02ba839479faf071c7bd","node_modules_monaco-editor_esm_vs_basic-languages_qsharp_qsharp_js":"f14bcbc0d619f3cf4fef","node_modules_monaco-editor_esm_vs_basic-languages_r_r_js":"2fd6e1eefb2c93dec258","vendors-node_modules_monaco-editor_esm_vs_basic-languages_razor_razor_js":"fee315ae8c34f1663fbc","node_modules_monaco-editor_esm_vs_basic-languages_redis_redis_js":"a43a329d9a0f2ba28e79","vendors-node_modules_monaco-editor_esm_vs_basic-languages_redshift_redshift_js":"4c659ad26fa60489e3c5","node_modules_monaco-editor_esm_vs_basic-languages_restructuredtext_restructuredtext_js":"ce850f79523f5eed6dd2","vendors-node_modules_monaco-editor_esm_vs_basic-languages_ruby_ruby_js":"3c7289714441e09eb1e0","node_modules_monaco-editor_esm_vs_basic-languages_rust_rust_js":"9f7ea056cb967b0c8987","node_modules_monaco-editor_esm_vs_basic-languages_sb_sb_js":"38c74530ec2e1493c1aa","vendors-node_modules_monaco-editor_esm_vs_basic-languages_scala_scala_js":"eac39fa6313d29aa8377","node_modules_monaco-editor_esm_vs_basic-languages_scheme_scheme_js":"32e8917a54e878a1c8a2","node_modules_monaco-editor_esm_vs_basic-languages_scss_scss_js":"549d76012363d578343d","node_modules_monaco-editor_esm_vs_basic-languages_shell_shell_js":"e0fdbf8635487c19fa8b","vendors-node_modules_monaco-editor_esm_vs_basic-languages_solidity_solidity_js":"cf39dc8df1c22730e2fb","node_modules_monaco-editor_esm_vs_basic-languages_sophia_sophia_js":"0447c04a2a879545304e","node_modules_monaco-editor_esm_vs_basic-languages_sparql_sparql_js":"c9739bc384cbfa7f747a","vendors-node_modules_monaco-editor_esm_vs_basic-languages_sql_sql_js":"d99df7fd3adb49d6246f","vendors-node_modules_monaco-editor_esm_vs_basic-languages_st_st_js":"9e291f8d5fdabc8e06f6","node_modules_monaco-editor_esm_vs_basic-languages_swift_swift_js":"2eaf5b27729cddd6d571","vendors-node_modules_monaco-editor_esm_vs_basic-languages_systemverilog_systemverilog_js":"c8689573ae36511c2947","node_modules_monaco-editor_esm_vs_basic-languages_tcl_tcl_js":"f2d5f5c76d8aaf825bda","node_modules_monaco-editor_esm_vs_basic-languages_twig_twig_js":"29029c6edbb390e58ded","node_modules_monaco-editor_esm_vs_basic-languages_typescript_typescript_js":"d369d1842b93e47b80a9","node_modules_monaco-editor_esm_vs_basic-languages_vb_vb_js":"5d1469f6125b98d52b19","node_modules_monaco-editor_esm_vs_basic-languages_xml_xml_js":"178a52c986e95473c3b2","node_modules_monaco-editor_esm_vs_basic-languages_yaml_yaml_js":"109d06f6e7817ce46ced","vendors-node_modules_monaco-editor_esm_vs_language_css_cssMode_js":"866fd27138e3d18db6cb","vendors-node_modules_monaco-editor_esm_vs_language_html_htmlMode_js":"11cb856f83cdbefcdcc7","vendors-node_modules_monaco-editor_esm_vs_language_json_jsonMode_js":"df09d3235c2bc37f0f69","vendors-node_modules_monaco-editor_esm_vs_language_typescript_tsMode_js":"1d43e23ea625167c03ed"}[chunkId] + ".js";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -35717,6 +35534,7 @@ module.exports = JSON.parse('{"name":"fausteditorweb","version":"1.0.76","descri
 /******/ 					script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 				}
 /******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
 /******/ 				script.src = url;
 /******/ 			}
 /******/ 			inProgress[url] = [done];
@@ -35729,7 +35547,7 @@ module.exports = JSON.parse('{"name":"fausteditorweb","version":"1.0.76","descri
 /******/ 				script.parentNode && script.parentNode.removeChild(script);
 /******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
 /******/ 				if(prev) return prev(event);
-/******/ 			};
+/******/ 			}
 /******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
 /******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
 /******/ 			script.onload = onScriptComplete.bind(null, script.onload);
@@ -35755,10 +35573,13 @@ module.exports = JSON.parse('{"name":"fausteditorweb","version":"1.0.76","descri
 /******/ 		var document = __webpack_require__.g.document;
 /******/ 		if (!scriptUrl && document) {
 /******/ 			if (document.currentScript)
-/******/ 				scriptUrl = document.currentScript.src
+/******/ 				scriptUrl = document.currentScript.src;
 /******/ 			if (!scriptUrl) {
 /******/ 				var scripts = document.getElementsByTagName("script");
-/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && !scriptUrl) scriptUrl = scripts[i--].src;
+/******/ 				}
 /******/ 			}
 /******/ 		}
 /******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
@@ -35813,7 +35634,7 @@ module.exports = JSON.parse('{"name":"fausteditorweb","version":"1.0.76","descri
 /******/ 								}
 /******/ 							};
 /******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
-/******/ 						} else installedChunks[chunkId] = 0;
+/******/ 						}
 /******/ 					}
 /******/ 				}
 /******/ 		};
@@ -35883,7 +35704,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var wavesurfer_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(wavesurfer_js__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! jszip */ "./node_modules/jszip/dist/jszip.min.js");
 /* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(jszip__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @shren/faustwasm */ "../faustwasm/dist/esm/index.js");
+/* harmony import */ var _shren_faustwasm__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @shren/faustwasm */ "./node_modules/@shren/faustwasm/dist/esm/index.js");
 /* harmony import */ var _shren_kissfft_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @shren/kissfft-js */ "./node_modules/@shren/kissfft-js/dist/esm/index.js");
 /* harmony import */ var _Key2Midi__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Key2Midi */ "./src/Key2Midi.ts");
 /* harmony import */ var _Scope__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Scope */ "./src/Scope.ts");
