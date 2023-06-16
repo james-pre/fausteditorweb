@@ -37716,19 +37716,19 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           refreshDspUI();
         });
         svgDragged = false; // svg inject
-        /*
-        $<SVGAElement>("#diagram-svg").on("click", ".link", (e) => {
-            e.preventDefault();
-            if (svgDragged) return;
-            // const $svg = $("#diagram-svg>svg");
-            // const curWidth = $svg.length ? $svg.width() : $("#diagram").width(); // preserve current zoom
-            const fileName = e.currentTarget.onclick.toString().match(/'(.+)'/)[1];
-            const strSvg = libFaust.fs().readFile(fileName, { encoding: "utf8" }) as string;
-            const svg = $<SVGSVGElement>(strSvg).filter("svg")[0];
-            const width = Math.min($("#diagram").width(), $("#diagram").height() / svg.height.baseVal.value * svg.width.baseVal.value);
-            $("#diagram-svg").empty().append(svg).children("svg").width(width); // replace svg;
+        $("#diagram-svg").on("click", "a", e => {
+          e.preventDefault();
+          if (svgDragged) return;
+          // const $svg = $("#diagram-svg>svg");
+          // const curWidth = $svg.length ? $svg.width() : $("#diagram").width(); // preserve current zoom
+          var fileName = e.currentTarget.href.baseVal;
+          var strSvg = libFaust.fs().readFile("/FaustDSP-svg/".concat(fileName), {
+            encoding: "utf8"
+          });
+          var svg = $(strSvg).filter("svg")[0];
+          var width = Math.min($("#diagram").width(), $("#diagram").height() / svg.height.baseVal.value * svg.width.baseVal.value);
+          $("#diagram-svg").empty().append(svg).children("svg").width(width); // replace svg;
         });
-        */
         // svg zoom
         $("#diagram-svg").on("mousedown", "svg", e => {
           e.preventDefault();
@@ -37862,18 +37862,18 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
           }
         }).resize();
         // autorunning
-        _context16.next = 169;
+        _context16.next = 170;
         return initAudioCtx(audioEnv);
-      case 169:
+      case 170:
         faustEnv.recorder.sampleRate = audioEnv.audioCtx.sampleRate;
         // Analysers
         initAnalysersUI(uiEnv, audioEnv);
         $("#output-analyser-ui").hide();
         uiEnv.outputScope.disabled = true;
         $("#select-audio-input").change();
-        _context16.next = 176;
+        _context16.next = 177;
         return loadURLParams(window.location.search);
-      case 176:
+      case 177:
         $("#select-voices").children("option[value=".concat(compileOptions.voices, "]")).prop("selected", true);
         $("#select-buffer-size").children("option[value=".concat(compileOptions.bufferSize, "]")).prop("selected", true);
         if (supportAudioWorklet) $("#check-worklet").prop({
@@ -37893,7 +37893,7 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
         $("#check-realtime-compile")[0].checked = compileOptions.realtimeCompile;
         if (compileOptions.realtimeCompile && !audioEnv.dsp) setTimeout(updateDiagram, 0, uiEnv.fileManager.mainCode);
         window.faustEnv = faustEnv;
-      case 192:
+      case 193:
       case "end":
         return _context16.stop();
     }
