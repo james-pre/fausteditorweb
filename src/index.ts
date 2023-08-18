@@ -18,7 +18,7 @@ import webmidi, { Input, WebMidiEventConnected, WebMidiEventDisconnected } from 
 import * as QRCode from "qrcode";
 import * as WaveSurfer from "wavesurfer.js";
 import * as JSZip from "jszip";
-import { LibFaust, FaustScriptProcessorNode, FaustAudioWorkletNode, FaustCompiler, instantiateFaustModuleFromFile, FaustMonoDspGenerator, FaustPolyDspGenerator, FaustSvgDiagrams } from "@shren/faustwasm";
+import { LibFaust, FaustScriptProcessorNode, FaustAudioWorkletNode, FaustCompiler, instantiateFaustModuleFromFile, FaustMonoDspGenerator, FaustPolyDspGenerator, FaustSvgDiagrams } from "@grame/faustwasm";
 import { instantiateKissFFTModuleFromFile, KissFFT } from "@shren/kissfft-js";
 import { Key2Midi } from "./Key2Midi";
 import { Scope } from "./Scope";
@@ -449,7 +449,7 @@ $(async () => {
             const guiBuilder = $<HTMLIFrameElement>("#iframe-gui-builder")[0];
             guiBuilder.src = "";
             guiBuilder.src = `${compileOptions.guiBuilderUrl}?name=${uiEnv.fileManager.mainFileName}`;
-            guiBuilder.onload = () => guiBuilder.contentWindow.postMessage({ type: "build", ui: node.getUI(), name: `${uiEnv.fileManager.mainFileName}`, code: uiEnv.fileManager.mainCode }, "*");
+            guiBuilder.onload = () => guiBuilder.contentWindow.postMessage({ type: "build", ui: node.getUI(), name: `${uiEnv.fileManager.mainFileName}`, code: uiEnv.fileManager.mainCode, poly: !!compileOptions.voices }, "*");
         }
         isCompilingDsp = false;
         return { success: true };
