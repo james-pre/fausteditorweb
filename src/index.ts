@@ -1221,6 +1221,7 @@ $(async () => {
         });
     };
     if (navigator.mediaDevices) {
+        // TODO: This Bugs Safari Tech Preview
         try {
             await navigator.mediaDevices.getUserMedia({ audio: true });
         } catch (e) { } // eslint-disable-line no-empty
@@ -1563,19 +1564,17 @@ $(async () => {
     });
     let svgDragged = false;
     // svg inject
-    /*
-    $<SVGAElement>("#diagram-svg").on("click", ".link", (e) => {
+    $<SVGAElement>("#diagram-svg").on("click", "a", (e) => {
         e.preventDefault();
         if (svgDragged) return;
         // const $svg = $("#diagram-svg>svg");
         // const curWidth = $svg.length ? $svg.width() : $("#diagram").width(); // preserve current zoom
-        const fileName = e.currentTarget.onclick.toString().match(/'(.+)'/)[1];
-        const strSvg = libFaust.fs().readFile(fileName, { encoding: "utf8" }) as string;
+        const fileName = e.currentTarget.href.baseVal;
+        const strSvg = libFaust.fs().readFile(`/FaustDSP-svg/${fileName}`, { encoding: "utf8" }) as string;
         const svg = $<SVGSVGElement>(strSvg).filter("svg")[0];
         const width = Math.min($("#diagram").width(), $("#diagram").height() / svg.height.baseVal.value * svg.width.baseVal.value);
         $("#diagram-svg").empty().append(svg).children("svg").width(width); // replace svg;
     });
-    */
     // svg zoom
     $("#diagram-svg").on("mousedown", "svg", (e) => {
         e.preventDefault();
