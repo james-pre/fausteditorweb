@@ -940,7 +940,7 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": "ed0bb4ef2ded005f6f0cf7351ea21406"
   }, {
     "url": "faust-ui/index.js",
-    "revision": "fdb113e19e8d9ba0b08bd6e56ce7fd6c"
+    "revision": "bfc52ee4b93064fa054a6618963d9d27"
   }, {
     "url": "faustwasm/libfaust-wasm.d.cts",
     "revision": "cef35c37b0dcdb9408f85f29aeb40d49"
@@ -976,12 +976,9 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": "75db0d7da924675d623f465b19ecd8f9"
   }, {
     "url": "index.js",
-    "revision": "4ae30880dad10963434054119000ef6e"
+    "revision": "3db37368be2f62841a46bd17af8f05a7"
   }, {
     "url": "js/02ba839479faf071c7bd.js",
-    "revision": null
-  }, {
-    "url": "js/03e0c4db343947f3949e.js",
     "revision": null
   }, {
     "url": "js/0447c04a2a879545304e.js",
@@ -1234,6 +1231,9 @@ define(['./workbox-43d32f61'], (function (workbox) { 'use strict';
     "revision": null
   }, {
     "url": "js/f476ccf9d0f0dfaf28f7.js",
+    "revision": null
+  }, {
+    "url": "js/f4e39f0b7ca72d328551.js",
     "revision": null
   }, {
     "url": "js/f5beab8ab7123dac4bb5.js",
