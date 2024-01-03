@@ -36264,14 +36264,16 @@ $( /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MOD
                     $("#iframe-gui-builder").css("visibility", "visible"); // Show iframe
                     guiBuilder = $("#iframe-gui-builder")[0];
                     guiBuilder.src = "";
-                    guiBuilder.src = "".concat(compileOptions.guiBuilderUrl, "?name=").concat(uiEnv.fileManager.mainFileName);
-                    guiBuilder.onload = () => guiBuilder.contentWindow.postMessage({
-                      type: "build",
-                      ui: node.getUI(),
-                      name: "".concat(uiEnv.fileManager.mainFileName),
-                      code: uiEnv.fileManager.mainCode,
-                      poly: !!compileOptions.voices
-                    }, "*");
+                    guiBuilder.onload = () => {
+                      guiBuilder.src = "".concat(compileOptions.guiBuilderUrl, "?name=").concat(uiEnv.fileManager.mainFileName);
+                      guiBuilder.onload = () => guiBuilder.contentWindow.postMessage({
+                        type: "build",
+                        ui: node.getUI(),
+                        name: "".concat(uiEnv.fileManager.mainFileName),
+                        code: uiEnv.fileManager.mainCode,
+                        poly: !!compileOptions.voices
+                      }, "*");
+                    };
                   }
                   isCompilingDsp = false;
                   return _context2.abrupt("return", {
