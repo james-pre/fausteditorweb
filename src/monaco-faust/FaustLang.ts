@@ -1,6 +1,8 @@
-import { languages, editor, Position, Range } from "monaco-editor/esm/vs/editor/editor.api";
-import { Faust } from "faust2webaudio";
+import { languages, editor, Position, Range } from "monaco-editor";
+import { LibFaust } from "@grame/faustwasm";
 import { Faust2Doc, TFaustDocs, TFaustDoc } from "./Faust2Doc";
+
+import { docSections, faustDocURL } from "../documentation";
 
 export type FaustLanguageProviders = {
     hoverProvider: languages.HoverProvider;
@@ -41,7 +43,7 @@ export const theme: editor.IStandaloneThemeData = {
         { token: "faustCompOperators", foreground: "FFDDFF" },
         { token: "identifier", foreground: "77CCFF" }
     ],
-    colors: null
+    colors: {}
 };
 const faustKeywords = [
     "import", "component", "declare", "library", "environment", "int", "float",
@@ -50,16 +52,17 @@ const faustKeywords = [
 const faustFunctions = [
     "mem", "prefix", "rdtable", "rwtable",
     "select2", "select3", "ffunction", "fconstant", "fvariable",
+    "route", "waveform", "soundfile",
     "button", "checkbox", "vslider", "hslider", "nentry",
     "vgroup", "hgroup", "tgroup", "vbargraph", "hbargraph", "attach",
     "acos", "asin", "atan", "atan2", "cos", "sin", "tan", "exp",
     "log", "log10", "pow", "sqrt", "abs", "min", "max", "fmod",
-    "remainder", "floor", "ceil", "rint",
+    "remainder", "floor", "ceil", "rint", "round",
     "seq", "par", "sum", "prod"
 ];
-const getFile = async (fileName: string, faust: Faust) => {
-    if (faust) return faust.fs.readFile("libraries/" + fileName, { encoding: "utf8" }) as string;
-    const libPath = "https://faust.grame.fr/tools/editor/libraries/";
+const getFile = async (fileName: string, libFaust: LibFaust) => {
+    if (libFaust) return libFaust.fs().readFile("/usr/share/faust/" + fileName, { encoding: "utf8" }) as string;
+    const libPath = "https://faustlibraries.grame.fr/libs/";
     const res = await fetch(libPath + fileName);
     return res.text();
 };
@@ -102,14 +105,15 @@ export const matchDocKey = (doc: TFaustDocs, model: editor.ITextModel, position:
     }
     return null;
 };
-export const getProviders = async (faust: Faust): Promise<FaustLanguageProviders> => {
+export const getProviders = async (libFaust: LibFaust): Promise<FaustLanguageProviders> => {
     let libDocs: TFaustDocs = {};
     let primDocs: TFaustDocs = {};
     try {
-        libDocs = await Faust2Doc.parse("stdfaust.lib", async (fileName: string) => getFile(fileName, faust));
-        primDocs = await Faust2Doc.parse("primitives.lib", async (fileName: string) => getFile(fileName, faust));
+        libDocs = await Faust2Doc.parse("stdfaust.lib", async (fileName: string) => getFile(fileName, libFaust));
+        primDocs = await Faust2Doc.parse("primitives.lib", async (fileName: string) => getFile(fileName, libFaust));
     } catch (e) { console.error(e); } // eslint-disable-line no-empty, no-console
     const faustLib = Object.keys(libDocs);
+
     const hoverProvider: languages.HoverProvider = {
         provideHover: (model, position) => {
             const matched = matchDocKey({ ...primDocs, ...libDocs }, model, position);
@@ -122,7 +126,7 @@ export const getProviders = async (faust: Faust): Promise<FaustLanguageProviders
                     contents: [
                         { value: `\`\`\`\n${prefix.length ? "(" + prefix.join(".") + ".)" : ""}${name}\n\`\`\`` },
                         { value: doc.doc.replace(/#+/g, "######") },
-                        { value: prefix.length ? `[Detail...](https://faust.grame.fr/doc/libraries/#${prefix.join(".") + "."}${doc.name.replace(/[[\]|]/g, "").toLowerCase()})` : "[Detail...](https://faust.grame.fr/doc/manual/index.html#faust-syntax)" }
+                        { value: prefix.length ? `[Detail...](${faustDocURL}/${docSections[prefix.slice(0, 2).join("")]}/#${prefix.join(".")}${doc.name.replace(/[[\]|]/g, "").toLowerCase()})` : "[Detail...](https://faustdoc.grame.fr/manual/syntax/index.html#faust-syntax)" }
                     ]
                 };
             }

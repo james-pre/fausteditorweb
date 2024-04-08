@@ -71,12 +71,13 @@
 				</button>
 				<button id="btn-export" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal"
 					data-target="#modal-export" data-placement="right"
-					title="Export/compile to specific plateform binary code">
+					title="Export/compile to specific platform binary code">
 					<i class="fas fa-truck fa-sm"></i>
 					<span>Export</span>
 				</button>
 			</div>
-			<form class="input-group input-group-sm" data-toggle="tooltip" data-placement="right"
+			<div id="ide-params">
+			<form class="input-group input-group-sm mb-2" data-toggle="tooltip" data-placement="right"
 				title="Poly mode will work with polyphonic-ready code">
 				<div class="input-group-prepend">
 					<span class="input-group-text">Poly Voices</span>
@@ -93,7 +94,7 @@
 					<option value="128">128</option>
 				</select>
 			</form>
-			<form class="input-group input-group-sm" data-toggle="tooltip" data-placement="right"
+			<form class="input-group input-group-sm mb-2" data-toggle="tooltip" data-placement="right"
 				title="Will be fixed at 128 frames in AudioWorklet mode">
 				<div class="input-group-prepend">
 					<span class="input-group-text">Buffer Size</span>
@@ -108,44 +109,45 @@
 					<option value="8192">8192</option>
 				</select>
 			</form>
-			<div class="form form-check" data-toggle="tooltip" data-placement="right"
+			<div class="form form-check mb-2" data-toggle="tooltip" data-placement="right"
 				title="(recommended) Chrome supports AudioWorklet">
 				<input id="check-worklet" class="form-check-input" type="checkbox" value="" disabled />
 				<label class="form-check-label" for="check-worklet">
 					Use AudioWorklet
 				</label>
 			</div>
-			<div class="form form-check" data-toggle="tooltip" data-placement="right" title="Save DSP Code">
+			<div class="form form-check mb-2" data-toggle="tooltip" data-placement="right" title="Save DSP Code">
 				<input id="check-save-code" class="form-check-input" type="checkbox" value="" checked />
 				<label class="form-check-label" for="check-save-code">
 					Save DSP Code
 				</label>
 			</div>
-			<div class="form form-check" data-toggle="tooltip" data-placement="right"
+			<div class="form form-check mb-2" data-toggle="tooltip" data-placement="right"
 				title="Save locally DSP parameters">
 				<input id="check-save-params" class="form-check-input" type="checkbox" value="" />
 				<label class="form-check-label" for="check-save-params">
 					Save Params State
 				</label>
 			</div>
-			<div class="form form-check" data-toggle="tooltip" data-placement="right" title="Save locally DSP caches">
+			<div class="form form-check mb-2" data-toggle="tooltip" data-placement="right" title="Save locally DSP caches">
 				<input id="check-save-dsp" class="form-check-input" type="checkbox" value="" />
 				<label class="form-check-label" for="check-save-dsp">
 					Save DSP Cache
 				</label>
 			</div>
-			<div class="form form-check" data-toggle="tooltip" data-placement="right"
+			<div class="form form-check mb-2" data-toggle="tooltip" data-placement="right"
 				title="Try to compile in real-time">
 				<input id="check-realtime-compile" class="form-check-input" type="checkbox" value="" checked />
 				<label class="form-check-label" for="check-realtime-compile">
 					Real-time Compile
 				</label>
 			</div>
-			<div class="form form-check" data-toggle="tooltip" data-placement="right" title="Pop up a DSP UI Window">
+			<div class="form form-check mb-2" data-toggle="tooltip" data-placement="right" title="Pop up a DSP UI Window">
 				<input id="check-popup" class="form-check-input" type="checkbox" value="" />
 				<label class="form-check-label" for="check-popup">
 					Popup UI
 				</label>
+			</div>
 			</div>
 			<div id="form-plot" class="form form-row">
 				<label>Plot</label>
@@ -184,8 +186,14 @@
 					</div>
 					<select id="select-plot-fftsize" class="form-control">
 						<option value="256">256</option>
+						<option value="512">512</option>
 						<option value="1024" selected>1024</option>
+						<option value="2048">2048</option>
 						<option value="4096">4096</option>
+						<option value="8192">8192</option>
+						<option value="16384">16384</option>
+						<option value="32768">32768</option>
+						<option value="65536">65536</option>
 					</select>
 				</div>
 				<div class="input-group input-group-sm mb-2" data-toggle="tooltip" data-placement="right"
@@ -230,7 +238,7 @@
 						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
 							aria-haspopup="true" aria-expanded="false">Examples</a>
 						<div id="tab-examples" class="dropdown-menu">
-							<!-- 
+							<!--
 							<a class="dropdown-item" href="#">Action</a>
 							<div class="dropright submenu">
 								<a class="dropdown-item dropdown-toggle submenu-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Examples</a>
@@ -246,7 +254,7 @@
 							data-placement="bottom" title="Audio Output Switch">
 							<i class="fas fa-volume-up fa-sm"></i>
 						</button>
-						<button type="button" class="btn-show-right btn btn-outline-secondary btn-sm"
+						<button id="show-right-panel" type="button" class="btn-show-right btn btn-outline-secondary btn-sm"
 							data-toggle="tooltip" data-placement="bottom" title="Show right panel">
 							<i class="fas fa-ellipsis-h fa-sm"></i>
 						</button>
@@ -343,7 +351,7 @@
 						<div id="diagram-svg"></div>
 					</div>
 					<div id="faust-ui" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-faust-ui">
-						<iframe id="iframe-faust-ui" src="./faust-ui.html"></iframe>
+						<iframe id="iframe-faust-ui" src="./faust-ui/index.html"></iframe>
 						<div id="faust-ui-default" class="alert alert-info" role="alert">
 							<h5>DSP not running</h5>
 							<span>Click Run to compile your faust code.</span>
@@ -358,7 +366,7 @@
 					</div>
 					<div id="plot-ui" class="static-scope tab-pane fade" role="tabpanel" aria-labelledby="tab-plot-ui">
 						<div class="static-scope-data">
-							<!-- 
+							<!--
 							<div class="plot-channel">
 								<div class="plot-cell"><span>0</span><span>0.00000</span></div>
 							</div>

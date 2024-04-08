@@ -4,11 +4,17 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const VERSION = require("./src/version");
 
 const config = {
   entry: './src/index.ts',
   resolve: {
+    fallback: {
+      "fs": false,
+      "path": false,
+      "url": false,
+    },
     extensions: ['.ts', '.js']
   },
   output: {
@@ -17,9 +23,6 @@ const config = {
     filename: "index.js"
   },
   devtool: 'source-map',
-  node: {
-    fs: 'empty'
-  },
   module: {
     rules: [{
         test: /\.(ts|js)x?$/,
@@ -45,33 +48,30 @@ const config = {
       },
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-        use: [ 
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: 'assets/',
-              publicPath: 'assets/'
-            }
-          }
-        ]
+        type: 'asset',
+        generator: {
+            filename: 'assets/[hash][ext][query]'
+        }
       },
-      {
-        test: /\.js$/,
-        use: ["source-map-loader"],
-        include: /faust2webaudio/,
-        enforce: "pre"
-      }
     ]
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        exclude: /libfaust-wasm\.js/
+      })
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new CopyWebpackPlugin([
-      { from: './src/static', to: './', globOptions: { ignore: ['**/.DS_Store'] } },
-      { from: './src/monaco-faust/primitives.lib', to: './' },
-      { from: './node_modules/faust2webaudio/dist/libfaust-wasm.*', to: './', flatten: true },
-      { from: './node_modules/faust-ui/dist/faust-ui.*', to: './', flatten: true },
-      { from: './node_modules/faust-ui/dist/index.html', to: './faust-ui.html', flatten: true }
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        { context: './src/static', from: './', to: './', globOptions: { ignore: ['**/.DS_Store'] } },
+        { from: './src/monaco-faust/primitives.lib', to: './' },
+        { from: './node_modules/@grame/faustwasm/libfaust-wasm/libfaust-wasm.*', to: './faustwasm/[name][ext]' },
+        { from: './node_modules/@shren/faust-ui/dist/index.*', to: './faust-ui/[name][ext]' }
+      ]
+    }),
     new MonacoWebpackPlugin({
       output: 'js',
       languages: []
@@ -83,7 +83,7 @@ const config = {
       'window.jQuery': 'jquery'
     }),
     new WorkboxWebpackPlugin.GenerateSW({
-      cacheId: VERSION,
+      cacheId: VERSION + new Date().getTime(),
       cleanupOutdatedCaches: true,
       clientsClaim: true,
       skipWaiting: true,
@@ -92,7 +92,7 @@ const config = {
   ]
 };
 module.exports = config;
-/* 
+/*
 module.exports = (env, argv) => {
   if (argv.mode === 'development') {
     config.devtool = 'source-map';

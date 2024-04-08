@@ -71,11 +71,20 @@ export class FileManager {
     mainFileChangeHandler?: (index: number, mainCode: string) => any = () => undefined;
 
     constructor(options: TOptions) {
-        Object.assign(this, options);
+        this.container = options.container;
+        this.fs = options.fs;
+        this.path = options.path;
+        this.$mainFile = options.$mainFile;
+        this.selectHandler = options.selectHandler;
+        this.saveHandler = options.saveHandler;
+        this.deleteHandler = options.deleteHandler;
+        this.mainFileChangeHandler = options.mainFileChangeHandler;
         this.getChildren();
         this.getFiles();
         this.bind();
-        this.select(this._fileList[options.$mainFile]);
+        if (options.$mainFile < this._fileList.length) {
+            this.select(this._fileList[options.$mainFile]);
+        }
     }
     getChildren() {
         for (let i = 0; i < this.container.children.length; i++) {
@@ -151,6 +160,9 @@ export class FileManager {
             this._fileList.push(fileName);
             const divFile = this.createFileDiv(fileName, true);
             this.divFiles.appendChild(divFile);
+            if (this.saveHandler) this.saveHandler(fileName, "", this.mainCode);
+            this.select(fileName);
+            if (fileName.endsWith(".dsp")) this.setMain(this._fileList.length - 1);
             const spanName = divFile.getElementsByClassName("filemanager-filename")[0] as HTMLSpanElement;
             spanName.focus();
             const range = document.createRange();
@@ -265,6 +277,7 @@ export class FileManager {
             this.fs.unlink(this.path + fileName);
             this._fileList.splice(i, 1);
             divFile.remove();
+            if (this.deleteHandler) this.deleteHandler(fileName, this.mainCode);
             if (this._fileList.length === 0) {
                 const fileName = this.newFile("untitled.dsp", `import("stdfaust.lib");
 process = ba.pulsen(1, 10000) : pm.djembe(60, 0.3, 0.4, 1) <: dm.freeverb_demo;`);
@@ -274,7 +287,6 @@ process = ba.pulsen(1, 10000) : pm.djembe(60, 0.3, 0.4, 1) <: dm.freeverb_demo;`
             }
             if (this.$mainFile >= this._fileList.length) this.setMain(this._fileList.length - 1);
             else this.setMain(this.$mainFile);
-            if (this.deleteHandler) this.deleteHandler(fileName, this.mainCode);
         });
         const handlePointerDown = () => this.select(fileName);
         divFile.addEventListener("mousedown", handlePointerDown);
@@ -356,8 +368,9 @@ process = ba.pulsen(1, 10000) : pm.djembe(60, 0.3, 0.4, 1) <: dm.freeverb_demo;`
         this.rename(this.selected, newName);
     }
     newFile(fileNameIn?: string, content?: string) {
-        let fileName = fileNameIn.replace(/[^a-zA-Z0-9_.]/g, "");
-        const extension = fileNameIn.split(".").slice(-1) || "lib";
+        let fileName;
+        if (fileNameIn) fileName = fileNameIn.replace(/[^a-zA-Z0-9_.]/g, "");
+        const extension = fileNameIn ? fileNameIn.split(".").slice(-1) || "lib" : "dsp";
         if (!fileName || this._fileList.indexOf(fileName) !== -1) {
             let i = 1;
             fileName = `untitled${i}.${extension}`;

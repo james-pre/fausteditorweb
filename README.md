@@ -2,26 +2,71 @@
 
 The online [Faust IDE](https://faustide.grame.fr) can be used to _edit_, _compile_ and _run_ Faust code from any recent Web Browser with [webassembly](http://webassembly.org) support. It works completely on the client side and it is therefore very convenient for situations with many simultaneous users (workshops, classrooms, etc.). It embeds the latest version of the Faust compiler with an efficient webassembly backend and offers polyphonic MIDI support.
 
+![](faustide.png)
+
 ## Features
 
 #### Code Editing
-The editor engine is based on [Monaco Editor](https://microsoft.github.io/monaco-editor/). It provides _syntax highlighting_, _auto completion_, _code hinting_ and direct access to the _online documentation_. The documentation command (Ctrl-D) uses the function name at the cursor position to locate to the relevant information.
+The editor engine is based on [Monaco Editor](https://microsoft.github.io/monaco-editor/). It provides _syntax highlighting_, _auto completion_, _code hinting_ and direct access to the _online documentation_. The documentation command (Ctrl-D) uses the function name at the cursor position to locate the relevant information.
+
+#### Project Files
+Several DSP files can be added in the top-left *Project Files* section and edited independently. Any non standard library, like a *foo.lib* file, can simply be added by drag/drop, then used in the DSP code with `import("foo.lib");`. 
+DSP files or libraries can also be loaded or saved with the *Upload* and *Save As* buttons in the left column. 
 
 #### Auto-Compiling
-While the option is turning on, the diagram or the DSP UI will automatically be updated from the code. The editor will also try to tell if there is an error in your code. 
+While the option is turned on, the diagram or the DSP UI will automatically be updated from the code. The editor will also try to tell if there is an error in your code.
 
-#### MIDI API
-MIDI Input is available for Chrome Browser, you can also use the computer keyboard to input MIDI notes. We are using key map as Ablelon Live: A-line and Q-line for keys, ZX to move octave, CV to change velocity.
+#### MIDI input
+MIDI Input is available for Chrome and Firefox browsers. You can also use the computer keyboard to input MIDI notes. We are using key map as Ablelon Live: A-line and Q-line for keys, ZX to move octave, CV to change velocity.
+
+#### Polyphonic mode
+The polyphonic mode can be activated by selecting a number of voices in the _Poly Voices_ menu on the left. [Standard Polyphony Parameters](https://faustdoc.grame.fr/manual/midi/#standard-polyphony-parameters) have to be used in the DSP voice.
+
+A global effect can be added using the `effect = foo;` [convention](https://faustdoc.grame.fr/manual/midi/#audio-effects-and-polyphonic-synthesizer), possibly adapting the voice and effect inputs/outputs to make them compatible. 
 
 #### Audio Input
-You can choose your audio device or use an audio file to simulate the audio input of DSP. Drap and drop your file to the waveform below to substitute the file. 
+You can choose your audio device or use an audio file to simulate the audio input of DSP. Drap and drop your file to the waveform below to substitute the file.
 
-#### Analyzer
-Both input and output have an audio analyzer. You can switch the visualization between oscilloscope and spectroscope, or change buffer size and channel. Three numbers showing at right side are current value, estimated frequency and RMS.
+#### Audio Output
+Audio output can be switched on/off using the he *Output is On/Output is Off* button on the bottom-right. 
+
+#### Audio Recording
+The generated sound can be recorded on the fly then possibly saved using the *Record/Save* section on the bottom-right. 
+
+#### Remote compilation
+The currently edited DSP program can be sent to the [remote compilation service](https://github.com/grame-cncm/faustservice) which allows to export for a large number of targets, like various standalone formats, a Max/MSP external on macOS or Windows, a SuperCollider UGen.etc. Use the *Truck* button on the left column to access the list of possible *Platform* and the list of associated *Architecture*. Select one *Platform/Architecture* pair and wait a bit until you get the compiled result as a binary zipped file.  
+Note that some targets produce a source file (like *source/cplusplus*), or ready to be compiled projects (like *juce/plug-in* to create a [JUCE](https://juce.com) project).
+
+#### Audio analyzers
+Tools to display audio signals are available in the left panel:
+
+- **Mode** can be _Offline_, _Continuous_, _On Event_ (to synchronize visualisation with control event changes), and _Manual_ (to be triggered with the _Plot (Snapshot)_ button at the bottom)
+
+- **Samples** changes the number of displayed samples (so corresponding to the window width) 
+
+- **Sample Rate** displays the currently selected audio device sample rate
+
+- **FFT Size** and **FFT Overlap** value are used when using _Oscilloscope_ and _Spectroscope_ modes
+
+In the _Plot_ Tab in the middle section, you can switch the visualization between _Data_, _Interleaved_, _Oscilloscope_ and _Spectroscope_. Note that when used with _On Event_ mode, values in the _Data_ visualisation mode only change at sample 128 (since _On Event_ mode plots from 128 samples before the event).
+
+Both input and output have an audio analyzer in the right panel. In the small audio output window at the bottom, you can switch the visualization between _Oscilloscope_ and _Spectroscope_, or change buffer size and channel. Three numbers showing at right side are current value, estimated frequency and RMS.
+
+In the display zone, zoom can be changed with *2 fingers up/down slide* on macOS from 1x up to 800x. 
+
+#### SVG Diagrams
+The _Diagram_ tab allows displaying the circuit SVG diagram. You can navigate inside it by clicking on the dark blue part to go down in the circuit hierarchy, or clicking on the diagram border to go up in the circuit hierarchy.
+
+#### Soundfiles access
+
+The [soundfile](https://faustdoc.grame.fr/manual/syntax/#soundfile-primitive) primitive can be used in the IDE, **in ScriptProcessor only for now**. The audio files have to be accessed:
+
+- either using a full URL like https://raw.githubusercontent.com/grame-cncm/GameLAN/master/baliphone/Gamelan_1_1_C_gauche.flac
+
+- or by defining the soundfile base URL folder with the `declare soundfiles "https://raw.githubusercontent.com/grame-cncm/GameLAN/master/baliphone";` metadata, then the actual audio file name in the code. See this [example](https://github.com/grame-cncm/GameLAN/blob/master/baliphone/Baliphone.dsp). Several base URL can be listed with the `declare soundfiles "https://url1;https://url2;https://url3";` kind of syntax.
 
 ## Recommended Browsers
-
-The recommended browsers are the latest versions of Chrome for AudioWorklet, MIDI, but it requires an https connection to use the audio inputs.
+The recommended browsers are the latest versions of Chrome and Firefox for AudioWorklet and MIDI, but it requires an https connection to use the audio inputs.
 
 ## Building
 
@@ -30,10 +75,10 @@ Firstly ensure that you have [Git](https://git-scm.com/downloads) and [Node.js](
 Clone a copy of the repo then change to the directory:
 
 ```bash
-git clone https://github.com:grame-cncm/faustide.git
+git clone https://github.com/grame-cncm/faustide.git --depth 1
 cd faustide
 ```
-Beware: on Windows, before cloning the repository, and for the libfaust-wasm.data file line ending to be correctly handled, you'll have to do: 
+Beware: on Windows, before cloning the repository, and for the libfaust-wasm.data file line ending to be correctly handled, you'll have to do:
 
 ```bash
 git config --global core.autocrlf false
@@ -62,45 +107,21 @@ If you need to update the editor's version using `git pull`, as the repository h
 
 ## Launching the local editor
 
-A local HTTP server has to be started with `python2 -m SimpleHTTPServer` (or something similar), then use `http://127.0.0.1:8000/dist/` to launch the local editor.
+A local HTTP server has to be started with `npm run serve` (or something similar), then use `http://127.0.0.1:8000/dist/` to launch the local editor.
 
-
-## Versioning 
+## Versioning
 
 You'll have to raise the package version number in `package.json` before `npm run build` to properly work.
 
-------
+## Useful links
 
-## Deployment
-
-Deployment remains an operation that must take place under the user control. It must be made from the master branch. The procedure consists of:
-
-1) generating the site
-2) copying the contents of the `dist` directory into the `docs` directory
-3) checking the proper functioning of the site from the `docs` directory
-
-For 1), see **Building** section above
-For 2), you can run:
-
-```bash
-npm run publish
-```
-If you run the copy manually, BE CAREFUL not to delete the files `CNAME` and `.nojekyll`.
-
-For 3), you can launch a local web server from the `docs` directory:
-
-```bash
-python -m http.server 8000        # python 3
-```
-or
-```bash
-python -m SimpleHTTPServer 8000   # python 2
-```
-
-Then, once the site is validated add (git add) and commit the entire contents of the `docs` directory then push to git.
- 
-
-### Useful links
-
-- [https://faustide.grame.fr](https://fausttide.grame.fr): the official link on the Faust IDE website. 
+- [https://faustide.grame.fr](https://faustide.grame.fr): the official link on the Faust IDE website
 - [https://github.com/grame-cncm/faustide](https://github.com/grame-cncm/faustide): the github repository
+
+## Known problems and solutions
+
+- evaluating a heavy DSP program may hang the IDE, which will stay in this state even if you open it again, if the **Real-time Compile** checkbox was set. You can deactivate the checkbox by opening the IDE with the `https://faustide.grame.fr/?realtime_compile=0` URL
+- MIDI is only working in Chrome and Firefox
+- a bug in the Safari/Webkit implementation (see https://bugs.webkit.org/show_bug.cgi?id=220038) makes the AudioWorklet mode fail or behave incorrectly. You'll have to use the old ScriptProcessor mode for now
+- the **ExpressVPN** browser extension runs a background loop when "Not Connected" which causes any instantiated FaustUI element to fail after a few seconds. Disabling the extension will solve this problem (not tested on Safari)
+- some users report random problems when exporting the code, like missing labels when exporting on osx/coreaudio-qt. Clearing the browser's cache and cookies can fix the issue

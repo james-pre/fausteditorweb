@@ -311,6 +311,23 @@ closed source license or any other license if you decide so.
 //====================================== Primitives ======================================
 //========================================================================================
 
+//-------`route`----------
+// The route primitive facilitates the routing of signals in Faust. It has the following syntax:
+// 
+// ```
+// route(A,B,a,b,c,d,...)
+// route(A,B,(a,b),(c,d),...)
+// ```
+// where:
+// 
+// * `A` is the number of input signals
+// * `B` is the number of output signals
+// * `a,b / (a,b)` is an input/output pair
+// 
+// Inputs are numbered from 1 to `A` and outputs are numbered from 1 to `B`. There can be any number of input/output pairs after the declaration of `A` and `B`.
+// 
+//-----------------------------
+
 //-------`waveform`----------
 // The waveform primitive was designed to facilitate the use of 
 // `rdtable` (read table). It allows us to specify a fixed periodic 
@@ -341,7 +358,7 @@ closed source license or any other license if you decide so.
 //
 //-----------------------------
 
-//-------`waveform`----------
+//-------`soundfile`----------
 // The `soundfile("label[url:{'path1';'path2';'path3'}]", n)` primitive allows for the access a list of 
 // externally defined sound resources, described as the list of their filename, or complete paths. The `soundfile("label[url:path]", n)` simplified syntax allows to use a single file. A `soundfile` has: 
 //
@@ -358,22 +375,16 @@ closed source license or any other license if you decide so.
 // frames and null outputs (with samples of value 0) will be used. Note also that soundfiles are entirely 
 // loaded in memory by the architecture file, so that the read index signal can access any sample.
 //
-// Architecture files are responsible to load the actual soundfile. The 
-// `SoundUI` C++ class located in the `faust/gui/SoundUI.h` file in the 
-// [Faust repository](https://github.com/grame-cncm/faust) implements the 
-// `void addSoundfile(label, path, sf_zone)` method, which loads the actual 
-// soundfiles using the `libsndfile` library, or possibly specific audio file loading code 
-// (in the case of the JUCE framework for instance), and set up the `sf_zone` sound 
-// memory pointers. If *label* is used without any *url* metadata, it will be 
-// considered as the soundfile pathname. 
-//
-// Note that a special architecture file can well decide to access and use 
-// sound resources created by another means (that is, not directly loaded from a 
-// sound file). For instance a mapping between labels and sound resources defined 
-// in memory could be used, with some additional code in charge of actually 
-// setting up all sound memory pointers when 
-// `void addSoundfile(label, path, sf_zone)` is called by the `buidUserInterface` 
-// mechanism.
+// A minimal example to play a stereo soundfile until it's end can be written with:
+// 
+// ```
+// process = 0,_~+(1):soundfile("son[url:{'foo.wav'}]",2):!,!,_,_;
+// ```
+// 
+// The 0 first parameter selects the first sound in the soundfile list (which only contains one file in this example), 
+// then uses an incrementing read index signal to play the soundfile, cuts the unneeded *sound length in frames* and *sample rate* ouputs, 
+// and keeps the two actual sound outputs. Having the *sound length in frames* first output allows to implement sound looping, 
+// or any kind of more sophisticated read index signal. Having the *sound sample rate* second output allows to possibly adapt or change the reading speed. 
 //
 //-----------------------------
 
@@ -626,12 +637,22 @@ closed source license or any other license if you decide so.
 //-----------------------------
 
 //-------`rint`----------
-// Closest int can be expressed as `rint` in Faust.
+// Closest int (using the current rounding mode) can be expressed as `rint` in Faust.
 //
 // **Example**
 //
 // ```
 // process = 3.6 : rint;
+// ```
+//-----------------------------
+
+//-------`round`----------
+// Nearest int value (regardless of the current rounding mode) can be expressed as `round` in Faust.
+//
+// **Example**
+//
+// ```
+// process = 3.6 : round;
 // ```
 //-----------------------------
 
@@ -709,7 +730,7 @@ closed source license or any other license if you decide so.
 //
 // * `n`: the table size
 // * `s`: the table
-// * `r`: the read index (an `int` between 0 and `n`)
+// * `r`: the read index (an `int` between 0 and `n-1`)
 //
 //-----------------------------
 
@@ -728,8 +749,8 @@ closed source license or any other license if you decide so.
 //
 // * `n`: the table size
 // * `s`: the table
-// * `w`: the write index (an `int` between 0 and `n`) 
-// * `r`: the read index (an `int` between 0 and `n`)
+// * `w`: the write index (an `int` between 0 and `n-1`) 
+// * `r`: the read index (an `int` between 0 and `n-1`)
 //
 // Note that the fourth argument of `rwtable` corresponds to the input of the 
 // table.

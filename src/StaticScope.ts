@@ -42,6 +42,7 @@ export class StaticScope {
     btnZoomOut: HTMLButtonElement;
     btnZoom: HTMLButtonElement;
     btnZoomIn: HTMLButtonElement;
+    btnDownload: HTMLButtonElement;
     iSwitch: HTMLElement;
     spanSwitch: HTMLSpanElement;
     divData: HTMLDivElement;
@@ -125,19 +126,20 @@ export class StaticScope {
         let min = t[0][0];
         let max = t[0][0];
         let i = t.length;
+        let samp: number;
         while (i--) {
             let j = l;
             while (j--) {
-                const s = t[i][j];
-                if (s < min) min = s;
-                else if (s > max) max = s;
+                samp = t[i][j];
+                if (samp < min) min = samp;
+                else if (samp > max) max = samp;
             }
         }
         const yFactor = Math.max(1, Math.abs(min), Math.abs(max)) * vzoom;
         let $0 = 0; // Draw start
         let $1 = l - 1; // Draw End
         let $zerox = 0;
-        if (drawMode === "continuous") { // Stablize
+        if (drawMode === "continuous" && l < sampleRate) { // Stablize when window size < 1 sec
             const thresh = (min + max) * 0.5 + 0.001; // the zero-crossing with "offset"
             const period = sampleRate / freqEstimated;
             const times = Math.floor(l / period) - 1;
@@ -167,29 +169,30 @@ export class StaticScope {
         for (let i = 0; i < t.length; i++) {
             ctx.beginPath();
             ctx.strokeStyle = `hsl(${i * 60}, 100%, 85%)`;
-            let maxInStep;
-            let minInstep;
+            let maxInStep: number;
+            let minInStep: number;
+            let $j: number;
+            let $step: number;
+            let x: number;
+            let y: number;
             for (let j = $0; j < $1; j++) {
-                const $j = wrap(j, $, l); // True index
-                const samp = t[i][$j];
-                const $step = (j - $0) % step;
+                $j = wrap(j, $, l); // True index
+                samp = t[i][$j];
+                $step = (j - $0) % step;
                 if ($step === 0) {
                     maxInStep = samp;
-                    minInstep = samp;
+                    minInStep = samp;
+                } else {
+                    if (samp > maxInStep) maxInStep = samp;
+                    if (samp < minInStep) minInStep = samp;
                 }
-                if ($step !== step - 1) {
-                    if ($step !== 0) {
-                        if (samp > maxInStep) maxInStep = samp;
-                        if (samp < minInstep) minInstep = samp;
-                    }
-                    continue;
-                }
-                const x = (j - $0) * gridX + left;
-                let y = hCh * (i + 0.5 - maxInStep / yFactor * 0.5);
+                if ($step !== step - 1) continue;
+                x = (j - $0) * gridX + left;
+                y = hCh * (i + 0.5 - maxInStep / yFactor * 0.5);
                 if (j === $0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
-                if (minInstep !== maxInStep) {
-                    y = hCh * (i + 0.5 - minInstep / yFactor * 0.5);
+                if (minInStep !== maxInStep) {
+                    y = hCh * (i + 0.5 - minInStep / yFactor * 0.5);
                     ctx.lineTo(x, y);
                 }
             }
@@ -220,19 +223,20 @@ export class StaticScope {
         let min = t[0][0];
         let max = t[0][0];
         let i = t.length;
+        let samp: number;
         while (i--) {
             let j = l;
             while (j--) {
-                const s = t[i][j];
-                if (s < min) min = s;
-                else if (s > max) max = s;
+                samp = t[i][j];
+                if (samp < min) min = samp;
+                else if (samp > max) max = samp;
             }
         }
         const yFactor = Math.max(1, Math.abs(min), Math.abs(max)) * vzoom;
         let $0 = 0; // Draw start
         let $1 = l - 1; // Draw End
         let $zerox = 0;
-        if (drawMode === "continuous") { // Stablize
+        if (drawMode === "continuous" && l < sampleRate) { // Stablize when window size < 1 sec
             const thresh = (min + max) * 0.5 + 0.001; // the zero-crossing with "offset"
             const period = sampleRate / freqEstimated;
             const times = Math.floor(l / period) - 1;
@@ -261,25 +265,26 @@ export class StaticScope {
         for (let i = 0; i < t.length; i++) {
             ctx.beginPath();
             ctx.strokeStyle = t.length === 1 ? "white" : `hsl(${i * 60}, 100%, 85%)`;
-            let maxInStep;
-            let minInStep;
+            let maxInStep: number;
+            let minInStep: number;
+            let $j: number;
+            let $step: number;
+            let x: number;
+            let y: number;
             for (let j = $0; j < $1; j++) {
-                const $j = wrap(j, $, l);
-                const samp = t[i][$j];
-                const $step = (j - $0) % step;
+                $j = wrap(j, $, l);
+                samp = t[i][$j];
+                $step = (j - $0) % step;
                 if ($step === 0) {
                     maxInStep = samp;
                     minInStep = samp;
+                } else {
+                    if (samp > maxInStep) maxInStep = samp;
+                    if (samp < minInStep) minInStep = samp;
                 }
-                if ($step !== step - 1) {
-                    if ($step !== 0) {
-                        if (samp > maxInStep) maxInStep = samp;
-                        if (samp < minInStep) minInStep = samp;
-                    }
-                    continue;
-                }
-                const x = (j - $0) * gridX + left;
-                let y = (h - bottom) * (0.5 - maxInStep / yFactor * 0.5);
+                if ($step !== step - 1) continue;
+                x = (j - $0) * gridX + left;
+                y = (h - bottom) * (0.5 - maxInStep / yFactor * 0.5);
                 if (j === $0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
                 if (minInStep !== maxInStep) {
@@ -609,11 +614,11 @@ export class StaticScope {
         if (yLabel) ctx.fillText(yLabel, 40, Math.max(10, y), 40);
         ctx.textBaseline = "bottom";
         const right: string[] = [];
-        values.forEach(v => right.push(v.toFixed(3)));
+        values.forEach(v => right.push(v.toFixed(7)));
         ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
-        ctx.fillRect(w - 50, 0, 60, right.length * 15 + 5);
+        ctx.fillRect(w - 70, 0, 80, right.length * 15 + 5);
         ctx.fillStyle = "#DDDD99";
-        right.forEach((s, i) => ctx.fillText(s, w - 2, (i + 1) * 15, 50));
+        right.forEach((s, i) => ctx.fillText(s, w - 2, (i + 1) * 15, 70));
         ctx.restore();
     }
     static fillDivData(container: HTMLDivElement, d: TDrawOptions) {
@@ -636,7 +641,7 @@ export class StaticScope {
                 const spanIndex = document.createElement("span");
                 spanIndex.innerText = j.toString();
                 const spanSamp = document.createElement("span");
-                spanSamp.innerText = ch[$j].toFixed(3);
+                spanSamp.innerText = ch[$j].toFixed(7);
                 divCell.appendChild(spanIndex);
                 divCell.appendChild(spanSamp);
                 divCh.appendChild(divCell);
@@ -722,6 +727,7 @@ export class StaticScope {
             if (e.classList.contains("static-scope-ui-zoomout")) this.btnZoomOut = e as HTMLButtonElement;
             if (e.classList.contains("static-scope-ui-zoom")) this.btnZoom = e as HTMLButtonElement;
             if (e.classList.contains("static-scope-ui-zoomin")) this.btnZoomIn = e as HTMLButtonElement;
+            if (e.classList.contains("static-scope-ui-download")) this.btnDownload = e as HTMLButtonElement;
         }
         if (!this.btnSwitch) {
             const btn = document.createElement("button");
@@ -774,6 +780,21 @@ export class StaticScope {
             } catch (e) {} // eslint-disable-line no-empty
             this.btnZoomIn = btn;
         }
+
+        if (!this.btnDownload) {
+            const btn = document.createElement("button");
+            btn.className = "static-scope-ui-download btn btn-outline-light btn-sm btn-overlay btn-overlay-icon";
+            btn.setAttribute("data-toggle", "tooltip");
+            btn.setAttribute("data-placement", "top");
+            btn.setAttribute("title", "Download Data");
+            btn.innerHTML = '<i class="fas fa-download"></i>';
+            ctrl.appendChild(btn);
+            try {
+                $(btn).tooltip({ trigger: "hover", boundary: "viewport" });
+            } catch (e) {} // eslint-disable-line no-empty
+            this.btnDownload = btn;
+        }
+
         for (let i = 0; i < this.btnSwitch.children.length; i++) {
             const e = this.btnSwitch.children[i];
             if (e.classList.contains("fas")) this.iSwitch = e as HTMLElement;
@@ -826,6 +847,64 @@ export class StaticScope {
         this.btnZoomIn.addEventListener("click", () => {
             this.zoom *= 1.5;
             this.draw();
+        });
+        this.btnDownload.addEventListener("click", () => {
+            let data = "";
+            if (this.mode === EScopeMode.Data || this.mode === EScopeMode.Interleaved || this.mode === EScopeMode.Oscilloscope) {
+                if (this.data.t) {
+                    const { t, $ } = this.data;
+                    if (!t || !t.length || !t[0].length) return;
+                    const l = t[0].length;
+                    data += new Array(t.length).fill(null).map((v, i) => `channel${i + 1}`).join(",") + "\n";
+                    for (let j = 0; j < l; j++) {
+                        for (let i = 0; i < t.length; i++) {
+                            const $j = wrap(j, $, l);
+                            const samp = t[i][$j];
+                            data += samp + (i === t.length - 1 ? "\n" : ",");
+                        }
+                    }
+                }
+            } else if (this.mode === EScopeMode.Spectroscope) {
+                const { $, f, fftSize, fftOverlap } = this.data;
+                if (!f || !f.length || !f[0].length) return;
+                const fftBins = fftSize / 2;
+                let $f = $ * fftOverlap / 2;
+                $f -= $f % fftBins;
+                const l = f[0].length;
+                data += new Array(f.length).fill(null).map((v, i) => `channel${i + 1}`).join(",") + "\n";
+                for (let j = l - fftBins; j < l; j++) {
+                    for (let i = 0; i < f.length; i++) {
+                        const $j = wrap(j, $f, l);
+                        const samp = f[i][$j];
+                        data += samp + (i === f.length - 1 ? "\n" : ",");
+                    }
+                }
+            } else if (this.mode === EScopeMode.Spectrogram) {
+                const { $, f, fftSize, fftOverlap } = this.data;
+                if (!f || !f.length || !f[0].length) return;
+                const fftBins = fftSize / 2;
+                let $f = $ * fftOverlap / 2;
+                $f -= $f % fftBins;
+                const l = f[0].length;
+                data += new Array(l / fftBins).fill(null).map((v, i) => new Array(f.length).fill(null).map((v, j) => `frame${i + 1}_channel${j + 1}`).join(",")).join(",") + "\n";
+                for (let j = 0; j < fftBins; j++) {
+                    for (let h = 0; h < l / fftBins; h++) {
+                        for (let i = 0; i < f.length; i++) {
+                            const $j = wrap(h * fftBins + j, $f, l);
+                            const samp = f[i][$j];
+                            data += samp + (i === f.length - 1 && h === l / fftBins - 1 ? "\n" : ",");
+                        }
+                    }
+                }
+            }
+            if (!data) return;
+            const blob = new Blob([data]);
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "data.csv";
+            a.target = "_blank";
+            a.click();
         });
         this.canvas.addEventListener("mousedown", this.handleMouseDown);
         this.canvas.addEventListener("touchstart", this.handleMouseDown);
