@@ -9,6 +9,9 @@ The online [Faust IDE](https://faustide.grame.fr) can be used to _edit_, _compil
 #### Code Editing
 The editor engine is based on [Monaco Editor](https://microsoft.github.io/monaco-editor/). It provides _syntax highlighting_, _auto completion_, _code hinting_ and direct access to the _online documentation_. The documentation command (Ctrl-D) uses the function name at the cursor position to locate the relevant information.
 
+#### Vim Mode Support
+The Monaco Editor supports an optional mode for Vim users. To enable it, open the command pane (F1) and search for 'Toggle Vim Mode'. The same command is used to desactivate this functionality. Alternatively, you can right click on the editor and press 'Open Command Palette' to open the contextual menu.
+
 #### Project Files
 Several DSP files can be added in the top-left *Project Files* section and edited independently. Any non standard library, like a *foo.lib* file, can simply be added by drag/drop, then used in the DSP code with `import("foo.lib");`. 
 DSP files or libraries can also be loaded or saved with the *Upload* and *Save As* buttons in the left column. 
@@ -63,7 +66,46 @@ The [soundfile](https://faustdoc.grame.fr/manual/syntax/#soundfile-primitive) pr
 
 - either using a full URL like https://raw.githubusercontent.com/grame-cncm/GameLAN/master/baliphone/Gamelan_1_1_C_gauche.flac
 
-- or by defining the soundfile base URL folder with the `declare soundfiles "https://raw.githubusercontent.com/grame-cncm/GameLAN/master/baliphone";` metadata, then the actual audio file name in the code. See this [example](https://github.com/grame-cncm/GameLAN/blob/master/baliphone/Baliphone.dsp). Several base URL can be listed with the `declare soundfiles "https://url1;https://url2;https://url3";` kind of syntax.
+- or by defining the soundfile base URL folder with the `declare soundfiles "https://raw.githubusercontent.com/grame-cncm/GameLAN/master/baliphone";` metadata, then the actual audio file name in the code. See this [example](https://github.com/grame-cncm/GameLAN/blob/master/baliphone/Baliphone.dsp). Several base URL can be listed with the `declare soundfiles "https://url1;https://url2;https://url3";` kind of syntax
+
+To access local audio files, a local server can be started:
+
+- install the required package with `pip install Flask Flask-CORS` (or `pip3 install Flask Flask-CORS`)
+
+- create a folder *my_faust_server*. Inside create a text file *server.py* with the following code and a folder *static_files*. Place your audio files inside *static_files*.
+
+```Python
+from flask import Flask, send_from_directory, abort
+from flask_cors import CORS
+import os
+
+app = Flask(__name__)
+
+# Specify trusted origins
+trusted_origins = os.getenv(
+    "TRUSTED_ORIGINS", "http://localhost,http://127.0.0.1,https://faustide.grame.fr"
+).split(",")
+
+CORS(app, origins=trusted_origins)
+
+# Serve files from a dedicated directory (e.g., "static_files")
+STATIC_FILES_DIR = "static_files"
+os.makedirs(STATIC_FILES_DIR, exist_ok=True)  # Ensure the directory exists
+
+@app.route("/<path:filename>")
+def download_file(filename):
+    # Simple validation to prevent directory traversal
+    if ".." in filename or filename.startswith("/"):
+        abort(404)  # Not found for invalid paths
+    return send_from_directory(STATIC_FILES_DIR, filename)
+
+if __name__ == "__main__":
+    app.run(debug=False, port=8001)  # Disable debug mode in production
+```
+
+- then launch the script with `python server.py`(or `python3 server.py`). Note that server URL `http://127.0.0.1:8000` is actually hardcoded in the Faust IDE and does not need to be added explicitly with `declare soundfiles "http://localhost:8000";`, but additional URLs can always be declared if needed. 
+
+Here are polyphonic [samplers examples](https://github.com/sletz/faust-sampler). 
 
 ## Recommended Browsers
 The recommended browsers are the latest versions of Chrome and Firefox for AudioWorklet and MIDI, but it requires an https connection to use the audio inputs.
@@ -122,6 +164,5 @@ You'll have to raise the package version number in `package.json` before `npm ru
 
 - evaluating a heavy DSP program may hang the IDE, which will stay in this state even if you open it again, if the **Real-time Compile** checkbox was set. You can deactivate the checkbox by opening the IDE with the `https://faustide.grame.fr/?realtime_compile=0` URL
 - MIDI is only working in Chrome and Firefox
-- a bug in the Safari/Webkit implementation (see https://bugs.webkit.org/show_bug.cgi?id=220038) makes the AudioWorklet mode fail or behave incorrectly. You'll have to use the old ScriptProcessor mode for now
 - the **ExpressVPN** browser extension runs a background loop when "Not Connected" which causes any instantiated FaustUI element to fail after a few seconds. Disabling the extension will solve this problem (not tested on Safari)
 - some users report random problems when exporting the code, like missing labels when exporting on osx/coreaudio-qt. Clearing the browser's cache and cookies can fix the issue
