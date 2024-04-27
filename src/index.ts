@@ -14,6 +14,7 @@
 // indexDB
 
 import * as monaco from "monaco-editor";
+import { initVimMode, VimMode } from "monaco-vim";
 import webmidi, { Input, WebMidiEventConnected, WebMidiEventDisconnected } from "webmidi";
 import * as QRCode from "qrcode";
 import * as WaveSurfer from "wavesurfer.js";
@@ -38,17 +39,13 @@ import { faustLangRegister } from "./monaco-faust/register";
 import * as VERSION from "./version";
 import { docSections, faustDocURL } from "./documentation";
 import { FFTUtils } from "./FFTUtils";
+import { safeStorage } from "./utils";
 
 declare global {
     interface Window {
-        AudioContext: typeof AudioContext;
         webkitAudioContext: typeof AudioContext;
-        AudioWorklet?: typeof AudioWorklet; // eslint-disable-line no-undef
         faustEnv: FaustEditorEnv;
-    }
-    interface HTMLMediaElement extends HTMLElement {
-        setSinkId?(sinkId: string): Promise<undefined>;
-        src: string;
+        faustCompiler: FaustCompiler;
     }
 }
 type FaustEditorEnv = {
@@ -99,9 +96,12 @@ interface LegacyWaveSurferBackend extends WaveSurfer.WaveSurferBackend {
 }
 
 const supportAudioWorklet = !!window.AudioWorklet;
-let supportMediaStreamDestination = !!(window.AudioContext || window.webkitAudioContext).prototype.createMediaStreamDestination && !!HTMLAudioElement.prototype.setSinkId;
+let supportMediaStreamDestination = !!(window.AudioContext
+    || window.webkitAudioContext).prototype.createMediaStreamDestination
+    && !!HTMLAudioElement.prototype.setSinkId;
 
 let server = "https://faustservicecloud.grame.fr";
+const PROJECT_DIR = "/usr/share/project/";
 
 $(async () => {
     /**
@@ -120,17 +120,19 @@ $(async () => {
     const kissFFTModule = await instantiateKissFFTModuleFromFile("./kissfftwasm/libkissfft.js");
     const kissFFT = new KissFFT(kissFFTModule);
     const { FFTR } = kissFFT;
+    // TODO(ijc): This previously set `window.faust`; what depends on that being set?
+    window.faustCompiler = faustCompiler;
     /**
      * To save dsp table to localStorage
      */
     const saveEditorDspTable = () => {
-        localStorage.setItem("faust_editor_dsp_table", FaustCompiler.stringifyDSPFactories());
+        safeStorage.setItem("faust_editor_dsp_table", FaustCompiler.stringifyDSPFactories());
     };
     /**
      * To load dsp table from localStorage
      */
     const loadEditorDspTable = async () => {
-        const str = localStorage.getItem("faust_editor_dsp_table");
+        const str = safeStorage.getItem("faust_editor_dsp_table");
         if (str) await FaustCompiler.importDSPFactories(str);
     };
     /**
@@ -138,7 +140,7 @@ $(async () => {
      */
     const saveEditorParams = () => {
         const str = JSON.stringify(compileOptions);
-        localStorage.setItem("faust_editor_params", str);
+        safeStorage.setItem("faust_editor_params", str);
     };
     /**
      * To load editor params from localStorage
@@ -146,9 +148,9 @@ $(async () => {
      * @returns {(FaustEditorCompileOptions | {})}
      */
     const loadEditorParams = (): FaustEditorCompileOptions | {} => {
-        const clientVersion = localStorage.getItem("faust_editor_version");
+        const clientVersion = safeStorage.getItem("faust_editor_version");
         if (clientVersion !== VERSION) return {};
-        const str = localStorage.getItem("faust_editor_params");
+        const str = safeStorage.getItem("faust_editor_params");
         if (!str) return {};
         try {
             return JSON.parse(str) as FaustEditorCompileOptions;
@@ -162,7 +164,7 @@ $(async () => {
      * @returns {{ [path: string]: number }}
      */
     const loadDspParams = (): { [path: string]: number } => {
-        const str = localStorage.getItem("faust_editor_dsp_params");
+        const str = safeStorage.getItem("faust_editor_dsp_params");
         if (!str) return {};
         try {
             return JSON.parse(str) as { [path: string]: number };
@@ -175,7 +177,7 @@ $(async () => {
      */
     const saveDspParams = () => {
         const str = JSON.stringify(dspParams);
-        localStorage.setItem("faust_editor_dsp_params", str);
+        safeStorage.setItem("faust_editor_dsp_params", str);
     };
     const dspParams = loadDspParams();
     /**
@@ -183,15 +185,15 @@ $(async () => {
      *
      */
     const loadProject = () => {
-        libFaust.fs().mkdir("/usr/share/project");
+        libFaust.fs().mkdir(PROJECT_DIR);
         let project: { [name: string]: string };
         try {
-            project = JSON.parse(localStorage.getItem("faust_editor_project")) || {};
+            project = JSON.parse(safeStorage.getItem("faust_editor_project")) || {};
         } catch (e) {
             project = {};
         }
         for (const fileName in project) {
-            libFaust.fs().writeFile("/usr/share/project/" + fileName, project[fileName]);
+            libFaust.fs().writeFile(PROJECT_DIR + fileName, project[fileName]);
         }
     };
     /**
@@ -309,17 +311,17 @@ $(async () => {
             // if (!getDiagramResult.success) throw getDiagramResult.error;
             if (fftDsp) {
                 const generator = new FaustMonoDspGenerator();
-                await generator.compile(faustCompiler, dspName, code, args.join(" "));
+                await generator.compile(faustCompiler, "main", code, args.join(" "));
                 const { fftSize, fftOverlap, windowFunction, noIFFT } = compileOptions;
-                node = await generator.createFFTNode(audioCtx, FFTUtils, undefined, undefined, { fftSize, fftOverlap, defaultWindowFunction: windowFunction - 1, noIFFT });
+                node = await generator.createFFTNode(audioCtx, FFTUtils, "main", undefined, { fftSize, fftOverlap, defaultWindowFunction: windowFunction - 1, noIFFT });
             } else if (voices) {
                 const generator = new FaustPolyDspGenerator();
-                await generator.compile(faustCompiler, dspName, code, args.join(" "));
-                node = await generator.createNode(audioCtx, voices, undefined, undefined, undefined, undefined, !useWorklet, bufferSize);
+                await generator.compile(faustCompiler, "main", code, args.join(" "));
+                node = await generator.createNode(audioCtx, voices, "main", undefined, undefined, undefined, !useWorklet, bufferSize);
             } else {
                 const generator = new FaustMonoDspGenerator();
-                await generator.compile(faustCompiler, dspName, code, args.join(" "));
-                node = await generator.createNode(audioCtx, undefined, undefined, !useWorklet, bufferSize);
+                await generator.compile(faustCompiler, "main", code, args.join(" "));
+                node = await generator.createNode(audioCtx, "main", undefined, !useWorklet, bufferSize);
             }
             node.setPlotHandler(plotHandler);
             if (!node) throw new Error("Unknown Error in WebAudio Node.");
@@ -450,39 +452,94 @@ $(async () => {
             guiBuilder.src = "";
             guiBuilder.onload = () => {
                 guiBuilder.src = `${compileOptions.guiBuilderUrl}?name=${uiEnv.fileManager.mainFileName}`;
-                guiBuilder.onload = () => guiBuilder.contentWindow.postMessage({ type: "build", ui: node.getUI(), name: `${uiEnv.fileManager.mainFileName}`, code: uiEnv.fileManager.mainCode, poly: !!compileOptions.voices }, "*");
+                guiBuilder.onload = () => guiBuilder.contentWindow.postMessage({
+                    type: "build",
+                    ui: node.getUI(),
+                    name: `${uiEnv.fileManager.mainFileName}`,
+                    code: uiEnv.fileManager.mainCode,
+                    poly: !!compileOptions.voices
+                }, "*");
             };
         }
         isCompilingDsp = false;
         return { success: true };
     };
     let rtCompileTimer: NodeJS.Timeout;
-    const audioEnv: FaustEditorAudioEnv = { dspConnectedToInput: false, dspConnectedToOutput: false, inputEnabled: false, outputEnabled: false, kissFFTInjected: false };
+    const audioEnv: FaustEditorAudioEnv = {
+        dspConnectedToInput: false,
+        dspConnectedToOutput: false,
+        inputEnabled: false,
+        outputEnabled: false,
+        kissFFTInjected: false
+    };
     const midiEnv: FaustEditorMIDIEnv = { input: null };
-    const uiEnv: FaustEditorUIEnv = { analysersInited: false, inputScope: null, outputScope: null, plotScope: undefined, analyser: new Analyser(FFTR, 16, "continuous"), fileManager: undefined };
-    const compileOptions: FaustEditorCompileOptions = { useWorklet: false, bufferSize: 1024, saveCode: true, saveParams: false, saveDsp: false, popup: false, voices: 0, plotMode: "offline", plot: 256, plotSR: 48000, plotFFT: 256, plotFFTOverlap: 2, drawSpectrogram: false, enableGuiBuilder: false, guiBuilderUrl: "https://mainline.i3s.unice.fr/fausteditorweb/dist/PedalEditor/Front-End/", exportPlatform: "owl", exportArch: "owl", fftDsp: false, fftSize: 1024, fftOverlap: 2, noIFFT: false, windowFunction: 1, ...loadEditorParams(), realtimeCompile: false, args: ["-I", "/usr/share/project"] };
-    const faustEnv: FaustEditorEnv = { audioEnv, midiEnv, uiEnv, compileOptions, jQuery, editor, libFaust, faustCompiler, recorder: new Recorder() };
-    localStorage.setItem("faust_editor_version", VERSION);
+    const uiEnv: FaustEditorUIEnv = {
+        analysersInited: false,
+        inputScope: null,
+        outputScope: null,
+        plotScope: undefined,
+        analyser: new Analyser(FFTR, 16, "continuous"),
+        fileManager: undefined
+    };
+    const compileOptions: FaustEditorCompileOptions = {
+        useWorklet: false,
+        bufferSize: 1024,
+        saveCode: true,
+        saveParams: false,
+        saveDsp: false,
+        popup: false,
+        voices: 0,
+        plotMode: "offline",
+        plot: 256,
+        plotSR: 48000,
+        plotFFT: 256,
+        plotFFTOverlap: 2,
+        drawSpectrogram: false,
+        enableGuiBuilder: false,
+        guiBuilderUrl: "https://mainline.i3s.unice.fr/fausteditorweb/dist/PedalEditor/Front-End/",
+        exportPlatform: "source",
+        exportArch: "cplusplus",
+        fftDsp: false,
+        fftSize: 1024,
+        fftOverlap: 2,
+        noIFFT: false,
+        windowFunction: 1,
+        ...loadEditorParams(),
+        realtimeCompile: false,
+        args: ["-I", PROJECT_DIR]
+    };
+    const faustEnv: FaustEditorEnv = {
+        audioEnv,
+        midiEnv,
+        uiEnv,
+        compileOptions,
+        jQuery,
+        editor,
+        faustCompiler,
+        libFaust,
+        recorder: new Recorder()
+    };
+    safeStorage.setItem("faust_editor_version", VERSION);
     uiEnv.plotScope = new StaticScope({ container: $<HTMLDivElement>("#plot-ui")[0] });
     uiEnv.analyser.drawHandler = uiEnv.plotScope.draw;
     uiEnv.analyser.getSampleRate = () => (compileOptions.plotMode === "offline" ? compileOptions.plotSR : audioEnv.audioCtx.sampleRate);
-    if (compileOptions.saveCode) loadProject(); else libFaust.fs().mkdir("/usr/share/project");
+    if (compileOptions.saveCode) loadProject(); else libFaust.fs().mkdir(PROJECT_DIR);
     uiEnv.fileManager = new FileManager({
         container: $<HTMLDivElement>("#filemanager")[0],
         fs: libFaust.fs(),
-        path: "/usr/share/project/",
+        path: PROJECT_DIR,
         $mainFile: compileOptions.mainFileIndex || 0,
         selectHandler: (fileName, content) => editor.setValue(content),
         saveHandler: (fileName: string, content: string, mainCode: string) => {
             let project: { [name: string]: string };
             try {
-                project = JSON.parse(localStorage.getItem("faust_editor_project")) || {};
+                project = JSON.parse(safeStorage.getItem("faust_editor_project")) || {};
             } catch (e) {
                 project = {};
             }
             project[fileName] = content;
             try {
-                localStorage.setItem("faust_editor_project", JSON.stringify(project));
+                safeStorage.setItem("faust_editor_project", JSON.stringify(project));
             } catch (e) {
                 showError(e);
             }
@@ -492,12 +549,12 @@ $(async () => {
         deleteHandler: (fileName) => {
             let project: { [name: string]: string };
             try {
-                project = JSON.parse(localStorage.getItem("faust_editor_project")) || {};
+                project = JSON.parse(safeStorage.getItem("faust_editor_project")) || {};
             } catch (e) {
                 return;
             }
             delete project[fileName];
-            localStorage.setItem("faust_editor_project", JSON.stringify(project));
+            safeStorage.setItem("faust_editor_project", JSON.stringify(project));
         },
         mainFileChangeHandler: (index, mainCode) => {
             compileOptions.mainFileIndex = index;
@@ -559,7 +616,8 @@ $(async () => {
         saveEditorParams();
         if (compileOptions.realtimeCompile && audioEnv.dsp) runDsp(uiEnv.fileManager.mainCode);
     });
-    // Save Params
+
+    // Save Code
     $<HTMLInputElement>("#check-save-code").on("change", (e) => {
         compileOptions.saveCode = e.currentTarget.checked;
         saveEditorParams();
@@ -586,11 +644,25 @@ $(async () => {
             else updateDiagram(code);
         }
     });
+
     // Save Params
     $<HTMLInputElement>("#check-popup").on("change", (e) => {
         compileOptions.popup = e.currentTarget.checked;
         saveEditorParams();
     })[0].checked = compileOptions.popup;
+
+    /*
+    // Editor Options
+    $<HTMLInputElement>("#check-vim-mode").on("change", (e) => {
+        editorOptions.vimMode = e.currentTarget.checked;
+        if (editorOptions.vimMode) {
+            vimMode = initVimMode(editor, null);
+        } else {
+            vimMode.dispose();
+        }
+    })[0].checked = editorOptions.vimMode;
+    */
+
     // Plot
     $<HTMLInputElement>("#select-plot-mode").on("change", (e) => {
         compileOptions.plotMode = e.currentTarget.value as "offline" | "continuous" | "onevent" | "manual";
@@ -614,10 +686,11 @@ $(async () => {
             const code = uiEnv.fileManager.mainCode;
             const { args, plot, plotSR } = compileOptions;
             const generator = new FaustMonoDspGenerator();
-            await generator.compile(faustCompiler, "FaustDSP", code, args.join(" "));
+            await generator.compile(faustCompiler, "main", code, args.join(" "));
             const processor = await generator.createOfflineProcessor(plotSR, 128);
             const output = processor.render([], plot);
             uiEnv.analyser.plotHandler(output, 0, undefined, true);
+            // TODO(ijc): should this happen immediately (before rendering is done?)
             if (!$("#tab-plot-ui").hasClass("active")) $("#tab-plot-ui").tab("show");
         } else { // eslint-disable-next-line no-lonely-if
             if (audioEnv.dsp) uiEnv.analyser.draw();
@@ -825,7 +898,7 @@ $(async () => {
      * Append options to export model
      */
     // If true, the download argument will force the download of the generated target
-    const exportProgram = (download: boolean) => {
+    const exportProgram = async (download: boolean) => {
         $("#export-download").hide();
         $("#export-loading").css("display", "inline-block");
         $("#def-exp-icon").hide();
@@ -835,11 +908,17 @@ $(async () => {
         const form = new FormData();
         const name = ($("#export-name").val() as string).replace(/[^a-zA-Z0-9_]/g, "") || "untitled";
         try {
-            // Code exported on esp32 is not expanded since it uses the remote compilation service "platform.lib" library special version
-            const expandedCode = (compileOptions.exportPlatform === "esp32") ? uiEnv.fileManager.mainCode : faustCompiler.expandDSP(uiEnv.fileManager.mainCode, compileOptions.args.join(" "));
-            // eslint-disable-next-line no-console
-            console.log(expandedCode);
-            form.append("file", new File([`declare filename "${name}.dsp"; declare name "${name}"; ${expandedCode}`], `${name}.dsp`));
+            // ZIP mode
+            const zip = new JSZip();
+            // Add all .lib files in the ZIP
+            uiEnv.fileManager._fileList.forEach((n) => {
+                if (n.endsWith(".lib")) zip.file(n, uiEnv.fileManager.getValue(n));
+            });
+            // Add the currently selected .dsp file in the ZIP
+            zip.file(`${name}.dsp`, `declare filename "${name}.dsp";\ndeclare name "${name}";\n${uiEnv.fileManager.mainCode}`);
+            // Send the ZIP file
+            const b = await zip.generateAsync({ type: "blob" });
+            form.append("file", new File([b], `${name}.zip`));
         } catch (e) {
             $("#export-loading").css("display", "none");
             $("#def-exp-loading").css("display", "none");
@@ -983,7 +1062,7 @@ $(async () => {
     /**
      * Right panel options
      */
-    // Keyboard as midi input
+    // Keyboard as MIDI input
     const key2Midi = new Key2Midi({ keyMap: navigator.language === "fr-FR" ? Key2Midi.KEY_MAP_FR : Key2Midi.KEY_MAP, enabled: false });
     $(document).on("keydown", (e) => {
         if (faustEnv.editor && faustEnv.editor.hasTextFocus()) return;
@@ -1572,7 +1651,7 @@ $(async () => {
         // const $svg = $("#diagram-svg>svg");
         // const curWidth = $svg.length ? $svg.width() : $("#diagram").width(); // preserve current zoom
         const fileName = e.currentTarget.href.baseVal;
-        const strSvg = libFaust.fs().readFile(`/FaustDSP-svg/${fileName}`, { encoding: "utf8" }) as string;
+        const strSvg = libFaust.fs().readFile("main-svg/" + fileName, { encoding: "utf8" }) as string;
         const svg = $<SVGSVGElement>(strSvg).filter("svg")[0];
         const width = Math.min($("#diagram").width(), $("#diagram").height() / svg.height.baseVal.value * svg.width.baseVal.value);
         $("#diagram-svg").empty().append(svg).children("svg").width(width); // replace svg;
@@ -1641,8 +1720,8 @@ $(async () => {
         }
         $("#iframe-faust-ui").css("pointer-events", "none");
         const $div = $(e.currentTarget).parent();
-        const x = e.pageX || e.touches[0].pageX;
-        const y = e.pageY || e.touches[0].pageY;
+        const x = e.pageX && typeof e.pageX === "number" ? e.pageX : e.touches[0].pageX;
+        const y = e.pageY && typeof e.pageY === "number" ? e.pageY : e.touches[0].pageY;
         const w = $div.width();
         const h = $div.height();
         const modes: string[] = [];
@@ -1655,8 +1734,8 @@ $(async () => {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            const dX = (e.pageX || e.touches[0].pageX) - x;
-            const dY = (e.pageY || e.touches[0].pageY) - y;
+            const dX = (e.pageX && typeof e.pageX === "number" ? e.pageX : e.touches[0].pageX) - x;
+            const dY = (e.pageY && typeof e.pageY === "number" ? e.pageY : e.touches[0].pageY) - y;
             if (modes.indexOf("left") !== -1) $div.width(w - dX);
             if (modes.indexOf("right") !== -1) $div.width(w + dX);
             if (modes.indexOf("top") !== -1) $div.height(h - dY);
@@ -1858,7 +1937,7 @@ const refreshDspUI = (node?: FaustAudioWorkletNode | FaustScriptProcessorNode) =
  *
  * @returns
  */
-const initEditor = async (faust: LibFaust) => {
+const initEditor = async (libFaust: LibFaust) => {
     const code = `import("stdfaust.lib");
 process = ba.pulsen(1, 10000) : pm.djembe(60, 0.3, 0.4, 1) <: dm.freeverb_demo;`;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -1870,18 +1949,38 @@ process = ba.pulsen(1, ba.hz2midikey(freq) * 1000) : pm.marimba(freq, 0, 7000, 0
 };
 effect = dm.freeverb_demo;`;
     const monaco = await import("monaco-editor");
-    const { faustLang, providers } = await faustLangRegister(monaco, faust);
+    const { faustLang, providers } = await faustLangRegister(monaco, libFaust);
     let saveCode = false;
     try {
-        saveCode = JSON.parse(localStorage.getItem("faust_editor_params")).saveCode;
+        saveCode = JSON.parse(safeStorage.getItem("faust_editor_params")).saveCode;
     } catch { } // eslint-disable-line no-empty
     const editor = monaco.editor.create($("#editor")[0], {
-        value: saveCode ? (localStorage.getItem("faust_editor_code") || code) : code,
+        value: saveCode ? (safeStorage.getItem("faust_editor_code") || code) : code,
         language: "faust",
         theme: "vs-dark",
         dragAndDrop: true,
         mouseWheelZoom: true,
         wordWrap: "on"
+    });
+    let vimMode: VimMode = null;
+    /*
+    const editorOptions = {
+        vimMode: false,
+        lineNumbers: true
+    };
+    */
+    editor.addAction({
+        id: "monaco-vim",
+        label: "Toggle Vim Mode",
+        keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyV],
+        run: () => {
+            if (vimMode) {
+                vimMode.dispose();
+                vimMode = null;
+            } else {
+                vimMode = initVimMode(editor, null);
+            }
+        }
     });
     editor.onKeyDown((e) => {
         if (e.ctrlKey && e.browserEvent.key === "d") {

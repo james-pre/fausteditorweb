@@ -4,16 +4,16 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const VERSION = require("./src/version");
 
-/** @type {import('webpack').Configuration} */
 const config = {
   entry: './src/index.ts',
   resolve: {
     fallback: {
       "fs": false,
       "path": false,
-      "url": false
+      "url": false,
     },
     extensions: ['.ts', '.js']
   },
@@ -61,6 +61,13 @@ const config = {
       }
     ]
   },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        exclude: /libfaust-wasm\.js/
+      })
+    ],
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
@@ -84,7 +91,7 @@ const config = {
       'window.jQuery': 'jquery'
     }),
     new WorkboxWebpackPlugin.GenerateSW({
-      cacheId: "FaustIDE",
+      cacheId: VERSION + new Date().getTime(),
       cleanupOutdatedCaches: true,
       clientsClaim: true,
       skipWaiting: true,
@@ -93,7 +100,7 @@ const config = {
   ]
 };
 module.exports = config;
-/* 
+/*
 module.exports = (env, argv) => {
   if (argv.mode === 'development') {
     config.devtool = 'source-map';
