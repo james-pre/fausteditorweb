@@ -70,7 +70,7 @@ if (!self.define) {
 define(['./workbox-33c96377'], (function (workbox) { 'use strict';
 
   workbox.setCacheNameDetails({
-    prefix: "1.2.21714249757073"
+    prefix: "1.2.21714250424249"
   });
   self.skipWaiting();
   workbox.clientsClaim();

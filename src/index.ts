@@ -225,10 +225,10 @@ $(async () => {
      * @returns {{ success: boolean; error?: Error }}
      */
     const updateDiagram = (code: string): { success: boolean; error?: Error } => {
-        let svgs: Record<string, string>; // Diagram SVG as string
+        let strSvg: string; // Diagram SVG as string
         editorDecoration = editor.deltaDecorations(editorDecoration, []);
         try {
-            svgs = faustSvgDiagrams.from("FaustDSP", code, compileOptions.args.join(" "));
+            strSvg = faustSvgDiagrams.from("main", code, compileOptions.args.join(" "))["process.svg"];
         } catch (e) {
             /**
              * Parse Faust-generated error message to locate the lines with error
@@ -246,17 +246,9 @@ $(async () => {
         }
         // const $svg = $("#diagram-svg>svg");
         // const curWidth = $svg.length ? $svg.width() : "100%"; // preserve current zoom
-        const mountSvg = (svgStr: string) => {
-            const svg = $<SVGSVGElement>(svgStr).filter("svg")[0];
-            $(svg).find(".link").each((i, e) => {
-                if (!e.onclick) return;
-                const fileName = e.onclick.toString().match(/'.+\/(.+)'/)[1];
-                e.onclick = () => mountSvg(svgs[fileName]);
-            });
-            const width = Math.min($("#diagram").width(), $("#diagram").height() / svg.height.baseVal.value * svg.width.baseVal.value);
-            $("#diagram-svg").empty().append(svg).children("svg").width(width); // replace svg;
-        };
-        mountSvg(svgs["process.svg"]);
+        const svg = $<SVGSVGElement>(strSvg).filter("svg")[0];
+        const width = Math.min($("#diagram").width(), $("#diagram").height() / svg.height.baseVal.value * svg.width.baseVal.value);
+        $("#diagram-svg").empty().append(svg).children("svg").width(width); // replace svg;
         $("#diagram-default").hide(); // hide "No Diagram" info
         clearError(); // Supress error shown
         $("#diagram-svg").show(); // Show diagram div (if first time after opening page)
