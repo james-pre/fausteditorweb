@@ -91,4 +91,4 @@ old/
 .vscode/
 
 # Dist
-# dist/
+dist/

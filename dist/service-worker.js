@@ -70,7 +70,7 @@ if (!self.define) {
 define(['./workbox-33c96377'], (function (workbox) { 'use strict';
 
   workbox.setCacheNameDetails({
-    prefix: "1.2.21714250424249"
+    prefix: "1.2.21714401007183"
   });
   self.skipWaiting();
   workbox.clientsClaim();
@@ -847,16 +847,16 @@ define(['./workbox-33c96377'], (function (workbox) { 'use strict';
     "revision": "cef35c37b0dcdb9408f85f29aeb40d49"
   }, {
     "url": "faustwasm/libfaust-wasm.data",
-    "revision": "fb0a6711ddbf2d63caf13ced73065283"
+    "revision": "1e41cb756a59fcad5a32d83e4651d941"
   }, {
     "url": "faustwasm/libfaust-wasm.data.d.ts",
     "revision": "efb8590a96d416771ef946b323008668"
   }, {
     "url": "faustwasm/libfaust-wasm.js",
-    "revision": "12e73b7731ac00cc3c44ece1dcc20e5f"
+    "revision": "4f70abd967a2716d216a5e51f06fa3f2"
   }, {
     "url": "faustwasm/libfaust-wasm.wasm",
-    "revision": "1bdd4de149ebdd9dd1be204d1d101cb3"
+    "revision": "84becdeaff99802fd69029022dd8c150"
   }, {
     "url": "faustwasm/libfaust-wasm.wasm.d.ts",
     "revision": "efb8590a96d416771ef946b323008668"
@@ -872,6 +872,9 @@ define(['./workbox-33c96377'], (function (workbox) { 'use strict';
   }, {
     "url": "index.html",
     "revision": "dbdf1f885a085e9c9c1de6a05f628ee6"
+  }, {
+    "url": "index.js",
+    "revision": "6201b8c0d9d2f0be7b0437a8108c297e"
   }, {
     "url": "js/007fb478244084a2df36.js",
     "revision": null
@@ -891,7 +894,16 @@ define(['./workbox-33c96377'], (function (workbox) { 'use strict';
     "url": "js/0d4282597c1756b82367.js",
     "revision": null
   }, {
+    "url": "js/0dc0743b7ad69b7bc63b.js",
+    "revision": null
+  }, {
     "url": "js/11ef49bd60adb77a7d16.js",
+    "revision": null
+  }, {
+    "url": "js/1262a26e7780ed43f8a9.js",
+    "revision": null
+  }, {
+    "url": "js/14f57936ee98acbcd61a.js",
     "revision": null
   }, {
     "url": "js/17de0bad69c096eb5d78.js",
@@ -939,6 +951,9 @@ define(['./workbox-33c96377'], (function (workbox) { 'use strict';
     "url": "js/3f183a26df1fad70a9d5.js",
     "revision": null
   }, {
+    "url": "js/3f91a670abeb93da920c.js",
+    "revision": null
+  }, {
     "url": "js/42f83ac56a5f61a22f9c.js",
     "revision": null
   }, {
@@ -946,9 +961,6 @@ define(['./workbox-33c96377'], (function (workbox) { 'use strict';
     "revision": null
   }, {
     "url": "js/47ace43f4fe890684516.js",
-    "revision": null
-  }, {
-    "url": "js/490b7572c84794010ba1.js",
     "revision": null
   }, {
     "url": "js/492f9631962b658ac8c1.js",
@@ -978,6 +990,9 @@ define(['./workbox-33c96377'], (function (workbox) { 'use strict';
     "url": "js/5c0bb88959bff50a7bbe.js",
     "revision": null
   }, {
+    "url": "js/614822c182f355d0c743.js",
+    "revision": null
+  }, {
     "url": "js/61afebd0fd849f04c3f7.js",
     "revision": null
   }, {
@@ -1000,6 +1015,12 @@ define(['./workbox-33c96377'], (function (workbox) { 'use strict';
     "revision": null
   }, {
     "url": "js/6e2a32402dc28019ed82.js",
+    "revision": null
+  }, {
+    "url": "js/790ea7c4e3e1ecab8b56.js",
+    "revision": null
+  }, {
+    "url": "js/79f3efb5acded52c4453.js",
     "revision": null
   }, {
     "url": "js/8494e19c36ad711e48b4.js",
@@ -1089,7 +1110,13 @@ define(['./workbox-33c96377'], (function (workbox) { 'use strict';
     "url": "js/c88c926d4dca807e0661.js",
     "revision": null
   }, {
+    "url": "js/c99544aa4717a94bc837.js",
+    "revision": null
+  }, {
     "url": "js/ca084262be46497f9ab0.js",
+    "revision": null
+  }, {
+    "url": "js/cf0b9570f561f7389c2d.js",
     "revision": null
   }, {
     "url": "js/cfa8638a60a0963901d4.js",
@@ -1104,6 +1131,9 @@ define(['./workbox-33c96377'], (function (workbox) { 'use strict';
     "url": "js/d201e93e02d96d9e75f2.js",
     "revision": null
   }, {
+    "url": "js/d658ccbda450d93d4df8.js",
+    "revision": null
+  }, {
     "url": "js/d7662ad6844e5e7092d9.js",
     "revision": null
   }, {
@@ -1111,6 +1141,9 @@ define(['./workbox-33c96377'], (function (workbox) { 'use strict';
     "revision": null
   }, {
     "url": "js/dc92ca8bcab600ca1c73.js",
+    "revision": null
+  }, {
+    "url": "js/e130d190720fbbcb62e8.js",
     "revision": null
   }, {
     "url": "js/e4ffec715dce374e5be5.js",
