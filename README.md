@@ -62,13 +62,17 @@ The _Diagram_ tab allows displaying the circuit SVG diagram. You can navigate in
 
 #### Soundfiles access
 
-The [soundfile](https://faustdoc.grame.fr/manual/syntax/#soundfile-primitive) primitive can be used in the IDE, **in ScriptProcessor only for now**. The audio files have to be accessed:
+The [soundfile](https://faustdoc.grame.fr/manual/syntax/#soundfile-primitive) primitive can be used in the IDE. The audio files have to be accessed:
 
-- either using a full URL like https://raw.githubusercontent.com/grame-cncm/GameLAN/master/baliphone/Gamelan_1_1_C_gauche.flac
+- by dropping all needed soundfiles in the *Project Files* section on the left, then directly accessing them in the DSP code 
 
-- or by defining the soundfile base URL folder with the `declare soundfiles "https://raw.githubusercontent.com/grame-cncm/GameLAN/master/baliphone";` metadata, then the actual audio file name in the code. See this [example](https://github.com/grame-cncm/GameLAN/blob/master/baliphone/Baliphone.dsp). Several base URL can be listed with the `declare soundfiles "https://url1;https://url2;https://url3";` kind of syntax
+- by using a full URL like https://raw.githubusercontent.com/grame-cncm/GameLAN/master/baliphone/Gamelan_1_1_C_gauche.flac
+
+- by defining the soundfile base URL folder with the `declare soundfiles "https://raw.githubusercontent.com/grame-cncm/GameLAN/master/baliphone";` metadata, then the actual audio file name in the code. See this [example](https://github.com/grame-cncm/GameLAN/blob/master/baliphone/Baliphone.dsp). Several base URL can be listed with the `declare soundfiles "https://url1;https://url2;https://url3";` kind of syntax
 
 To access local audio files, a local server can be started:
+
+- use the local server URL `http://127.0.0.1:8000` (or `http:/localhost:8000`) with `declare soundfiles "http:/localhost:8000";`). Additional URLs can always be declared if needed. 
 
 - install the required package with `pip install Flask Flask-CORS` (or `pip3 install Flask Flask-CORS`)
 
@@ -103,7 +107,7 @@ if __name__ == "__main__":
     app.run(debug=False, port=8001)  # Disable debug mode in production
 ```
 
-- then launch the script with `python server.py`(or `python3 server.py`). Note that server URL `http://127.0.0.1:8000` is actually hardcoded in the Faust IDE and does not need to be added explicitly with `declare soundfiles "http://localhost:8000";`, but additional URLs can always be declared if needed. 
+- then launch the script with `python server.py`(or `python3 server.py`). 
 
 Here are polyphonic [samplers examples](https://github.com/sletz/faust-sampler). 
 
