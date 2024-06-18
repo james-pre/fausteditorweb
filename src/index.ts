@@ -347,8 +347,9 @@ $(async () => {
                 generator.addSoundfiles(soundfiles);
                 node = await generator.createNode(audioCtx, "main", undefined, !useWorklet, bufferSize);
             }
-            node.setPlotHandler(plotHandler);
             if (!node) throw new Error("Unknown Error in WebAudio Node.");
+            node.setPlotHandler(plotHandler);
+            node.listenSensors();
         } catch (e) { /*
             const uiWindow = ($("#iframe-faust-ui")[0] as HTMLIFrameElement).contentWindow;
             uiWindow.postMessage(JSON.stringify({ type: "clear" }), "*");
