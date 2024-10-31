@@ -52,7 +52,7 @@ type FaustEditorEnv = {
     jQuery: JQueryStatic;
     faustCompiler: FaustCompiler;
     recorder: Recorder;
-    browserFS: typeof import("@zenfs/core").promises;
+    zenfs: typeof import("@zenfs/core").promises;
 };
 type FaustEditorAudioEnv = {
     audioCtx?: AudioContext;
@@ -520,7 +520,7 @@ $(async () => {
         editor,
         faustCompiler,
         recorder: new Recorder(),
-        browserFS: zenfs
+        zenfs
     };
     safeStorage.setItem("faust_editor_version", VERSION);
     uiEnv.plotScope = new StaticScope({ container: $<HTMLDivElement>("#plot-ui")[0] });
